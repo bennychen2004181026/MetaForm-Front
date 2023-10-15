@@ -16,9 +16,6 @@
     ],
 
     "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
@@ -56,6 +53,7 @@
             {
                 "namedComponents": "arrow-function"
             }
-        ]
+        ],
+        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }]
     }
 }
