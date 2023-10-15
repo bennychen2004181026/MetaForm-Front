@@ -33,7 +33,7 @@
         }
     },
     "rules": {
-        "linebreak-style": 0,
+        "linebreak-style": ["off", "windows"],
         "no-unused-vars": "error",
         "endOfLine": "off",
         "no-console": "error",
