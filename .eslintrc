@@ -1,0 +1,61 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true,
+        "jest": true
+    },
+    "extends": [
+        "react-app",
+        "plugin:react/recommended",
+        "airbnb",
+        "plugin:jsx-a11y/recommended",
+        "prettier",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": ["react", "@typescript-eslint", "jsx-a11y", "prettier"],
+    "parser": "@typescript-eslint/parser",
+
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
+            }
+        }
+    },
+    "rules": {
+        "linebreak-style": 0,
+        "no-unused-vars": "error",
+        "endOfLine": "off",
+        "no-console": "error",
+        "prefer-destructuring": ["error", { "object": true, "array": false }],
+        "consistent-return": "off",
+        "func-names": ["error", "never", { "generators": "as-needed" }],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never",
+                "d.ts": "never"
+            }
+        ],
+        "react/function-component-definition": [
+            2,
+            {
+                "namedComponents": "arrow-function"
+            }
+        ]
+    }
+}
