@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./", //basic path
+        "paths": {
+            "@/*": ["*", "src/*"], // start from src folder
+            "@assets/*": ["src/assets/*"],
+            "@components/*": ["src/components/*"],
+            "@hooks/*": ["src/hooks/*"],
+            "@layouts/*": ["src/layouts/*"],
+            "@pages/*": ["src/pages/*"],
+            "@routes/*": ["src/routes/*"],
+            "@services/*": ["src/services/*"],
+            "@utils/*": ["src/utils/*"]
+        },
+        "experimentalDecorators": true
+    }
+}
