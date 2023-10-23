@@ -94,32 +94,4 @@
             "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }]
         }
     }
-    
-    "rules": {
-        "linebreak-style": ["off", "windows"],
-        "no-unused-vars": "error",
-        "endOfLine": "off",
-        "no-console": "error",
-        "prefer-destructuring": ["error", { "object": true, "array": false }],
-        "consistent-return": "off",
-        "func-names": ["error", "never", { "generators": "as-needed" }],
-        "import/extensions": [
-            "error",
-            "ignorePackages",
-            {
-                "js": "never",
-                "jsx": "never",
-                "ts": "never",
-                "tsx": "never",
-                "d.ts": "never"
-            }
-        ],
-        "react/function-component-definition": [
-            2,
-            {
-                "namedComponents": "arrow-function"
-            }
-        ],
-        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }]
-    }
 }
