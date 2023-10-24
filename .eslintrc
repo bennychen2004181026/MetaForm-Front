@@ -12,33 +12,29 @@
         "airbnb",
         "plugin:jsx-a11y/recommended",
         "prettier",
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
+        "eslint:recommended"
     ],
-
+    "plugins": ["react", "jsx-a11y", "prettier","import"],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": ["react", "@typescript-eslint", "jsx-a11y", "prettier","import"],
-    "parser": "@typescript-eslint/parser",
     "settings": {
         "import/resolver": {
-            "typescript": {
-                "alwaysTryTypes": true,
-                "project": "**/tsconfig.json"
-              },
             "node": {
-                "extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"],
-                "paths": ["src"]
+                "extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
             }
         }
     },
     
     "rules": {
-        "@typescript-eslint/no-var-requires": 0,
         "@typescript-eslint/no-unused-vars": "off",
         "no-console": "error",
+        "semi": 0,
         "prefer-destructuring": ["error", { "object": true, "array": false }],
         "consistent-return": "off",
         "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
@@ -62,6 +58,15 @@
                 "namedComponents": "arrow-function"
             }
         ],
-        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }]
+        "react/jsx-filename-extension": [
+            1, 
+            { "extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"] }
+        ],
+        "prettier/prettier": [
+            "error",
+            {
+                "tabWidth": 4
+            }
+        ]
     }
 }

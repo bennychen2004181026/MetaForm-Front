@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const LoginPage = () =>(
-        <div>Login with your file</div>
-    )
-export default LoginPage
+const LoginPage = () => <div>Login with your file</div>;
+
+export default LoginPage;

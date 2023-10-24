@@ -1,28 +1,20 @@
-import React from 'react'
-import ForgetPasswordPage from './pages/ForgetPasswordPage/ForgetPasswordPage';
-import HomePage from './pages/HomePage';
-import RegisterPage from './pages/RegisterPage';
-import LoginPage from './pages/LoginPage';
-
+import React from 'react';
+import AppRoute from './routes/AppRoute';
 
 const App = () => {
     const initDivTestStyle = {
         backgroundColor: 'lightblue',
-        padding:'20px',
+        padding: '20px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-    }
-    return(
-        <div className="initDivTest" style={initDivTestStyle} >
-    <ForgetPasswordPage />
-    <HomePage />
-    <LoginPage />
-    <RegisterPage />
-</div>
-    )
-}
-
+    };
+    return (
+        <div className="initDivTest" style={initDivTestStyle}>
+            <AppRoute />
+        </div>
+    );
+};
 
 export default App;
