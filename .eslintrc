@@ -14,7 +14,7 @@
         "prettier",
         "eslint:recommended"
     ],
-    "plugins": ["react", "jsx-a11y", "prettier","import"],
+    "plugins": ["react", "jsx-a11y", "prettier", "import"],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {
@@ -30,14 +30,22 @@
             }
         }
     },
-    
+
     "rules": {
-        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "warn",
+            {
+                "argsIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+                "caughtErrorsIgnorePattern": "^_"
+            }
+        ],
         "no-console": "error",
         "semi": 0,
         "prefer-destructuring": ["error", { "object": true, "array": false }],
         "consistent-return": "off",
-        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+        "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
         "endOfLine": "off",
         "func-names": ["error", "never", { "generators": "as-needed" }],
         "no-restricted-exports": "off",
@@ -59,7 +67,7 @@
             }
         ],
         "react/jsx-filename-extension": [
-            1, 
+            1,
             { "extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"] }
         ],
         "prettier/prettier": [
