@@ -1,3 +1,0 @@
-const validatePassword = () => {};
-
-export { validatePassword };
