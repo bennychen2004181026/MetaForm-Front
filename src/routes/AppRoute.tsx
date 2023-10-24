@@ -1,8 +1,9 @@
 import React from 'react';
-import LoginPage from '../pages/LoginPage';
-import ForgetPasswordPage from '../pages/ForgetPasswordPage';
-import HomePage from '../pages/HomePage';
-import RegisterPage from '../pages/RegisterPage';
+
+import ForgetPasswordPage from '@/pages/ForgetPasswordPage';
+import HomePage from '@/pages/HomePage';
+import LoginPage from '@/pages/LoginPage';
+import RegisterPage from '@/pages/RegisterPage';
 
 const AppRoute = () => (
     <>
