@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppRoute from './routes/AppRoute';
+import AppRoute from '@/routes/AppRoute';
 
 const App = () => {
     const initDivTestStyle = {
