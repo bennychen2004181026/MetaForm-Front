@@ -29,7 +29,6 @@
         "@typescript-eslint",
         "prettier",
         "@typescript-eslint",
-        "better-styled-components",
         "import"
     ],
     "rules": {
@@ -99,7 +98,6 @@
                 "ignoreTypeValueShadow": true
             }
         ],
-        "better-styled-components/sort-declarations-alphabetically": 2,
         "import/first": "error",
         "import/newline-after-import": "error",
         "import/no-duplicates": "error",
