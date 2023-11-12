@@ -1,5 +1,12 @@
 import React from 'react';
 
-const LoginPage = () => <div>Login with your file</div>;
+import Header from '@/layouts/Header';
+
+const LoginPage = () => (
+    <div>
+        <Header />
+        Login with your file
+    </div>
+);
 
 export default LoginPage;
