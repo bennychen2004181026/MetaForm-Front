@@ -1,9 +1,12 @@
 import React from 'react';
 
-const Button = () => {
-    <div>
-        <button type="button">Button</button>
-    </div>;
-};
+import MUIButton from '@mui/material/Button';
 
+const Button = ({ value }: { value: string }) => {
+    return (
+        <MUIButton style={{ textTransform: 'none' }} variant="contained">
+            {value}
+        </MUIButton>
+    );
+};
 export default Button;
