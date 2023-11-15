@@ -1,17 +1,41 @@
 import React from 'react';
 
+import styled from 'styled-components';
+
 import EmailButton from './components/EmailButton';
 import GoogleButton from './components/GoogleButton';
-import styles from './RegisterPage.module.scss';
+
+const Content = styled.div`
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Title = styled.strong`
+    font-size: 38px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 35px;
+`;
+
+const Text = styled.div`
+    font-size: 15px;
+    font-weight: 300;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 15px;
+    margin-bottom: 15px;
+`;
 
 const RegisterPage = () => {
     return (
-        <div className={styles.content}>
-            <strong className={styles.title}>Create your account</strong>
+        <Content>
+            <Title>Create your account</Title>
             <GoogleButton />
-            <div className={styles.text}>or</div>
+            <Text>or</Text>
             <EmailButton />
-        </div>
+        </Content>
     );
 };
 
