@@ -14,6 +14,7 @@ const Snackbar = () => {
             enqueueSnackbar(snackbar.message, {
                 variant: snackbar.type,
                 anchorOrigin: { vertical: 'top', horizontal: 'left' },
+                disableWindowBlurListener: true,
             });
         }
     }, [snackbar.message, snackbar.type, enqueueSnackbar]);

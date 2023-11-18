@@ -1,7 +1,11 @@
 import React from 'react';
 
+import { SnackbarProvider } from 'notistack';
+import { Provider } from 'react-redux';
 import styled from 'styled-components';
 
+import Snackbar from './components/SnackBar/index';
+import store from './store/index';
 import AppRoute from '@/routes/AppRoute';
 
 const App = () => {
@@ -15,9 +19,14 @@ const App = () => {
         padding: 20px;
     `;
     return (
-        <Container>
-            <AppRoute />
-        </Container>
+        <Provider store={store}>
+            <SnackbarProvider maxSnack={3}>
+                <Container>
+                    <AppRoute />
+                </Container>
+                <Snackbar />
+            </SnackbarProvider>
+        </Provider>
     );
 };
 
