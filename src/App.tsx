@@ -4,9 +4,9 @@ import { SnackbarProvider } from 'notistack';
 import { Provider } from 'react-redux';
 import styled from 'styled-components';
 
-import Snackbar from './components/SnackBar/index';
-import store from './store/index';
+import Snackbar from '@/components/SnackBar/index';
 import AppRoute from '@/routes/AppRoute';
+import store from '@/store';
 
 const App = () => {
     const CUSTOM_BLUE = '#4285f4';
