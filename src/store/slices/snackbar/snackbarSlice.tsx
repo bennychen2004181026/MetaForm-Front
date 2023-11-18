@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+type SnackbarVariant = 'info' | 'default' | 'error' | 'success' | 'warning';
+
 const initialState = {
     message: '',
-    type: 'info',
+    // 'success', 'error', 'warning', 'info'
+    type: 'info' as SnackbarVariant,
 };
 
 export const snackbarSlice = createSlice({
