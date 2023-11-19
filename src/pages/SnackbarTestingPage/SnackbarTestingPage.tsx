@@ -1,15 +1,17 @@
 import React from 'react';
 
 import { Button, Container, Grid } from '@mui/material';
-import { useSnackbar } from 'notistack';
+import { useDispatch } from 'react-redux';
+
+import { showSnackbar } from '@/store/slices/snackbar/snackbarSlice';
 
 type SnackbarVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
 
 const SnackbarTestingPage = () => {
-    const { enqueueSnackbar } = useSnackbar();
+    const dispatch = useDispatch();
 
     const handleSnackbarOpen = (variant: SnackbarVariant) => {
-        enqueueSnackbar(`This is a ${variant} message!`, { variant });
+        dispatch(showSnackbar({ message: `This is a ${variant} message!`, type: variant }));
     };
 
     return (

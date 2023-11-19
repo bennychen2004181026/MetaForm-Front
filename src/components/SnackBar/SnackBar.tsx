@@ -1,20 +1,26 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import { useSnackbar } from 'notistack';
+import { SnackbarKey, useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux';
 
+import CloseSnackbarButton from '@/components/CloseSnackbarButton';
 import { RootState } from '@/store/store';
 
 const Snackbar = () => {
-    const { enqueueSnackbar } = useSnackbar();
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const snackbar = useSelector((state: RootState) => state.snackbar);
 
     useEffect(() => {
         if (snackbar.message) {
+            const renderCloseButton = (key: SnackbarKey) => (
+                <CloseSnackbarButton snackbarKey={key} closeSnackbar={closeSnackbar} />
+            );
             enqueueSnackbar(snackbar.message, {
                 variant: snackbar.type,
-                anchorOrigin: { vertical: 'top', horizontal: 'left' },
+                anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
                 disableWindowBlurListener: true,
+                transitionDuration: 300,
+                action: renderCloseButton,
             });
         }
     }, [snackbar.message, snackbar.type, enqueueSnackbar]);
