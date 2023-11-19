@@ -6,6 +6,7 @@ const initialState = {
     message: '',
     // 'success', 'error', 'warning', 'info','default'
     type: 'default' as SnackbarVariant,
+    options: {},
 };
 
 export const snackbarSlice = createSlice({
@@ -15,6 +16,7 @@ export const snackbarSlice = createSlice({
         showSnackbar: (state, action) => {
             state.message = action.payload.message;
             state.type = action.payload.type || 'default';
+            state.options = action.payload.options || {};
         },
     },
 });
