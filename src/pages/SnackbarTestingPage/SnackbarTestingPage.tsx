@@ -16,8 +16,11 @@ const SnackbarTestingPage = () => {
                 message: `This is a ${variant} message!`,
                 type: variant,
                 options: {
-                    anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
-                    transitionDuration: variant === 'error' ? 5000 : 3000,
+                    anchorOrigin:
+                        variant === 'error'
+                            ? { vertical: 'top', horizontal: 'left' }
+                            : { vertical: 'bottom', horizontal: 'left' },
+                    transitionDuration: variant === 'error' ? 10 : 600,
                     // Add any other custom options here for testing
                 },
             }),

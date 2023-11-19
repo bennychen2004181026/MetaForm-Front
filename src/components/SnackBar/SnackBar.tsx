@@ -21,6 +21,7 @@ const Snackbar = () => {
                 disableWindowBlurListener: true,
                 transitionDuration: 300,
                 action: renderCloseButton,
+                ...snackbar.options,
             });
         }
     }, [snackbar.message, snackbar.type, enqueueSnackbar]);
