@@ -7,6 +7,14 @@ const Container = styled.div`
     margin: 0 auto;
     max-width: 1200px;
     min-height: 100%;
+    background-color: white;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 `;
 
 interface MainLayoutProps {
