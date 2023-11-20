@@ -1,18 +1,20 @@
 import { useCallback, useState } from 'react';
 
-interface IField {
+import { getErrorMessage, validators } from '@/utils/validators';
+
+export interface IField {
     id: number;
     label: string;
     key: string;
-    value: string;
-    getErrorMessages: (value: string) => string[]; // Function returning an array of error messages
+    value?: string;
+    validationRules: { key: keyof typeof validators; additionalData?: string }[];
 }
 
-interface FormValues {
+interface FormData {
     [key: string]: string;
 }
 
-const useForm = (fields: IField[]) => {
+export const useForm = (fields: IField[]) => {
     const createInitialState = useCallback(
         () =>
             fields.reduce(
@@ -25,18 +27,23 @@ const useForm = (fields: IField[]) => {
         [fields],
     );
 
-    const [data, setData] = useState<FormValues>(createInitialState());
+    const [data, setData] = useState<FormData>(createInitialState());
     const [focus, setFocus] = useState<Record<string, boolean>>({});
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     const validateField = useCallback(
         (key: string, value: string) => {
             const field = fields.find((f) => f.key === key);
-            const errorMessages = field ? field.getErrorMessages(value) : [];
-            setErrors((prev) => ({ ...prev, [key]: errorMessages.join('\n') }));
-            return errorMessages.length === 0;
+            if (field) {
+                const errorMessage = getErrorMessage({
+                    value,
+                    validationRules: field.validationRules,
+                    formData: data,
+                });
+                setErrors((prev) => ({ ...prev, [key]: errorMessage }));
+            }
         },
-        [fields],
+        [fields, data],
     );
 
     const onChange = useCallback(
@@ -70,5 +77,3 @@ const useForm = (fields: IField[]) => {
 
     return { data, focus, errors, onChange, onBlur, resetForm, isValid };
 };
-
-export default useForm;
