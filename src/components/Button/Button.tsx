@@ -1,12 +1,12 @@
 import React from 'react';
 
-import MUIButton from '@mui/material/Button';
+import { Button as MUIButton } from '@mui/material';
 
 interface ButtonProps {
     onClick: () => void;
     value: string;
 }
-const Button = (props: ButtonProps) => {
+const CommonButton = (props: ButtonProps) => {
     const { onClick, value } = props;
     return (
         <MUIButton style={{ textTransform: 'none' }} variant="contained" onClick={onClick}>
@@ -14,4 +14,4 @@ const Button = (props: ButtonProps) => {
         </MUIButton>
     );
 };
-export default Button;
+export default CommonButton;
