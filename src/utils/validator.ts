@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^_&*]).{8,32}$/;
 
 const validators = {
-    isReuqired: (label: string, value: string) => (!isEmpty(value) ? '' : `Please enter ${label}!`),
+    isRequired: (label: string, value: string) => (!isEmpty(value) ? '' : `Please enter ${label}!`),
     validatePassword: (password: string) =>
         PASSWORD_REGEX.test(password) && !isEmpty(password)
             ? ''
