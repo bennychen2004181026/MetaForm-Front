@@ -26,7 +26,7 @@ export const validators: Validators = {
     validatePassword: ({ value }: ValidatorArgs) =>
         PASSWORD_REGEX.test(value) && !isEmpty(value)
             ? ''
-            : 'Password should contain at least one number, one lowercase letter, one uppercase letter and one special character (@,#,$,%,^,_,&,*,!). And 8 to 32 characters long',
+            : 'at least one number,lowercase and uppercase letter, (@,#,$,%,^,_,&,*,!)and 8 to 32 characters long',
     validateConfirmPassword: ({ value, formData, additionalData }: ValidatorArgs) =>
         value === formData[additionalData as keyof typeof formData]
             ? ''

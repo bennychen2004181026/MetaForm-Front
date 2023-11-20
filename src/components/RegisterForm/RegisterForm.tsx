@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useSnackbar } from 'notistack';
+
 import StyledButton from '@/components/Button';
 import ReusableForm from '@/components/ReusableForm';
 import { IField, useForm } from '@/hooks/useForm';
@@ -46,12 +48,16 @@ const formFields: IField[] = [
 ];
 
 const RegisterForm = () => {
+    const { enqueueSnackbar } = useSnackbar();
     const { data, focus, errors, onChange, onBlur, resetForm, isValid } = useForm(formFields);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (isValid()) {
             // Handle form submission logic here
+            enqueueSnackbar('handleSubmit logic triggered', {
+                variant: 'info',
+            });
         }
     };
 
