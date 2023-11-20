@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import googleIcon from '../../../../assets/images/google-icon-logo.png';
+import googleIcon from '@/assets/images/google-icon-logo.png';
 
 const NavLink = styled(Link)`
     text-decoration: none;

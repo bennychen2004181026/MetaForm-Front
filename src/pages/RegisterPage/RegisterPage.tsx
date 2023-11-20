@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Box, Typography } from '@mui/material';
 import styled from 'styled-components';
 
 import EmailButton from './components/EmailButton';
@@ -20,20 +21,14 @@ const Title = styled.strong`
     margin-bottom: 35px;
 `;
 
-const Text = styled.div`
-    font-size: 15px;
-    font-weight: 300;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-top: 15px;
-    margin-bottom: 15px;
-`;
-
 const RegisterPage = () => {
     return (
         <Content>
             <Title>Create your account</Title>
             <GoogleButton />
-            <Text>or</Text>
+            <Typography variant="subtitle1" padding="15px">
+                or
+            </Typography>
             <EmailButton />
         </Content>
     );
