@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import Hyperlink from '../StyledLink/Hyperlink';
+import Hyperlink from '@/components/StyledLink/';
 
 interface MessageProps {
     textBeforeLink?: string;
@@ -10,9 +10,7 @@ interface MessageProps {
     link?: {
         text: string;
         onClick: () => void;
-        className?: string;
     };
-    className?: string;
 }
 
 const MessageContainer = styled.p`
@@ -27,18 +25,11 @@ const MessageContainer = styled.p`
     align-items: center;
 `;
 
-const InformativeText: React.FC<MessageProps> = ({
-    textBeforeLink,
-    textAfterLink,
-    link,
-    className,
-}) => {
+const InformativeText: React.FC<MessageProps> = ({ textBeforeLink, textAfterLink, link }) => {
     return (
-        <MessageContainer className={className}>
+        <MessageContainer>
             {textBeforeLink}
-            {link && (
-                <Hyperlink text={link.text} onClick={link.onClick} className={link.className} />
-            )}
+            {link && <Hyperlink text={link.text} onClick={link.onClick} />}
             {textAfterLink}
         </MessageContainer>
     );

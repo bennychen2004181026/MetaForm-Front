@@ -19,11 +19,10 @@ const Container = styled.div`
 
 interface MainLayoutProps {
     children: React.ReactNode;
-    className?: string;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children, className }) => {
-    return <Container className={className}>{children}</Container>;
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+    return <Container>{children}</Container>;
 };
 
 export default MainLayout;

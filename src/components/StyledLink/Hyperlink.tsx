@@ -5,7 +5,6 @@ import styled from 'styled-components';
 interface IHyperlinkProps {
     text: string;
     onClick?: () => void;
-    className?: string;
 }
 
 const StyledLink = styled.a`
@@ -17,12 +16,8 @@ const StyledLink = styled.a`
     }
 `;
 
-const HyerLink: React.FC<IHyperlinkProps> = ({ text, onClick, className }) => {
-    return (
-        <StyledLink onClick={onClick} className={className}>
-            {text}
-        </StyledLink>
-    );
+const HyerLink: React.FC<IHyperlinkProps> = ({ text, onClick }) => {
+    return <StyledLink onClick={onClick}>{text}</StyledLink>;
 };
 
 export default HyerLink;

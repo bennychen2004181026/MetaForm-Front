@@ -37,7 +37,7 @@ const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ email }) 
             <MainLayout>
                 <InformativeText
                     textBeforeLink="We've sent an email to "
-                    link={{ text: email, onClick: handleEmailClick, className: 'email-link' }}
+                    link={{ text: email, onClick: handleEmailClick }}
                     textAfterLink=" to verify your email address and activate your account. The link in the email will expire in 10 minutes."
                 />
                 <InformativeText
@@ -45,7 +45,6 @@ const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ email }) 
                     link={{
                         text: 'click here',
                         onClick: handleChangeEmail,
-                        className: 'change-email-link',
                     }}
                 />
                 <InformativeText
@@ -53,7 +52,6 @@ const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ email }) 
                     link={{
                         text: 'Resend email',
                         onClick: handleResendEmail,
-                        className: 'resend-email-link',
                     }}
                     textAfterLink=" if you didn't receive it."
                 />
