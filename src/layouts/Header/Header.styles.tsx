@@ -4,23 +4,12 @@ export const Nav = styled.nav`
     align-items: center;
     display: flex;
     justify-content: space-between;
-    left: 0;
     position: fixed;
+    left: 0;
     right: 0;
     top: 0;
     z-index: 1;
-    #nav-items {
-        align-items: center;
-        display: flex;
-        justify-content: space-between;
-        margin: 10px auto;
-        width: 90%;
-    }
-    .login {
-        color: black;
-        font-weight: bold;
-        margin-left: 10px;
-    }
+    padding: 10px 20px;
 `;
 export const Image = styled.img`
     height: auto;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
 
-import Logo from '../../assets/images/logo-jr-academy.png';
+import headerLogo from '../../assets/images/logo-jr-academy.png';
 
 import { Image, Nav, SignUpLink } from './Header.styles';
 
@@ -11,20 +11,23 @@ const Header = () => {
     const logoRedirectHandler = () => {
         navigate('/home');
     };
+    const loginLinkStyle = {
+        color: 'black',
+        fontWeight: 'bold',
+        marginLeft: '10px',
+    };
 
     return (
         <Nav>
-            <div id="nav-items">
-                <Link to="/home">
-                    <Image src={Logo} alt="loading" onClick={logoRedirectHandler} />
+            <Link to="/home">
+                <Image src={headerLogo} alt="loading" onClick={logoRedirectHandler} />
+            </Link>
+            <SignUpLink>
+                Already have an account?
+                <Link to="/login" style={loginLinkStyle}>
+                    Log in
                 </Link>
-                <SignUpLink>
-                    Already have an account?
-                    <Link to="/login" className="login">
-                        Log in
-                    </Link>
-                </SignUpLink>
-            </div>
+            </SignUpLink>
         </Nav>
     );
 };
