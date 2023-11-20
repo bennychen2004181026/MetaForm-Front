@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import styled from 'styled-components';
 
 import EmailButton from './components/EmailButton';
