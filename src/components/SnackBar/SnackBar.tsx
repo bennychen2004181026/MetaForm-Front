@@ -17,7 +17,7 @@ const Snackbar = () => {
             );
             enqueueSnackbar(snackbar.message, {
                 variant: snackbar.type,
-                anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
+                anchorOrigin: { vertical: 'top', horizontal: 'center' },
                 disableWindowBlurListener: true,
                 transitionDuration: 300,
                 action: renderCloseButton,
