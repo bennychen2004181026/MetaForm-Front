@@ -1,6 +1,7 @@
 import React from 'react';
 
-import StyledTextField from '@/components/StyledTextField';
+import StyledButton from '@/components/Button';
+import ReusableForm from '@/components/ReusableForm';
 import { IField, useForm } from '@/hooks/useForm';
 
 const formFields: IField[] = [
@@ -8,6 +9,7 @@ const formFields: IField[] = [
         id: 1,
         label: 'First Name',
         key: 'firstName',
+        type: 'text',
         value: '',
         validationRules: [{ key: 'isRequired', additionalData: 'First Name' }],
     },
@@ -15,6 +17,7 @@ const formFields: IField[] = [
         id: 2,
         label: 'Last Name',
         key: 'lastName',
+        type: 'text',
         value: '',
         validationRules: [{ key: 'isRequired', additionalData: 'Last Name' }],
     },
@@ -22,6 +25,7 @@ const formFields: IField[] = [
         id: 3,
         label: 'Password',
         key: 'password',
+        type: 'text',
         value: '',
         validationRules: [
             { key: 'isRequired', additionalData: 'Password' },
@@ -32,6 +36,7 @@ const formFields: IField[] = [
         id: 4,
         label: 'Confirm Password',
         key: 'confirmPassword',
+        type: 'text',
         value: '',
         validationRules: [
             { key: 'isRequired', additionalData: 'Confirm Password' },
@@ -51,25 +56,20 @@ const RegisterForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            {formFields.map((field) => (
-                <StyledTextField
-                    key={field.id}
-                    label={field.label}
-                    value={data[field.key]}
-                    onChange={() => onChange(field.key)}
-                    onBlur={() => onBlur(field.key)}
-                    error={focus[field.key] && !!errors[field.key]}
-                    helperText={focus[field.key] ? errors[field.key] : ''}
-                />
-            ))}
-            <button type="submit" disabled={!isValid()}>
-                Register
-            </button>
-            <button type="button" onClick={resetForm}>
+        <ReusableForm
+            formFields={formFields}
+            data={data}
+            focus={focus}
+            errors={errors}
+            onChange={onChange}
+            onBlur={onBlur}
+            isValid={isValid}
+            handleSubmit={handleSubmit}
+        >
+            <StyledButton type="button" onClick={resetForm} variant="contained" color="secondary">
                 Reset
-            </button>
-        </form>
+            </StyledButton>
+        </ReusableForm>
     );
 };
 

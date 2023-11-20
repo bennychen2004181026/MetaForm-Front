@@ -6,6 +6,7 @@ export interface IField {
     id: number;
     label: string;
     key: string;
+    type: string;
     value?: string;
     validationRules: { key: keyof typeof validators; additionalData?: string }[];
 }
