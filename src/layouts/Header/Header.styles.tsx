@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Nav = styled.nav`
@@ -17,4 +18,10 @@ export const Image = styled.img`
 `;
 export const SignUpLink = styled.p`
     font-size: 14px;
+`;
+export const StyledLink = styled(Link)`
+    color: black;
+    font-weight: bold;
+    margin-left: 10px;
+    text-decoration: none;
 `;

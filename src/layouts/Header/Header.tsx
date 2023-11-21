@@ -4,17 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import headerLogo from '../../assets/images/logo-jr-academy.png';
 
-import { Image, Nav, SignUpLink } from './Header.styles';
+import { Image, Nav, SignUpLink, StyledLink } from './Header.styles';
 
 const Header = () => {
     const navigate = useNavigate();
     const logoRedirectHandler = () => {
         navigate('/home');
-    };
-    const loginLinkStyle = {
-        color: 'black',
-        fontWeight: 'bold',
-        marginLeft: '10px',
     };
 
     return (
@@ -24,9 +19,7 @@ const Header = () => {
             </Link>
             <SignUpLink>
                 Already have an account?
-                <Link to="/login" style={loginLinkStyle}>
-                    Log in
-                </Link>
+                <StyledLink to="/login">Log in</StyledLink>
             </SignUpLink>
         </Nav>
     );
