@@ -11,26 +11,28 @@ interface DropdownSelectorOptions {
 }
 
 const DropdownSelector: React.FC<DropdownSelectorOptions> = ({ options }) => {
-    const [industry, setIndustry] = React.useState('');
+    const [selected, setSelected] = React.useState('');
 
     const handleChange = (event: SelectChangeEvent) => {
-        setIndustry(event.target.value as string);
+        setSelected(event.target.value as string);
     };
 
     return (
         <Box sx={{ minWidth: 400 }}>
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Industry</InputLabel>
+                <InputLabel id="industry-select-label">Industry</InputLabel>
                 <Select
-                    labelId="company-industry-select-label"
+                    labelId="industry-select-label"
                     id="company-industry-select"
-                    value={industry}
+                    value={selected}
                     label="Industry"
                     onChange={handleChange}
                 >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    {options.map((a) => (
+                        <MenuItem key={a} value={a}>
+                            {a}
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
         </Box>

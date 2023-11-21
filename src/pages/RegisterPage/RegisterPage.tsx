@@ -6,7 +6,7 @@ interface IIndustry {
     name: string;
 }
 const RegisterPage = () => {
-    const industries: IIndustry[] = [
+    const industries = [
         {
             name: 'Industry ',
         },
@@ -452,11 +452,13 @@ const RegisterPage = () => {
             name: 'Writing/Editing',
         },
     ];
-    // <DropdownSelector options={options} />
+    const industryArray = industries.map((a) => a.name);
 
-    const options = Object.values(industries);
-    console.log(options);
-    return <div>DropdownSelector</div>;
+    return (
+        <div>
+            <DropdownSelector options={industryArray} />
+        </div>
+    );
 };
 
 export default RegisterPage;
