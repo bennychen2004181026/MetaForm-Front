@@ -20,7 +20,7 @@ const DropdownSelector: React.FC<DropdownSelectorOptions> = ({ options }) => {
     return (
         <Box sx={{ minWidth: 400 }}>
             <FormControl fullWidth>
-                <InputLabel id="industry-select-label">Industry</InputLabel>
+                <InputLabel id="industry-select-label">Company Industry</InputLabel>
                 <Select
                     labelId="industry-select-label"
                     id="company-industry-select"
@@ -28,9 +28,9 @@ const DropdownSelector: React.FC<DropdownSelectorOptions> = ({ options }) => {
                     label="Industry"
                     onChange={handleChange}
                 >
-                    {options.map((a) => (
-                        <MenuItem key={a} value={a}>
-                            {a}
+                    {options.map((option) => (
+                        <MenuItem key={option} value={option}>
+                            {option}
                         </MenuItem>
                     ))}
                 </Select>
