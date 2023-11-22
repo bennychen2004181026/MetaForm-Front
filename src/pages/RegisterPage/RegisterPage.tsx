@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DropdownSelector from './components/DrowdownSelector/DropdownSelector';
+import DropdownSelector from '@/pages/RegisterPage/components/DropdownSelector';
 
 const industries = [
     {

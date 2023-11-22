@@ -20,7 +20,7 @@ const DropdownSelector: React.FC<DropdownSelectorOptions> = ({ options }) => {
     return (
         <Box sx={{ minWidth: 400 }}>
             <FormControl fullWidth>
-                <InputLabel id="industry-select-label">Company Industry</InputLabel>
+                <InputLabel id="industry-select-label">Industry</InputLabel>
                 <Select
                     labelId="industry-select-label"
                     id="company-industry-select"
