@@ -24,13 +24,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": [
-        "react",
-        "@typescript-eslint",
-        "prettier",
-        "@typescript-eslint",
-        "import"
-    ],
+    "plugins": ["react", "@typescript-eslint", "prettier", "@typescript-eslint", "import"],
     "rules": {
         "react/require-default-props": "off",
         "react/prop-types": "off",
@@ -40,10 +34,8 @@
         "react/jsx-props-no-spreading": "off",
         "no-console": "warn",
         "no-use-before-define": "off",
-        "@typescript-eslint/no-use-before-define": [
-            "error",
-            "nofunc"
-        ],
+
+        "@typescript-eslint/no-use-before-define": ["error", "nofunc"],
         "react/jsx-no-useless-fragment": [
             2,
             {
@@ -53,13 +45,7 @@
         "react/jsx-filename-extension": [
             1,
             {
-                "extensions": [
-                    ".js",
-                    ".jsx",
-                    ".ts",
-                    ".tsx",
-                    ".d.ts"
-                ]
+                "extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
             }
         ],
         "prettier/prettier": [
@@ -110,12 +96,7 @@
         "import/order": [
             "error",
             {
-                "groups": [
-                    "builtin",
-                    "external",
-                    "internal",
-                    "parent"
-                ],
+                "groups": ["builtin", "external", "internal", "parent"],
                 "pathGroups": [
                     {
                         "pattern": "react",
@@ -123,9 +104,7 @@
                         "position": "before"
                     }
                 ],
-                "pathGroupsExcludedImportTypes": [
-                    "react"
-                ],
+                "pathGroupsExcludedImportTypes": ["react"],
                 "newlines-between": "always",
                 "alphabetize": {
                     "order": "asc",
@@ -148,11 +127,6 @@
                 "allowSingleExtends": true
             }
         ],
-        "import/no-extraneous-dependencies": [
-            "error",
-            {
-                "devDependencies": true
-            }
-        ]
+        "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
     }
 }
