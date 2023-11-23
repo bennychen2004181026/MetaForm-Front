@@ -2,9 +2,8 @@ import React from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
 
-import headerLogo from '../../assets/images/logo-jr-academy.png';
-
 import { Image, Nav, SignUpLink, StyledLink } from './Header.styles';
+import headerLogo from '@/assets/images/logo-jr-academy.png';
 
 const Header = () => {
     const navigate = useNavigate();
