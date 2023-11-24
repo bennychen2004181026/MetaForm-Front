@@ -7,8 +7,18 @@ import styled from 'styled-components';
 import useForm from '@/hooks/useForm';
 import validator from '@/utils/CompanyRegisterFormValidators';
 
+interface SelectorConfig {
+    id: number;
+    label: string;
+    getErrorMessage: (data: Record<string, string>) => string;
+    key: string;
+    value: string;
+    margin: string;
+}
+
 interface DropdownSelectorProps {
     options: string[];
+    selectorConfig: SelectorConfig;
 }
 interface CustomFieldProps {
     customMargin?: string;
@@ -16,23 +26,21 @@ interface CustomFieldProps {
 const StyledSelectorTextFiled = styled(TextField)<CustomFieldProps>`
     margin-bottom: ${(props) => props.customMargin};
 `;
-const industrySelectorType = (formField: Record<string, string>) => [
-    {
-        id: 1,
-        label: 'Industry',
-        getErrorMessage: (data: Record<string, string>) =>
-            validator.isRequired('Industry', data?.industry),
-        key: 'industry',
-        value: formField.industry,
-        margin: '2rem',
-    },
-];
+
 const DropdownSelector = (props: DropdownSelectorProps) => {
-    const { options } = props;
-    const [selected, setSelected] = useState({ industry: '' });
-    const industryField = industrySelectorType(selected);
-    const { data, focus, onBlur, onChange, validation } = useForm(industryField);
-    const { id, label, key, getErrorMessage, margin } = industryField[0];
+    const { options, selectorConfig } = props;
+
+    const [selectedValue, setSelectedValue] = useState({ [selectorConfig.key]: '' });
+
+    const selectorFields = [
+        {
+            ...selectorConfig,
+            value: selectedValue[selectorConfig.key],
+        },
+    ];
+
+    const { data, focus, onBlur, onChange, validation } = useForm(selectorFields);
+    const { id, label, key, getErrorMessage, margin } = selectorConfig;
     return (
         <StyledSelectorTextFiled
             key={id}
@@ -40,9 +48,13 @@ const DropdownSelector = (props: DropdownSelectorProps) => {
             variant="outlined"
             fullWidth
             select
+            defaultValue=""
             helperText={(focus[key] && getErrorMessage?.(data)) ?? ' '}
             onBlur={onBlur(key)}
-            onChange={onChange(key)}
+            onChange={(e) => {
+                onChange(key)(e);
+                setSelectedValue({ [key]: e.target.value });
+            }}
             error={focus[key] && !!getErrorMessage?.(data)}
             customMargin={margin}
         >
