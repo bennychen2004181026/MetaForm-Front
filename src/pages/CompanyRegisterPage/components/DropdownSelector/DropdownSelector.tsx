@@ -29,8 +29,8 @@ const industrySelectorType = (formField: Record<string, string>) => [
 ];
 const DropdownSelector = (props: DropdownSelectorProps) => {
     const { options } = props;
-    const [industrySelected, setIndustrySelected] = useState({ industry: '' });
-    const industryField = industrySelectorType(industrySelected);
+    const [selected, setSelected] = useState({ industry: '' });
+    const industryField = industrySelectorType(selected);
     const { data, focus, onBlur, onChange, validation } = useForm(industryField);
     const { id, label, key, getErrorMessage, margin } = industryField[0];
     return (
