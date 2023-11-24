@@ -479,6 +479,17 @@ const industries = [
         name: 'Writing/Editing',
     },
 ];
+
+const industrySelectorConfig = {
+    id: 1,
+    label: 'Industry',
+    getErrorMessage: (data: Record<string, string>) =>
+        validator.isRequired('Industry', data?.industry),
+    key: 'industry',
+    value: '',
+    margin: '2rem',
+};
+
 const CompanyRegisterPage = () => {
     const [formData, setFormData] = useState({ companyName: '', abn: '' });
     const formField = companyRegisterType(formData);
@@ -487,7 +498,7 @@ const CompanyRegisterPage = () => {
     return (
         <div>
             <Title content="Register Company Account" />
-            <DropdownSelector options={industryArray} />
+            <DropdownSelector options={industryArray} selectorConfig={industrySelectorConfig} />
             {formField.map((type) => {
                 return (
                     <StyledTextField
