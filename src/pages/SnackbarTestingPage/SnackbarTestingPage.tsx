@@ -4,11 +4,14 @@ import { Button, Container, Grid } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
 import { showSnackbar } from '@/store/slices/snackbar/snackbarSlice';
+import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 type SnackbarVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
 
 const SnackbarTestingPage = () => {
     const dispatch = useDispatch();
+    const customSnackbar = useSnackbarHelper();
+    const customSnackbarMessage = 'This is a custom snackbar';
 
     const handleSnackbarOpen = (variant: SnackbarVariant) => {
         dispatch(
@@ -16,11 +19,8 @@ const SnackbarTestingPage = () => {
                 message: `This is a ${variant} message!`,
                 type: variant,
                 options: {
-                    anchorOrigin:
-                        variant === 'error'
-                            ? { vertical: 'top', horizontal: 'left' }
-                            : { vertical: 'bottom', horizontal: 'left' },
-                    transitionDuration: variant === 'error' ? 10 : 600,
+                    anchorOrigin: { vertical: 'top', horizontal: 'center' },
+                    transitionDuration: variant === 'error' ? 60 : 10,
                     // Add any other custom options here for testing
                 },
             }),
@@ -38,6 +38,20 @@ const SnackbarTestingPage = () => {
                         <Button
                             variant="contained"
                             onClick={() => handleSnackbarOpen(variant as SnackbarVariant)}
+                        >
+                            Show {variant} Snackbar
+                        </Button>
+                    </Grid>
+                ))}
+            </Grid>
+            <Grid container spacing={2} justifyContent="center">
+                {['default', 'success', 'error', 'warning', 'info'].map((variant) => (
+                    <Grid item key={variant}>
+                        <Button
+                            variant="contained"
+                            onClick={() =>
+                                customSnackbar(customSnackbarMessage, variant as SnackbarVariant)
+                            }
                         >
                             Show {variant} Snackbar
                         </Button>
