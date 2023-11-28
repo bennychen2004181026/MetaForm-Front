@@ -49,7 +49,6 @@ const StickyHeadTable = ({ rowsPerPage, columns, rows }: TableProps) => {
                 </Table>
             </TableContainer>
             <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}

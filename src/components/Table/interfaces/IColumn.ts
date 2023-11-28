@@ -1,5 +1,5 @@
 interface IColumn {
-    id: 'name' | 'code' | 'population' | 'size' | 'density';
+    id: string;
     label: string;
     minWidth?: number;
     align?: 'right';

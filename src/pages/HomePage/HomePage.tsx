@@ -5,57 +5,46 @@ import IColumn from '@/components/Table/interfaces/IColumn';
 import Header from '@/layouts/Header';
 
 const columns: IColumn[] = [
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+    { id: 'title', label: 'Title', minWidth: 250 },
+    { id: 'author', label: 'Author', minWidth: 50 },
     {
-        id: 'population',
-        label: 'Population',
+        id: 'createdTime',
+        label: 'createdTime',
         minWidth: 170,
         align: 'right',
-        format: (value: number) => value.toLocaleString('en-US'),
     },
     {
-        id: 'size',
-        label: 'Size\u00a0(km\u00b2)',
+        id: 'numberOfResponse',
+        label: 'Responses',
         minWidth: 170,
         align: 'right',
-        format: (value: number) => value.toLocaleString('en-US'),
-    },
-    {
-        id: 'density',
-        label: 'Density',
-        minWidth: 170,
-        align: 'right',
-        format: (value: number) => value.toFixed(2),
     },
 ];
-
-interface Data {
-    name: string;
-    code: string;
-    population: string;
-    size: string;
+interface IForm {
+    title: string;
+    author: string;
+    createdTime: string;
+    numberOfResponse: string;
 }
-
-function createData(
-    name: string,
-    code: string,
-    population: string,
-    size: string,
-): Record<string, string> {
-    return { name, code, population, size };
-}
-
-const rows = [
-    createData('India', 'IN', '1324171354', '3287263'),
-    createData('China', 'CN', '1403500365', '9596961'),
-    createData('Italy', 'IT', '60483973', '301340'),
+const rows: Record<string, string>[] = [
+    {
+        title: 'Metaform Test Questionnaire',
+        author: 'Dylan',
+        createdTime: '2023',
+        numberOfResponse: '12',
+    },
+    {
+        title: 'Metaform Test Questionnaire 2',
+        author: 'Benny',
+        createdTime: '2060',
+        numberOfResponse: '132030',
+    },
 ];
 const HomePage = () => {
     return (
         <div>
             <Header />
-            <Table rowsPerPage={10} columns={columns} rows={rows} />
+            <Table rowsPerPage={1} columns={columns} rows={rows} />
         </div>
     );
 };
