@@ -1,17 +1,14 @@
-import React from 'react';
+import { Button } from '@mui/material';
+import styled from 'styled-components';
 
-import { Button as MUIButton } from '@mui/material';
-
-interface ButtonProps {
-    onClick: () => void;
-    value: string;
+interface CustomButtonProps {
+    styleProps?: React.CSSProperties;
 }
-const CommonButton = (props: ButtonProps) => {
-    const { onClick, value } = props;
-    return (
-        <MUIButton style={{ textTransform: 'none' }} variant="contained" onClick={onClick}>
-            {value}
-        </MUIButton>
-    );
-};
-export default CommonButton;
+
+const StyledButton = styled(Button)<CustomButtonProps>`
+    && {
+        ${(props) => ({ ...props.styleProps })}
+    }
+`;
+
+export default StyledButton;

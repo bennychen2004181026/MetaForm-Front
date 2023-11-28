@@ -1,5 +1,16 @@
 import React from 'react';
 
-const RegisterPage = () => <div>RegisterPage</div>;
+import RegisterForm from '@/components/RegisterForm';
+import MainLayout from '@/layouts/MainLayout';
+
+const RegisterPage = () => {
+    return (
+        <div>
+            <MainLayout>
+                <RegisterForm />
+            </MainLayout>
+        </div>
+    );
+};
 
 export default RegisterPage;
