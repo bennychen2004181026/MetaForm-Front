@@ -34,7 +34,6 @@ const companyRegisterType = (formField: Record<string, string>) => [
         margin: '1rem',
     },
 ];
-
 const industrySelectorConfig = {
     id: 1,
     label: 'Industry',
@@ -44,7 +43,6 @@ const industrySelectorConfig = {
     value: '',
     margin: '2rem',
 };
-
 const CompanyRegisterPage = () => {
     const [formData, setFormData] = useState({ companyName: '', abn: '' });
     const formField = companyRegisterType(formData);
