@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 
 import StyledButton from '@/components/Button';
 import ReusableForm from '@/components/ReusableForm';
-import { IField, useForm } from '@/hooks/useForm';
+import { IField, useForm } from '@/hooks/useForm1';
 
 const formFields: IField[] = [
     {
