@@ -2,8 +2,8 @@ import React from 'react';
 
 import TableRow from '@mui/material/TableRow';
 
-import IColumn from '@/components/Table/interfaces/IColumn';
 import BodyCell from './components/BodyCell';
+import IColumn from '@/components/Table/interfaces/IColumn';
 
 interface IBodyRowProps {
     columns: IColumn[];
@@ -14,7 +14,7 @@ const BodyRow = ({ columns, row }: IBodyRowProps) => {
         <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
             {columns.map((column) => {
                 const value = row[column.id];
-                return <BodyCell tableColumn={column} cellValue={value} />;
+                return <BodyCell key={value} tableColumn={column} cellValue={value} />;
             })}
         </TableRow>
     );
