@@ -13,15 +13,15 @@ const EmailLinkVerificationMain: React.FC<EmailLinkVerificationMainProps> = ({ t
     const location = useLocation();
     const [isLoading, setLoading] = useState(true);
     const [verificationFailed, setVerificationFailed] = useState(false);
-    const { NODE_ENV, PORT } = process.env;
+    const { NODE_ENV } = process.env;
 
     let verificationLink: string;
     if (NODE_ENV === 'production') {
-        verificationLink = `http://localhost:${PORT}/users/verification/${token}`;
+        verificationLink = `http://localhost:3001/users/verification/${token}`;
     } else if (NODE_ENV === 'development') {
-        verificationLink = `http://localhost:${PORT}/users/verification/${token}`;
+        verificationLink = `http://localhost:3001/users/verification/${token}`;
     } else {
-        verificationLink = `http://localhost:${PORT}/users/verification/${token}`;
+        verificationLink = `http://localhost:3001/users/verification/${token}`;
     }
 
     useEffect(() => {
@@ -31,12 +31,13 @@ const EmailLinkVerificationMain: React.FC<EmailLinkVerificationMainProps> = ({ t
                 .then((response) => {
                     setLoading(false);
                     const { email, username } = response.data;
+                    // Next page can useLocation to fetch the email and username in state
                     navigate('/create-user', { state: { email, username } });
                 })
                 .catch((error) => {
                     setLoading(false);
                     setVerificationFailed(true);
-                    setTimeout(() => navigate('/confirm-email'), 5000);
+                    setTimeout(() => navigate('/confirm-email'), 3000);
                 });
         } else {
             setLoading(false);

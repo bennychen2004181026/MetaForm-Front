@@ -1,5 +1,4 @@
 import React from 'react';
-import 'dotenv/config';
 
 import { SnackbarProvider } from 'notistack';
 import { Provider } from 'react-redux';
