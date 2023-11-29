@@ -6,7 +6,7 @@ export interface IField {
     id: number;
     label: string;
     key: string;
-    type: string;
+    type: 'input' | 'select' | 'file';
     value?: string;
     validationRules: { key: keyof typeof validators; additionalData?: string }[];
 }
@@ -48,25 +48,27 @@ export const useForm = (fields: IField[]) => {
     );
 
     const onChange = useCallback(
-        (key: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-            const { value } = event.target;
-            setData((prev) => ({ ...prev, [key]: value }));
-            if (focus[key]) {
-                validateField(key, value);
-            }
+        (key: string): React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> => {
+            return (event) => {
+                const { value } = event.target;
+                setData((prev) => ({ ...prev, [key]: value }));
+                if (focus[key]) {
+                    validateField(key, value);
+                }
+            };
         },
-        [focus, validateField],
+        [focus, validateField, setData],
     );
 
     const onBlur = useCallback(
-        (key: string) => () => {
+        (key: string) => (): void => {
             setFocus((prev) => ({ ...prev, [key]: true }));
             validateField(key, data[key]);
         },
         [data, validateField],
     );
 
-    const resetForm = useCallback(() => {
+    const resetForm = useCallback((): void => {
         setData(createInitialState());
         setFocus({});
         setErrors({});
@@ -76,5 +78,30 @@ export const useForm = (fields: IField[]) => {
         return Object.values(errors).every((error) => error === '');
     }, [errors]);
 
-    return { data, focus, errors, onChange, onBlur, resetForm, isValid };
+    const validateAllFields = useCallback((): boolean => {
+        let areAllFieldsValid = true;
+        fields.forEach((field) => {
+            const errorMessage = getErrorMessage({
+                value: data[field.key],
+                validationRules: field.validationRules,
+                formData: data,
+            });
+            if (errorMessage) {
+                areAllFieldsValid = false;
+            }
+        });
+        return areAllFieldsValid;
+    }, [fields, data]);
+
+    return {
+        data,
+        focus,
+        errors,
+        onChange,
+        onBlur,
+        resetForm,
+        isValid,
+        validateAllFields,
+        setData,
+    };
 };
