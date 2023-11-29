@@ -8,6 +8,7 @@ import MainPage from '@/pages/MainPage';
 
 const EmailLinkVerificationPage = React.lazy(() => import('@/pages/EmailLinkVerificationPage'));
 const RegisterPage = React.lazy(() => import('@/pages/RegisterPage'));
+const CompanyProfileStepperPage = React.lazy(() => import('@/pages/CompanyProfileStepperPage'));
 
 const AppRoute = () => (
     <BrowserRouter>
@@ -17,6 +18,7 @@ const AppRoute = () => (
             <Route path="/create-user" element={<RegisterPage />} />
             <Route path="/forgetpassword" element={<ForgetPasswordPage />} />
             <Route path="/companyRegister" element={<CompanyRegisterPage />} />
+            <Route path="/company-profile/:userId" element={<CompanyProfileStepperPage />} />
         </Routes>
     </BrowserRouter>
 );
