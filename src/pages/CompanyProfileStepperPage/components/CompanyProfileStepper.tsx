@@ -4,6 +4,7 @@ import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material
 
 import SubmitButton from '@/components/SubmitButton';
 import { IField, useForm } from '@/hooks/useForm1';
+import industries from '@/pages/CompanyRegisterPage/industryOptions';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const steps = ['Enter company profile', 'Upload the company logo', 'Review and submit'];
@@ -11,6 +12,7 @@ const steps = ['Enter company profile', 'Upload the company logo', 'Review and s
 const CompanyProfileStepper: React.FC = () => {
     const showSnackbar = useSnackbarHelper();
     const [activeStep, setActiveStep] = useState(0);
+    const industryArray = industries.map((industry) => industry.name);
     const fields: IField[] = [
         {
             id: 1,
@@ -25,7 +27,7 @@ const CompanyProfileStepper: React.FC = () => {
             label: 'Industry',
             key: 'industry',
             type: 'select',
-            options: ['Education', 'Technology', 'Healthcare'],
+            options: industryArray,
             value: '',
             validationRules: [{ key: 'isRequired', additionalData: 'industry' }],
         },
