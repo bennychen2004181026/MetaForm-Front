@@ -4,6 +4,7 @@ import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material
 
 import SubmitButton from '@/components/SubmitButton';
 import { IField, useForm } from '@/hooks/useForm1';
+import StepContentOne from '@/pages/CompanyProfileStepperPage/components/StepContentOne';
 import industries from '@/pages/CompanyRegisterPage/industryOptions';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 

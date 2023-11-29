@@ -37,7 +37,7 @@ interface FormProps {
     ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     onBlur: (field: string) => () => void;
     isValid: () => boolean;
-    handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+    handleSubmit?: (event: FormEvent<HTMLFormElement>) => void;
     styleProps?: React.CSSProperties;
     showSubmitButton?: boolean;
     submitButtonText?: string;
