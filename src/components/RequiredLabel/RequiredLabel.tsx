@@ -8,7 +8,7 @@ interface RequiredLabelProps {
 const RequiredLabel: React.FC<RequiredLabelProps> = ({ label, isRequired }): React.JSX.Element => {
     return (
         <>
-            _{isRequired && <span style={{ color: 'red' }}>*</span>}
+            {isRequired && <span style={{ color: 'red' }}>*</span>}
             {label}
         </>
     );
