@@ -41,7 +41,7 @@ const RegisterPage = () => {
         <Content>
             <GlobalStyle />
             <Title content="Create your account" />
-            <Link to="signupGoogle">
+            <Link to="registerGoogle">
                 <RegisterButton
                     startIcon={<GoogleIcon src={googleIcon} />}
                     sx={{ color: 'black', backgroundColor: 'white' }}
@@ -52,7 +52,7 @@ const RegisterPage = () => {
             <Typography variant="subtitle1" padding="15px">
                 or
             </Typography>
-            <Link to="signupEmail">
+            <Link to="registerEmail">
                 <RegisterButton
                     sx={{
                         color: 'white',
