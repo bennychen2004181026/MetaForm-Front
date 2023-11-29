@@ -7,6 +7,7 @@ export interface IField {
     label: string;
     key: string;
     type: 'input' | 'select' | 'file';
+    options?: string[];
     value?: string;
     validationRules: { key: keyof typeof validators; additionalData?: string }[];
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import StyledButton from '../Button/Button';
+import StyledButton from '@/components/Button/Button';
 
 interface SubmitButtonProps {
     isValid: boolean;
