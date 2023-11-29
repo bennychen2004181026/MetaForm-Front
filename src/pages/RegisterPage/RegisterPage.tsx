@@ -1,7 +1,7 @@
 import React from 'react';
 
-import RegisterForm from '@/components/RegisterForm';
 import MainLayout from '@/layouts/MainLayout';
+import RegisterForm from '@/pages/RegisterPage/components/RegisterForm';
 
 const RegisterPage = () => {
     return (
