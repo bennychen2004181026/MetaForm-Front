@@ -1,26 +1,28 @@
 import React from 'react';
 
 import ReusableForm from '@/components/ReusableForm';
-import { IField } from '@/hooks/useForm1';
+import { IField } from '@/hooks/useForm';
 
 interface StepContentOneProps {
     formFields: IField[];
-    data: Record<string, string>;
-    onChange: (field: string) => React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-    focus: Record<string, boolean>;
+    fieldsData: Record<string, string>;
+    onDataChange: (
+        field: string,
+    ) => React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    fieldsFocus: Record<string, boolean>;
     errors: Record<string, string>;
-    onBlur: (field: string) => () => void;
+    onFieldsBlur: (field: string) => () => void;
     isValid: () => boolean;
     showSubmitButton: boolean;
 }
 
 const StepContentOne: React.FC<StepContentOneProps> = ({
     formFields,
-    data,
-    onChange,
-    focus,
+    fieldsData,
+    onDataChange,
+    fieldsFocus,
     errors,
-    onBlur,
+    onFieldsBlur,
     isValid,
     showSubmitButton,
 }) => {
@@ -29,11 +31,11 @@ const StepContentOne: React.FC<StepContentOneProps> = ({
             // Does not display companyLogo field
             excludeFields={['companyLogo']}
             formFields={formFields}
-            data={data}
-            onChange={onChange}
-            focus={focus}
+            fieldsData={fieldsData}
+            onDataChange={onDataChange}
+            fieldsFocus={fieldsFocus}
             errors={errors}
-            onBlur={onBlur}
+            onFieldsBlur={onFieldsBlur}
             isValid={isValid}
             showSubmitButton={showSubmitButton}
         />

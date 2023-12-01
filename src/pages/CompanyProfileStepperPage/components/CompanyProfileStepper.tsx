@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material';
 
 import SubmitButton from '@/components/SubmitButton';
-import { IField, useForm } from '@/hooks/useForm1';
+import useForm, { IField } from '@/hooks/useForm';
 import StepContentOne from '@/pages/CompanyProfileStepperPage/components/StepContentOne';
 import StepContentThree from '@/pages/CompanyProfileStepperPage/components/StepContentThree';
 import StepContentTwo from '@/pages/CompanyProfileStepperPage/components/StepContentTwo';
@@ -52,8 +52,16 @@ const CompanyProfileStepper: React.FC = () => {
         },
     ];
 
-    const { data, focus, errors, onChange, onBlur, isValid, validateAllFields, setData } =
-        useForm(fields);
+    const {
+        fieldsData,
+        fieldsFocus,
+        errors,
+        onDataChange,
+        onFieldsBlur,
+        isValid,
+        validateAllFields,
+        setFieldsData,
+    } = useForm(fields);
 
     const isLastStep = activeStep === steps.length - 1;
     const handleNext = () => {
@@ -66,7 +74,7 @@ const CompanyProfileStepper: React.FC = () => {
 
     const handleReset = () => {
         setActiveStep(0);
-        setData({
+        setFieldsData({
             companyName: '',
             industry: '',
             abn: '',
@@ -88,19 +96,19 @@ const CompanyProfileStepper: React.FC = () => {
                 return (
                     <StepContentOne
                         formFields={fields}
-                        data={data}
-                        onChange={onChange}
-                        focus={focus}
+                        fieldsData={fieldsData}
+                        onDataChange={onDataChange}
+                        fieldsFocus={fieldsFocus}
                         errors={errors}
-                        onBlur={onBlur}
+                        onFieldsBlur={onFieldsBlur}
                         isValid={isValid}
                         showSubmitButton={false}
                     />
                 );
             case 1:
-                return <StepContentTwo data={data} onChange={onChange} />;
+                return <StepContentTwo fieldsData={fieldsData} onDataChange={onDataChange} />;
             case 2:
-                return <StepContentThree data={data} />;
+                return <StepContentThree fieldsData={fieldsData} />;
             default:
                 throw new Error('Invalid step index');
         }

@@ -5,11 +5,13 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Box, Button, Typography } from '@mui/material';
 
 interface StepContentTwoProps {
-    data: Record<string, string>;
-    onChange: (field: string) => React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    fieldsData: Record<string, string>;
+    onDataChange: (
+        field: string,
+    ) => React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 }
 
-const StepContentTwo: React.FC<StepContentTwoProps> = ({ data, onChange }) => {
+const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChange }) => {
     // For local image preview
     const [localImage, setLocalImage] = useState<string | null>(null);
 

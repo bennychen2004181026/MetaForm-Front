@@ -3,10 +3,10 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 interface StepContentThreeProps {
-    data: Record<string, string>;
+    fieldsData: Record<string, string>;
 }
 
-const StepContentThree: React.FC<StepContentThreeProps> = ({ data }) => {
+const StepContentThree: React.FC<StepContentThreeProps> = ({ fieldsData }) => {
     return (
         <Box
             sx={{
@@ -26,21 +26,21 @@ const StepContentThree: React.FC<StepContentThreeProps> = ({ data }) => {
                         Company Name
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                        {data.companyName}
+                        {fieldsData.companyName}
                     </Typography>
 
                     <Typography variant="subtitle1" gutterBottom>
                         Industry
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                        {data.industry}
+                        {fieldsData.industry}
                     </Typography>
 
                     <Typography variant="subtitle1" gutterBottom>
                         ABN
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                        {data.abn}
+                        {fieldsData.abn}
                     </Typography>
                 </Box>
             </Box>
@@ -53,12 +53,12 @@ const StepContentThree: React.FC<StepContentThreeProps> = ({ data }) => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: data.companyLogo ? 'transparent' : '#f0f0f0',
+                    backgroundColor: fieldsData.companyLogo ? 'transparent' : '#f0f0f0',
                 }}
             >
-                {data.companyLogo ? (
+                {fieldsData.companyLogo ? (
                     <img
-                        src={data.companyLogo}
+                        src={fieldsData.companyLogo}
                         alt="Company Logo"
                         style={{ maxWidth: '100%', maxHeight: '100%' }}
                     />
