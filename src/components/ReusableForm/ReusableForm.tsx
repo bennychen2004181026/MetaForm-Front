@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import RequiredLabel from '@/components/RequiredLabel/RequiredLabel';
 import StyledTextField from '@/components/StyledTextField';
 import SubmitButton from '@/components/SubmitButton/SubmitButton';
-import { IField } from '@/hooks/useForm1';
+import { IField } from '@/hooks/useForm';
 
 const StyledForm = styled.form`
     display: flex;
@@ -29,13 +29,13 @@ interface FormProps {
     excludeFields?: string[];
     children?: ReactNode;
     formFields: IField[];
-    data: Record<string, string>;
-    focus: Record<string, boolean>;
+    fieldsData: Record<string, string>;
+    fieldsFocus: Record<string, boolean>;
     errors: Record<string, string>;
-    onChange: (
+    onDataChange: (
         field: string,
     ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-    onBlur: (field: string) => () => void;
+    onFieldsBlur: (field: string) => () => void;
     isValid: () => boolean;
     handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
     styleProps?: React.CSSProperties;
@@ -47,11 +47,11 @@ const ReusableForm: React.FC<FormProps> = ({
     excludeFields = [],
     children,
     formFields,
-    data,
-    focus,
+    fieldsData,
+    fieldsFocus,
     errors,
-    onChange,
-    onBlur,
+    onDataChange,
+    onFieldsBlur,
     isValid,
     handleSubmit,
     styleProps,
@@ -68,16 +68,18 @@ const ReusableForm: React.FC<FormProps> = ({
                         label={
                             <RequiredLabel
                                 label={field.label}
-                                isRequired={field.validationRules.some(
-                                    (rule) => rule.key === 'isRequired',
-                                )}
+                                isRequired={
+                                    field.validationRules?.some(
+                                        (rule) => rule.key === 'isRequired',
+                                    ) ?? false
+                                }
                             />
                         }
-                        value={data[field.key]}
-                        onChange={onChange(field.key)}
-                        onBlur={onBlur(field.key)}
-                        error={focus[field.key] && !!errors[field.key]}
-                        helperText={focus[field.key] ? errors[field.key] : ''}
+                        value={fieldsData[field.key]}
+                        onChange={onDataChange(field.key)}
+                        onBlur={onFieldsBlur(field.key)}
+                        error={fieldsFocus[field.key] && !!errors[field.key]}
+                        helperText={fieldsFocus[field.key] ? errors[field.key] : ''}
                     >
                         {field.options?.map((option) => (
                             <MenuItem key={option} value={option}>
@@ -87,7 +89,7 @@ const ReusableForm: React.FC<FormProps> = ({
                     </StyledTextField>
                 );
             case 'file':
-                return <input key={field.id} type="file" onChange={onChange(field.key)} />;
+                return <input key={field.id} type="file" onChange={onDataChange(field.key)} />;
             case 'input':
             default:
                 return (
@@ -96,16 +98,18 @@ const ReusableForm: React.FC<FormProps> = ({
                         label={
                             <RequiredLabel
                                 label={field.label}
-                                isRequired={field.validationRules.some(
-                                    (rule) => rule.key === 'isRequired',
-                                )}
+                                isRequired={
+                                    field.validationRules?.some(
+                                        (rule) => rule.key === 'isRequired',
+                                    ) ?? false
+                                }
                             />
                         }
-                        value={data[field.key]}
-                        onChange={onChange(field.key)}
-                        onBlur={onBlur(field.key)}
-                        error={focus[field.key] && !!errors[field.key]}
-                        helperText={focus[field.key] ? errors[field.key] : ''}
+                        value={fieldsData[field.key]}
+                        onChange={onDataChange(field.key)}
+                        onBlur={onFieldsBlur(field.key)}
+                        error={fieldsFocus[field.key] && !!errors[field.key]}
+                        helperText={fieldsFocus[field.key] ? errors[field.key] : ''}
                     />
                 );
         }
