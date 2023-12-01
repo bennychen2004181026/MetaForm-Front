@@ -1,11 +1,20 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
-interface IField {
+import { getErrorMessage, validators } from '@/utils/validators';
+
+export interface IField {
     id: number;
     label: string;
     key: string;
-    value: string;
+    type?: 'input' | 'select' | 'file';
+    options?: string[];
+    value?: string;
+    validationRules?: { key: keyof typeof validators; additionalData?: string }[];
     getErrorMessage?: (data: Record<string, string>) => string;
+}
+
+interface FormData {
+    [key: string]: string;
 }
 
 const useForm = (fields: IField[]) => {
@@ -52,7 +61,100 @@ const useForm = (fields: IField[]) => {
             return !field.getErrorMessage?.(data);
         });
     };
-    return { data, focus, onBlur, onChange, validation };
+
+    const createInitialState = useCallback(
+        () =>
+            fields.reduce(
+                (acc, field) => ({
+                    ...acc,
+                    [field.key]: field.value ?? '',
+                }),
+                {},
+            ),
+        [fields],
+    );
+
+    const [fieldsData, setFieldsData] = useState<FormData>(createInitialState());
+    const [fieldsFocus, setFieldsFocus] = useState<Record<string, boolean>>({});
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
+    const validateField = useCallback(
+        (key: string, value: string) => {
+            const field = fields.find((f) => f.key === key);
+            if (field) {
+                const errorMessage = getErrorMessage({
+                    value,
+                    validationRules: field.validationRules,
+                    formData: data,
+                });
+                setErrors((prev) => ({ ...prev, [key]: errorMessage }));
+            }
+        },
+        [fields, data],
+    );
+
+    const onDataChange = useCallback(
+        (key: string): React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> => {
+            return (event) => {
+                const { value } = event.target;
+                setFieldsData((prev) => ({ ...prev, [key]: value }));
+                if (fieldsFocus[key]) {
+                    validateField(key, value);
+                }
+            };
+        },
+        [fieldsFocus, validateField, setFieldsData],
+    );
+
+    const onFieldsBlur = useCallback(
+        (key: string) => (): void => {
+            setFieldsFocus((prev) => ({ ...prev, [key]: true }));
+            validateField(key, data[key]);
+        },
+        [data, validateField],
+    );
+
+    const resetForm = useCallback((): void => {
+        setFieldsData(createInitialState());
+        setFieldsFocus({});
+        setErrors({});
+    }, [createInitialState]);
+
+    const isValid = useCallback(() => {
+        return Object.values(errors).every((error) => error === '');
+    }, [errors]);
+
+    const validateAllFields = useCallback((): boolean => {
+        let areAllFieldsValid = true;
+        fields.forEach((field) => {
+            const errorMessage = getErrorMessage({
+                value: fieldsData[field.key],
+                validationRules: field.validationRules,
+                formData: fieldsData,
+            });
+            if (errorMessage) {
+                areAllFieldsValid = false;
+            }
+        });
+        return areAllFieldsValid;
+    }, [fields, fieldsData]);
+
+    return {
+        data,
+        focus,
+        onBlur,
+        onChange,
+        validation,
+        fieldsData,
+        setFieldsData,
+        fieldsFocus,
+        errors,
+        onDataChange,
+        onFieldsBlur,
+        resetForm,
+        isValid,
+        validateAllFields,
+    };
 };
 
 export default useForm;

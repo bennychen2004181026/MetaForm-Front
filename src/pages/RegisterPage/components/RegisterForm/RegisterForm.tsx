@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import StyledButton from '@/components/Button';
 import ReusableForm from '@/components/ReusableForm';
-import { IField, useForm } from '@/hooks/useForm1';
+import useForm, { IField } from '@/hooks/useForm';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const RegisterForm = () => {
@@ -70,8 +70,16 @@ const RegisterForm = () => {
         },
     ];
 
-    const { data, focus, errors, onChange, onBlur, resetForm, isValid, validateAllFields } =
-        useForm(formFields);
+    const {
+        fieldsData,
+        fieldsFocus,
+        errors,
+        onDataChange,
+        onFieldsBlur,
+        resetForm,
+        isValid,
+        validateAllFields,
+    } = useForm(formFields);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -96,11 +104,11 @@ const RegisterForm = () => {
             <ReusableForm
                 excludeFields={['email', 'username']}
                 formFields={formFields}
-                data={data}
-                focus={focus}
+                fieldsData={fieldsData}
+                fieldsFocus={fieldsFocus}
                 errors={errors}
-                onChange={onChange}
-                onBlur={onBlur}
+                onDataChange={onDataChange}
+                onFieldsBlur={onFieldsBlur}
                 isValid={isValid}
                 handleSubmit={handleSubmit}
             >
