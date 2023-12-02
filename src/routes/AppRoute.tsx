@@ -8,10 +8,15 @@ import MainPage from '@/pages/MainPage';
 import RegisterEmailPage from '@/pages/RegisterEmailPage';
 import RegisterOptionPage from '@/pages/RegisterOptionPage';
 
+const EmailLinkVerificationPage = React.lazy(() => import('@/pages/EmailLinkVerificationPage'));
+const RegisterPage = React.lazy(() => import('@/pages/RegisterPage'));
+
 const AppRoute = () => (
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<MainPage />} />
+            <Route path="/verification/:token" element={<EmailLinkVerificationPage />} />
+            <Route path="/create-user" element={<RegisterPage />} />
             <Route path="/registeroption" element={<RegisterOptionPage />} />
             <Route path="/registeremail" element={<RegisterEmailPage />} />
             <Route path="/forgetpassword" element={<ForgetPasswordPage />} />

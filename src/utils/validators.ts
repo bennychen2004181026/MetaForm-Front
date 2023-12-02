@@ -10,7 +10,7 @@ interface Validators {
 
 interface GetErrorMessagesProps {
     value: string;
-    validationRules: { key: keyof typeof validators; additionalData?: string }[];
+    validationRules?: { key: keyof typeof validators; additionalData?: string }[];
     formData: Record<string, string>;
 }
 
@@ -38,14 +38,22 @@ export const getErrorMessage = ({
     validationRules,
     formData,
 }: GetErrorMessagesProps): string => {
-    const error = validationRules.find((rule) => {
-        const errorMessage = validators[rule.key]({
-            value,
-            formData,
-            additionalData: rule.additionalData,
+    let error:
+        | {
+              key: keyof typeof validators;
+              additionalData?: string | undefined;
+          }
+        | undefined;
+    if (validationRules) {
+        error = validationRules.find((rule) => {
+            const errorMessage = validators[rule.key]({
+                value,
+                formData,
+                additionalData: rule.additionalData,
+            });
+            return errorMessage !== '';
         });
-        return errorMessage !== '';
-    });
+    }
 
     return error
         ? validators[error.key]({ value, formData, additionalData: error.additionalData })
