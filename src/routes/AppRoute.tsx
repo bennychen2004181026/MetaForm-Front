@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import CompanyRegisterPage from '@/pages/CompanyRegisterPage';
-import ForgetPasswordPage from '@/pages/ForgetPasswordPage';
+import ForgetPasswordPage from '@/pages/ForgotPasswordPage';
 import MainPage from '@/pages/MainPage';
 import RegisterEmailPage from '@/pages/RegisterEmailPage';
 import RegisterOptionPage from '@/pages/RegisterOptionPage';
