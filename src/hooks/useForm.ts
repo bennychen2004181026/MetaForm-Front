@@ -85,12 +85,12 @@ const useForm = (fields: IField[]) => {
                 const errorMessage = getErrorMessage({
                     value,
                     validationRules: field.validationRules,
-                    formData: data,
+                    formData: fieldsData,
                 });
                 setErrors((prev) => ({ ...prev, [key]: errorMessage }));
             }
         },
-        [fields, data],
+        [fields, fieldsData],
     );
 
     const onDataChange = useCallback(
@@ -109,9 +109,9 @@ const useForm = (fields: IField[]) => {
     const onFieldsBlur = useCallback(
         (key: string) => (): void => {
             setFieldsFocus((prev) => ({ ...prev, [key]: true }));
-            validateField(key, data[key]);
+            validateField(key, fieldsData[key]);
         },
-        [data, validateField],
+        [fieldsData, validateField],
     );
 
     const resetForm = useCallback((): void => {
