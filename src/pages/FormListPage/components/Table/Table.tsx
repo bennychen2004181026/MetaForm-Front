@@ -159,10 +159,6 @@ const Table = (props: TableProps) => {
                                                 </TableCell>
                                             );
                                         })}
-                                        {/* <TableCell align="right">{row.title}</TableCell>
-                                        <TableCell align="right">{row.author}</TableCell>
-                                        <TableCell align="right">{row.createTime}</TableCell>
-                                        <TableCell align="right">{row.numberOfResponse}</TableCell> */}
                                     </TableRow>
                                 );
                             })}
