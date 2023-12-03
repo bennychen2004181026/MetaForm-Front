@@ -1,10 +1,12 @@
 import React, { FormEvent, ReactNode } from 'react';
 
+import { MenuItem } from '@mui/material';
 import styled from 'styled-components';
 
-import StyledButton from '@/components/Button';
+import RequiredLabel from '@/components/RequiredLabel/RequiredLabel';
 import StyledTextField from '@/components/StyledTextField';
-import { IField } from '@/hooks/useForm1';
+import SubmitButton from '@/components/SubmitButton/SubmitButton';
+import { IField } from '@/hooks/useForm';
 
 const StyledForm = styled.form`
     display: flex;
@@ -24,51 +26,103 @@ const StyledForm = styled.form`
 `;
 
 interface FormProps {
+    excludeFields?: string[];
     children?: ReactNode;
     formFields: IField[];
-    data: Record<string, string>;
-    focus: Record<string, boolean>;
+    fieldsData: Record<string, string>;
+    fieldsFocus: Record<string, boolean>;
     errors: Record<string, string>;
-    onChange: (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onBlur: (field: string) => () => void;
+    onDataChange: (
+        field: string,
+    ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    onFieldsBlur: (field: string) => () => void;
     isValid: () => boolean;
     handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
     styleProps?: React.CSSProperties;
+    showSubmitButton?: boolean;
+    submitButtonText?: string;
 }
 
 const ReusableForm: React.FC<FormProps> = ({
+    excludeFields = [],
     children,
     formFields,
-    data,
-    focus,
+    fieldsData,
+    fieldsFocus,
     errors,
-    onChange,
-    onBlur,
+    onDataChange,
+    onFieldsBlur,
     isValid,
     handleSubmit,
     styleProps,
+    showSubmitButton = true,
+    submitButtonText = 'Submit',
 }) => {
+    const renderField = (field: IField) => {
+        switch (field.type) {
+            case 'select':
+                return (
+                    <StyledTextField
+                        key={field.id}
+                        select
+                        label={
+                            <RequiredLabel
+                                label={field.label}
+                                isRequired={
+                                    field.validationRules?.some(
+                                        (rule) => rule.key === 'isRequired',
+                                    ) ?? false
+                                }
+                            />
+                        }
+                        value={fieldsData[field.key]}
+                        onChange={onDataChange(field.key)}
+                        onBlur={onFieldsBlur(field.key)}
+                        error={fieldsFocus[field.key] && !!errors[field.key]}
+                        helperText={fieldsFocus[field.key] ? errors[field.key] : ''}
+                    >
+                        {field.options?.map((option) => (
+                            <MenuItem key={option} value={option}>
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </StyledTextField>
+                );
+            case 'file':
+                return <input key={field.id} type="file" onChange={onDataChange(field.key)} />;
+            case 'input':
+            default:
+                return (
+                    <StyledTextField
+                        key={field.id}
+                        label={
+                            <RequiredLabel
+                                label={field.label}
+                                isRequired={
+                                    field.validationRules?.some(
+                                        (rule) => rule.key === 'isRequired',
+                                    ) ?? false
+                                }
+                            />
+                        }
+                        value={fieldsData[field.key]}
+                        onChange={onDataChange(field.key)}
+                        onBlur={onFieldsBlur(field.key)}
+                        error={fieldsFocus[field.key] && !!errors[field.key]}
+                        helperText={fieldsFocus[field.key] ? errors[field.key] : ''}
+                    />
+                );
+        }
+    };
+
     return (
         <StyledForm
             onSubmit={handleSubmit as React.FormEventHandler<HTMLFormElement>}
             style={{ ...styleProps }}
         >
-            {formFields.map((field) => (
-                <StyledTextField
-                    key={field.id}
-                    label={field.label}
-                    type={field.type}
-                    value={data[field.key]}
-                    onChange={onChange(field.key)}
-                    onBlur={onBlur(field.key)}
-                    error={focus[field.key] && !!errors[field.key]}
-                    helperText={focus[field.key] ? errors[field.key] : ''}
-                />
-            ))}
+            {formFields.filter((field) => !excludeFields.includes(field.key)).map(renderField)}
             {children}
-            <StyledButton type="submit" disabled={!isValid()} variant="contained" color="primary">
-                Submit
-            </StyledButton>
+            {showSubmitButton && <SubmitButton isValid={isValid()} text={submitButtonText} />}
         </StyledForm>
     );
 };
