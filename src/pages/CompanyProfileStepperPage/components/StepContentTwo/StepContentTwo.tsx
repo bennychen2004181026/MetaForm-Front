@@ -31,7 +31,6 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
                 Bucket: 'metaform-company-logo',
                 Key: `companyLogos/${file.name}`,
                 Body: file,
-                ACL: 'public-read',
             };
 
             s3.upload(params, (err: Error, data: { Location: string }) => {
