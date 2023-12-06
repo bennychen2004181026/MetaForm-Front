@@ -8,13 +8,12 @@ import AWS from '@/utils/awsConfig';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 interface StepContentTwoProps {
-    fieldsData: Record<string, string>;
     onDataChange: (
         field: string,
     ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
 }
 
-const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChange }) => {
+const StepContentTwo: React.FC<StepContentTwoProps> = ({ onDataChange }) => {
     // For local image preview
     const [localImage, setLocalImage] = useState<string | null>(null);
 
