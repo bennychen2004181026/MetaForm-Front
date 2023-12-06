@@ -4,22 +4,44 @@ import React, { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Box, Button, Typography } from '@mui/material';
 
+import AWS from '@/utils/awsConfig';
+import useSnackbarHelper from '@/utils/useSnackbarHelper';
+
 interface StepContentTwoProps {
     fieldsData: Record<string, string>;
     onDataChange: (
         field: string,
-    ) => React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
 }
 
 const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChange }) => {
     // For local image preview
     const [localImage, setLocalImage] = useState<string | null>(null);
 
+    const showSnackbar = useSnackbarHelper();
+
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
         if (file) {
             // Set local image for preview
             setLocalImage(URL.createObjectURL(file));
+
+            const s3 = new AWS.S3();
+            const params = {
+                Bucket: 'metaform-company-logo',
+                Key: `companyLogos/${file.name}`,
+                Body: file,
+                ACL: 'public-read',
+            };
+
+            s3.upload(params, (err: Error, data: { Location: string }) => {
+                if (err) {
+                    showSnackbar(`Error uploading:${err}`, 'error');
+                    return;
+                }
+                showSnackbar('You had successfully upload logo', 'success');
+                onDataChange('companyLogo')(data.Location);
+            });
         }
     };
 

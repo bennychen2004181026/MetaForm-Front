@@ -34,7 +34,7 @@ interface FormProps {
     errors: Record<string, string>;
     onDataChange: (
         field: string,
-    ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
     onFieldsBlur: (field: string) => () => void;
     isValid: () => boolean;
     handleSubmit?: (event: FormEvent<HTMLFormElement>) => void;

@@ -94,12 +94,16 @@ const useForm = (fields: IField[]) => {
     );
 
     const onDataChange = useCallback(
-        (key: string): React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> => {
+        (
+            field: string,
+        ): ((
+            event: string | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+        ) => void) => {
             return (event) => {
-                const { value } = event.target;
-                setFieldsData((prev) => ({ ...prev, [key]: value }));
-                if (fieldsFocus[key]) {
-                    validateField(key, value);
+                const value = typeof event === 'string' ? event : event.target.value;
+                setFieldsData((prev) => ({ ...prev, [field]: value }));
+                if (fieldsFocus[field]) {
+                    validateField(field, value);
                 }
             };
         },
