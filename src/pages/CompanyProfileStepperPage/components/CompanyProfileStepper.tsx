@@ -106,7 +106,7 @@ const CompanyProfileStepper: React.FC = () => {
                     />
                 );
             case 1:
-                return <StepContentTwo onDataChange={onDataChange} />;
+                return <StepContentTwo fieldsData={fieldsData} onDataChange={onDataChange} />;
             case 2:
                 return <StepContentThree fieldsData={fieldsData} />;
             default:

@@ -1,5 +1,5 @@
 // Step2Content.tsx
-import React, { useState } from 'react';
+import React from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Box, Button, Typography } from '@mui/material';
@@ -8,23 +8,18 @@ import AWS from '@/utils/awsConfig';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 interface StepContentTwoProps {
+    fieldsData: Record<string, string>;
     onDataChange: (
         field: string,
     ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
 }
 
-const StepContentTwo: React.FC<StepContentTwoProps> = ({ onDataChange }) => {
-    // For local image preview
-    const [localImage, setLocalImage] = useState<string | null>(null);
-
+const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChange }) => {
     const showSnackbar = useSnackbarHelper();
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
         if (file) {
-            // Set local image for preview
-            setLocalImage(URL.createObjectURL(file));
-
             const s3 = new AWS.S3();
             const params = {
                 Bucket: 'metaform-company-logo',
@@ -38,6 +33,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ onDataChange }) => {
                     return;
                 }
                 showSnackbar('You had successfully upload logo', 'success');
+                showSnackbar(`${data.Location}`, 'success');
                 onDataChange('companyLogo')(data.Location);
             });
         }
@@ -58,9 +54,9 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ onDataChange }) => {
                     flexWrap: 'wrap',
                 }}
             >
-                {localImage ? (
+                {fieldsData.companyLogo ? (
                     <img
-                        src={localImage}
+                        src={fieldsData.companyLogo}
                         alt="Uploaded Logo"
                         style={{ maxWidth: '100%', maxHeight: '100%' }}
                     />
