@@ -2,7 +2,16 @@
 import React, { useState } from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Box, Button, CircularProgress, LinearProgress, Typography } from '@mui/material';
+import {
+    Box,
+    Button,
+    CircularProgress,
+    LinearProgress,
+    Typography,
+    circularProgressClasses,
+    linearProgressClasses,
+    useTheme,
+} from '@mui/material';
 
 import AWS from '@/utils/awsConfig';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
@@ -16,6 +25,7 @@ interface StepContentTwoProps {
 
 const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChange }) => {
     const showSnackbar = useSnackbarHelper();
+    const theme = useTheme();
     const [isDragging, setIsDragging] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -76,7 +86,32 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
 
     const renderLoading = () => (
         <>
-            <CircularProgress />
+            <Box sx={{ position: 'relative' }}>
+                <CircularProgress
+                    variant="determinate"
+                    sx={{
+                        color: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
+                    }}
+                    size={40}
+                    thickness={4}
+                    value={uploadProgress}
+                />
+                <CircularProgress
+                    variant="indeterminate"
+                    disableShrink
+                    sx={{
+                        color: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
+                        animationDuration: '550ms',
+                        position: 'absolute',
+                        left: 0,
+                        [`& .${circularProgressClasses.circle}`]: {
+                            strokeLinecap: 'round',
+                        },
+                    }}
+                    size={40}
+                    thickness={4}
+                />
+            </Box>
             <Typography variant="body1">{uploadProgress.toFixed(2)}%</Typography>
             <LinearProgress
                 variant="determinate"
@@ -86,6 +121,19 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
                     bottom: 0,
                     left: 0,
                     right: 0,
+                    height: 10,
+                    borderRadius: 5,
+                    [`&.${linearProgressClasses.colorPrimary}`]: {
+                        backgroundColor:
+                            theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
+                    },
+                    [`& .${linearProgressClasses.bar}`]: {
+                        borderRadius: 5,
+                        backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
+                        backgroundImage:
+                            'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.15) 10px, rgba(0,0,0,0.15) 20px)',
+                        transition: 'width 0.4s ease',
+                    },
                 }}
             />
         </>
@@ -120,6 +168,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
                 onDrop={handleDrop}
                 sx={{
                     border: isDragging ? '2px dashed blue' : '2px dashed grey',
+                    position: 'relative',
                     width: { xs: '300px', sm: '400px', md: '500px' },
                     height: { xs: '200px', sm: '300px', md: '400px' },
                     marginRight: '20px',
