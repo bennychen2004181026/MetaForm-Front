@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Box, Button, CircularProgress, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, LinearProgress, Typography } from '@mui/material';
 
 import AWS from '@/utils/awsConfig';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
@@ -77,7 +77,17 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
     const renderLoading = () => (
         <>
             <CircularProgress />
-            <Typography variant="body1">{uploadProgress}%</Typography>
+            <Typography variant="body1">{uploadProgress.toFixed(2)}%</Typography>
+            <LinearProgress
+                variant="determinate"
+                value={uploadProgress}
+                sx={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                }}
+            />
         </>
     );
 
