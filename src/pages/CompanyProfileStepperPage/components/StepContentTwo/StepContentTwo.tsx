@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 
 import AWS from '@/utils/awsConfig';
+import uploadFileValidators from '@/utils/uploadFileValidators';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 interface StepContentTwoProps {
@@ -29,6 +30,19 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
     const [isDragging, setIsDragging] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
+    const logoValidators = [
+        uploadFileValidators.logoSizeValidator(128 * 1024),
+        uploadFileValidators.logoTypeValidator([
+            'image/jpeg',
+            'image/png',
+            'image/webp',
+            'image/svg+xml',
+            'image/bmp',
+            'image/x-icon',
+            'image/vnd.microsoft.icon',
+        ]),
+        uploadFileValidators.logoDimensionValidator(100, 100),
+    ];
 
     const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
@@ -68,19 +82,29 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
             });
     };
 
-    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         setIsDragging(false);
         const file = event.dataTransfer.files[0];
         if (file) {
-            uploadFileToS3(file);
+            const validationResult = await uploadFileValidators.validateFile(file, logoValidators);
+            if (typeof validationResult === 'string') {
+                showSnackbar(`Validation Error: ${validationResult}`, 'error');
+            } else {
+                uploadFileToS3(file);
+            }
         }
     };
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
         if (file) {
-            uploadFileToS3(file);
+            const validationResult = await uploadFileValidators.validateFile(file, logoValidators);
+            if (typeof validationResult === 'string') {
+                showSnackbar(`Validation Error: ${validationResult}`, 'error');
+            } else {
+                uploadFileToS3(file);
+            }
         }
     };
 

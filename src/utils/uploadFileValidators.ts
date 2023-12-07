@@ -2,15 +2,38 @@ interface Validator {
     (file: File): Promise<string | null>;
 }
 
+const mimeToExtension = (mime: string): string => {
+    const mimeMap: { [key: string]: string } = {
+        'image/jpeg': 'JPEG/JFIF',
+        'image/png': 'PNG',
+        'image/webp': 'WebP',
+        'image/gif': 'GIF',
+        'image/svg+xml': 'SVG',
+        'image/bmp': 'BMP',
+        'image/tiff': 'TIFF',
+        'image/x-icon': 'ICO',
+        'image/vnd.microsoft.icon': 'ICO',
+    };
+    return mimeMap[mime] || mime;
+};
+
 export const logoSizeValidator = (maxSize: number): Validator => {
     return async (file) => {
-        return file.size > maxSize ? 'File is too large. Please select a smaller file.' : null;
+        if (file.size > maxSize) {
+            const maxSizeInMB = (maxSize / 1024).toFixed(2);
+            return `File is too large. Maximum allowed size is ${maxSizeInMB} KB.`;
+        }
+        return null;
     };
 };
 
 export const logoTypeValidator = (validTypes: string[]): Validator => {
     return async (file) => {
-        return validTypes.includes(file.type) ? null : 'Invalid file type.';
+        if (!validTypes.includes(file.type)) {
+            const readableTypes = validTypes.map(mimeToExtension).join(', ');
+            return `Invalid file type. Allowed types: ${readableTypes}.`;
+        }
+        return null;
     };
 };
 
