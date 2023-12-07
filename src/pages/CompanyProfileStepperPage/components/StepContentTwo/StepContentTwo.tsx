@@ -17,6 +17,8 @@ interface StepContentTwoProps {
 const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChange }) => {
     const showSnackbar = useSnackbarHelper();
     const [isDragging, setIsDragging] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
@@ -44,14 +46,19 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
                 Body: file,
             };
 
-            s3.upload(params, (err: Error, data: { Location: string }) => {
-                if (err) {
-                    showSnackbar(`Error uploading: ${err}`, 'error');
-                    return;
-                }
-                onDataChange('companyLogo')(data.Location);
-                showSnackbar('You had successfully uploaded the logo', 'success');
-            });
+            s3.upload(params)
+                .on('httpUploadProgress', (progress: { loaded: number; total: number }) => {
+                    setUploadProgress(Math.round((progress.loaded / progress.total) * 100));
+                })
+                .send((err: Error, data: { Location: string }) => {
+                    setIsLoading(false);
+                    if (err) {
+                        showSnackbar(`Error uploading: ${err}`, 'error');
+                        return;
+                    }
+                    onDataChange('companyLogo')(data.Location);
+                    showSnackbar('You had successfully uploaded the logo', 'success');
+                });
         }
     };
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,6 +82,32 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
             });
         }
     };
+    const renderLoading = () => (
+        <>
+            <CircularProgress />
+            <Typography variant="body1">{uploadProgress}%</Typography>
+        </>
+    );
+
+    const renderImagePreview = () => (
+        <img
+            src={fieldsData.companyLogo}
+            alt="Uploaded Logo"
+            style={{ maxWidth: '100%', maxHeight: '100%' }}
+        />
+    );
+
+    const renderDefaultMessage = () => (
+        <Typography variant="body1">
+            (Optional) Drag and drop an image here, or click to select a file
+        </Typography>
+    );
+
+    const renderContent = () => {
+        if (isLoading) return renderLoading();
+        if (fieldsData.companyLogo) return renderImagePreview();
+        return renderDefaultMessage();
+    };
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
@@ -95,17 +128,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
                     flexWrap: 'wrap',
                 }}
             >
-                {fieldsData.companyLogo ? (
-                    <img
-                        src={fieldsData.companyLogo}
-                        alt="Uploaded Logo"
-                        style={{ maxWidth: '100%', maxHeight: '100%' }}
-                    />
-                ) : (
-                    <Typography variant="body1">
-                        (Optional) Drag and drop an image here, or click to select a file
-                    </Typography>
-                )}
+                {renderContent()}
             </Box>
             <Button variant="contained" component="label" startIcon={<CloudUploadIcon />}>
                 Upload
