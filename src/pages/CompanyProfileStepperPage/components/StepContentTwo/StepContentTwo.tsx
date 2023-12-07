@@ -32,6 +32,28 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
         setIsDragging(false);
     };
 
+    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        setIsDragging(false);
+        const file = event.dataTransfer.files[0];
+        if (file) {
+            const s3 = new AWS.S3();
+            const params = {
+                Bucket: 'metaform-company-logo',
+                Key: `companyLogos/${file.name}`,
+                Body: file,
+            };
+
+            s3.upload(params, (err: Error, data: { Location: string }) => {
+                if (err) {
+                    showSnackbar(`Error uploading: ${err}`, 'error');
+                    return;
+                }
+                onDataChange('companyLogo')(data.Location);
+                showSnackbar('You had successfully uploaded the logo', 'success');
+            });
+        }
+    };
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
         if (file) {
@@ -57,8 +79,12 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
             <Box
+                onDragEnter={handleDragEnter}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
                 sx={{
-                    border: '2px dashed grey',
+                    border: isDragging ? '2px dashed blue' : '2px dashed grey',
                     width: { xs: '300px', sm: '400px', md: '500px' },
                     height: { xs: '200px', sm: '300px', md: '400px' },
                     marginRight: '20px',
