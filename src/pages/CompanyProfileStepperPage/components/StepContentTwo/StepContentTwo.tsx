@@ -34,54 +34,46 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
         setIsDragging(false);
     };
 
+    const uploadFileToS3 = (file: File) => {
+        setIsLoading(true);
+        const s3 = new AWS.S3();
+        const params = {
+            Bucket: 'metaform-company-logo',
+            Key: `companyLogos/${file.name}`,
+            Body: file,
+        };
+
+        s3.upload(params)
+            .on('httpUploadProgress', (progress: { loaded: number; total: number }) => {
+                setUploadProgress(Math.round((progress.loaded / progress.total) * 100));
+            })
+            .send((err: Error, data: { Location: string }) => {
+                setIsLoading(false);
+                if (err) {
+                    showSnackbar(`Error uploading: ${err}`, 'error');
+                    return;
+                }
+                onDataChange('companyLogo')(data.Location);
+                showSnackbar('You had successfully uploaded the logo', 'success');
+            });
+    };
+
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         setIsDragging(false);
         const file = event.dataTransfer.files[0];
         if (file) {
-            const s3 = new AWS.S3();
-            const params = {
-                Bucket: 'metaform-company-logo',
-                Key: `companyLogos/${file.name}`,
-                Body: file,
-            };
-
-            s3.upload(params)
-                .on('httpUploadProgress', (progress: { loaded: number; total: number }) => {
-                    setUploadProgress(Math.round((progress.loaded / progress.total) * 100));
-                })
-                .send((err: Error, data: { Location: string }) => {
-                    setIsLoading(false);
-                    if (err) {
-                        showSnackbar(`Error uploading: ${err}`, 'error');
-                        return;
-                    }
-                    onDataChange('companyLogo')(data.Location);
-                    showSnackbar('You had successfully uploaded the logo', 'success');
-                });
+            uploadFileToS3(file);
         }
     };
+
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
         if (file) {
-            const s3 = new AWS.S3();
-            const params = {
-                Bucket: 'metaform-company-logo',
-                Key: `companyLogos/${file.name}`,
-                Body: file,
-            };
-
-            s3.upload(params, (err: Error, data: { Location: string }) => {
-                if (err) {
-                    showSnackbar(`Error uploading:${err}`, 'error');
-                    return;
-                }
-                showSnackbar('You had successfully upload logo', 'success');
-                showSnackbar(`${data.Location}`, 'success');
-                onDataChange('companyLogo')(data.Location);
-            });
+            uploadFileToS3(file);
         }
     };
+
     const renderLoading = () => (
         <>
             <CircularProgress />
