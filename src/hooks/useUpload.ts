@@ -1,7 +1,6 @@
-// useDragDrop.ts
 import { useState } from 'react';
 
-const useDrag = (onFileDropped: (file: File) => void) => {
+const useUpload = (onFileDropped: (file: File) => void) => {
     const [isDragging, setIsDragging] = useState(false);
 
     const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
@@ -18,10 +17,17 @@ const useDrag = (onFileDropped: (file: File) => void) => {
         setIsDragging(false);
     };
 
-    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         setIsDragging(false);
         const file = event.dataTransfer.files[0];
+        if (file) {
+            onFileDropped(file);
+        }
+    };
+
+    const handleUploadButton = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files ? event.target.files[0] : null;
         if (file) {
             onFileDropped(file);
         }
@@ -33,7 +39,8 @@ const useDrag = (onFileDropped: (file: File) => void) => {
         handleDragOver,
         handleDragLeave,
         handleDrop,
+        handleUploadButton,
     };
 };
 
-export default useDrag;
+export default useUpload;

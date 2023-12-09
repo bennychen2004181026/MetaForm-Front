@@ -1,4 +1,3 @@
-// Step2Content.tsx
 import React, { useState } from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -6,7 +5,7 @@ import { Box, Button } from '@mui/material';
 
 import DragDropBox from '@/components/DragDropBox/DragDropBox';
 import UploadBoxContentRenderer from '@/components/UploadBoxContentRenderer';
-import useDrag from '@/hooks/useDrag';
+import useUpload from '@/hooks/useUpload';
 import AWS from '@/utils/awsConfig';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
@@ -45,15 +44,14 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
                 showSnackbar('You had successfully uploaded the logo', 'success');
             });
     };
-    const { isDragging, handleDragEnter, handleDragOver, handleDragLeave, handleDrop } =
-        useDrag(uploadFileToS3);
-
-    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files ? event.target.files[0] : null;
-        if (file) {
-            uploadFileToS3(file);
-        }
-    };
+    const {
+        isDragging,
+        handleDragEnter,
+        handleDragOver,
+        handleDragLeave,
+        handleDrop,
+        handleUploadButton,
+    } = useUpload(uploadFileToS3);
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
@@ -72,7 +70,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
             </DragDropBox>
             <Button variant="contained" component="label" startIcon={<CloudUploadIcon />}>
                 Upload
-                <input type="file" hidden onChange={handleFileChange} />
+                <input type="file" hidden onChange={handleUploadButton} />
             </Button>
         </Box>
     );

@@ -1,4 +1,3 @@
-// ContentRenderer.tsx
 import React from 'react';
 
 import ImagePreview from '@/components/ImagePreview';
