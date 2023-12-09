@@ -4,6 +4,7 @@ import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material
 
 import SubmitButton from '@/components/SubmitButton';
 import useForm, { IField } from '@/hooks/useForm';
+import useUpload from '@/hooks/useUpload';
 import StepContentOne from '@/pages/CompanyProfileStepperPage/components/StepContentOne';
 import StepContentThree from '@/pages/CompanyProfileStepperPage/components/StepContentThree';
 import StepContentTwo from '@/pages/CompanyProfileStepperPage/components/StepContentTwo';
@@ -15,6 +16,8 @@ const steps = ['Enter company profile', 'Upload the company logo', 'Review and s
 const CompanyProfileStepper: React.FC = () => {
     const showSnackbar = useSnackbarHelper();
     const [activeStep, setActiveStep] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
     const industryArray = industries.map((industry) => industry.name);
     const fields: IField[] = [
         {
@@ -90,6 +93,15 @@ const CompanyProfileStepper: React.FC = () => {
         }
     };
 
+    const {
+        isDragging,
+        handleDragEnter,
+        handleDragOver,
+        handleDragLeave,
+        handleDrop,
+        handleUploadButton,
+    } = useUpload({ setIsLoading, setUploadProgress, onDataChange });
+
     const getStepContent = (stepIndex: number): JSX.Element => {
         switch (stepIndex) {
             case 0:
@@ -106,7 +118,19 @@ const CompanyProfileStepper: React.FC = () => {
                     />
                 );
             case 1:
-                return <StepContentTwo fieldsData={fieldsData} onDataChange={onDataChange} />;
+                return (
+                    <StepContentTwo
+                        fieldsData={fieldsData}
+                        isDragging={isDragging}
+                        handleDragEnter={handleDragEnter}
+                        handleDragOver={handleDragOver}
+                        handleDragLeave={handleDragLeave}
+                        handleDrop={handleDrop}
+                        handleUploadButton={handleUploadButton}
+                        isLoading={isLoading}
+                        uploadProgress={uploadProgress}
+                    />
+                );
             case 2:
                 return <StepContentThree fieldsData={fieldsData} />;
             default:

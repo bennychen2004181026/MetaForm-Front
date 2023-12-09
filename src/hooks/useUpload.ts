@@ -1,9 +1,18 @@
 import { useState } from 'react';
 
+import uploadFileToS3 from '@/utils/uploadFileToS3';
 import uploadFileValidators from '@/utils/uploadFileValidators';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
-const useUpload = (onFileDropped: (file: File) => void) => {
+interface UseUploadProps {
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    setUploadProgress: React.Dispatch<React.SetStateAction<number>>;
+    onDataChange: (
+        field: string,
+    ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
+}
+
+const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadProps) => {
     const showSnackbar = useSnackbarHelper();
     const [isDragging, setIsDragging] = useState(false);
 
@@ -20,6 +29,22 @@ const useUpload = (onFileDropped: (file: File) => void) => {
         ]),
         uploadFileValidators.logoDimensionValidator(100, 100),
     ];
+
+    const handleFileSelection = async (file: File) => {
+        const validationResult = await uploadFileValidators.validateFile(file, logoValidators);
+        if (typeof validationResult === 'string') {
+            showSnackbar(`Validation Error: ${validationResult}`, 'error');
+        } else {
+            uploadFileToS3({
+                file,
+                setIsLoading,
+                setUploadProgress,
+                onDataChange,
+                showSnackbar,
+            });
+        }
+    };
+
     const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         setIsDragging(true);
@@ -39,26 +64,17 @@ const useUpload = (onFileDropped: (file: File) => void) => {
         setIsDragging(false);
         const file = event.dataTransfer.files[0];
         if (file) {
-            const validationResult = await uploadFileValidators.validateFile(file, logoValidators);
-            if (typeof validationResult === 'string') {
-                showSnackbar(`Validation Error: ${validationResult}`, 'error');
-            } else {
-                onFileDropped(file);
-            }
+            await handleFileSelection(file);
         }
     };
 
     const handleUploadButton = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
         if (file) {
-            const validationResult = await uploadFileValidators.validateFile(file, logoValidators);
-            if (typeof validationResult === 'string') {
-                showSnackbar(`Validation Error: ${validationResult}`, 'error');
-            } else {
-                onFileDropped(file);
-            }
+            await handleFileSelection(file);
         }
     };
+
     return {
         isDragging,
         handleDragEnter,
