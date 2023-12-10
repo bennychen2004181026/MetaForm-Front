@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Box, Button } from '@mui/material';
 import ReactCrop, { Crop, PixelCrop, convertToPixelCrop } from 'react-image-crop';
@@ -7,7 +7,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 import centerAspectCrop from '@/utils/centerAspectCrop';
 
 export interface CropComponentProps {
-    src: string;
+    src: string | null;
     onImageCropped: (blob: Blob) => void;
     imgRef: React.RefObject<HTMLImageElement>;
     previewCanvasRef: React.RefObject<HTMLCanvasElement>;
@@ -23,13 +23,15 @@ const CropComponent: React.FC<CropComponentProps> = ({
 }) => {
     const [crop, setCrop] = useState<Crop>();
     const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+    const boxRef = useRef<HTMLDivElement>(null);
+    const [maxDimensions, setMaxDimensions] = useState({ maxWidth: 0, maxHeight: 0 });
 
     const onImageLoad = useCallback(() => {
         if (imgRef.current) {
             const { width, height } = imgRef.current;
-            const newCrop = centerAspectCrop(width, height, 1);
-            setCrop(newCrop);
-            setCompletedCrop(convertToPixelCrop(newCrop, width, height));
+            const initialCrop = centerAspectCrop(width, height, 1);
+            setCrop(initialCrop);
+            setCompletedCrop(convertToPixelCrop(initialCrop, width, height));
         }
     }, []);
 
@@ -39,39 +41,72 @@ const CropComponent: React.FC<CropComponentProps> = ({
         }
     }, [completedCrop, onCrop, previewCanvasRef, imgRef]);
 
+    useEffect(() => {
+        if (boxRef.current) {
+            const width = boxRef.current.offsetWidth;
+            const height = boxRef.current.offsetHeight;
+            setMaxDimensions({ maxWidth: width - 10, maxHeight: height - 50 });
+        }
+    }, []);
+
     const onCropComplete = useCallback(() => {
         if (previewCanvasRef.current) {
             previewCanvasRef.current.toBlob((blob) => {
                 if (blob) {
                     onImageCropped(blob);
                 }
-            }, 'image/png');
+            }, 'image/webp');
         }
     }, [previewCanvasRef, onImageCropped]);
 
     return (
-        <Box>
+        <Box
+            ref={boxRef}
+            sx={{
+                width: { xs: '300px', sm: '400px', md: '500px' },
+                height: { xs: '200px', sm: '300px', md: '400px' },
+                display: 'flex',
+                flexDirection: 'column',
+                alignContent: 'center',
+                justifyContent: 'space-evenly',
+                alignItems: 'center',
+                flexWrap: 'nowrap',
+            }}
+        >
             {src && (
                 <ReactCrop
                     crop={crop}
-                    ruleOfThirds
-                    onChange={(newCrop) => setCrop(newCrop)}
                     aspect={1}
+                    onChange={(newCrop) => setCrop(newCrop)}
+                    onComplete={(c) => setCompletedCrop(c)}
                 >
                     <img
                         ref={imgRef}
                         alt="Crop me"
                         src={src}
-                        style={{ maxWidth: '100%' }}
+                        style={{
+                            maxWidth: maxDimensions.maxWidth,
+                            maxHeight: maxDimensions.maxHeight,
+                        }}
                         onLoad={onImageLoad}
                     />
                 </ReactCrop>
             )}
 
             <canvas ref={previewCanvasRef} style={{ display: 'none' }} />
-            <Button variant="contained" onClick={onCropComplete}>
-                Confirm Crop
-            </Button>
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignContent: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexWrap: 'nowrap',
+                }}
+            >
+                <Button variant="contained" onClick={onCropComplete}>
+                    Confirm Crop
+                </Button>
+            </Box>
         </Box>
     );
 };

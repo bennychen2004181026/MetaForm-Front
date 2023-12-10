@@ -58,6 +58,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
     if (selectedImage && isCropping) {
         cropComponent = (
             <CropComponent
+                key={selectedImage || new Date().getTime()}
                 src={selectedImage}
                 imgRef={imgRef}
                 previewCanvasRef={previewCanvasRef}
@@ -68,7 +69,15 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
     }
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+                alignItems: 'center',
+                gap: 0.1,
+            }}
+        >
             <DragDropBox
                 isDragging={isDragging}
                 onDragEnter={handleDragEnter}
@@ -79,25 +88,35 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
                 <UploadBoxContentRenderer
                     isLoading={isLoading}
                     uploadProgress={uploadProgress}
-                    companyLogo={croppedPreviewUrl || fieldsData.companyLogo}
+                    companyLogo={fieldsData.companyLogo || croppedPreviewUrl}
                     cropComponent={cropComponent}
                 />
             </DragDropBox>
-
-            <Button variant="contained" component="label" startIcon={<CropFreeIcon />}>
-                Upload and Crop
-                <input type="file" hidden onChange={handleUploadButton} />
-            </Button>
-
-            {croppedImageBlob && (
-                <Button
-                    variant="contained"
-                    onClick={handleCroppedImage}
-                    startIcon={<CloudUploadIcon />}
-                >
-                    Upload to S3
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignContent: 'center',
+                    justifyContent: 'space-around',
+                    flexWrap: 'wrap',
+                    height: '20vh',
+                }}
+            >
+                <Button variant="contained" component="label" startIcon={<CropFreeIcon />}>
+                    Upload and Crop
+                    <input type="file" hidden onChange={handleUploadButton} />
                 </Button>
-            )}
+
+                {croppedImageBlob && (
+                    <Button
+                        variant="contained"
+                        onClick={handleCroppedImage}
+                        startIcon={<CloudUploadIcon />}
+                    >
+                        Upload to S3
+                    </Button>
+                )}
+            </Box>
         </Box>
     );
 };

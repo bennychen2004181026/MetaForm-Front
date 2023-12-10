@@ -173,7 +173,7 @@ const CompanyProfileStepper: React.FC = () => {
             </Stepper>
             <div>
                 <div>
-                    <Typography sx={{ mt: 2, mb: 1 }}>{getStepContent(activeStep)}</Typography>
+                    {getStepContent(activeStep)}
                     <Box
                         sx={{
                             display: 'flex',

@@ -7,7 +7,7 @@ import UploadDefaultMessage from '@/components/UploadDefaultMessage';
 interface ContentRendererProps {
     isLoading: boolean;
     uploadProgress: number;
-    companyLogo: string;
+    companyLogo: string | null;
     cropComponent: ReactNode | null;
 }
 
@@ -21,7 +21,6 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({
         return <StyledUploadLoading uploadProgress={uploadProgress} />;
     }
     if (cropComponent) {
-        console.log(123);
         return cropComponent;
     }
     if (companyLogo) {

@@ -108,34 +108,41 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadP
         const canvas = previewCanvasRef.current;
         const ctx = canvas.getContext('2d');
         if (!ctx) {
-            throw new Error('No 2d context');
+            showSnackbar('No 2d context', 'error');
+            return;
         }
 
-        const scaleX = imgRef.current.naturalWidth / imgRef.current.width;
-        const scaleY = imgRef.current.naturalHeight / imgRef.current.height;
+        const image = imgRef.current;
+        const scaleX = image.naturalWidth / image.width;
+        const scaleY = image.naturalHeight / image.height;
 
-        canvas.width = crop.width * scaleX;
-        canvas.height = crop.height * scaleY;
+        const diameter = Math.min(crop.width * scaleX, crop.height * scaleY);
+        canvas.width = diameter;
+        canvas.height = diameter;
+
+        ctx.beginPath();
+        ctx.arc(diameter / 2, diameter / 2, diameter / 2, 0, 2 * Math.PI);
+        ctx.clip();
 
         ctx.drawImage(
-            imgRef.current,
+            image,
             crop.x * scaleX,
             crop.y * scaleY,
             crop.width * scaleX,
             crop.height * scaleY,
             0,
             0,
-            crop.width,
-            crop.height,
+            diameter,
+            diameter,
         );
 
         canvas.toBlob((blob) => {
             if (blob) {
                 setCroppedImageBlob(blob);
             }
-        }, 'image/png');
+        }, 'image/webp');
 
-        const croppedUrl = previewCanvasRef.current.toDataURL('image/png');
+        const croppedUrl = previewCanvasRef.current.toDataURL('image/webp');
         setCroppedPreviewUrl(croppedUrl);
     }, []);
 
