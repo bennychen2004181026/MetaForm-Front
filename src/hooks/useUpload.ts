@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import uploadFileToS3 from '@/utils/uploadFileToS3';
 import uploadFileValidators from '@/utils/uploadFileValidators';
@@ -32,26 +32,29 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadP
         uploadFileValidators.logoDimensionValidator(100, 100),
     ];
 
-    const handleFileSelection = async (file: File) => {
-        const validationResult = await uploadFileValidators.validateFile(file, logoValidators);
-        if (typeof validationResult === 'string') {
-            showSnackbar(`Validation Error: ${validationResult}`, 'error');
-        } else {
+    const handleFileSelection = useCallback(
+        async (file: File) => {
+            const validationResult = await uploadFileValidators.validateFile(file, logoValidators);
+            if (typeof validationResult === 'string') {
+                showSnackbar(`Validation Error: ${validationResult}`, 'error');
+                return;
+            }
             setSelectedImage(URL.createObjectURL(file));
-        }
-    };
+        },
+        [logoValidators, showSnackbar],
+    );
 
-    const handleCropConfirmation = (croppedBlob: Blob) => {
+    const handleCropConfirmation = useCallback((croppedBlob: Blob) => {
         setCroppedImageBlob(croppedBlob);
-    };
+    }, []);
 
-    const handleCroppedImage = async () => {
+    const handleCroppedImage = useCallback(async () => {
         if (!croppedImageBlob) {
             showSnackbar('No cropped image to upload', 'error');
             return;
         }
         const timestamp = new Date().getTime();
-        const fileName = `companyLogo${timestamp}.png`;
+        const fileName = `companyLogo${timestamp}.jpeg`;
         uploadFileToS3({
             file: new File([croppedImageBlob], fileName, { type: 'image/jpeg' }),
             setIsLoading,
@@ -59,43 +62,37 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadP
             onDataChange,
             showSnackbar,
         });
-    };
+    }, [croppedImageBlob, setIsLoading, setUploadProgress, onDataChange, showSnackbar]);
 
-    const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
+    const handleDragActions = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-        setIsDragging(true);
-    };
+        setIsDragging(event.type === 'dragenter');
+    }, []);
 
-    const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-    };
+    const handleDrop = useCallback(
+        async (event: React.DragEvent<HTMLDivElement>) => {
+            handleDragActions(event);
+            const file = event.dataTransfer.files[0];
+            if (file) {
+                await handleFileSelection(file);
+            }
+        },
+        [handleDragActions, handleFileSelection],
+    );
 
-    const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        setIsDragging(false);
-    };
-
-    const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        setIsDragging(false);
-        const file = event.dataTransfer.files[0];
-        if (file) {
-            await handleFileSelection(file);
-        }
-    };
-
-    const handleUploadButton = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files ? event.target.files[0] : null;
-        if (file) {
-            await handleFileSelection(file);
-        }
-    };
+    const handleUploadButton = useCallback(
+        async (event: React.ChangeEvent<HTMLInputElement>) => {
+            const file = event.target.files ? event.target.files[0] : null;
+            if (file) {
+                await handleFileSelection(file);
+            }
+        },
+        [handleFileSelection],
+    );
 
     return {
         isDragging,
-        handleDragEnter,
-        handleDragOver,
-        handleDragLeave,
+        handleDragActions,
         handleDrop,
         handleUploadButton,
         selectedImage,

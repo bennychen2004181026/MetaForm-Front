@@ -1,44 +1,91 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Box } from '@mui/material';
+import ReactCrop, { Crop, PixelCrop, convertToPixelCrop } from 'react-image-crop';
 
-interface DragDropBoxProps {
-    isDragging: boolean;
-    onDragEnter: (event: React.DragEvent<HTMLDivElement>) => void;
-    onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
-    onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
-    onDrop: (event: React.DragEvent<HTMLDivElement>) => void;
-    children: React.ReactNode;
+import 'react-image-crop/dist/ReactCrop.css';
+import centerAspectCrop from '@/utils/centerAspectCrop';
+
+interface CropComponentProps {
+    src: string;
 }
 
-const DragDropBox: React.FC<DragDropBoxProps> = ({
-    isDragging,
-    onDragEnter,
-    onDragOver,
-    onDragLeave,
-    onDrop,
-    children,
-}) => (
-    <Box
-        onDragEnter={onDragEnter}
-        onDragOver={onDragOver}
-        onDragLeave={onDragLeave}
-        onDrop={onDrop}
-        sx={{
-            border: isDragging ? '2px dashed blue' : '2px dashed grey',
-            position: 'relative',
-            width: { xs: '300px', sm: '400px', md: '500px' },
-            height: { xs: '200px', sm: '300px', md: '400px' },
-            marginRight: '20px',
-            display: 'flex',
-            flexDirection: 'row',
-            alignContent: 'center',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-        }}
-    >
-        {children}
-    </Box>
-);
+const CropComponent: React.FC<CropComponentProps> = ({ src }) => {
+    const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+    const imgRef = useRef<HTMLImageElement>(null);
+    const [crop, setCrop] = useState<Crop>();
+    const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
 
-export default DragDropBox;
+    const onImageLoad = useCallback(() => {
+        if (imgRef.current) {
+            const { width, height } = imgRef.current;
+            const newCrop = centerAspectCrop(width, height, 1);
+            setCrop(newCrop);
+            setCompletedCrop(convertToPixelCrop(newCrop, width, height));
+        }
+    }, []);
+
+    const canvasPreview = (
+        image: HTMLImageElement,
+        canvas: HTMLCanvasElement,
+        pixelCrop: PixelCrop,
+    ) => {
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            throw new Error('No 2d context');
+        }
+
+        const scaleX = image.naturalWidth / image.width;
+        const scaleY = image.naturalHeight / image.height;
+
+        canvas.width = pixelCrop.width * scaleX;
+        canvas.height = pixelCrop.height * scaleY;
+
+        ctx.drawImage(
+            image,
+            pixelCrop.x * scaleX,
+            pixelCrop.y * scaleY,
+            pixelCrop.width * scaleX,
+            pixelCrop.height * scaleY,
+            0,
+            0,
+            pixelCrop.width,
+            pixelCrop.height,
+        );
+    };
+
+    useEffect(() => {
+        if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
+            return;
+        }
+
+        canvasPreview(imgRef.current, previewCanvasRef.current, completedCrop);
+    }, [completedCrop]);
+
+    return (
+        <div>
+            {src && (
+                <ReactCrop
+                    crop={crop}
+                    ruleOfThirds
+                    onComplete={(c) => setCompletedCrop(c)}
+                    onChange={(newCrop) => setCrop(newCrop)}
+                    aspect={1}
+                >
+                    <img
+                        ref={imgRef}
+                        alt="Crop me"
+                        src={src}
+                        style={{
+                            maxWidth: '100%',
+                        }}
+                        onLoad={onImageLoad}
+                    />
+                </ReactCrop>
+            )}
+
+            <canvas ref={previewCanvasRef} style={{ display: 'none' }} />
+        </div>
+    );
+};
+
+export default CropComponent;

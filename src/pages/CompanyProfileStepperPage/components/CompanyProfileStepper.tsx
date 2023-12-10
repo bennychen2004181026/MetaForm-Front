@@ -93,14 +93,11 @@ const CompanyProfileStepper: React.FC = () => {
         }
     };
 
-    const {
-        isDragging,
-        handleDragEnter,
-        handleDragOver,
-        handleDragLeave,
-        handleDrop,
-        handleUploadButton,
-    } = useUpload({ setIsLoading, setUploadProgress, onDataChange });
+    const { isDragging, handleDragActions, handleDrop, handleUploadButton } = useUpload({
+        setIsLoading,
+        setUploadProgress,
+        onDataChange,
+    });
 
     const getStepContent = (stepIndex: number): JSX.Element => {
         switch (stepIndex) {
@@ -122,9 +119,9 @@ const CompanyProfileStepper: React.FC = () => {
                     <StepContentTwo
                         fieldsData={fieldsData}
                         isDragging={isDragging}
-                        handleDragEnter={handleDragEnter}
-                        handleDragOver={handleDragOver}
-                        handleDragLeave={handleDragLeave}
+                        handleDragEnter={handleDragActions}
+                        handleDragOver={handleDragActions}
+                        handleDragLeave={handleDragActions}
                         handleDrop={handleDrop}
                         handleUploadButton={handleUploadButton}
                         isLoading={isLoading}

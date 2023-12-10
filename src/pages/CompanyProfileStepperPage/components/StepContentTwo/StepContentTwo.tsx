@@ -14,7 +14,7 @@ interface StepContentTwoProps {
     handleDragEnter: (event: React.DragEvent<HTMLDivElement>) => void;
     handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
     handleDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
-    handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
+    handleDrop: (event: React.DragEvent<HTMLDivElement>) => Promise<void>;
     handleUploadButton: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
