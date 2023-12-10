@@ -15,6 +15,8 @@ interface UseUploadProps {
 const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadProps) => {
     const showSnackbar = useSnackbarHelper();
     const [isDragging, setIsDragging] = useState(false);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [croppedImageBlob, setCroppedImageBlob] = useState<Blob | null>(null);
 
     const logoValidators = [
         uploadFileValidators.logoSizeValidator(128 * 1024),
@@ -35,14 +37,28 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadP
         if (typeof validationResult === 'string') {
             showSnackbar(`Validation Error: ${validationResult}`, 'error');
         } else {
-            uploadFileToS3({
-                file,
-                setIsLoading,
-                setUploadProgress,
-                onDataChange,
-                showSnackbar,
-            });
+            setSelectedImage(URL.createObjectURL(file));
         }
+    };
+
+    const handleCropConfirmation = (croppedBlob: Blob) => {
+        setCroppedImageBlob(croppedBlob);
+    };
+
+    const handleCroppedImage = async () => {
+        if (!croppedImageBlob) {
+            showSnackbar('No cropped image to upload', 'error');
+            return;
+        }
+        const timestamp = new Date().getTime();
+        const fileName = `companyLogo${timestamp}.png`;
+        uploadFileToS3({
+            file: new File([croppedImageBlob], fileName, { type: 'image/jpeg' }),
+            setIsLoading,
+            setUploadProgress,
+            onDataChange,
+            showSnackbar,
+        });
     };
 
     const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
@@ -82,6 +98,12 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadP
         handleDragLeave,
         handleDrop,
         handleUploadButton,
+        selectedImage,
+        setSelectedImage,
+        croppedImageBlob,
+        setCroppedImageBlob,
+        handleCropConfirmation,
+        handleCroppedImage,
     };
 };
 
