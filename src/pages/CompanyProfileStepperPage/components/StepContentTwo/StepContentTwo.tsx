@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CropFreeIcon from '@mui/icons-material/CropFree';
 import { Box, Button } from '@mui/material';
+import { PixelCrop } from 'react-image-crop';
 
+import CropComponent from '@/components/CropComponent';
 import DragDropBox from '@/components/DragDropBox/DragDropBox';
 import UploadBoxContentRenderer from '@/components/UploadBoxContentRenderer';
 
@@ -16,6 +19,17 @@ interface StepContentTwoProps {
     handleDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
     handleDrop: (event: React.DragEvent<HTMLDivElement>) => Promise<void>;
     handleUploadButton: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    selectedImage: string | null;
+    setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>;
+    setCroppedImageBlob: React.Dispatch<React.SetStateAction<Blob | null>>;
+    croppedImageBlob: Blob | null;
+    handleCropConfirmation: (croppedBlob: Blob) => void;
+    handleCroppedImage: () => Promise<void>;
+    isCropping: boolean;
+    previewCanvasRef: React.RefObject<HTMLCanvasElement>;
+    imgRef: React.RefObject<HTMLImageElement>;
+    canvasPreview: (crop: PixelCrop) => void;
+    croppedPreviewUrl: string | null;
 }
 
 const StepContentTwo: React.FC<StepContentTwoProps> = ({
@@ -28,7 +42,31 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
     handleDragLeave,
     handleDrop,
     handleUploadButton,
+    selectedImage,
+    setSelectedImage,
+    setCroppedImageBlob,
+    croppedImageBlob,
+    handleCropConfirmation,
+    handleCroppedImage,
+    isCropping,
+    previewCanvasRef,
+    imgRef,
+    canvasPreview,
+    croppedPreviewUrl,
 }) => {
+    let cropComponent = null;
+    if (selectedImage && isCropping) {
+        cropComponent = (
+            <CropComponent
+                src={selectedImage}
+                imgRef={imgRef}
+                previewCanvasRef={previewCanvasRef}
+                onCrop={canvasPreview}
+                onImageCropped={handleCropConfirmation}
+            />
+        );
+    }
+
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
             <DragDropBox
@@ -41,13 +79,25 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
                 <UploadBoxContentRenderer
                     isLoading={isLoading}
                     uploadProgress={uploadProgress}
-                    companyLogo={fieldsData.companyLogo}
+                    companyLogo={croppedPreviewUrl || fieldsData.companyLogo}
+                    cropComponent={cropComponent}
                 />
             </DragDropBox>
-            <Button variant="contained" component="label" startIcon={<CloudUploadIcon />}>
-                Upload
+
+            <Button variant="contained" component="label" startIcon={<CropFreeIcon />}>
+                Upload and Crop
                 <input type="file" hidden onChange={handleUploadButton} />
             </Button>
+
+            {croppedImageBlob && (
+                <Button
+                    variant="contained"
+                    onClick={handleCroppedImage}
+                    startIcon={<CloudUploadIcon />}
+                >
+                    Upload to S3
+                </Button>
+            )}
         </Box>
     );
 };

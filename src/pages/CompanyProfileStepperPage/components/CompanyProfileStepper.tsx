@@ -93,7 +93,23 @@ const CompanyProfileStepper: React.FC = () => {
         }
     };
 
-    const { isDragging, handleDragActions, handleDrop, handleUploadButton } = useUpload({
+    const {
+        isDragging,
+        handleDragActions,
+        handleDrop,
+        handleUploadButton,
+        selectedImage,
+        setSelectedImage,
+        croppedImageBlob,
+        setCroppedImageBlob,
+        handleCropConfirmation,
+        handleCroppedImage,
+        isCropping,
+        previewCanvasRef,
+        imgRef,
+        canvasPreview,
+        croppedPreviewUrl,
+    } = useUpload({
         setIsLoading,
         setUploadProgress,
         onDataChange,
@@ -126,6 +142,17 @@ const CompanyProfileStepper: React.FC = () => {
                         handleUploadButton={handleUploadButton}
                         isLoading={isLoading}
                         uploadProgress={uploadProgress}
+                        selectedImage={selectedImage}
+                        setSelectedImage={setSelectedImage}
+                        setCroppedImageBlob={setCroppedImageBlob}
+                        croppedImageBlob={croppedImageBlob}
+                        handleCropConfirmation={handleCropConfirmation}
+                        handleCroppedImage={handleCroppedImage}
+                        isCropping={isCropping}
+                        previewCanvasRef={previewCanvasRef}
+                        imgRef={imgRef}
+                        canvasPreview={canvasPreview}
+                        croppedPreviewUrl={croppedPreviewUrl}
                     />
                 );
             case 2:

@@ -1,4 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
+
+import { PixelCrop } from 'react-image-crop';
 
 import uploadFileToS3 from '@/utils/uploadFileToS3';
 import uploadFileValidators from '@/utils/uploadFileValidators';
@@ -17,6 +19,10 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadP
     const [isDragging, setIsDragging] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [croppedImageBlob, setCroppedImageBlob] = useState<Blob | null>(null);
+    const [isCropping, setIsCropping] = useState(false);
+    const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+    const imgRef = useRef<HTMLImageElement>(null);
+    const [croppedPreviewUrl, setCroppedPreviewUrl] = useState<string | null>(null);
 
     const logoValidators = [
         uploadFileValidators.logoSizeValidator(128 * 1024),
@@ -40,12 +46,14 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadP
                 return;
             }
             setSelectedImage(URL.createObjectURL(file));
+            setIsCropping(true);
         },
         [logoValidators, showSnackbar],
     );
 
     const handleCropConfirmation = useCallback((croppedBlob: Blob) => {
         setCroppedImageBlob(croppedBlob);
+        setIsCropping(false);
     }, []);
 
     const handleCroppedImage = useCallback(async () => {
@@ -54,13 +62,15 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadP
             return;
         }
         const timestamp = new Date().getTime();
-        const fileName = `companyLogo${timestamp}.jpeg`;
+        const fileName = `companyLogo-${timestamp}.jpeg`;
         uploadFileToS3({
             file: new File([croppedImageBlob], fileName, { type: 'image/jpeg' }),
             setIsLoading,
             setUploadProgress,
             onDataChange,
             showSnackbar,
+        }).then(() => {
+            setCroppedPreviewUrl(null);
         });
     }, [croppedImageBlob, setIsLoading, setUploadProgress, onDataChange, showSnackbar]);
 
@@ -90,6 +100,45 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadP
         [handleFileSelection],
     );
 
+    const canvasPreview = useCallback((crop: PixelCrop) => {
+        if (!crop || !previewCanvasRef.current || !imgRef.current) {
+            return;
+        }
+
+        const canvas = previewCanvasRef.current;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            throw new Error('No 2d context');
+        }
+
+        const scaleX = imgRef.current.naturalWidth / imgRef.current.width;
+        const scaleY = imgRef.current.naturalHeight / imgRef.current.height;
+
+        canvas.width = crop.width * scaleX;
+        canvas.height = crop.height * scaleY;
+
+        ctx.drawImage(
+            imgRef.current,
+            crop.x * scaleX,
+            crop.y * scaleY,
+            crop.width * scaleX,
+            crop.height * scaleY,
+            0,
+            0,
+            crop.width,
+            crop.height,
+        );
+
+        canvas.toBlob((blob) => {
+            if (blob) {
+                setCroppedImageBlob(blob);
+            }
+        }, 'image/png');
+
+        const croppedUrl = previewCanvasRef.current.toDataURL('image/png');
+        setCroppedPreviewUrl(croppedUrl);
+    }, []);
+
     return {
         isDragging,
         handleDragActions,
@@ -101,6 +150,11 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadP
         setCroppedImageBlob,
         handleCropConfirmation,
         handleCroppedImage,
+        isCropping,
+        previewCanvasRef,
+        imgRef,
+        canvasPreview,
+        croppedPreviewUrl,
     };
 };
 
