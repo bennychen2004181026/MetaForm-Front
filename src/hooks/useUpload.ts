@@ -12,9 +12,10 @@ interface UseUploadProps {
     onDataChange: (
         field: string,
     ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
+    userId: string | undefined;
 }
 
-const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadProps) => {
+const useUpload = ({ setIsLoading, setUploadProgress, onDataChange, userId }: UseUploadProps) => {
     const showSnackbar = useSnackbarHelper();
     const [isDragging, setIsDragging] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -69,6 +70,7 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange }: UseUploadP
             setUploadProgress,
             onDataChange,
             showSnackbar,
+            userId,
         }).then(() => {
             setCroppedPreviewUrl(null);
         });

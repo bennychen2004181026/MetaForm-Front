@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
 
 import SubmitButton from '@/components/SubmitButton';
 import useForm, { IField } from '@/hooks/useForm';
@@ -12,8 +12,11 @@ import industries from '@/pages/CompanyRegisterPage/industryOptions';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const steps = ['Enter company profile', 'Upload the company logo', 'Review and submit'];
+interface CompanyProfileStepperProps {
+    userId: string | undefined;
+}
 
-const CompanyProfileStepper: React.FC = () => {
+const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId }) => {
     const showSnackbar = useSnackbarHelper();
     const [activeStep, setActiveStep] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -113,6 +116,7 @@ const CompanyProfileStepper: React.FC = () => {
         setIsLoading,
         setUploadProgress,
         onDataChange,
+        userId,
     });
 
     const getStepContent = (stepIndex: number): JSX.Element => {

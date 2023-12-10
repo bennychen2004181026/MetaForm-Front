@@ -11,6 +11,7 @@ interface UploadUtilsProps {
         message: string,
         variant: 'default' | 'error' | 'success' | 'warning' | 'info',
     ) => void;
+    userId: string | undefined;
 }
 const uploadFileToS3 = ({
     file,
@@ -18,13 +19,21 @@ const uploadFileToS3 = ({
     setUploadProgress,
     onDataChange,
     showSnackbar,
+    userId,
 }: UploadUtilsProps): Promise<unknown> => {
     return new Promise((resolve, reject) => {
+        if (!userId) {
+            const errorMessage = 'User ID is required for uploading.';
+            showSnackbar(errorMessage, 'error');
+            setIsLoading(false);
+            reject(new Error(errorMessage));
+            return;
+        }
         setIsLoading(true);
         const s3 = new AWS.S3();
         const params = {
             Bucket: 'metaform-company-logo',
-            Key: `companyLogos/${file.name}`,
+            Key: `companyLogos/${userId}/${file.name}`,
             Body: file,
         };
 
