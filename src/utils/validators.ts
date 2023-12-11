@@ -1,11 +1,14 @@
 import { isEmpty } from 'lodash/';
 
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^_&*]).{8,32}$/;
-
+const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+const ABN_REGEX = /^\d{11}$/;
 interface Validators {
     isRequired: (args: ValidatorArgs) => string;
     validatePassword: (args: ValidatorArgs) => string;
     validateConfirmPassword: (args: ValidatorArgs) => string;
+    validateEmail: (args: ValidatorArgs) => string;
+    validateABN: (args: ValidatorArgs) => string;
 }
 
 interface GetErrorMessagesProps {
@@ -22,7 +25,7 @@ interface ValidatorArgs {
 
 export const validators: Validators = {
     isRequired: ({ value, additionalData }: ValidatorArgs) =>
-        !isEmpty(value) ? '' : `Please enter ${additionalData}!`,
+        !isEmpty(value.trim()) ? '' : `Please enter ${additionalData}!`,
     validatePassword: ({ value }: ValidatorArgs) =>
         PASSWORD_REGEX.test(value) && !isEmpty(value)
             ? ''
@@ -31,6 +34,10 @@ export const validators: Validators = {
         value === formData[additionalData as keyof typeof formData]
             ? ''
             : 'Password and Confirm Password does not match.',
+    validateEmail: ({ value }: ValidatorArgs) =>
+        EMAIL_REGEX.test(value) && !isEmpty(value) ? '' : 'Invalid email format',
+    validateABN: ({ value }: ValidatorArgs) =>
+        ABN_REGEX.test(value) && !isEmpty(value) ? '' : 'Must be 11 digits',
 };
 
 export const getErrorMessage = ({
