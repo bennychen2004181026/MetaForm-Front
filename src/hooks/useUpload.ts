@@ -47,6 +47,7 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange, userId }: Us
                 return;
             }
             setSelectedImage(URL.createObjectURL(file));
+            setCroppedImageBlob(null);
             setIsCropping(true);
         },
         [logoValidators, showSnackbar],
@@ -74,7 +75,7 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange, userId }: Us
         }).then(() => {
             setCroppedPreviewUrl(null);
         });
-    }, [croppedImageBlob, setIsLoading, setUploadProgress, onDataChange, showSnackbar]);
+    }, [croppedImageBlob, userId, setIsLoading, setUploadProgress, onDataChange, showSnackbar]);
 
     const handleDragActions = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
@@ -137,12 +138,6 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange, userId }: Us
             diameter,
             diameter,
         );
-
-        canvas.toBlob((blob) => {
-            if (blob) {
-                setCroppedImageBlob(blob);
-            }
-        }, 'image/webp');
 
         const croppedUrl = previewCanvasRef.current.toDataURL('image/webp');
         setCroppedPreviewUrl(croppedUrl);
