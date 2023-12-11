@@ -1,61 +1,65 @@
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
+import styled from 'styled-components';
 
+import CustomTypography from '@/components/CustomTypography';
+import LabelValuePair from '@/components/LabelValuePair';
+
+const StyledStepperBoxContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+        flex-direction: row;
+    }
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2px;
+    gap: 2rem;
+`;
+
+const StyledLeftBox = styled.div`
+    flex: 1;
+    margin-right: 8px;
+    margin-bottom: 8px;
+`;
+
+const StyledCompanyInfoBox = styled.div`
+    flex: 1;
+    background-color: #f0f0f0;
+    padding: 16px;
+    border: 1px solid #ddd;
+`;
+
+const StyledRightBox = styled.div.attrs<{ hasCompanyLogo: boolean }>((props) => ({
+    hasCompanyLogo: props.hasCompanyLogo,
+}))`
+    flex: 1;
+    width: 80%;
+    height: 180px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${(props) => (props.hasCompanyLogo ? 'transparent' : '#f0f0f0')};
+    max-width: 100%;
+    max-height: 100%;
+`;
 interface StepContentThreeProps {
     fieldsData: Record<string, string>;
 }
 
 const StepContentThree: React.FC<StepContentThreeProps> = ({ fieldsData }) => {
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' },
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                mt: 2,
-            }}
-        >
-            <Box sx={{ flex: 1, mr: { md: 2 }, mb: { xs: 2, md: 0 } }}>
-                <Typography variant="h5" gutterBottom>
-                    Review your Company Profile
-                </Typography>
-                <Box sx={{ mb: 2 }}>
-                    <Typography variant="subtitle1" gutterBottom>
-                        Company Name
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                        {fieldsData.companyName}
-                    </Typography>
-
-                    <Typography variant="subtitle1" gutterBottom>
-                        Industry
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                        {fieldsData.industry}
-                    </Typography>
-
-                    <Typography variant="subtitle1" gutterBottom>
-                        ABN
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                        {fieldsData.abn}
-                    </Typography>
-                </Box>
-            </Box>
-            <Box
-                sx={{
-                    flex: 1,
-                    width: { xs: '80%', md: '50%' },
-                    height: { xs: '180px', md: '300px' },
-                    border: '1px solid black',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: fieldsData.companyLogo ? 'transparent' : '#f0f0f0',
-                }}
-            >
+        <StyledStepperBoxContainer>
+            <StyledLeftBox>
+                <CustomTypography variant="h5" text="Review your Company Profile" />
+            </StyledLeftBox>
+            <StyledCompanyInfoBox>
+                <LabelValuePair label="Company Name" value={fieldsData.companyName} />
+                <LabelValuePair label="Industry" value={fieldsData.industry} />
+                <LabelValuePair label="ABN" value={fieldsData.abn} />
+            </StyledCompanyInfoBox>
+            <StyledRightBox hasCompanyLogo={Boolean(fieldsData.companyLogo)}>
                 {fieldsData.companyLogo ? (
                     <img
                         src={fieldsData.companyLogo}
@@ -63,10 +67,10 @@ const StepContentThree: React.FC<StepContentThreeProps> = ({ fieldsData }) => {
                         style={{ maxWidth: '100%', maxHeight: '100%' }}
                     />
                 ) : (
-                    <Typography variant="body1">No image uploaded</Typography>
+                    <CustomTypography variant="body1" text="No image uploaded" />
                 )}
-            </Box>
-        </Box>
+            </StyledRightBox>
+        </StyledStepperBoxContainer>
     );
 };
 

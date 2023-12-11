@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
+import styled from 'styled-components';
 
 import SubmitButton from '@/components/SubmitButton';
 import useForm, { IField } from '@/hooks/useForm';
@@ -11,6 +12,50 @@ import industries from '@/pages/CompanyRegisterPage/industryOptions';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const steps = ['Enter company profile', 'Upload the company logo', 'Review and submit'];
+
+const StyledButtonsBox = styled(Box)`
+    display: flex;
+    flex-direction: row;
+    padding-top: 16px;
+    justify-content: space-around;
+`;
+
+const BackButton = styled(Button)`
+    background-color: LightSalmon;
+    color: black;
+    &:hover {
+        background-color: gray;
+        color: white;
+    }
+    &:disabled {
+        background-color: lightgray;
+        color: darkgray;
+    }
+    text-transform: none;
+    margin-right: 8px;
+    padding: 6px 12px;
+`;
+
+const ResetButton = styled(Button)`
+    background-color: ${({ theme }) => theme.palette.secondary.main};
+    color: white;
+    &:hover {
+        background-color: ${({ theme }) => theme.palette.secondary.dark};
+    }
+    text-transform: none;
+    padding: 6px 12px;
+    margin-left: 8px;
+`;
+
+const NextButton = styled(Button)`
+    background-color: ${({ theme }) => theme.palette.primary.main};
+    color: white;
+    &:hover {
+        background-color: ${({ theme }) => theme.palette.primary.dark};
+    }
+    text-transform: none;
+    padding: 6px 12px;
+`;
 
 const CompanyProfileStepper: React.FC = () => {
     const showSnackbar = useSnackbarHelper();
@@ -125,47 +170,13 @@ const CompanyProfileStepper: React.FC = () => {
             </Stepper>
             <div>
                 <div>
-                    <Typography sx={{ mt: 2, mb: 1 }}>{getStepContent(activeStep)}</Typography>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            pt: 2,
-                            justifyContent: 'space-around',
-                        }}
-                    >
-                        <Button
-                            sx={{
-                                bgcolor: 'LightSalmon',
-                                color: 'black',
-                                '&:hover': { bgcolor: 'gray', color: 'white' },
-                                '&:disabled': { bgcolor: 'lightgray', color: 'darkgray' },
-                                textTransform: 'none',
-                                marginRight: '8px',
-                                padding: '6px 12px',
-                            }}
-                            color="inherit"
-                            onClick={handleBack}
-                            disabled={activeStep === 0}
-                        >
+                    {getStepContent(activeStep)}
+                    <StyledButtonsBox>
+                        <BackButton onClick={handleBack} disabled={activeStep === 0}>
                             Back
-                        </Button>
+                        </BackButton>
 
-                        {isLastStep && (
-                            <Button
-                                sx={{
-                                    bgcolor: 'secondary.main',
-                                    color: 'white',
-                                    '&:hover': { bgcolor: 'secondary.dark', color: 'white' },
-                                    textTransform: 'none',
-                                    padding: '6px 12px',
-                                    marginLeft: '8px',
-                                }}
-                                onClick={handleReset}
-                            >
-                                Reset
-                            </Button>
-                        )}
+                        {isLastStep && <ResetButton onClick={handleReset}>Reset</ResetButton>}
                         {isLastStep ? (
                             <SubmitButton
                                 isValid={isValid()}
@@ -173,20 +184,9 @@ const CompanyProfileStepper: React.FC = () => {
                                 handleSubmit={handleSubmit}
                             />
                         ) : (
-                            <Button
-                                sx={{
-                                    bgcolor: 'primary.main',
-                                    color: 'white',
-                                    '&:hover': { bgcolor: 'primary.dark', color: 'white' },
-                                    textTransform: 'none',
-                                    padding: '6px 12px',
-                                }}
-                                onClick={handleNext}
-                            >
-                                Next
-                            </Button>
+                            <NextButton onClick={handleNext}>Next</NextButton>
                         )}
-                    </Box>
+                    </StyledButtonsBox>
                 </div>
             </div>
         </Box>

@@ -1,8 +1,21 @@
 import React from 'react';
 
+import styled from 'styled-components';
+
 import ReusableForm from '@/components/ReusableForm';
 import { IField } from '@/hooks/useForm';
 
+const StyledStepperBoxContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+        flex-direction: row;
+    }
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2px;
+    gap: 2rem;
+`;
 interface StepContentOneProps {
     formFields: IField[];
     fieldsData: Record<string, string>;
@@ -27,18 +40,20 @@ const StepContentOne: React.FC<StepContentOneProps> = ({
     showSubmitButton,
 }) => {
     return (
-        <ReusableForm
-            // Does not display companyLogo field
-            excludeFields={['companyLogo']}
-            formFields={formFields}
-            fieldsData={fieldsData}
-            onDataChange={onDataChange}
-            fieldsFocus={fieldsFocus}
-            errors={errors}
-            onFieldsBlur={onFieldsBlur}
-            isValid={isValid}
-            showSubmitButton={showSubmitButton}
-        />
+        <StyledStepperBoxContainer>
+            <ReusableForm
+                // Does not display companyLogo field
+                excludeFields={['companyLogo']}
+                formFields={formFields}
+                fieldsData={fieldsData}
+                onDataChange={onDataChange}
+                fieldsFocus={fieldsFocus}
+                errors={errors}
+                onFieldsBlur={onFieldsBlur}
+                isValid={isValid}
+                showSubmitButton={showSubmitButton}
+            />
+        </StyledStepperBoxContainer>
     );
 };
 
