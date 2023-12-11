@@ -13,6 +13,7 @@ const EmailLinkVerificationPage = React.lazy(() => import('@/pages/EmailLinkVeri
 const RegisterPage = React.lazy(() => import('@/pages/RegisterPage'));
 const CompanyProfileStepperPage = React.lazy(() => import('@/pages/CompanyProfileStepperPage'));
 const ForgotPasswordPage = React.lazy(() => import('@/pages/ForgotPasswordPage'));
+const ResetPasswordPage = React.lazy(() => import('@/pages/ResetPasswordPage'));
 
 const AppRoute = () => (
     <Suspense fallback={<LoadingSpinner />}>
@@ -25,6 +26,7 @@ const AppRoute = () => (
                 <Route path="/company-profile/:userId" element={<CompanyProfileStepperPage />} />
                 <Route path="/registeremail" element={<RegisterEmailPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/registeroption" element={<RegisterOptionPage />} />
                 <Route path="/forms" element={<FormListPage />} />
