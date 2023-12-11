@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CropFreeIcon from '@mui/icons-material/CropFree';

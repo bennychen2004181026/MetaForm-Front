@@ -1,3 +1,5 @@
+import { debounce } from 'lodash';
+
 import AWS from '@/utils/awsConfig';
 
 interface UploadUtilsProps {
@@ -21,6 +23,10 @@ const uploadFileToS3 = ({
     showSnackbar,
     userId,
 }: UploadUtilsProps): Promise<unknown> => {
+    const debouncedProgressUpdate = debounce((progress) => {
+        setUploadProgress(progress);
+    }, 100);
+
     return new Promise((resolve, reject) => {
         if (!userId) {
             const errorMessage = 'User ID is required for uploading.';
@@ -39,7 +45,8 @@ const uploadFileToS3 = ({
 
         s3.upload(params)
             .on('httpUploadProgress', (progress: { loaded: number; total: number }) => {
-                setUploadProgress(Math.round((progress.loaded / progress.total) * 100));
+                const calculatedProgress = Math.round((progress.loaded / progress.total) * 100);
+                debouncedProgressUpdate(calculatedProgress);
             })
             .send((err: Error, data: { Location: string }) => {
                 setIsLoading(false);
