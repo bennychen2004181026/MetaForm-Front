@@ -1,12 +1,58 @@
-// Step2Content.tsx
 import React from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Box, Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
+import styled from 'styled-components';
 
-import AWS from '@/utils/awsConfig';
+import CustomTypography from '@/components/CustomTypography';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
+const StyledStepperBoxContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+        flex-direction: row;
+    }
+    width: 360px;
+    height: 260px;
+    @media (min-width: 600px) {
+        width: 500px;
+        height: 400px;
+    }
+    @media (min-width: 960px) {
+        width: 600px;
+        height: 500px;
+    }
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2px;
+    gap: 2rem;
+`;
+
+const StyledImageContainer = styled.div`
+    border: 2px dashed grey;
+    width: 300px;
+    height: 200px;
+    @media (min-width: 600px) {
+        width: 400px;
+        height: 300px;
+    }
+    @media (min-width: 960px) {
+        width: 500px;
+        height: 400px;
+    }
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+`;
+
+const StyledImage = styled.img`
+    max-width: 100%;
+    max-height: 100%;
+`;
 interface StepContentTwoProps {
     fieldsData: Record<string, string>;
     onDataChange: (
@@ -20,57 +66,27 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
         if (file) {
-            const s3 = new AWS.S3();
-            const params = {
-                Bucket: 'metaform-company-logo',
-                Key: `companyLogos/${file.name}`,
-                Body: file,
-            };
-
-            s3.upload(params, (err: Error, data: { Location: string }) => {
-                if (err) {
-                    showSnackbar(`Error uploading:${err}`, 'error');
-                    return;
-                }
-                showSnackbar('You had successfully upload logo', 'success');
-                showSnackbar(`${data.Location}`, 'success');
-                onDataChange('companyLogo')(data.Location);
-            });
+            showSnackbar('You had successfully upload logo', 'info');
         }
     };
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
-            <Box
-                sx={{
-                    border: '2px dashed grey',
-                    width: { xs: '300px', sm: '400px', md: '500px' },
-                    height: { xs: '200px', sm: '300px', md: '400px' },
-                    marginRight: '20px',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignContent: 'center',
-                    justifyContent: 'center',
-                    flexWrap: 'wrap',
-                }}
-            >
+        <StyledStepperBoxContainer>
+            <StyledImageContainer>
                 {fieldsData.companyLogo ? (
-                    <img
-                        src={fieldsData.companyLogo}
-                        alt="Uploaded Logo"
-                        style={{ maxWidth: '100%', maxHeight: '100%' }}
-                    />
+                    <StyledImage src={fieldsData.companyLogo} alt="Uploaded Logo" />
                 ) : (
-                    <Typography variant="body1">
-                        (Optional) Drag and drop an image here, or click to select a file
-                    </Typography>
+                    <CustomTypography
+                        variant="body1"
+                        text="(Optional) Drag and drop an image here, or click to select a file"
+                    />
                 )}
-            </Box>
+            </StyledImageContainer>
             <Button variant="contained" component="label" startIcon={<CloudUploadIcon />}>
                 Upload
                 <input type="file" hidden onChange={handleFileChange} />
             </Button>
-        </Box>
+        </StyledStepperBoxContainer>
     );
 };
 
