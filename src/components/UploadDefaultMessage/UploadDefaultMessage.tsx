@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { Typography } from '@mui/material';
+import CustomTypography from '@/components/CustomTypography';
 
 const UploadDefaultMessage: React.FC = () => (
-    <Typography variant="body1">
-        (Optional) Drag and drop an image here, or click to select a file
-    </Typography>
+    <CustomTypography
+        variant="body1"
+        text="(Optional) Drag and drop an image here, or click to select a file"
+    />
 );
 
 export default UploadDefaultMessage;

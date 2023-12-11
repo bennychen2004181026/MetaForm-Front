@@ -1,7 +1,31 @@
 import React from 'react';
 
 import { Box } from '@mui/material';
+import styled from 'styled-components';
 
+interface StyledDragDropBoxProps {
+    isDragging: boolean;
+}
+
+const StyledDragDropBox = styled(Box)<StyledDragDropBoxProps>`
+    border: ${(props) => (props.isDragging ? '2px dashed blue' : '2px dashed grey')};
+    width: 300px;
+    height: 200px;
+    @media (min-width: 600px) {
+        width: 400px;
+        height: 300px;
+    }
+    @media (min-width: 960px) {
+        width: 500px;
+        height: 400px;
+    }
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+`;
 interface DragDropBoxProps {
     isDragging: boolean;
     onDragEnter: (event: React.DragEvent<HTMLDivElement>) => void;
@@ -19,26 +43,15 @@ const DragDropBox: React.FC<DragDropBoxProps> = ({
     onDrop,
     children,
 }) => (
-    <Box
+    <StyledDragDropBox
+        isDragging={isDragging}
         onDragEnter={onDragEnter}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
-        sx={{
-            border: isDragging ? '2px dashed blue' : '2px dashed grey',
-            position: 'relative',
-            width: { xs: '300px', sm: '400px', md: '500px' },
-            height: { xs: '200px', sm: '300px', md: '400px' },
-            marginRight: '20px',
-            display: 'flex',
-            flexDirection: 'row',
-            alignContent: 'center',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-        }}
     >
         {children}
-    </Box>
+    </StyledDragDropBox>
 );
 
 export default DragDropBox;
