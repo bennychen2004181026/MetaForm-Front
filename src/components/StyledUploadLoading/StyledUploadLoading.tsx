@@ -2,6 +2,9 @@ import React from 'react';
 
 import { Box, CircularProgress, circularProgressClasses, useTheme } from '@mui/material';
 
+const lightModeColor = '#1a90ff';
+const darkModeColor = '#308fe8';
+
 const StyledUploadLoading: React.FC = () => {
     const theme = useTheme();
     return (
@@ -18,7 +21,7 @@ const StyledUploadLoading: React.FC = () => {
                 variant="indeterminate"
                 disableShrink
                 sx={{
-                    color: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
+                    color: theme.palette.mode === 'light' ? lightModeColor : darkModeColor,
                     animationDuration: '550ms',
                     position: 'absolute',
                     left: 0,
