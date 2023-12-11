@@ -36,7 +36,7 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange, userId }: Us
             'image/x-icon',
             'image/vnd.microsoft.icon',
         ]),
-        uploadFileValidators.logoDimensionValidator(100, 100),
+        uploadFileValidators.logoDimensionValidator(100, 100, 600, 600),
     ];
 
     const handleFileSelection = useCallback(

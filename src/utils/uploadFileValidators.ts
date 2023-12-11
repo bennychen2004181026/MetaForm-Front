@@ -37,7 +37,12 @@ export const logoTypeValidator = (validTypes: string[]): Validator => {
     };
 };
 
-export const logoDimensionValidator = (minWidth: number, minHeight: number): Validator => {
+export const logoDimensionValidator = (
+    minWidth: number,
+    minHeight: number,
+    maxWidth: number,
+    maxHeight: number,
+): Validator => {
     return async (file) => {
         const img = new Image();
         const objectURL = URL.createObjectURL(file);
@@ -52,6 +57,11 @@ export const logoDimensionValidator = (minWidth: number, minHeight: number): Val
             if (img.width < minWidth || img.height < minHeight) {
                 return `Image dimensions must be at least ${minWidth}x${minHeight} pixels.`;
             }
+
+            if (img.width > maxWidth || img.height > maxHeight) {
+                return `Image dimensions must not exceed ${maxWidth}x${maxHeight} pixels.`;
+            }
+
             return null;
         } catch (error) {
             return 'There was an error loading the image for dimension validation.';
