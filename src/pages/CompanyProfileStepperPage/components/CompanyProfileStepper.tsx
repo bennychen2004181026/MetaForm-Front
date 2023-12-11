@@ -37,10 +37,10 @@ const BackButton = styled(Button)`
 `;
 
 const ResetButton = styled(Button)`
-    background-color: '#1976d2';
+    background-color: #1976d2;
     color: white;
     &:hover {
-        background-color: #115293;
+        background-color: #1565c0;
         color: white;
     }
     text-transform: none;
@@ -49,10 +49,10 @@ const ResetButton = styled(Button)`
 `;
 
 const NextButton = styled(Button)`
-    background-color: '#1976d2';
+    background-color: #1976d2;
     color: white;
     &:hover {
-        background-color: #115293;
+        background-color: #1565c0;
         color: white;
     }
     text-transform: none;
