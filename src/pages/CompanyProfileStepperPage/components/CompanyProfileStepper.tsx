@@ -37,10 +37,11 @@ const BackButton = styled(Button)`
 `;
 
 const ResetButton = styled(Button)`
-    background-color: ${({ theme }) => theme.palette.secondary.main};
+    background-color: '#1976d2';
     color: white;
     &:hover {
-        background-color: ${({ theme }) => theme.palette.secondary.dark};
+        background-color: #115293;
+        color: white;
     }
     text-transform: none;
     padding: 6px 12px;
@@ -48,10 +49,11 @@ const ResetButton = styled(Button)`
 `;
 
 const NextButton = styled(Button)`
-    background-color: ${({ theme }) => theme.palette.primary.main};
+    background-color: '#1976d2';
     color: white;
     &:hover {
-        background-color: ${({ theme }) => theme.palette.primary.dark};
+        background-color: #115293;
+        color: white;
     }
     text-transform: none;
     padding: 6px 12px;
