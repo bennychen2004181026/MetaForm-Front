@@ -6,17 +6,12 @@ import UploadDefaultMessage from '@/components/UploadDefaultMessage';
 
 interface ContentRendererProps {
     isLoading: boolean;
-    uploadProgress: number;
     companyLogo: string;
 }
 
-const ContentRenderer: React.FC<ContentRendererProps> = ({
-    isLoading,
-    uploadProgress,
-    companyLogo,
-}) => {
+const ContentRenderer: React.FC<ContentRendererProps> = ({ isLoading, companyLogo }) => {
     if (isLoading) {
-        return <StyledUploadLoading uploadProgress={uploadProgress} />;
+        return <StyledUploadLoading />;
     }
     if (companyLogo) {
         return <ImagePreview src={companyLogo} />;

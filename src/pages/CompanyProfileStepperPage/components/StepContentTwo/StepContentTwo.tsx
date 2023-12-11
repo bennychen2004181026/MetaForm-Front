@@ -1,13 +1,35 @@
 import React, { useState } from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
+import styled from 'styled-components';
 
 import DragDropBox from '@/components/DragDropBox/DragDropBox';
 import UploadBoxContentRenderer from '@/components/UploadBoxContentRenderer';
 import useUpload from '@/hooks/useUpload';
-import AWS from '@/utils/awsConfig';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
+
+const StyledStepperBoxContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+        flex-direction: row;
+    }
+    width: 360px;
+    height: 260px;
+    @media (min-width: 600px) {
+        width: 500px;
+        height: 400px;
+    }
+    @media (min-width: 960px) {
+        width: 600px;
+        height: 500px;
+    }
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2px;
+    gap: 2rem;
+`;
 
 interface StepContentTwoProps {
     fieldsData: Record<string, string>;
@@ -18,31 +40,12 @@ interface StepContentTwoProps {
 
 const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChange }) => {
     const showSnackbar = useSnackbarHelper();
-    const [uploadProgress, setUploadProgress] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
     const uploadFileToS3 = (file: File) => {
         setIsLoading(true);
-        const s3 = new AWS.S3();
-        const params = {
-            Bucket: 'metaform-company-logo',
-            Key: `companyLogos/${file.name}`,
-            Body: file,
-        };
-
-        s3.upload(params)
-            .on('httpUploadProgress', (progress: { loaded: number; total: number }) => {
-                setUploadProgress(Math.round((progress.loaded / progress.total) * 100));
-            })
-            .send((err: Error, data: { Location: string }) => {
-                setIsLoading(false);
-                if (err) {
-                    showSnackbar(`Error uploading: ${err}`, 'error');
-                    return;
-                }
-                onDataChange('companyLogo')(data.Location);
-                showSnackbar('You had successfully uploaded the logo', 'success');
-            });
+        showSnackbar(`Upload Request logic with ${file}`, 'info');
+        setIsLoading(false);
     };
     const {
         isDragging,
@@ -54,7 +57,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
     } = useUpload(uploadFileToS3);
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
+        <StyledStepperBoxContainer>
             <DragDropBox
                 isDragging={isDragging}
                 onDragEnter={handleDragEnter}
@@ -64,7 +67,6 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
             >
                 <UploadBoxContentRenderer
                     isLoading={isLoading}
-                    uploadProgress={uploadProgress}
                     companyLogo={fieldsData.companyLogo}
                 />
             </DragDropBox>
@@ -72,7 +74,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
                 Upload
                 <input type="file" hidden onChange={handleUploadButton} />
             </Button>
-        </Box>
+        </StyledStepperBoxContainer>
     );
 };
 
