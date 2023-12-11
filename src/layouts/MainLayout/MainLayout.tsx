@@ -6,6 +6,7 @@ const Container = styled.div`
     padding: 20px;
     margin: 0 auto;
     max-width: 1200px;
+    width: 100%;
     min-height: 100%;
     background-color: white;
     box-sizing: border-box;

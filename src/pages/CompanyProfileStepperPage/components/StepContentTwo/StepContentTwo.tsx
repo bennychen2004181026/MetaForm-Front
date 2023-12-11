@@ -10,6 +10,16 @@ const StyledStepperBoxContainer = styled.div`
     @media (min-width: 768px) {
         flex-direction: row;
     }
+    width: 360px;
+    height: 260px;
+    @media (min-width: 600px) {
+        width: 500px;
+        height: 400px;
+    }
+    @media (min-width: 960px) {
+        width: 600px;
+        height: 500px;
+    }
     justify-content: space-between;
     align-items: center;
     margin-top: 2px;
