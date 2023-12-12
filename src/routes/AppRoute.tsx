@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import CompanyRegisterPage from '@/pages/CompanyRegisterPage';
-import ForgetPasswordPage from '@/pages/ForgetPasswordPage';
 import FormListPage from '@/pages/FormListPage';
 import LoginPage from '@/pages/LoginPage';
 import MainPage from '@/pages/MainPage';
@@ -14,6 +13,8 @@ import RegisterOptionPage from '@/pages/RegisterOptionPage';
 const EmailLinkVerificationPage = React.lazy(() => import('@/pages/EmailLinkVerificationPage'));
 const RegisterPage = React.lazy(() => import('@/pages/RegisterPage'));
 const CompanyProfileStepperPage = React.lazy(() => import('@/pages/CompanyProfileStepperPage'));
+const ForgotPasswordPage = React.lazy(() => import('@/pages/ForgotPasswordPage'));
+const ResetPasswordPage = React.lazy(() => import('@/pages/ResetPasswordPage'));
 
 const AppRoute = () => (
     <Suspense fallback={<LoadingSpinner />}>
@@ -26,7 +27,8 @@ const AppRoute = () => (
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/company-profile/:userId" element={<CompanyProfileStepperPage />} />
                 <Route path="/registeremail" element={<RegisterEmailPage />} />
-                <Route path="/forgetpassword" element={<ForgetPasswordPage />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/registeroption" element={<RegisterOptionPage />} />
                 <Route path="/forms" element={<FormListPage />} />
