@@ -24,33 +24,25 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange, userId }: Us
     const previewCanvasRef = useRef<HTMLCanvasElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
     const [croppedPreviewUrl, setCroppedPreviewUrl] = useState<string | null>(null);
-
-    const logoValidators = [
-        uploadFileValidators.logoSizeValidator(128 * 1024),
-        uploadFileValidators.logoTypeValidator([
-            'image/jpeg',
-            'image/png',
-            'image/webp',
-            'image/svg+xml',
-            'image/bmp',
-            'image/x-icon',
-            'image/vnd.microsoft.icon',
-        ]),
-        uploadFileValidators.logoDimensionValidator(100, 100, 600, 600),
-    ];
+    const [isFileValid, setIsFileValid] = useState(true);
 
     const handleFileSelection = useCallback(
         async (file: File) => {
-            const validationResult = await uploadFileValidators.validateFile(file, logoValidators);
+            const validationResult = await uploadFileValidators.validateFile(
+                file,
+                uploadFileValidators.logoValidators,
+            );
             if (typeof validationResult === 'string') {
+                setIsFileValid(false);
                 showSnackbar(`Validation Error: ${validationResult}`, 'error');
                 return;
             }
             setSelectedImage(URL.createObjectURL(file));
+            setIsFileValid(true);
             setCroppedImageBlob(null);
             setIsCropping(true);
         },
-        [logoValidators, showSnackbar],
+        [uploadFileValidators.logoValidators, showSnackbar],
     );
 
     const handleCropConfirmation = useCallback((croppedBlob: Blob) => {
@@ -77,20 +69,34 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange, userId }: Us
         });
     }, [croppedImageBlob, userId, setIsLoading, setUploadProgress, onDataChange, showSnackbar]);
 
-    const handleDragActions = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+    const handleDragEnter = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-        setIsDragging(event.type === 'dragenter');
+        setIsFileValid(uploadFileValidators.dragValidation(event.dataTransfer.items));
+        setIsDragging(true);
+    }, []);
+
+    const handleDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        setIsFileValid(uploadFileValidators.dragValidation(event.dataTransfer.items));
+        setIsDragging(true);
+    }, []);
+
+    const handleDragLeave = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        setIsDragging(false);
+        setIsFileValid(true);
     }, []);
 
     const handleDrop = useCallback(
         async (event: React.DragEvent<HTMLDivElement>) => {
-            handleDragActions(event);
+            event.preventDefault();
+            setIsDragging(false);
             const file = event.dataTransfer.files[0];
             if (file) {
                 await handleFileSelection(file);
             }
         },
-        [handleDragActions, handleFileSelection],
+        [handleDragEnter, handleDragOver, handleDragLeave, handleFileSelection],
     );
 
     const handleUploadButton = useCallback(
@@ -145,8 +151,10 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange, userId }: Us
 
     return {
         isDragging,
-        handleDragActions,
+        handleDragEnter,
+        handleDragOver,
         handleDrop,
+        handleDragLeave,
         handleUploadButton,
         selectedImage,
         setSelectedImage,
@@ -159,6 +167,7 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange, userId }: Us
         imgRef,
         canvasPreview,
         croppedPreviewUrl,
+        isFileValid,
     };
 };
 

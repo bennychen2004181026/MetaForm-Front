@@ -18,7 +18,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({
     cropComponent,
 }) => {
     if (isLoading) {
-        return <StyledUploadLoading uploadProgress={uploadProgress} />;
+        return <StyledUploadLoading />;
     }
     if (cropComponent) {
         return cropComponent;

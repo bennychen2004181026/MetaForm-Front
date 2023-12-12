@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
+import styled from 'styled-components';
 
 import SubmitButton from '@/components/SubmitButton';
 import useForm, { IField } from '@/hooks/useForm';
@@ -12,6 +13,53 @@ import industries from '@/pages/CompanyRegisterPage/industryOptions';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const steps = ['Enter company profile', 'Upload the company logo', 'Review and submit'];
+
+const StyledButtonsBox = styled(Box)`
+    display: flex;
+    flex-direction: row;
+    padding-top: 16px;
+    justify-content: space-around;
+`;
+
+const BackButton = styled(Button)`
+    background-color: LightSalmon;
+    color: black;
+    &:hover {
+        background-color: gray;
+        color: white;
+    }
+    &:disabled {
+        background-color: lightgray;
+        color: darkgray;
+    }
+    text-transform: none;
+    margin-right: 8px;
+    padding: 6px 12px;
+`;
+
+const ResetButton = styled(Button)`
+    background-color: #1976d2;
+    color: white;
+    &:hover {
+        background-color: #1565c0;
+        color: white;
+    }
+    text-transform: none;
+    padding: 6px 12px;
+    margin-left: 8px;
+`;
+
+const NextButton = styled(Button)`
+    background-color: #1976d2;
+    color: white;
+    &:hover {
+        background-color: #1565c0;
+        color: white;
+    }
+    text-transform: none;
+    padding: 6px 12px;
+`;
+
 interface CompanyProfileStepperProps {
     userId: string | undefined;
 }
@@ -98,8 +146,10 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
 
     const {
         isDragging,
-        handleDragActions,
+        handleDragEnter,
+        handleDragOver,
         handleDrop,
+        handleDragLeave,
         handleUploadButton,
         selectedImage,
         setSelectedImage,
@@ -112,6 +162,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         imgRef,
         canvasPreview,
         croppedPreviewUrl,
+        isFileValid,
     } = useUpload({
         setIsLoading,
         setUploadProgress,
@@ -139,9 +190,9 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
                     <StepContentTwo
                         fieldsData={fieldsData}
                         isDragging={isDragging}
-                        handleDragEnter={handleDragActions}
-                        handleDragOver={handleDragActions}
-                        handleDragLeave={handleDragActions}
+                        handleDragEnter={handleDragEnter}
+                        handleDragOver={handleDragOver}
+                        handleDragLeave={handleDragLeave}
                         handleDrop={handleDrop}
                         handleUploadButton={handleUploadButton}
                         isLoading={isLoading}
@@ -157,6 +208,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
                         imgRef={imgRef}
                         canvasPreview={canvasPreview}
                         croppedPreviewUrl={croppedPreviewUrl}
+                        isFileValid={isFileValid}
                     />
                 );
             case 2:
@@ -178,46 +230,12 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
             <div>
                 <div>
                     {getStepContent(activeStep)}
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            pt: 2,
-                            justifyContent: 'space-around',
-                        }}
-                    >
-                        <Button
-                            sx={{
-                                bgcolor: 'LightSalmon',
-                                color: 'black',
-                                '&:hover': { bgcolor: 'gray', color: 'white' },
-                                '&:disabled': { bgcolor: 'lightgray', color: 'darkgray' },
-                                textTransform: 'none',
-                                marginRight: '8px',
-                                padding: '6px 12px',
-                            }}
-                            color="inherit"
-                            onClick={handleBack}
-                            disabled={activeStep === 0}
-                        >
+                    <StyledButtonsBox>
+                        <BackButton onClick={handleBack} disabled={activeStep === 0}>
                             Back
-                        </Button>
+                        </BackButton>
 
-                        {isLastStep && (
-                            <Button
-                                sx={{
-                                    bgcolor: 'secondary.main',
-                                    color: 'white',
-                                    '&:hover': { bgcolor: 'secondary.dark', color: 'white' },
-                                    textTransform: 'none',
-                                    padding: '6px 12px',
-                                    marginLeft: '8px',
-                                }}
-                                onClick={handleReset}
-                            >
-                                Reset
-                            </Button>
-                        )}
+                        {isLastStep && <ResetButton onClick={handleReset}>Reset</ResetButton>}
                         {isLastStep ? (
                             <SubmitButton
                                 isValid={isValid()}
@@ -225,20 +243,9 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
                                 handleSubmit={handleSubmit}
                             />
                         ) : (
-                            <Button
-                                sx={{
-                                    bgcolor: 'primary.main',
-                                    color: 'white',
-                                    '&:hover': { bgcolor: 'primary.dark', color: 'white' },
-                                    textTransform: 'none',
-                                    padding: '6px 12px',
-                                }}
-                                onClick={handleNext}
-                            >
-                                Next
-                            </Button>
+                            <NextButton onClick={handleNext}>Next</NextButton>
                         )}
-                    </Box>
+                    </StyledButtonsBox>
                 </div>
             </div>
         </Box>

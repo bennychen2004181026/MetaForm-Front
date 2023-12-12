@@ -1,9 +1,38 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
+import styled from 'styled-components';
+
+const getBorderColor = (isDragging: boolean, isFileValid: boolean) => {
+    if (!isFileValid) return '2px dashed red';
+    if (isDragging) return '2px dashed blue';
+    return '2px dashed grey';
+};
+
+const StyledBox = styled(Box)`
+    position: relative;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    @media (min-width: 600px) {
+        width: 400px;
+        height: 300px;
+    }
+
+    @media (min-width: 960px) {
+        width: 400px;
+        height: 380px;
+    }
+`;
 
 interface DragDropBoxProps {
     isDragging: boolean;
+    isFileValid: boolean;
     onDragEnter: (event: React.DragEvent<HTMLDivElement>) => void;
     onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
     onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
@@ -13,6 +42,7 @@ interface DragDropBoxProps {
 
 const DragDropBox: React.FC<DragDropBoxProps> = ({
     isDragging,
+    isFileValid,
     onDragEnter,
     onDragOver,
     onDragLeave,
@@ -25,19 +55,10 @@ const DragDropBox: React.FC<DragDropBoxProps> = ({
         onDragLeave={onDragLeave}
         onDrop={onDrop}
         sx={{
-            border: isDragging ? '2px dashed blue' : '2px dashed grey',
-            position: 'relative',
-            width: { xs: '300px', sm: '400px', md: '500px' },
-            height: { xs: '200px', sm: '300px', md: '400px' },
-            marginRight: '20px',
-            display: 'flex',
-            flexDirection: 'row',
-            alignContent: 'center',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
+            border: getBorderColor(isDragging, isFileValid),
         }}
     >
-        {children}
+        <StyledBox>{children}</StyledBox>
     </Box>
 );
 

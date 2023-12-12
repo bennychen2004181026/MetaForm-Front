@@ -2,13 +2,45 @@ import React from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CropFreeIcon from '@mui/icons-material/CropFree';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { PixelCrop } from 'react-image-crop';
+import styled from 'styled-components';
 
 import CropComponent from '@/components/CropComponent';
 import DragDropBox from '@/components/DragDropBox/DragDropBox';
+import StartIconButton from '@/components/StartIconButton';
 import UploadBoxContentRenderer from '@/components/UploadBoxContentRenderer';
 
+const StyledStepperBoxContainer = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+        flex-direction: row;
+    }
+    width: 360px;
+    height: 260px;
+    @media (min-width: 600px) {
+        width: 500px;
+        height: 400px;
+    }
+    @media (min-width: 960px) {
+        width: 600px;
+        height: 500px;
+    }
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1px;
+    gap: 1rem;
+`;
+
+const IconButtonBox = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    height: 20vh;
+`;
 interface StepContentTwoProps {
     fieldsData: Record<string, string>;
     isDragging: boolean;
@@ -30,6 +62,7 @@ interface StepContentTwoProps {
     imgRef: React.RefObject<HTMLImageElement>;
     canvasPreview: (crop: PixelCrop) => void;
     croppedPreviewUrl: string | null;
+    isFileValid: boolean;
 }
 
 const StepContentTwo: React.FC<StepContentTwoProps> = ({
@@ -53,6 +86,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
     imgRef,
     canvasPreview,
     croppedPreviewUrl,
+    isFileValid,
 }) => {
     let cropComponent = null;
     if (selectedImage && isCropping) {
@@ -69,21 +103,14 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
     }
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: { xs: 'column', sm: 'column', md: 'row' },
-                alignItems: 'center',
-                gap: 0.1,
-            }}
-        >
+        <StyledStepperBoxContainer>
             <DragDropBox
                 isDragging={isDragging}
                 onDragEnter={handleDragEnter}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
+                isFileValid={isFileValid}
             >
                 <UploadBoxContentRenderer
                     isLoading={isLoading}
@@ -92,32 +119,21 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
                     cropComponent={cropComponent}
                 />
             </DragDropBox>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignContent: 'center',
-                    justifyContent: 'space-around',
-                    flexWrap: 'wrap',
-                    height: '20vh',
-                }}
-            >
-                <Button variant="contained" component="label" startIcon={<CropFreeIcon />}>
-                    Upload and Crop
+            <IconButtonBox>
+                <StartIconButton text="Crop" startIcon={<CropFreeIcon />} variant="contained">
                     <input type="file" hidden onChange={handleUploadButton} />
-                </Button>
+                </StartIconButton>
 
                 {croppedImageBlob && (
-                    <Button
-                        variant="contained"
+                    <StartIconButton
+                        text="Upload"
                         onClick={handleCroppedImage}
                         startIcon={<CloudUploadIcon />}
-                    >
-                        Upload to S3
-                    </Button>
+                        variant="contained"
+                    />
                 )}
-            </Box>
-        </Box>
+            </IconButtonBox>
+        </StyledStepperBoxContainer>
     );
 };
 

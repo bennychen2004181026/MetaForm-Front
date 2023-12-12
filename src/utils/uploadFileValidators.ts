@@ -2,6 +2,16 @@ interface Validator {
     (file: File): Promise<string | null>;
 }
 
+const validTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'image/svg+xml',
+    'image/bmp',
+    'image/x-icon',
+    'image/vnd.microsoft.icon',
+];
+
 const mimeToExtension = (mime: string): string => {
     const mimeMap: { [key: string]: string } = {
         'image/jpeg': 'JPEG/JFIF',
@@ -27,10 +37,10 @@ export const logoSizeValidator = (maxSize: number): Validator => {
     };
 };
 
-export const logoTypeValidator = (validTypes: string[]): Validator => {
+export const logoTypeValidator = (Types: string[]): Validator => {
     return async (file) => {
-        if (!validTypes.includes(file.type)) {
-            const readableTypes = validTypes.map(mimeToExtension).join(', ');
+        if (!Types.includes(file.type)) {
+            const readableTypes = Types.map(mimeToExtension).join(', ');
             return `Invalid file type. Allowed types: ${readableTypes}.`;
         }
         return null;
@@ -87,9 +97,25 @@ export const validateFile = async (file: File, validators: Validator[]): Promise
     return errorMessage || file;
 };
 
+export const logoValidators = [
+    logoSizeValidator(128 * 1024),
+    logoTypeValidator(validTypes),
+    logoDimensionValidator(100, 100, 600, 600),
+];
+
+const dragValidation = (items: DataTransferItemList): boolean => {
+    if (!items.length || items[0].kind !== 'file' || !validTypes.includes(items[0].type)) {
+        return false;
+    }
+
+    return true;
+};
+
 export default {
+    logoValidators,
+    validateFile,
     logoSizeValidator,
     logoTypeValidator,
     logoDimensionValidator,
-    validateFile,
+    dragValidation,
 };

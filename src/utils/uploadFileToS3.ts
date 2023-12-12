@@ -1,7 +1,5 @@
 import { debounce } from 'lodash';
 
-import AWS from '@/utils/awsConfig';
-
 interface UploadUtilsProps {
     file: File;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,30 +33,7 @@ const uploadFileToS3 = ({
             reject(new Error(errorMessage));
             return;
         }
-        setIsLoading(true);
-        const s3 = new AWS.S3();
-        const params = {
-            Bucket: 'metaform-company-logo',
-            Key: `companyLogos/${userId}/${file.name}`,
-            Body: file,
-        };
-
-        s3.upload(params)
-            .on('httpUploadProgress', (progress: { loaded: number; total: number }) => {
-                const calculatedProgress = Math.round((progress.loaded / progress.total) * 100);
-                debouncedProgressUpdate(calculatedProgress);
-            })
-            .send((err: Error, data: { Location: string }) => {
-                setIsLoading(false);
-                if (err) {
-                    showSnackbar(`Error uploading: ${err}`, 'error');
-                    reject(err);
-                } else {
-                    onDataChange('companyLogo')(data.Location);
-                    showSnackbar('You had successfully uploaded the logo', 'success');
-                    resolve(data);
-                }
-            });
+        showSnackbar('Send request', 'info');
     });
 };
 

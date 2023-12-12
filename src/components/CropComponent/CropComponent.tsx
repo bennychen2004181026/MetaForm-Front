@@ -1,9 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Box, Button } from '@mui/material';
+import CropIcon from '@mui/icons-material/Crop';
+import { Box } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import ReactCrop, { Crop, PixelCrop, convertToPixelCrop } from 'react-image-crop';
+import styled from 'styled-components';
 
 import 'react-image-crop/dist/ReactCrop.css';
+import StartIconButton from '@/components/StartIconButton';
 import centerAspectCrop from '@/utils/centerAspectCrop';
 
 export interface CropComponentProps {
@@ -13,6 +17,38 @@ export interface CropComponentProps {
     previewCanvasRef: React.RefObject<HTMLCanvasElement>;
     onCrop: (crop: PixelCrop) => void;
 }
+
+const StyledCropImageBox = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    ${({ theme }) => theme.breakpoints.up('xs')} {
+        width: 300px;
+        height: 200px;
+    }
+
+    ${({ theme }) => theme.breakpoints.up('sm')} {
+        width: 400px;
+        height: 300px;
+    }
+
+    ${({ theme }) => theme.breakpoints.up('md')} {
+        width: 500px;
+        height: 400px;
+    }
+`;
+
+const StyledCropToolBar = styled(Box)`
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+`;
 
 const CropComponent: React.FC<CropComponentProps> = ({
     src,
@@ -25,6 +61,7 @@ const CropComponent: React.FC<CropComponentProps> = ({
     const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
     const boxRef = useRef<HTMLDivElement>(null);
     const [maxDimensions, setMaxDimensions] = useState({ maxWidth: 0, maxHeight: 0 });
+    const theme = useTheme();
 
     const onImageLoad = useCallback(() => {
         if (imgRef.current) {
@@ -60,19 +97,7 @@ const CropComponent: React.FC<CropComponentProps> = ({
     }, [previewCanvasRef, onImageCropped]);
 
     return (
-        <Box
-            ref={boxRef}
-            sx={{
-                width: { xs: '300px', sm: '400px', md: '500px' },
-                height: { xs: '200px', sm: '300px', md: '400px' },
-                display: 'flex',
-                flexDirection: 'column',
-                alignContent: 'center',
-                justifyContent: 'space-evenly',
-                alignItems: 'center',
-                flexWrap: 'nowrap',
-            }}
-        >
+        <StyledCropImageBox ref={boxRef} theme={theme}>
             {src && (
                 <ReactCrop
                     crop={crop}
@@ -94,20 +119,15 @@ const CropComponent: React.FC<CropComponentProps> = ({
             )}
 
             <canvas ref={previewCanvasRef} style={{ display: 'none' }} />
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignContent: 'center',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexWrap: 'nowrap',
-                }}
-            >
-                <Button variant="contained" onClick={onCropComplete}>
-                    Confirm Crop
-                </Button>
-            </Box>
-        </Box>
+            <StyledCropToolBar>
+                <StartIconButton
+                    text="Confirm"
+                    onClick={onCropComplete}
+                    startIcon={<CropIcon />}
+                    variant="contained"
+                />
+            </StyledCropToolBar>
+        </StyledCropImageBox>
     );
 };
 
