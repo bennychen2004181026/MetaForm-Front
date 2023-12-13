@@ -31,7 +31,7 @@ interface StepContentOneProps {
     fieldsData: Record<string, string>;
     onDataChange: (
         field: string,
-    ) => React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
     fieldsFocus: Record<string, boolean>;
     errors: Record<string, string>;
     onFieldsBlur: (field: string) => () => void;
