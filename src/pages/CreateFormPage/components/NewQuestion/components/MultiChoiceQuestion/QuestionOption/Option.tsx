@@ -13,8 +13,9 @@ const Option = () => {
                 required
                 id="standard-required"
                 defaultValue="Option"
-                variant="outlined"
+                variant="standard"
                 margin="normal"
+                fullWidth
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">

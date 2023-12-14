@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { TextField } from '@mui/material';
 import styled from 'styled-components';
 
-import DropdownSelector from './components/DropdownSelector';
 import industries from './industryOptions';
 import useForm from '@/hooks/useForm';
 import Title from '@/layouts/MainLayout/Title';
+import DropdownSelector from '@/pages/CompanyRegisterPage/components/DropdownSelector';
 import validator from '@/utils/CompanyRegisterFormValidators';
 
 interface CustomFieldProps {

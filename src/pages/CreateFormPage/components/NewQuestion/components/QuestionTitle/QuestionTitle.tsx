@@ -4,16 +4,16 @@ import TextField from '@mui/material/TextField';
 
 const QuestionTitle = () => {
     return (
-        <div style={{ marginBottom: 10 }}>
-            <TextField
-                required
-                id="standard-required"
-                defaultValue="Question"
-                variant="filled"
-                margin="normal"
-                inputProps={{ style: { fontSize: 28 } }}
-            />
-        </div>
+        <TextField
+            required
+            id="standard-required"
+            defaultValue="Untitled Question (Type Your Question Title)"
+            variant="outlined"
+            margin="normal"
+            type="text"
+            maxRows={1}
+            fullWidth
+        />
     );
 };
 

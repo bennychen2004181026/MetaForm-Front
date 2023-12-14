@@ -1,18 +1,9 @@
 import React from 'react';
 
-import MuitiChoiceQuestion from './components/NewQuestion/components/MultiChoiceQuestion';
-import FormTitleField from '@/components/EditForm/FormTitleField';
-import MainLayout from '@/layouts/MainLayout';
+import CreateForm from '@/pages/CreateFormPage/components/CreateForm';
 
 const CreateFormPage = () => {
-    return (
-        <div>
-            <FormTitleField />
-            <MainLayout>
-                <MuitiChoiceQuestion />
-            </MainLayout>
-        </div>
-    );
+    return <CreateForm />;
 };
 
 export default CreateFormPage;

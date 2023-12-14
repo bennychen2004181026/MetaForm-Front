@@ -1,11 +1,11 @@
 import React from 'react';
 
-import TextField from '@mui/material/TextField';
+import { TextField } from '@mui/material';
 
 const EditFormTitle = () => {
     return (
         <>
-            <div style={{ marginBottom: 10 }}>
+            <div>
                 <TextField
                     required
                     id="standard-required"
@@ -15,7 +15,6 @@ const EditFormTitle = () => {
                     inputProps={{ style: { fontSize: 40 } }}
                 />
             </div>
-
             <div>
                 <TextField
                     required
