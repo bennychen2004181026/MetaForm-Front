@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import styled from 'styled-components';
+
+import DragDropBox from '@/components/DragDropBox/DragDropBox';
+import UploadBoxContentRenderer from '@/components/UploadBoxContentRenderer';
+import useUpload from '@/hooks/useUpload';
+import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const StyledStepperBoxContainer = styled.div`
     display: flex;
@@ -26,63 +31,48 @@ const StyledStepperBoxContainer = styled.div`
     gap: 2rem;
 `;
 
-const StyledImageContainer = styled.div`
-    border: 2px dashed grey;
-    width: 300px;
-    height: 200px;
-    @media (min-width: 600px) {
-        width: 400px;
-        height: 300px;
-    }
-    @media (min-width: 960px) {
-        width: 500px;
-        height: 400px;
-    }
-    margin-right: 20px;
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    justify-content: center;
-    flex-wrap: wrap;
-`;
-
-const StyledImage = styled.img`
-    max-width: 100%;
-    max-height: 100%;
-`;
 interface StepContentTwoProps {
     fieldsData: Record<string, string>;
     onDataChange: (
         field: string,
-    ) => React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
 }
 
 const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChange }) => {
-    // For local image preview
-    const [localImage, setLocalImage] = useState<string | null>(null);
+    const showSnackbar = useSnackbarHelper();
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files ? event.target.files[0] : null;
-        if (file) {
-            // Set local image for preview
-            setLocalImage(URL.createObjectURL(file));
-        }
+    const uploadFileToS3 = (file: File) => {
+        setIsLoading(true);
+        showSnackbar(`Upload Request logic with ${file}`, 'info');
+        setIsLoading(false);
     };
+    const {
+        isDragging,
+        handleDragEnter,
+        handleDragOver,
+        handleDragLeave,
+        handleDrop,
+        handleUploadButton,
+    } = useUpload(uploadFileToS3);
 
     return (
         <StyledStepperBoxContainer>
-            <StyledImageContainer>
-                {localImage ? (
-                    <StyledImage src={localImage} alt="Uploaded Logo" />
-                ) : (
-                    <Typography variant="body1">
-                        (Optional) Drag and drop an image here, or click to select a file
-                    </Typography>
-                )}
-            </StyledImageContainer>
+            <DragDropBox
+                isDragging={isDragging}
+                onDragEnter={handleDragEnter}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+            >
+                <UploadBoxContentRenderer
+                    isLoading={isLoading}
+                    companyLogo={fieldsData.companyLogo}
+                />
+            </DragDropBox>
             <Button variant="contained" component="label" startIcon={<CloudUploadIcon />}>
                 Upload
-                <input type="file" hidden onChange={handleFileChange} />
+                <input type="file" hidden onChange={handleUploadButton} />
             </Button>
         </StyledStepperBoxContainer>
     );
