@@ -1,24 +1,26 @@
 import React from 'react';
 
 import { Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { Image, Nav } from './UserAccount.styles';
 import headerLogo from '@/assets/images/user-account-logo.png';
+import { Image, Nav } from '@/layouts/Header/Header.styles';
 
 const UserAccount = () => {
-    const navigate = useNavigate();
-    const logoRedirectHandler = () => {
-        navigate('/useraccount');
-    };
-
     return (
         <Link to="/useraccount">
-            <Nav>
-                <Typography variant="subtitle1" sx={{ color: '#3e3e3e', textTransform: 'none' }}>
-                    <b>User account</b>
+            <Nav style={{ justifyContent: 'right' }}>
+                <Typography
+                    variant="subtitle1"
+                    sx={{ color: '#3e3e3e', textTransform: 'none', fontWeight: 'bold' }}
+                >
+                    User account
                 </Typography>
-                <Image src={headerLogo} alt="loading" onClick={logoRedirectHandler} />
+                <Image
+                    style={{ height: '35px', width: '35px', paddingLeft: '10px' }}
+                    src={headerLogo}
+                    alt="loading"
+                />
             </Nav>
         </Link>
     );
