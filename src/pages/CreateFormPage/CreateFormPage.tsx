@@ -1,19 +1,18 @@
 import React from 'react';
 
-import MultiChoiceQuestion from '@/components/Questions/MultichoiceQuestion/MultichoiceQuestion';
-
-const exampleQuestion = {
-    title: 'Is Melbourne raining today?',
-    choices: ["Yes, it's raining", 'No, I am roasting'],
-    required: true,
-};
+import MuitiChoiceQuestion from './components/NewQuestion/components/MultiChoiceQuestion';
+import FormTitleField from '@/components/EditForm/FormTitleField';
+import MainLayout from '@/layouts/MainLayout';
 
 const CreateFormPage = () => {
-    const { title, choices, required } = exampleQuestion;
     return (
         <div>
-            <MultiChoiceQuestion title={title} choices={choices} required={required} />
+            <FormTitleField />
+            <MainLayout>
+                <MuitiChoiceQuestion />
+            </MainLayout>
         </div>
     );
 };
+
 export default CreateFormPage;
