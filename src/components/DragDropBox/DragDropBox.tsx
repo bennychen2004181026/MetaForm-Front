@@ -1,33 +1,38 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import styled from 'styled-components';
 
-interface StyledDragDropBoxProps {
-    isDragging: boolean;
-}
+const getBorderColor = (isDragging: boolean, isValid: boolean) => {
+    if (!isValid) return '2px dashed red';
+    if (isDragging) return '2px dashed blue';
+    return '2px dashed grey';
+};
 
-const StyledDragDropBox = styled(Box)<StyledDragDropBoxProps>`
-    border: ${(props) => (props.isDragging ? '2px dashed blue' : '2px dashed grey')};
+const StyledBox = styled(Box)`
+    position: relative;
     width: 300px;
     height: 200px;
-    @media (min-width: 600px) {
-        width: 400px;
-        height: 300px;
-    }
-    @media (min-width: 960px) {
-        width: 500px;
-        height: 400px;
-    }
-    margin-right: 20px;
     display: flex;
     flex-direction: row;
     align-content: center;
     justify-content: center;
     flex-wrap: wrap;
+
+    @media (min-width: 600px) {
+        width: 400px;
+        height: 300px;
+    }
+
+    @media (min-width: 960px) {
+        width: 400px;
+        height: 380px;
+    }
 `;
+
 interface DragDropBoxProps {
     isDragging: boolean;
+    isValid: boolean;
     onDragEnter: (event: React.DragEvent<HTMLDivElement>) => void;
     onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
     onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
@@ -37,21 +42,24 @@ interface DragDropBoxProps {
 
 const DragDropBox: React.FC<DragDropBoxProps> = ({
     isDragging,
+    isValid,
     onDragEnter,
     onDragOver,
     onDragLeave,
     onDrop,
     children,
 }) => (
-    <StyledDragDropBox
-        isDragging={isDragging}
+    <Box
         onDragEnter={onDragEnter}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
+        sx={{
+            border: getBorderColor(isDragging, isValid),
+        }}
     >
-        {children}
-    </StyledDragDropBox>
+        <StyledBox>{children}</StyledBox>
+    </Box>
 );
 
 export default DragDropBox;
