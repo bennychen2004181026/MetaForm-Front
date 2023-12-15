@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 
 import QuestionTypeSelector from '../QuestionTypeSelector';
 
-import Option from './QuestionOption/Option';
+import Option from './components/QuestionOption/Option';
 import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
 const MuitiChoiceQuestion = () => {
@@ -25,7 +25,7 @@ const MuitiChoiceQuestion = () => {
                     <Grid item xs={8}>
                         <QuestionTitle />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                         <QuestionTypeSelector />
                     </Grid>
                 </Grid>

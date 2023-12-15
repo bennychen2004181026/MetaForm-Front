@@ -4,7 +4,7 @@ import { questionTypes } from '@/pages/CreateFormPage/components/CreateForm/ques
 import GeneralSelector from '@/pages/CreateFormPage/components/NewQuestion/components/GeneralSelector';
 
 const QuestionTypeSelector = () => {
-    return <GeneralSelector options={questionTypes} />;
+    return <GeneralSelector options={questionTypes} minWidth="180px" />;
 };
 
 export default QuestionTypeSelector;

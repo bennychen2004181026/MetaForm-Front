@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Container } from '@mui/material';
-import Paper from '@mui/material/Paper';
 
 import FormTitleField from '@/components/EditForm/FormTitleField';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';

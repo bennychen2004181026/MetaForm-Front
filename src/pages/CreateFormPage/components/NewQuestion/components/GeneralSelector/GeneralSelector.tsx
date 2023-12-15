@@ -6,13 +6,20 @@ import MenuItem from '@mui/material/MenuItem';
 
 import ISelectorOption from '@/interfaces/ISelectorOption';
 
-const GeneralSelector = ({ options }: { options: ISelectorOption[] }) => {
+const GeneralSelector = ({
+    options,
+    minWidth,
+}: {
+    options: ISelectorOption[];
+    minWidth?: string | number;
+}) => {
     return (
         <TextField
             id="general-dropdown-selector"
             select
             label="Select"
             defaultValue={options[0].value}
+            sx={{ minWidth: { minWidth } }}
             InputProps={{
                 startAdornment: (
                     <InputAdornment position="start">
