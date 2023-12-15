@@ -8,35 +8,28 @@ import TextField from '@mui/material/TextField';
 
 const Option = () => {
     return (
-        <div>
-            <TextField
-                required
-                id="standard-required"
-                defaultValue="Option"
-                variant="standard"
-                margin="normal"
-                fullWidth
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <CircleOutlinedIcon />
-                        </InputAdornment>
-                    ),
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                // onClick={handleClickShowPassword}
-                                // onMouseDown={handleMouseDownPassword}
-                                edge="end"
-                            >
-                                <CloseIcon />
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
-            />
-        </div>
+        <TextField
+            required
+            id="muitichoice-question-option"
+            defaultValue="Option"
+            variant="standard"
+            margin="normal"
+            fullWidth
+            InputProps={{
+                startAdornment: (
+                    <InputAdornment position="start">
+                        <CircleOutlinedIcon />
+                    </InputAdornment>
+                ),
+                endAdornment: (
+                    <InputAdornment position="end">
+                        <IconButton>
+                            <CloseIcon />
+                        </IconButton>
+                    </InputAdornment>
+                ),
+            }}
+        />
     );
 };
 

@@ -42,7 +42,7 @@ const MultiChoiceQuestion = ({ title, choices, required }: IMultiChoiceQuestionP
     return (
         <form onSubmit={handleSubmit}>
             <FormControl sx={{ m: 3 }} error={error} variant="standard">
-                <FormLabel id="demo-error-radios" sx={{}}>
+                <FormLabel id="question-title">
                     <Typography variant="h4">{title}</Typography>
                 </FormLabel>
                 <RadioGroup
@@ -51,11 +51,11 @@ const MultiChoiceQuestion = ({ title, choices, required }: IMultiChoiceQuestionP
                     value={value}
                     onChange={handleRadioChange}
                 >
-                    <FormControlLabel value="best" control={<Radio />} label="The best!" />
+                    <FormControlLabel value="option1" control={<Radio />} label="Option1" />
                     <FormControlLabel
-                        value="worst"
+                        value="option2"
                         control={<Radio />}
-                        label={<Choice>World</Choice>}
+                        label={<Choice>Option2</Choice>}
                     />
                 </RadioGroup>
                 <FormHelperText>{helperText}</FormHelperText>

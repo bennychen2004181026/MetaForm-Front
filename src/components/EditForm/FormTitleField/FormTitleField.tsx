@@ -8,7 +8,7 @@ const EditFormTitle = () => {
             <div>
                 <TextField
                     required
-                    id="standard-required"
+                    id="form-title"
                     defaultValue="Untitled Form"
                     variant="standard"
                     margin="normal"
@@ -18,7 +18,7 @@ const EditFormTitle = () => {
             <div>
                 <TextField
                     required
-                    id="standard-required"
+                    id="form-description"
                     defaultValue="Description"
                     variant="standard"
                 />

@@ -8,6 +8,7 @@ import Option from './QuestionOption/Option';
 import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
 const MuitiChoiceQuestion = () => {
+    const options = [1, 2, 3];
     return (
         <Grid container>
             <Grid xs={12}>
@@ -29,9 +30,9 @@ const MuitiChoiceQuestion = () => {
                     </Grid>
                 </Grid>
                 <Grid xs={10}>
-                    <Option />
-                    <Option />
-                    <Option />
+                    {options.map((item, _) => (
+                        <Option key={item} />
+                    ))}
                 </Grid>
             </Grid>
         </Grid>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MultiChoiceQuestion from '@/components/Questions/MultichoiceQuestion/MultichoiceQuestion';
+import MultiChoiceQuestion from '@/components/ResponseToQuestions/ResponseToMultichoiceQuestion';
 
 const exampleQuestion = {
     title: 'Is Melbourne raining today?',
