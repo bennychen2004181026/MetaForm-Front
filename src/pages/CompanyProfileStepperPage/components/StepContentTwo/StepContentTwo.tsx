@@ -54,6 +54,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
         handleDragLeave,
         handleDrop,
         handleUploadButton,
+        isValid,
     } = useUpload(uploadFileToS3);
 
     return (
@@ -64,6 +65,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChang
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
+                isValid={isValid}
             >
                 <UploadBoxContentRenderer
                     isLoading={isLoading}
