@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Container } from '@mui/material';
 
-import FormTitleField from '@/components/EditForm/FormTitleField';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
+import FormTitleField from '@/pages/CreateFormPage/components/CreateForm/components/FormTitleField';
 import MuitiChoiceQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion';
 
 const CreateForm = () => {
