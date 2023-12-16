@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Box } from '@mui/material';
 
 import AddOption from './components/AddOption/AddOption';
 import OptionList from './components/OptionList';
-import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import {
+    GlobalState,
+    MuitichoiceContext,
+} from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
 const MuitiChoiceQuestion = () => {
+    const { state } = useContext(MuitichoiceContext);
+    const { title } = state;
+    const [titleText, SetTitleText] = useState<string>(
+        'Untitled Question (Type Your Question Title)',
+    );
     return (
         <GlobalState>
             <Box

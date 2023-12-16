@@ -19,6 +19,10 @@ type Actions =
     | {
           type: 'DELETE_OPTION';
           payload: IOption;
+      }
+    | {
+          type: 'SAVE_TITLE';
+          payload: string;
       };
 
 const muitichoiceReducer = (state: IMultiChoiceQuestion, action: Actions): IMultiChoiceQuestion => {
@@ -33,6 +37,11 @@ const muitichoiceReducer = (state: IMultiChoiceQuestion, action: Actions): IMult
             return {
                 ...state,
                 options: state.options.filter((option) => option.id !== action.payload.id),
+            };
+        case 'SAVE_TITLE':
+            return {
+                ...state,
+                title: action.payload,
             };
         default:
             throw new Error();

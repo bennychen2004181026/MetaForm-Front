@@ -8,7 +8,7 @@ import { MuitichoiceContext } from '@/pages/CreateFormPage/components/NewQuestio
 
 const AddOption = () => {
     const { dispatch } = useContext(MuitichoiceContext);
-    const [text, SetText] = useState<string>('');
+    const [text, SetText] = useState<string>('Add Option');
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch({
@@ -18,7 +18,7 @@ const AddOption = () => {
                 value: text,
             },
         });
-        SetText('type again');
+        SetText('Add Option');
     };
 
     return (
