@@ -4,11 +4,11 @@ import { Grid } from '@mui/material';
 
 import QuestionTypeSelector from '../QuestionTypeSelector';
 
-import Option from './QuestionOption/Option';
+import AddOption from './components/AddOption/AddOption';
+import OptionList from './components/OptionList';
 import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
 const MuitiChoiceQuestion = () => {
-    const options = [1, 2, 3];
     return (
         <Grid container>
             <Grid xs={12}>
@@ -30,9 +30,10 @@ const MuitiChoiceQuestion = () => {
                     </Grid>
                 </Grid>
                 <Grid xs={10}>
-                    {options.map((item, _) => (
-                        <Option key={item} />
-                    ))}
+                    <OptionList dense />
+                </Grid>
+                <Grid xs={10}>
+                    <AddOption />
                 </Grid>
             </Grid>
         </Grid>
