@@ -69,8 +69,6 @@ const useUploadImage = ({
             onDataChange,
             showSnackbar,
             userId,
-        }).then(() => {
-            setCroppedPreviewUrl(null);
         });
     }, [croppedImageBlob, userId, setIsLoading, setUploadProgress, onDataChange, showSnackbar]);
 

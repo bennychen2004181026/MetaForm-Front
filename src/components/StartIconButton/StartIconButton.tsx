@@ -30,7 +30,12 @@ const StartIconButton: React.FC<StartIconButtonProps> = ({
     children,
 }) => {
     return (
-        <StyledStartIconButton variant={variant} onClick={onClick} startIcon={startIcon}>
+        <StyledStartIconButton
+            variant={variant}
+            component="label"
+            onClick={onClick}
+            startIcon={startIcon}
+        >
             {text}
             {children}
         </StyledStartIconButton>

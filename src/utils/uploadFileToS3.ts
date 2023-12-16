@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { debounce } from 'lodash';
 
 interface UploadUtilsProps {
@@ -13,28 +14,48 @@ interface UploadUtilsProps {
     ) => void;
     userId: string | undefined;
 }
-const uploadFileToS3 = ({
+const uploadFileToS3 = async ({
     file,
     setIsLoading,
     setUploadProgress,
     onDataChange,
     showSnackbar,
     userId,
-}: UploadUtilsProps): Promise<unknown> => {
+}: UploadUtilsProps): Promise<string | void> => {
     const debouncedProgressUpdate = debounce((progress) => {
         setUploadProgress(progress);
     }, 100);
 
-    return new Promise((resolve, reject) => {
-        if (!userId) {
-            const errorMessage = 'User ID is required for uploading.';
-            showSnackbar(errorMessage, 'error');
-            setIsLoading(false);
-            reject(new Error(errorMessage));
-            return;
-        }
-        showSnackbar('Send request', 'info');
-    });
+    if (!userId) {
+        const errorMessage = 'User ID is required for uploading.';
+        showSnackbar(errorMessage, 'error');
+        setIsLoading(false);
+        return;
+    }
+
+    try {
+        const uploadResponse = await axios.get('http://localhost:3001/users/getPresignedUrl');
+        const { url: uploadUrl, key } = uploadResponse.data;
+
+        await axios.put(uploadUrl, file, {
+            headers: {
+                'Content-Type': file.type,
+            },
+        });
+
+        const cloudFrontPresignedUrlResponse = await axios.get(
+            'http://localhost:3001/users/getCloudFrontPresignedUrl',
+            { params: { key } },
+        );
+
+        const { cloudFrontSignedUrl } = cloudFrontPresignedUrlResponse.data;
+        showSnackbar(`You had successfully uploaded the logo ${cloudFrontSignedUrl}`, 'success');
+        onDataChange('companyLogo')(cloudFrontSignedUrl);
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        showSnackbar(errorMessage, 'error');
+        setIsLoading(false);
+    }
 };
 
 export default uploadFileToS3;
