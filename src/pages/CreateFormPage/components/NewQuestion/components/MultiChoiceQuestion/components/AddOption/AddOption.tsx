@@ -11,7 +11,6 @@ const AddOption = () => {
     const [text, SetText] = useState<string>('');
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         dispatch({
             type: 'ADD_OPTION',
             payload: {

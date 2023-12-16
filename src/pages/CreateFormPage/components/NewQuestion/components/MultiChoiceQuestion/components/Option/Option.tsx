@@ -10,12 +10,22 @@ import IOption from '@/interfaces/IOption';
 import { MuitichoiceContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 
 const Option = ({ option }: { option: IOption }) => {
-    // const { deleteOption } = useContext(MuitichoiceContext);
-
+    const { dispatch } = useContext(MuitichoiceContext);
+    const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
+        e.preventDefault();
+        console.log('in delete');
+        dispatch({
+            type: 'DELETE_OPTION',
+            payload: {
+                id: option.id,
+                value: option.value,
+            },
+        });
+    };
     return (
         <ListItem
             secondaryAction={
-                <IconButton onClick={() => console.log('123')}>
+                <IconButton onClick={handleDelete}>
                     <CloseIcon />
                 </IconButton>
             }
