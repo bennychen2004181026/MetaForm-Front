@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import SubmitButton from '@/components/SubmitButton';
 import useForm, { IField } from '@/hooks/useForm';
-import useUpload from '@/hooks/useUpload';
+import useUploadImage from '@/hooks/useUploadImage';
 import StepContentOne from '@/pages/CompanyProfileStepperPage/components/StepContentOne';
 import StepContentThree from '@/pages/CompanyProfileStepperPage/components/StepContentThree';
 import StepContentTwo from '@/pages/CompanyProfileStepperPage/components/StepContentTwo';
@@ -163,7 +163,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         canvasPreview,
         croppedPreviewUrl,
         isFileValid,
-    } = useUpload({
+    } = useUploadImage({
         setIsLoading,
         setUploadProgress,
         onDataChange,

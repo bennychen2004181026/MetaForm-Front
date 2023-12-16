@@ -6,7 +6,7 @@ import uploadFileToS3 from '@/utils/uploadFileToS3';
 import uploadFileValidators from '@/utils/uploadFileValidators';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
-interface UseUploadProps {
+interface UseUploadImageProps {
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
     setUploadProgress: React.Dispatch<React.SetStateAction<number>>;
     onDataChange: (
@@ -15,7 +15,12 @@ interface UseUploadProps {
     userId: string | undefined;
 }
 
-const useUpload = ({ setIsLoading, setUploadProgress, onDataChange, userId }: UseUploadProps) => {
+const useUploadImage = ({
+    setIsLoading,
+    setUploadProgress,
+    onDataChange,
+    userId,
+}: UseUploadImageProps) => {
     const showSnackbar = useSnackbarHelper();
     const [isDragging, setIsDragging] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -171,4 +176,4 @@ const useUpload = ({ setIsLoading, setUploadProgress, onDataChange, userId }: Us
     };
 };
 
-export default useUpload;
+export default useUploadImage;
