@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import List from '@mui/material/List';
+import { List } from '@mui/material';
 
 import Option from '../Option';
 
-const fakeOptions = [1, 2, 3];
+import { MuitichoiceContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 
 const OptionList = ({ dense }: { dense: boolean }) => {
+    const { state } = useContext(MuitichoiceContext);
+    const { options } = state;
     return (
         <List dense={dense}>
-            {fakeOptions.map((item, _) => (
-                <Option key={item} />
+            {options.map((option) => (
+                <Option key={option.id} option={option} />
             ))}
         </List>
     );

@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { Container } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import FormTitleField from '@/pages/CreateFormPage/components/CreateForm/components/FormTitleField';
 import MuitiChoiceQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion';
+import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
 
 const CreateForm = () => {
     return (
@@ -13,7 +14,25 @@ const CreateForm = () => {
                 <FormTitleField />
             </ConditionalSectionContainer>
             <ConditionalSectionContainer>
-                <MuitiChoiceQuestion />
+                <Grid
+                    container
+                    xs={12}
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        p: 1,
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <Grid item xs={8}>
+                        <MuitiChoiceQuestion />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <QuestionTypeSelector />
+                    </Grid>
+                </Grid>
             </ConditionalSectionContainer>
         </Container>
     );

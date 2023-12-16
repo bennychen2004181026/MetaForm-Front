@@ -4,14 +4,14 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { InputAdornment, TextField } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 
-import ISelectorOption from '@/interfaces/ISelectorOption';
+import ISelectorOption from '@/interfaces/IOption';
 
 const GeneralSelector = ({
     options,
-    minWidth,
+    maxWidth,
 }: {
     options: ISelectorOption[];
-    minWidth?: string | number;
+    maxWidth?: string | number;
 }) => {
     return (
         <TextField
@@ -19,7 +19,7 @@ const GeneralSelector = ({
             select
             label="Select"
             defaultValue={options[0].value}
-            sx={{ minWidth: { minWidth } }}
+            sx={{ maxWidth: { maxWidth } }}
             InputProps={{
                 startAdornment: (
                     <InputAdornment position="start">
@@ -29,7 +29,7 @@ const GeneralSelector = ({
             }}
         >
             {options.map((option) => (
-                <MenuItem key={option.key} value={option.value}>
+                <MenuItem key={option.id} value={option.value}>
                     {option.value}
                 </MenuItem>
             ))}
