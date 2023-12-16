@@ -10,31 +10,33 @@ import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/compone
 
 const MuitiChoiceQuestion = () => {
     return (
-        <Grid container>
-            <Grid xs={12}>
-                <Grid
-                    container
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        p: 1,
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <Grid item xs={8}>
-                        <QuestionTitle />
-                    </Grid>
-                    <Grid item xs={2}>
-                        <QuestionTypeSelector />
-                    </Grid>
-                </Grid>
-                <Grid xs={10}>
-                    <OptionList dense />
-                </Grid>
-                <Grid xs={10}>
-                    <AddOption />
-                </Grid>
+        <Grid
+            container
+            sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                p: 1,
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}
+        >
+            <Grid
+                xs={8}
+                container
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    p: 1,
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                }}
+            >
+                <QuestionTitle />
+                <OptionList dense />
+                <AddOption />
+            </Grid>
+            <Grid item xs={3}>
+                <QuestionTypeSelector />
             </Grid>
         </Grid>
     );
