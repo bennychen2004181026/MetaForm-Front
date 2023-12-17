@@ -8,9 +8,7 @@ const QuestionContainer = ({ children }: { children: React.ReactNode }) => {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                pr: 4,
                 alignItems: 'center',
-                borderRight: 1,
                 justifyContent: 'space-between',
             }}
         >
