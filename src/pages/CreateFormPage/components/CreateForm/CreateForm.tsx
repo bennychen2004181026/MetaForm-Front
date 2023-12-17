@@ -15,7 +15,7 @@ const CreateForm = () => {
             </ConditionalSectionContainer>
             <ConditionalSectionContainer>
                 <NewQuestion>
-                    <MuitiChoiceQuestion />
+                    <MuitiChoiceQuestion isCheckbox />
                 </NewQuestion>
             </ConditionalSectionContainer>
         </Container>

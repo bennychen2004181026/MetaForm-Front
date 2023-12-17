@@ -11,6 +11,10 @@ const initMuitichoiceQuestion: IMultiChoiceQuestion = {
         { id: 3, value: '20 - 30' },
     ],
 };
+enum NumberOfSelections {
+    SINGLE,
+    MULTIPLE,
+}
 type Actions =
     | {
           type: 'ADD_OPTION';
@@ -63,4 +67,4 @@ const GlobalState: React.FC<Props> = ({ children }) => {
     }, [state]);
     return <MuitichoiceContext.Provider value={value}>{children}</MuitichoiceContext.Provider>;
 };
-export { MuitichoiceContext, GlobalState };
+export { MuitichoiceContext, NumberOfSelections, GlobalState };

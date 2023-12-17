@@ -6,12 +6,12 @@ import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/compo
 import QuestionContainer from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionContainer';
 import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
-const MuitiChoiceQuestion = () => {
+const MuitiChoiceQuestion = ({ isCheckbox = false }: { isCheckbox: boolean }) => {
     return (
         <GlobalState>
             <QuestionContainer>
                 <QuestionTitle />
-                <OptionList dense />
+                <OptionList dense isCheckbox={isCheckbox} />
                 <AddOption />
             </QuestionContainer>
         </GlobalState>
