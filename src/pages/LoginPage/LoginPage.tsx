@@ -4,6 +4,7 @@ import { TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import googleIcon from '@/assets/images/google-icon-logo.png';
 import StyledButton from '@/components/Button/Button';
 import Hyperlink from '@/components/StyledLink/';
 import useForm from '@/hooks/useForm';
@@ -18,6 +19,23 @@ const Content = styled.div`
     justify-conetnet: center;
     width: 30%;
     min-width: 350px;
+`;
+
+const GoogleIcon = styled.img`
+    margin-right: 10px;
+    width: 22px;
+    height: 22px;
+`;
+
+interface ButtonProps {
+    backgroundColor: string;
+}
+
+const LoginButton = styled(StyledButton)<ButtonProps>`
+    margin: 2rem;
+    background-color: ${(props) => props.backgroundColor};
+    font-weight: bold;
+    text-transform: none;
 `;
 
 interface CustomFieldProps {
@@ -54,7 +72,7 @@ const Login = () => {
     const { data, focus, onBlur, onChange, validation } = useForm(formField);
     const navigate = useNavigate();
     const forgotPassword = () => {
-        const path = `../forgetpassword`;
+        const path = `../forgot-password`;
         navigate(path);
     };
     return (
@@ -79,15 +97,14 @@ const Login = () => {
             <Typography variant="subtitle1" sx={{ padding: '5px' }}>
                 Forgot password? Click <Hyperlink text="here" onClick={forgotPassword} />
             </Typography>
-            <StyledButton
+            <LoginButton
                 variant="contained"
-                sx={{ margin: '2rem', backgroundColor: 'grey', textTransform: 'none' }}
+                startIcon={<GoogleIcon src={googleIcon} />}
+                backgroundColor="silver"
             >
-                Use Google account to login
-            </StyledButton>
-            <StyledButton variant="contained" sx={{ margin: '2rem', textTransform: 'none' }}>
-                Confirm
-            </StyledButton>
+                Sign in with Google
+            </LoginButton>
+            <LoginButton variant="contained">Confirm</LoginButton>
         </Content>
     );
 };
