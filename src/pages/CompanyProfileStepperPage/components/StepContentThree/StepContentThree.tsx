@@ -24,8 +24,8 @@ const StyledStepperBoxContainer = styled.div`
     }
     justify-content: space-between;
     align-items: center;
-    margin-top: 2px;
-    gap: 2rem;
+    margin-top: 1px;
+    gap: 1rem;
 `;
 
 const TitleContainer = styled.div`
