@@ -6,11 +6,6 @@ import QuestionContainer from '@/pages/CreateFormPage/components/NewQuestion/com
 import ShortAnswerQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/ShortAnswerQuestion';
 
 const SelectedQuestion = ({ selectedQuestionType }: { selectedQuestionType: number }) => {
-    // const questions = {
-    //     0: <MuitiChoiceQuestion isCheckbox={false} />,
-    //     1: <ShortAnswerQuestion />,
-    //     4: <CheckboxesQuestion />,
-    // };
     const getQuestion = () => {
         switch (selectedQuestionType) {
             case 0:
