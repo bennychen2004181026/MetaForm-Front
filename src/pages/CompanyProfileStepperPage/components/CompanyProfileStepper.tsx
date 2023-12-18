@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import SubmitButton from '@/components/SubmitButton';
 import useForm, { IField } from '@/hooks/useForm';
+import useUploadImage from '@/hooks/useUploadImage';
 import StepContentOne from '@/pages/CompanyProfileStepperPage/components/StepContentOne';
 import StepContentThree from '@/pages/CompanyProfileStepperPage/components/StepContentThree';
 import StepContentTwo from '@/pages/CompanyProfileStepperPage/components/StepContentTwo';
@@ -59,9 +60,15 @@ const NextButton = styled(Button)`
     padding: 6px 12px;
 `;
 
-const CompanyProfileStepper: React.FC = () => {
+interface CompanyProfileStepperProps {
+    userId: string | undefined;
+}
+
+const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId }) => {
     const showSnackbar = useSnackbarHelper();
     const [activeStep, setActiveStep] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
     const industryArray = industries.map((industry) => industry.name);
     const fields: IField[] = [
         {
@@ -137,6 +144,32 @@ const CompanyProfileStepper: React.FC = () => {
         }
     };
 
+    const {
+        isDragging,
+        handleDragEnter,
+        handleDragOver,
+        handleDrop,
+        handleDragLeave,
+        handleUploadButton,
+        selectedImage,
+        setSelectedImage,
+        croppedImageBlob,
+        setCroppedImageBlob,
+        handleCropConfirmation,
+        handleCroppedImage,
+        isCropping,
+        previewCanvasRef,
+        imgRef,
+        canvasPreview,
+        croppedPreviewUrl,
+        isFileValid,
+    } = useUploadImage({
+        setIsLoading,
+        setUploadProgress,
+        onDataChange,
+        userId,
+    });
+
     const getStepContent = (stepIndex: number): JSX.Element => {
         switch (stepIndex) {
             case 0:
@@ -153,7 +186,31 @@ const CompanyProfileStepper: React.FC = () => {
                     />
                 );
             case 1:
-                return <StepContentTwo fieldsData={fieldsData} onDataChange={onDataChange} />;
+                return (
+                    <StepContentTwo
+                        fieldsData={fieldsData}
+                        isDragging={isDragging}
+                        handleDragEnter={handleDragEnter}
+                        handleDragOver={handleDragOver}
+                        handleDragLeave={handleDragLeave}
+                        handleDrop={handleDrop}
+                        handleUploadButton={handleUploadButton}
+                        isLoading={isLoading}
+                        uploadProgress={uploadProgress}
+                        selectedImage={selectedImage}
+                        setSelectedImage={setSelectedImage}
+                        setCroppedImageBlob={setCroppedImageBlob}
+                        croppedImageBlob={croppedImageBlob}
+                        handleCropConfirmation={handleCropConfirmation}
+                        handleCroppedImage={handleCroppedImage}
+                        isCropping={isCropping}
+                        previewCanvasRef={previewCanvasRef}
+                        imgRef={imgRef}
+                        canvasPreview={canvasPreview}
+                        croppedPreviewUrl={croppedPreviewUrl}
+                        isFileValid={isFileValid}
+                    />
+                );
             case 2:
                 return <StepContentThree fieldsData={fieldsData} />;
             default:
