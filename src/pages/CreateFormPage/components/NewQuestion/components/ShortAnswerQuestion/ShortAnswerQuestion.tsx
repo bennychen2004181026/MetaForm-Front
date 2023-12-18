@@ -2,12 +2,11 @@ import React from 'react';
 
 import { IconButton, TextField } from '@mui/material';
 
-import QuestionContainer from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionContainer';
 import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
 const ShortAnswerQuestion = () => {
     return (
-        <QuestionContainer>
+        <>
             <QuestionTitle />
             <TextField
                 id="short-answer-question-textfield"
@@ -17,7 +16,7 @@ const ShortAnswerQuestion = () => {
                 disabled
                 fullWidth
             />
-        </QuestionContainer>
+        </>
     );
 };
 

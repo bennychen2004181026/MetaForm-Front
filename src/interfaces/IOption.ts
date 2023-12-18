@@ -1,5 +1,5 @@
 interface IOption {
-    id: number | string;
+    id: string;
     value: string;
 }
 export default IOption;

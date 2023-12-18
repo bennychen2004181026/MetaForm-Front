@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Grid } from '@mui/material';
 
+import SelectedQuestion from './components/QuestionBody/SelectedQuestion';
 import QuestionTypeSelector from './components/QuestionTypeSelector';
 
-const NewQuestion = ({ children }: { children: React.ReactNode }) => {
+const NewQuestion = () => {
+    const [questionType, setQuestionType] = useState(0);
     return (
         <Grid
             container
@@ -18,10 +20,10 @@ const NewQuestion = ({ children }: { children: React.ReactNode }) => {
             }}
         >
             <Grid item xs={8}>
-                {children}
+                <SelectedQuestion selectedQuestionType={questionType} />
             </Grid>
             <Grid item xs={3}>
-                <QuestionTypeSelector />
+                <QuestionTypeSelector setQuestionType={setQuestionType} />
             </Grid>
         </Grid>
     );

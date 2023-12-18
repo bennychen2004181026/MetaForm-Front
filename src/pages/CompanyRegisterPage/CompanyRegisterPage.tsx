@@ -46,6 +46,7 @@ const industrySelectorConfig = {
 const CompanyRegisterPage = () => {
     const [formData, setFormData] = useState({ companyName: '', abn: '' });
     const formField = companyRegisterType(formData);
+    console.log(formField);
     const { data, focus, onBlur, onChange, validation } = useForm(formField);
     const industryArray = industries.map((industry) => industry.name);
     return (

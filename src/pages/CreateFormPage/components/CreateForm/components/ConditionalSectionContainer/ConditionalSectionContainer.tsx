@@ -12,16 +12,10 @@ const ConditionalSectionContainer = ({
     return (
         <Paper
             elevation={4}
-            sx={
-                backgroundColor
-                    ? {
-                          p: 4,
-                          bgcolor: backgroundColor,
-                      }
-                    : {
-                          p: 4,
-                      }
-            }
+            sx={{
+                p: 4,
+                bgcolor: backgroundColor || undefined,
+            }}
         >
             {children}
         </Paper>
