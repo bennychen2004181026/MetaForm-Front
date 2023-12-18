@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 
 import QuestionTypeSelector from '../QuestionTypeSelector';
 
-import AddOption from './components/AddOption/AddOption';
+import AddOption from './components/AddOption';
 import OptionList from './components/OptionList';
 import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
