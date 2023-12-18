@@ -3,8 +3,8 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import styled from 'styled-components';
 
-const getBorderColor = (isDragging: boolean, isValid: boolean) => {
-    if (!isValid) return '2px dashed red';
+const getBorderColor = (isDragging: boolean, isFileValid: boolean) => {
+    if (!isFileValid) return '2px dashed red';
     if (isDragging) return '2px dashed blue';
     return '2px dashed grey';
 };
@@ -32,7 +32,7 @@ const StyledBox = styled(Box)`
 
 interface DragDropBoxProps {
     isDragging: boolean;
-    isValid: boolean;
+    isFileValid: boolean;
     onDragEnter: (event: React.DragEvent<HTMLDivElement>) => void;
     onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
     onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
@@ -42,7 +42,7 @@ interface DragDropBoxProps {
 
 const DragDropBox: React.FC<DragDropBoxProps> = ({
     isDragging,
-    isValid,
+    isFileValid,
     onDragEnter,
     onDragOver,
     onDragLeave,
@@ -55,7 +55,7 @@ const DragDropBox: React.FC<DragDropBoxProps> = ({
         onDragLeave={onDragLeave}
         onDrop={onDrop}
         sx={{
-            border: getBorderColor(isDragging, isValid),
+            border: getBorderColor(isDragging, isFileValid),
         }}
     >
         <StyledBox>{children}</StyledBox>
