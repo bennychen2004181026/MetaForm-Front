@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Button, Typography } from '@mui/material';
+import CropFreeIcon from '@mui/icons-material/CropFree';
+import { Box } from '@mui/material';
+import { PixelCrop } from 'react-image-crop';
 import styled from 'styled-components';
 
-const StyledStepperBoxContainer = styled.div`
+import CropComponent from '@/components/CropComponent';
+import DragDropBox from '@/components/DragDropBox/DragDropBox';
+import StartIconButton from '@/components/StartIconButton';
+import UploadBoxContentRenderer from '@/components/UploadBoxContentRenderer';
+
+const StyledStepperBoxContainer = styled(Box)`
     display: flex;
     flex-direction: column;
     @media (min-width: 768px) {
@@ -22,68 +29,110 @@ const StyledStepperBoxContainer = styled.div`
     }
     justify-content: space-between;
     align-items: center;
-    margin-top: 2px;
-    gap: 2rem;
+    margin-top: 1px;
+    gap: 1rem;
 `;
 
-const StyledImageContainer = styled.div`
-    border: 2px dashed grey;
-    width: 300px;
-    height: 200px;
-    @media (min-width: 600px) {
-        width: 400px;
-        height: 300px;
-    }
-    @media (min-width: 960px) {
-        width: 500px;
-        height: 400px;
-    }
-    margin-right: 20px;
+const IconButtonBox = styled(Box)`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-content: center;
-    justify-content: center;
+    justify-content: space-around;
     flex-wrap: wrap;
-`;
-
-const StyledImage = styled.img`
-    max-width: 100%;
-    max-height: 100%;
+    height: 20vh;
 `;
 interface StepContentTwoProps {
     fieldsData: Record<string, string>;
-    onDataChange: (
-        field: string,
-    ) => React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    isDragging: boolean;
+    isLoading: boolean;
+    uploadProgress: number;
+    handleDragEnter: (event: React.DragEvent<HTMLDivElement>) => void;
+    handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
+    handleDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
+    handleDrop: (event: React.DragEvent<HTMLDivElement>) => Promise<void>;
+    handleUploadButton: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    selectedImage: string | null;
+    setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>;
+    setCroppedImageBlob: React.Dispatch<React.SetStateAction<Blob | null>>;
+    croppedImageBlob: Blob | null;
+    handleCropConfirmation: (croppedBlob: Blob) => void;
+    handleCroppedImage: () => Promise<void>;
+    isCropping: boolean;
+    previewCanvasRef: React.RefObject<HTMLCanvasElement>;
+    imgRef: React.RefObject<HTMLImageElement>;
+    canvasPreview: (crop: PixelCrop) => void;
+    croppedPreviewUrl: string | null;
+    isFileValid: boolean;
 }
 
-const StepContentTwo: React.FC<StepContentTwoProps> = ({ fieldsData, onDataChange }) => {
-    // For local image preview
-    const [localImage, setLocalImage] = useState<string | null>(null);
-
-    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files ? event.target.files[0] : null;
-        if (file) {
-            // Set local image for preview
-            setLocalImage(URL.createObjectURL(file));
-        }
-    };
+const StepContentTwo: React.FC<StepContentTwoProps> = ({
+    fieldsData,
+    isDragging,
+    isLoading,
+    uploadProgress,
+    handleDragEnter,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+    handleUploadButton,
+    selectedImage,
+    setSelectedImage,
+    setCroppedImageBlob,
+    croppedImageBlob,
+    handleCropConfirmation,
+    handleCroppedImage,
+    isCropping,
+    previewCanvasRef,
+    imgRef,
+    canvasPreview,
+    croppedPreviewUrl,
+    isFileValid,
+}) => {
+    let cropComponent = null;
+    if (selectedImage && isCropping) {
+        cropComponent = (
+            <CropComponent
+                key={selectedImage || new Date().getTime()}
+                src={selectedImage}
+                imgRef={imgRef}
+                previewCanvasRef={previewCanvasRef}
+                onCrop={canvasPreview}
+                onImageCropped={handleCropConfirmation}
+            />
+        );
+    }
 
     return (
         <StyledStepperBoxContainer>
-            <StyledImageContainer>
-                {localImage ? (
-                    <StyledImage src={localImage} alt="Uploaded Logo" />
-                ) : (
-                    <Typography variant="body1">
-                        (Optional) Drag and drop an image here, or click to select a file
-                    </Typography>
+            <DragDropBox
+                isDragging={isDragging}
+                onDragEnter={handleDragEnter}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                isFileValid={isFileValid}
+            >
+                <UploadBoxContentRenderer
+                    isLoading={isLoading}
+                    uploadProgress={uploadProgress}
+                    companyLogo={fieldsData.companyLogo || croppedPreviewUrl}
+                    cropComponent={cropComponent}
+                />
+            </DragDropBox>
+            <IconButtonBox>
+                <StartIconButton text="Crop" startIcon={<CropFreeIcon />} variant="contained">
+                    <input type="file" hidden onChange={handleUploadButton} />
+                </StartIconButton>
+
+                {croppedImageBlob && (
+                    <StartIconButton
+                        text="Upload"
+                        onClick={handleCroppedImage}
+                        startIcon={<CloudUploadIcon />}
+                        variant="contained"
+                    />
                 )}
-            </StyledImageContainer>
-            <Button variant="contained" component="label" startIcon={<CloudUploadIcon />}>
-                Upload
-                <input type="file" hidden onChange={handleFileChange} />
-            </Button>
+            </IconButtonBox>
         </StyledStepperBoxContainer>
     );
 };

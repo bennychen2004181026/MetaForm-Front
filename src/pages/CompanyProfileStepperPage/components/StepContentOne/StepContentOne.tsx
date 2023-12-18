@@ -23,15 +23,15 @@ const StyledStepperBoxContainer = styled.div`
     }
     justify-content: space-between;
     align-items: center;
-    margin-top: 2px;
-    gap: 2rem;
+    margin-top: 1px;
+    gap: 1rem;
 `;
 interface StepContentOneProps {
     formFields: IField[];
     fieldsData: Record<string, string>;
     onDataChange: (
         field: string,
-    ) => React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
     fieldsFocus: Record<string, boolean>;
     errors: Record<string, string>;
     onFieldsBlur: (field: string) => () => void;
