@@ -14,7 +14,7 @@ const AddOption = () => {
         dispatch({
             type: 'ADD_OPTION',
             payload: {
-                id: Math.floor(Math.random() * 10000),
+                id: Math.floor(Math.random() * 10000).toString(),
                 value: text,
             },
         });
