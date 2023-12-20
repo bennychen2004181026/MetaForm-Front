@@ -6,9 +6,9 @@ import IOption from '@/interfaces/IOption';
 const initMuitichoiceQuestion: IMultiChoiceQuestion = {
     title: 'What is your age range?',
     options: [
-        { id: 1, value: 'Under 10' },
-        { id: 2, value: '10 - 20' },
-        { id: 3, value: '20 - 30' },
+        { id: '1', value: 'Under 10' },
+        { id: '2', value: '10 - 20' },
+        { id: '3', value: '20 - 30' },
     ],
 };
 type Actions =
@@ -44,7 +44,7 @@ const muitichoiceReducer = (state: IMultiChoiceQuestion, action: Actions): IMult
                 title: action.payload,
             };
         default:
-            throw new Error();
+            throw new Error('Invalid action, Only accept [ADD_OPTION,DELETE_OPTION,SAVE_TITLE]');
     }
 };
 
