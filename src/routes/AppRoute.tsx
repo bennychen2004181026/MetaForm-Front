@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import CompanyRegisterPage from '@/pages/CompanyRegisterPage';
 import FormListPage from '@/pages/FormListPage';
+import LoginPage from '@/pages/LoginPage';
 import MainPage from '@/pages/MainPage';
 import RegisterEmailPage from '@/pages/RegisterEmailPage';
 import RegisterOptionPage from '@/pages/RegisterOptionPage';
@@ -20,6 +21,7 @@ const AppRoute = () => (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<MainPage />} />
+                <Route path="/login" element={<LoginPage />} />
                 <Route path="/verification/:token" element={<EmailLinkVerificationPage />} />
                 <Route path="/create-user" element={<RegisterPage />} />
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
