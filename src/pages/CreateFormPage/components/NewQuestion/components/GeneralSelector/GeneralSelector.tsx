@@ -4,7 +4,7 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { InputAdornment, TextField } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 
-import ISelectorOption from '@/interfaces/ISelectorOption';
+import ISelectorOption from '@/interfaces/IOption';
 
 const GeneralSelector = ({ options }: { options: ISelectorOption[] }) => {
     return (
@@ -13,6 +13,7 @@ const GeneralSelector = ({ options }: { options: ISelectorOption[] }) => {
             select
             label="Select"
             defaultValue={options[0].value}
+            fullWidth
             InputProps={{
                 startAdornment: (
                     <InputAdornment position="start">
@@ -22,7 +23,7 @@ const GeneralSelector = ({ options }: { options: ISelectorOption[] }) => {
             }}
         >
             {options.map((option) => (
-                <MenuItem key={option.key} value={option.value}>
+                <MenuItem key={option.id} value={option.value}>
                     {option.value}
                 </MenuItem>
             ))}

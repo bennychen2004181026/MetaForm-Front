@@ -1,18 +1,29 @@
 import React from 'react';
 
-import { Box } from '@mui/system';
+import { Grid } from '@mui/material';
 
-import QuestionTitle from './components/QuestionTitle';
 import QuestionTypeSelector from './components/QuestionTypeSelector';
 
-const NewQuestion = () => {
+const NewQuestion = ({ children }: { children: React.ReactNode }) => {
     return (
-        <Box>
-            <div>
+        <Grid
+            container
+            xs={12}
+            sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}
+        >
+            <Grid item xs={8}>
+                {children}
+            </Grid>
+            <Grid item xs={3}>
                 <QuestionTypeSelector />
-                <QuestionTitle />
-            </div>
-        </Box>
+            </Grid>
+        </Grid>
     );
 };
 export default NewQuestion;

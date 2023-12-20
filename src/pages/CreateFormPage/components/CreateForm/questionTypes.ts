@@ -1,32 +1,32 @@
-import ISelectorOption from '@/interfaces/ISelectorOption';
+import IOption from '@/interfaces/IOption';
 
-const questionTypes: ISelectorOption[] = [
+const questionTypes: IOption[] = [
     {
-        key: 0,
+        id: 0,
         value: 'Multiple Choice',
     },
     {
-        key: 1,
+        id: 1,
         value: 'Short Answer',
     },
     {
-        key: 2,
+        id: 2,
         value: 'Paragraph',
     },
     {
-        key: 3,
+        id: 3,
         value: 'Dropdown',
     },
     {
-        key: 4,
+        id: 4,
         value: 'CheckBoxes',
     },
     {
-        key: 5,
+        id: 5,
         value: 'Date Picker',
     },
 ];
 const questionTypeValues = questionTypes.map((questionType) => questionType.value);
-const questionTypeKeys = questionTypes.map((questionType) => questionType.key);
+const questionTypeKeys = questionTypes.map((questionType) => questionType.id);
 
 export { questionTypes, questionTypeValues, questionTypeKeys };
