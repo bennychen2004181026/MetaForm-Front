@@ -23,6 +23,7 @@ const StyledStepperBoxContainer = styled.div`
         flex-direction: column;
     }
     justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
     margin-top: 1px;
     gap: 1rem;
@@ -39,9 +40,8 @@ const TitleContainer = styled.div`
     align-items: center;
 `;
 
-const StyledCompanyInfoBox = styled.div`
+const StyledEmployeeInfoBox = styled.div`
     flex: 1;
-    background-color: #f0f0f0;
     padding: 8px;
     border: 1px solid #ddd;
     width: 100%;
@@ -51,21 +51,45 @@ const StyledCompanyInfoBox = styled.div`
     justify-content: center;
 `;
 
+const StyledLabelValuePair = styled(LabelValuePair)`
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+`;
+
 interface StepContentThreeProps {
     fieldsData: Record<string, string>;
 }
 
+const labelMapping = {
+    firstname: 'First Name',
+    lastname: 'Last Name',
+    username: 'User Name',
+};
+
 const StepContentThree: React.FC<StepContentThreeProps> = ({ fieldsData }) => {
+    const fieldDataArray = Object.entries(fieldsData);
+    const filteredFieldsData = fieldDataArray.filter(
+        ([key, value]) => !['password', 'confirmPassword'].includes(key),
+    );
     return (
         <StyledStepperBoxContainer>
             <TitleContainer>
                 <CustomTypography variant="h5" text="Review your Company Profile" />
             </TitleContainer>
-            <StyledCompanyInfoBox>
-                <LabelValuePair label="First Name" value={fieldsData.firstName} />
-                <LabelValuePair label="Last Name" value={fieldsData.lastName} />
-                <LabelValuePair label="User name" value={fieldsData.username} />
-            </StyledCompanyInfoBox>
+            <StyledEmployeeInfoBox>
+                {filteredFieldsData?.map(([key, value]) => (
+                    <StyledLabelValuePair
+                        key={key}
+                        label={labelMapping[key as keyof typeof labelMapping] || key}
+                        value={value}
+                    />
+                ))}
+            </StyledEmployeeInfoBox>
         </StyledStepperBoxContainer>
     );
 };

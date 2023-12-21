@@ -22,6 +22,7 @@ const StyledStepperBoxContainer = styled.div`
         height: 500px;
     }
     justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
     margin-top: 1px;
     gap: 1rem;

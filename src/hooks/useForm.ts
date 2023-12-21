@@ -101,7 +101,7 @@ const useForm = (fields: IField[]) => {
         ) => void) => {
             return (event) => {
                 const value = typeof event === 'string' ? event : event.target.value;
-                setFieldsData((prev) => ({ ...prev, [field]: value.trim() }));
+                setFieldsData((prev) => ({ ...prev, [field]: value }));
                 if (fieldsFocus[field]) {
                     validateField(field, value);
                 }
@@ -112,7 +112,8 @@ const useForm = (fields: IField[]) => {
 
     const onFieldsBlur = useCallback(
         (key: string) => (): void => {
-            setFieldsFocus((prev) => ({ ...prev, [key]: true }));
+            const isFieldEmpty = fieldsData[key] === '';
+            setFieldsFocus((prev) => ({ ...prev, [key]: !isFieldEmpty }));
             validateField(key, fieldsData[key]);
         },
         [fieldsData, validateField],

@@ -10,7 +10,7 @@ import StepContentThree from '@/pages/CreateEmployeePage/components/StepContentT
 import StepContentTwo from '@/pages/CreateEmployeePage/components/StepContentTwo';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
-const steps = ['Enter company profile', 'Upload the company logo', 'Review and submit'];
+const steps = ['Employee information', 'Create password', 'Review and submit'];
 
 const StyledButtonsBox = styled(Box)`
     display: flex;
@@ -75,7 +75,7 @@ const CreateEmployeeStepper: React.FC<CreateEmployeeStepperProps> = ({ companyId
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'First name' },
-                { key: 'validateFirstName' },
+                { key: 'validateName', additionalData: 'First name' },
             ],
         },
         {
@@ -84,7 +84,7 @@ const CreateEmployeeStepper: React.FC<CreateEmployeeStepperProps> = ({ companyId
             key: 'lastName',
             type: 'input',
             value: '',
-            validationRules: [{ key: 'validateLastName' }],
+            validationRules: [{ key: 'validateName', additionalData: 'Last name' }],
         },
         {
             id: 3,

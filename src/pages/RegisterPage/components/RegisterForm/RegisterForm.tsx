@@ -22,7 +22,7 @@ const RegisterForm = () => {
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'First name' },
-                { key: 'validateFirstName' },
+                { key: 'validateName', additionalData: 'First name' },
             ],
         },
         {
@@ -31,7 +31,7 @@ const RegisterForm = () => {
             key: 'lastName',
             type: 'input',
             value: '',
-            validationRules: [{ key: 'validateLastName' }],
+            validationRules: [{ key: 'validateName', additionalData: 'Last name' }],
         },
         {
             id: 3,
