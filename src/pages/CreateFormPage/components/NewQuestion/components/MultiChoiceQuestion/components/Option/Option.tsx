@@ -8,10 +8,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
 import IOption from '@/interfaces/IOption';
-import { MuitichoiceContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 
 const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: boolean }) => {
-    const { dispatch } = useContext(MuitichoiceContext);
+    const { dispatch } = useContext(NewQuestionContext);
     const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         dispatch({

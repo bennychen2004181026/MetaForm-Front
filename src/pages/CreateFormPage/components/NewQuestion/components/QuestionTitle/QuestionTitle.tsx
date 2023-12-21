@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import TextField from '@mui/material/TextField';
 
-import { MuitichoiceContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 
 const QuestionTitle = () => {
-    const { state } = useContext(MuitichoiceContext);
+    const { state } = useContext(NewQuestionContext);
     const { title } = state;
-    const { dispatch } = useContext(MuitichoiceContext);
+    const { dispatch } = useContext(NewQuestionContext);
 
     const onBlur = () => {
         dispatch({

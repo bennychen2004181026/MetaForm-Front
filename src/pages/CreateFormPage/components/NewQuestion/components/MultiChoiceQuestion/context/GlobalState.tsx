@@ -1,9 +1,10 @@
 import React, { Dispatch, createContext, useMemo, useReducer } from 'react';
 
-import IMultiChoiceQuestion from '@/interfaces/IMuitichoiceQuestion';
 import IOption from '@/interfaces/IOption';
+import IQuestion from '@/interfaces/IQuestion';
 
-const initMuitichoiceQuestion: IMultiChoiceQuestion = {
+const initState: IQuestion = {
+    questionType: '0',
     title: 'What is your age range?',
     options: [
         { id: '1', value: 'Under 10' },
@@ -11,10 +12,6 @@ const initMuitichoiceQuestion: IMultiChoiceQuestion = {
         { id: '3', value: '20 - 30' },
     ],
 };
-enum NumberOfSelections {
-    SINGLE,
-    MULTIPLE,
-}
 type Actions =
     | {
           type: 'ADD_OPTION';
@@ -27,9 +24,12 @@ type Actions =
     | {
           type: 'SAVE_TITLE';
           payload: string;
+      }
+    | {
+          type: 'CHANGE_QUESTION_TYPE';
+          payload: string;
       };
-
-const muitichoiceReducer = (state: IMultiChoiceQuestion, action: Actions): IMultiChoiceQuestion => {
+const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
     const { type, payload } = action;
     switch (type) {
         case 'ADD_OPTION':
@@ -47,24 +47,31 @@ const muitichoiceReducer = (state: IMultiChoiceQuestion, action: Actions): IMult
                 ...state,
                 title: action.payload,
             };
+        case 'CHANGE_QUESTION_TYPE':
+            return {
+                ...state,
+                questionType: action.payload,
+            };
         default:
-            throw new Error('Invalid action, valid actions: [SAVE_TITLE,ADD_OPTION,DELETE_OPTION]');
+            throw new Error(
+                'Invalid action, valid actions: [SAVE_TITLE,ADD_OPTION,DELETE_OPTION,CHANGE_QUESTION_TYPE]',
+            );
     }
 };
 
-const MuitichoiceContext = createContext<{
-    state: IMultiChoiceQuestion;
+const NewQuestionContext = createContext<{
+    state: IQuestion;
     dispatch: Dispatch<Actions>;
-}>({ state: initMuitichoiceQuestion, dispatch: () => null });
+}>({ state: initState, dispatch: () => null });
 
 interface Props {
     children: React.ReactNode;
 }
 const GlobalState: React.FC<Props> = ({ children }) => {
-    const [state, dispatch] = useReducer(muitichoiceReducer, initMuitichoiceQuestion);
+    const [state, dispatch] = useReducer(questionReducer, initState);
     const value = useMemo(() => {
         return { state, dispatch };
     }, [state]);
-    return <MuitichoiceContext.Provider value={value}>{children}</MuitichoiceContext.Provider>;
+    return <NewQuestionContext.Provider value={value}>{children}</NewQuestionContext.Provider>;
 };
-export { MuitichoiceContext, NumberOfSelections, GlobalState };
+export { NewQuestionContext, GlobalState };

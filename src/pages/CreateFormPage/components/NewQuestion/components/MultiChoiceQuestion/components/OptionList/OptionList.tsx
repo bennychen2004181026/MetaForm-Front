@@ -4,10 +4,10 @@ import { List } from '@mui/material';
 
 import Option from '../Option';
 
-import { MuitichoiceContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 
 const OptionList = ({ dense, isCheckbox }: { dense: boolean; isCheckbox: boolean }) => {
-    const { state } = useContext(MuitichoiceContext);
+    const { state } = useContext(NewQuestionContext);
     const { options } = state;
     return (
         <List dense={dense}>

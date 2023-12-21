@@ -1,31 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Grid } from '@mui/material';
+import { Box } from '@mui/material';
+import styled from 'styled-components';
 
-import SelectedQuestion from './components/QuestionBody/SelectedQuestion';
-import QuestionTypeSelector from './components/QuestionTypeSelector';
+import SelectedQuestion from './components/SelectedQuestion/SelectedQuestion';
+import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
 
+const NewQuestionBox = styled(Box)({
+    backgroundColor: 'aliceblue',
+    color: 'darkslategray',
+    padding: '2rem',
+    textAlign: 'center',
+});
 const NewQuestion = () => {
-    const [questionType, setQuestionType] = useState(0);
     return (
-        <Grid
-            container
-            xs={12}
-            sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-            }}
-        >
-            <Grid item xs={8}>
-                <SelectedQuestion selectedQuestionType={questionType} />
-            </Grid>
-            <Grid item xs={3}>
-                <QuestionTypeSelector setQuestionType={setQuestionType} />
-            </Grid>
-        </Grid>
+        <NewQuestionBox>
+            <SelectedQuestion />
+            <QuestionTypeSelector />
+        </NewQuestionBox>
     );
 };
 export default NewQuestion;

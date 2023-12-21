@@ -1,7 +1,8 @@
 import IOption from '@/interfaces/IOption';
 
-interface IMultiChoiceQuestion {
+interface IQuestion {
+    questionType: string;
     title: string;
     options: IOption[];
 }
-export default IMultiChoiceQuestion;
+export default IQuestion;

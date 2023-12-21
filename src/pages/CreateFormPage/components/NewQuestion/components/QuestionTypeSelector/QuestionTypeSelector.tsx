@@ -1,32 +1,33 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { useContext, useState } from 'react';
 
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { InputAdornment, TextField } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 import { questionTypes } from '@/pages/CreateFormPage/components/NewQuestion/questionTypes';
 
-const QuestionTypeSelector = ({
-    setQuestionType,
-}: {
-    setQuestionType: Dispatch<SetStateAction<number>>;
-}) => {
-    const handleSelectQuestionType = (
-        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    ) => {
+const QuestionTypeSelector = () => {
+    const [selectedQuestionType, setSelectedQuestionType] = useState(questionTypes[0].value);
+    const { dispatch } = useContext(NewQuestionContext);
+    const onChangeSelect = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        e.preventDefault();
         const selectedQuestionTypeIndex = questionTypes.findIndex(
             (questionType) => e.target.value === questionType.value,
         );
-        setQuestionType(selectedQuestionTypeIndex || 0);
+        dispatch({
+            type: 'CHANGE_QUESTION_TYPE',
+            payload: selectedQuestionTypeIndex.toString(),
+        });
+        setSelectedQuestionType(e.target.value);
     };
+
     return (
         <TextField
-            id="general-dropdown-selector"
+            id="questionTypeSelector"
             select
-            label="Select"
-            defaultValue={questionTypes[0].value}
-            onChange={(e) => handleSelectQuestionType(e)}
-            fullWidth
+            value={selectedQuestionType}
+            onChange={(e) => onChangeSelect(e)}
             InputProps={{
                 startAdornment: (
                     <InputAdornment position="start">
