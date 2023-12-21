@@ -101,7 +101,7 @@ const useForm = (fields: IField[]) => {
         ) => void) => {
             return (event) => {
                 const value = typeof event === 'string' ? event : event.target.value;
-                setFieldsData((prev) => ({ ...prev, [field]: value }));
+                setFieldsData((prev) => ({ ...prev, [field]: value.trim() }));
                 if (fieldsFocus[field]) {
                     validateField(field, value);
                 }
