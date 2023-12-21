@@ -1,23 +1,16 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
 import styled from 'styled-components';
 
-import SelectedQuestion from './components/SelectedQuestion/SelectedQuestion';
-import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
+import QuestionBody from './components/QuestionBody/QuestionBody';
+import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
-const NewQuestionBox = styled(Box)({
-    backgroundColor: 'aliceblue',
-    color: 'darkslategray',
-    padding: '2rem',
-    textAlign: 'center',
-});
 const NewQuestion = () => {
     return (
-        <NewQuestionBox>
-            <SelectedQuestion />
-            <QuestionTypeSelector />
-        </NewQuestionBox>
+        <div>
+            <QuestionTitle />
+            <QuestionBody />
+        </div>
     );
 };
 export default NewQuestion;

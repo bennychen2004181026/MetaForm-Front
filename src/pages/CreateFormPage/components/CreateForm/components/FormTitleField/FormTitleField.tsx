@@ -12,6 +12,7 @@ const EditFormTitle = () => {
                     defaultValue="Untitled Form"
                     variant="standard"
                     margin="normal"
+                    fullWidth
                     inputProps={{ style: { fontSize: 40 } }}
                 />
             </div>
@@ -21,6 +22,7 @@ const EditFormTitle = () => {
                     id="form-description"
                     defaultValue="Description"
                     variant="standard"
+                    fullWidth
                 />
             </div>
         </>
