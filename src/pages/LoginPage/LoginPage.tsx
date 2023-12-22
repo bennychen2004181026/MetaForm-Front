@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { TextField, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import googleIcon from '@/assets/images/google-icon-logo.png';
 import StyledButton from '@/components/Button/Button';
+import ReusableForm from '@/components/ReusableForm';
 import Hyperlink from '@/components/StyledLink/';
-import useForm from '@/hooks/useForm';
+import useForm, { IField } from '@/hooks/useForm';
 import Title from '@/layouts/MainLayout/Title';
 import GlobalStyle from '@/styles/GlobalStyle';
-import validator from '@/utils/UserRegisterFormValidators';
+import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
-const Content = styled.div`
+const LoginContent = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-conetnet: center;
-    width: 30%;
+    justify-content: center;
     min-width: 350px;
 `;
 
@@ -32,80 +32,90 @@ interface ButtonProps {
 }
 
 const LoginButton = styled(StyledButton)<ButtonProps>`
-    margin: 2rem;
     background-color: ${(props) => props.backgroundColor};
     font-weight: bold;
     text-transform: none;
 `;
 
-interface CustomFieldProps {
-    customMargin?: string;
-}
-const StyledTextField = styled(TextField)<CustomFieldProps>`
-    margin-bottom: ${(props) => props.customMargin};
-`;
-const loginType = (formField: Record<string, string>) => [
-    {
-        id: 1,
-        label: 'Email',
-        getErrorMessage: (data: Record<string, string>) => validator.validEmail(data?.email),
-        key: 'email',
-        value: formField.email,
-        margin: '1rem',
-    },
-    {
-        id: 2,
-        label: 'Password',
-        getErrorMessage: (data: Record<string, string>) => validator.validPassword(data?.password),
-        key: 'password',
-        value: formField.password,
-        margin: '1rem',
-    },
-];
-
 const Login = () => {
-    const [formData, setFormData] = useState({
-        username: '',
-        workEmail: '',
-    });
-    const formField = loginType(formData);
-    const { data, focus, onBlur, onChange, validation } = useForm(formField);
+    const showSnackbar = useSnackbarHelper();
+    const formFields: IField[] = [
+        {
+            id: 1,
+            label: 'Email',
+            key: 'email',
+            type: 'input',
+            value: '',
+            validationRules: [
+                { key: 'isRequired', additionalData: 'email' },
+                { key: 'validateEmail' },
+            ],
+        },
+        {
+            id: 2,
+            label: 'Password',
+            key: 'password',
+            type: 'input',
+            value: '',
+            validationRules: [
+                { key: 'isRequired', additionalData: 'Password' },
+                { key: 'validatePassword' },
+            ],
+        },
+    ];
+
+    const {
+        fieldsData,
+        fieldsFocus,
+        errors,
+        onDataChange,
+        onFieldsBlur,
+        isValid,
+        validateAllFields,
+    } = useForm(formFields);
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!validateAllFields()) {
+            showSnackbar('Please fill all the required valid fields first', 'error');
+        } else {
+            // temporary message, to be updated with authentification logic
+            showSnackbar('login successful', 'success');
+        }
+    };
     const navigate = useNavigate();
     const forgotPassword = () => {
         const path = `../forgot-password`;
         navigate(path);
     };
+    const submitButtonText = 'Confirm';
     return (
-        <Content>
+        <LoginContent>
             <GlobalStyle />
             <Title content="Welcome to MetaForm" />
-            {formField.map((type) => {
-                return (
-                    <StyledTextField
-                        key={type.id}
-                        label={type.label}
-                        variant="outlined"
-                        fullWidth
-                        helperText={(focus[type.key] && type.getErrorMessage?.(data)) ?? ' '}
-                        onBlur={onBlur(type.key)}
-                        onChange={onChange(type.key)}
-                        error={focus[type.key] && !!type.getErrorMessage?.(data)}
-                        customMargin={type.margin}
-                    />
-                );
-            })}
-            <Typography variant="subtitle1" sx={{ padding: '5px' }}>
-                Forgot password? Click <Hyperlink text="here" onClick={forgotPassword} />
-            </Typography>
-            <LoginButton
-                variant="contained"
-                startIcon={<GoogleIcon src={googleIcon} />}
-                backgroundColor="silver"
+            <ReusableForm
+                formFields={formFields}
+                fieldsData={fieldsData}
+                fieldsFocus={fieldsFocus}
+                errors={errors}
+                onDataChange={onDataChange}
+                onFieldsBlur={onFieldsBlur}
+                isValid={isValid}
+                handleSubmit={handleSubmit}
+                submitButtonText={submitButtonText}
             >
-                Sign in with Google
-            </LoginButton>
-            <LoginButton variant="contained">Confirm</LoginButton>
-        </Content>
+                <Typography variant="subtitle1" sx={{ padding: '5px', textAlign: 'center' }}>
+                    Forgot password? Click <Hyperlink text="here" onClick={forgotPassword} />
+                </Typography>
+                <LoginButton
+                    variant="contained"
+                    startIcon={<GoogleIcon src={googleIcon} />}
+                    backgroundColor="silver"
+                >
+                    Sign in with Google
+                </LoginButton>
+            </ReusableForm>
+        </LoginContent>
     );
 };
 
