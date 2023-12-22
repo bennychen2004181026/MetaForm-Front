@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
-import { Box, TextField } from '@mui/material';
+import ImageIcon from '@mui/icons-material/Image';
+import { Box, IconButton, TextField } from '@mui/material';
 import styled from 'styled-components';
 
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
@@ -43,6 +44,9 @@ const QuestionTitle = () => {
                     fullWidth
                 />
             </StyledQuestionTitle>
+            <IconButton>
+                <ImageIcon fontSize="large" />
+            </IconButton>
             <QuestionTypeSelector />
         </NewQuestionTitleBox>
     );

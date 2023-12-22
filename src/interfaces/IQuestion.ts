@@ -4,5 +4,6 @@ interface IQuestion {
     questionType: string;
     title: string;
     options: IOption[];
+    other: boolean;
 }
 export default IQuestion;
