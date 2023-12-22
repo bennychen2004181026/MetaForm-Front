@@ -13,7 +13,7 @@ import {
 const CreateForm = () => {
     return (
         <Container sx={{ display: 'flex', flexDirection: 'column' }}>
-            <ConditionalSectionContainer backgroundColor="#e0e0e0">
+            <ConditionalSectionContainer backgroundColor="#03787c">
                 <FormTitleField />
             </ConditionalSectionContainer>
             <ConditionalSectionContainer>

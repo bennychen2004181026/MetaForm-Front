@@ -3,6 +3,7 @@ import React from 'react';
 import IOption from '@/interfaces/IOption';
 import CheckboxesQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/CheckboxesQuestion';
 import MuitiChoiceQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion';
+import checkbox from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/checkbox.jpg';
 import choice from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/choice.jpg';
 import date from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/date.jpg';
 import dropDown from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/dropDown.jpg';
@@ -10,7 +11,6 @@ import fileUpload from '@/pages/CreateFormPage/components/NewQuestion/components
 import paragraph from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/paragraph.jpg';
 import shortAnswer from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/shortAnswer.jpg';
 import time from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/time.jpg';
-import yesOrNo from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/yesOrNo.jpg';
 import ShortAnswerQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/ShortAnswerQuestion';
 
 enum questionTypeStrings {
@@ -22,7 +22,6 @@ enum questionTypeStrings {
     FILE_UPLOAD = 'File upload',
     DATEPICKER = 'Date',
     TIMEPICKER = 'Time',
-    YES_NO = 'Yes/No',
 }
 const questionTypes: IOption[] = [
     {
@@ -48,7 +47,7 @@ const questionTypes: IOption[] = [
     {
         id: '4',
         value: questionTypeStrings.CHECKBOXES,
-        icon: { choice },
+        icon: { checkbox },
     },
     {
         id: '5',
@@ -65,23 +64,8 @@ const questionTypes: IOption[] = [
         value: questionTypeStrings.TIMEPICKER,
         icon: { time },
     },
-    {
-        id: '8',
-        value: questionTypeStrings.YES_NO,
-        icon: { yesOrNo },
-    },
 ];
-const questionIcons = [
-    choice,
-    shortAnswer,
-    paragraph,
-    dropDown,
-    choice,
-    fileUpload,
-    date,
-    time,
-    yesOrNo,
-];
+const questionIcons = [choice, shortAnswer, paragraph, dropDown, checkbox, fileUpload, date, time];
 
 const getQuestion = (questionId: string) => {
     switch (questionId) {
