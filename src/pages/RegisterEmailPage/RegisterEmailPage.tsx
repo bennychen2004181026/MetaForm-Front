@@ -1,99 +1,104 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Checkbox, FormControlLabel, FormGroup, TextField, Typography } from '@mui/material';
+import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material';
 import styled from 'styled-components';
 
-import StyledButton from '@/components/Button/Button';
-import useForm from '@/hooks/useForm';
+import ReusableForm from '@/components/ReusableForm';
+import useForm, { IField } from '@/hooks/useForm';
 import Title from '@/layouts/MainLayout/Title';
 import GlobalStyle from '@/styles/GlobalStyle';
-import validator from '@/utils/UserRegisterFormValidators';
+import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
-const Content = styled.div`
+const RegisterEmailContent = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-conetnet: center;
-    width: 30%;
 `;
-
-interface CustomFieldProps {
-    customMargin?: string;
-}
-const StyledTextField = styled(TextField)<CustomFieldProps>`
-    margin-bottom: ${(props) => props.customMargin};
-`;
-const registerEmailType = (formField: Record<string, string>) => [
-    {
-        id: 1,
-        label: 'User Name',
-        getErrorMessage: (data: Record<string, string>) =>
-            validator.isRequired('UserName', data?.username),
-        key: 'username',
-        value: formField.username,
-        margin: '1rem',
-    },
-    {
-        id: 2,
-        label: 'Work Email',
-        getErrorMessage: (data: Record<string, string>) => validator.validEmail(data?.workEmail),
-        key: 'workEmail',
-        value: formField.workEmail,
-        margin: '1rem',
-    },
-];
 
 const RegisterEmail = () => {
-    const [formData, setFormData] = useState({
-        username: '',
-        workEmail: '',
-    });
-    const formField = registerEmailType(formData);
-    const { data, focus, onBlur, onChange, validation } = useForm(formField);
+    const showSnackbar = useSnackbarHelper();
+    const formFields: IField[] = [
+        {
+            id: 1,
+            label: 'User Name',
+            key: 'username',
+            type: 'input',
+            value: '',
+            validationRules: [{ key: 'isRequired', additionalData: 'username' }],
+        },
+        {
+            id: 2,
+            label: 'Email',
+            key: 'email',
+            type: 'input',
+            value: '',
+            validationRules: [
+                { key: 'isRequired', additionalData: 'email' },
+                { key: 'validateEmail' },
+            ],
+        },
+    ];
+
+    const {
+        fieldsData,
+        fieldsFocus,
+        errors,
+        onDataChange,
+        onFieldsBlur,
+        isValid,
+        validateAllFields,
+    } = useForm(formFields);
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!validateAllFields()) {
+            showSnackbar('Please fill all the required valid fields first', 'error');
+        } else {
+            // temporary message, to be updated with authentification logic
+            showSnackbar('Account Creation Successful', 'success');
+        }
+    };
+
+    const submitButtonText = 'Create My Account';
     return (
-        <Content>
+        <RegisterEmailContent>
             <GlobalStyle />
             <Title content="Create your account" />
-            {formField.map((type) => {
-                return (
-                    <StyledTextField
-                        key={type.id}
-                        label={type.label}
-                        variant="outlined"
-                        fullWidth
-                        helperText={(focus[type.key] && type.getErrorMessage?.(data)) ?? ' '}
-                        onBlur={onBlur(type.key)}
-                        onChange={onChange(type.key)}
-                        error={focus[type.key] && !!type.getErrorMessage?.(data)}
-                        customMargin={type.margin}
+            <ReusableForm
+                formFields={formFields}
+                fieldsData={fieldsData}
+                fieldsFocus={fieldsFocus}
+                errors={errors}
+                onDataChange={onDataChange}
+                onFieldsBlur={onFieldsBlur}
+                isValid={isValid}
+                handleSubmit={handleSubmit}
+                submitButtonText={submitButtonText}
+            >
+                <Typography variant="subtitle1" sx={{ padding: '5px', alignSelf: 'flex-start' }}>
+                    Opt-in
+                </Typography>
+                <FormGroup>
+                    <FormControlLabel
+                        control={<Checkbox />}
+                        id="marketingEmail"
+                        label="Marketing Emails"
                     />
-                );
-            })}
-            <Typography variant="subtitle1" sx={{ padding: '5px', alignSelf: 'flex-start' }}>
-                Opt-in
-            </Typography>
-            <FormGroup>
-                <FormControlLabel
-                    control={<Checkbox />}
-                    id="marketingEmail"
-                    label="Marketing Emails"
-                />
-                <FormControlLabel
-                    control={<Checkbox />}
-                    id="newsEmail"
-                    label="News & Updates Emails"
-                />
-                <FormControlLabel
-                    id="termsAgreement"
-                    required
-                    control={<Checkbox />}
-                    label="I agree to MetaForm's Terms of Service, Privacy Policy and Data Processing Agreement"
-                />
-            </FormGroup>
-            <StyledButton variant="contained" sx={{ margin: '2rem' }}>
-                Create my account
-            </StyledButton>
-        </Content>
+                    <FormControlLabel
+                        control={<Checkbox />}
+                        id="newsEmail"
+                        label="News & Updates Emails"
+                    />
+                    <FormControlLabel
+                        id="termsAgreement"
+                        required
+                        control={<Checkbox />}
+                        label="I agree to MetaForm's Terms of Service, Privacy Policy and Data Processing Agreement"
+                    />
+                </FormGroup>
+            </ReusableForm>
+        </RegisterEmailContent>
     );
 };
 
