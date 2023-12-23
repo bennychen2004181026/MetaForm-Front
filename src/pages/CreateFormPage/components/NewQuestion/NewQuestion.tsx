@@ -2,15 +2,18 @@ import React from 'react';
 
 import QuestionBody from './components/QuestionBody/QuestionBody';
 import BottomToolbar from '@/pages/CreateFormPage/components/NewQuestion/components/BottomToolbar';
+import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
 const NewQuestion = () => {
     return (
-        <div>
-            <QuestionTitle />
-            <QuestionBody />
-            <BottomToolbar />
-        </div>
+        <GlobalState>
+            <div>
+                <QuestionTitle />
+                <QuestionBody />
+                <BottomToolbar />
+            </div>
+        </GlobalState>
     );
 };
 export default NewQuestion;

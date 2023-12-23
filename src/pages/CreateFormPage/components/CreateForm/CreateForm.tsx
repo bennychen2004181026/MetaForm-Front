@@ -3,22 +3,19 @@ import React from 'react';
 import { Container } from '@mui/material';
 
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
+import FormQuestions from '@/pages/CreateFormPage/components/CreateForm/components/FormQuestions';
 import FormTitleField from '@/pages/CreateFormPage/components/CreateForm/components/FormTitleField';
-import NewQuestion from '@/pages/CreateFormPage/components/NewQuestion';
-import {
-    GlobalState,
-    NewQuestionContext,
-} from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 
 const CreateForm = () => {
     return (
-        <Container sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Container>
             <ConditionalSectionContainer backgroundColor="#03787c">
                 <FormTitleField />
             </ConditionalSectionContainer>
-            <ConditionalSectionContainer>
+            <ConditionalSectionContainer backgroundColor="#03787c">
                 <GlobalState>
-                    <NewQuestion />
+                    <FormQuestions />
                 </GlobalState>
             </ConditionalSectionContainer>
         </Container>

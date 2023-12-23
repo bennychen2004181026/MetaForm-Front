@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 
+import ParagraphIcon from '@mui/icons-material/FeedOutlined';
 import { Grid, TextField } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -8,7 +9,7 @@ import styled from 'styled-components';
 
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 import {
-    images,
+    icons,
     questionTypes,
 } from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/questionTypes';
 
@@ -53,11 +54,7 @@ const QuestionTypeSelector = () => {
                                             mx: '3em',
                                         }}
                                     >
-                                        <img
-                                            style={{ width: '15px' }}
-                                            src={images[parseInt(option.id, 10)]}
-                                            alt={option.value}
-                                        />
+                                        {option.icon}
                                     </ListItemIcon>
                                 </Grid>
                                 <Grid item xs={8}>

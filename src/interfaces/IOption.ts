@@ -1,9 +1,9 @@
-import choice from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/choice.png';
+import React from 'react';
 
 interface IOption {
     id: string;
     value: string;
-    icon?: typeof choice;
+    icon?: React.ReactNode;
     otherOption?: boolean;
 }
 export default IOption;

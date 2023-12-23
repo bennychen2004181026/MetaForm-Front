@@ -1,16 +1,17 @@
 import React from 'react';
 
+import DropDownIcon from '@mui/icons-material/ArrowDropDownCircleOutlined';
+import FileUploadIcon from '@mui/icons-material/BackupOutlined';
+import DateIcon from '@mui/icons-material/CalendarMonthOutlined';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import ParagraphIcon from '@mui/icons-material/FeedOutlined';
+import ShortAnswerIcon from '@mui/icons-material/NotesOutlined';
+import ChoiceIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
+import TimeIcon from '@mui/icons-material/TimerOutlined';
+
 import IOption from '@/interfaces/IOption';
 import CheckboxesQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/CheckboxesQuestion';
 import MuitiChoiceQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion';
-import checkbox from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/checkbox.jpg';
-import choice from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/choice.jpg';
-import date from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/date.jpg';
-import dropDown from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/dropDown.jpg';
-import fileUpload from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/fileUpload.jpg';
-import paragraph from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/paragraph.jpg';
-import shortAnswer from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/shortAnswer.jpg';
-import time from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/assets/time.jpg';
 import ShortAnswerQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/ShortAnswerQuestion';
 
 enum questionTypeStrings {
@@ -27,45 +28,54 @@ const questionTypes: IOption[] = [
     {
         id: '0',
         value: questionTypeStrings.MULTIPLE_CHOICE,
-        icon: { choice },
+        icon: <ChoiceIcon />,
     },
     {
         id: '1',
         value: questionTypeStrings.SHORT_ANSWER,
-        icon: { shortAnswer },
+        icon: <ShortAnswerIcon />,
     },
     {
         id: '2',
         value: questionTypeStrings.PARAGRAPH,
-        icon: { paragraph },
+        icon: <ParagraphIcon />,
     },
     {
         id: '3',
         value: questionTypeStrings.DROPDOWN,
-        icon: { dropDown },
+        icon: <DropDownIcon />,
     },
     {
         id: '4',
         value: questionTypeStrings.CHECKBOXES,
-        icon: { checkbox },
+        icon: <CheckBoxIcon />,
     },
     {
         id: '5',
         value: questionTypeStrings.FILE_UPLOAD,
-        icon: { fileUpload },
+        icon: <FileUploadIcon />,
     },
     {
         id: '6',
         value: questionTypeStrings.DATEPICKER,
-        icon: { date },
+        icon: <DateIcon />,
     },
     {
         id: '7',
         value: questionTypeStrings.TIMEPICKER,
-        icon: { time },
+        icon: <TimeIcon />,
     },
 ];
-const questionIcons = [choice, shortAnswer, paragraph, dropDown, checkbox, fileUpload, date, time];
+const questionIcons = [
+    ChoiceIcon,
+    ShortAnswerIcon,
+    ParagraphIcon,
+    DropDownIcon,
+    CheckBoxIcon,
+    FileUploadIcon,
+    DateIcon,
+    TimeIcon,
+];
 
 const getQuestion = (questionId: string) => {
     switch (questionId) {
@@ -79,4 +89,4 @@ const getQuestion = (questionId: string) => {
             return <MuitiChoiceQuestion isCheckbox={false} />;
     }
 };
-export { getQuestion, questionIcons as images, questionTypes };
+export { getQuestion, questionIcons as icons, questionTypes };
