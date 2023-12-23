@@ -1,32 +1,20 @@
-export {};
-// import axios from 'axios';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-// // login
-// export const loginUser = async (username: string, password: string) => {
-//     try {
-//         const response = await axios.post('/api/login', { username, password });
-//         return response.data;
-//     } catch (error) {
-//         throw error;
-//     }
-// };
+import { IField } from '@/hooks/useForm';
+import axiosBaseQuery from '@/utils/axiosBaseQuery';
 
-// // register
-// export const registerUser = async (username: string, password: string, email: string) => {
-//     try {
-//         const response = await axios.post('/api/register', { username, password, email });
-//         return response.data;
-//     } catch (error) {
-//         throw error;
-//     }
-// };
+type ResponseData = Record<string, string>;
+const userApis = createApi({
+    baseQuery: axiosBaseQuery({ basePath: '/users' }),
+    endpoints: (builder) => ({
+        login: builder.mutation<ResponseData, IField>({
+            query: (formData: IField) => ({
+                url: '/login',
+                method: 'POST',
+                data: formData,
+            }),
+        }),
+    }),
+});
 
-// // get user information
-// export const getUserInfo = async (userId: number) => {
-//     try {
-//         const response = await axios.get(`/api/user/${userId}`);
-//         return response.data;
-//     } catch (error) {
-//         throw error;
-//     }
-// };
+export default userApis;

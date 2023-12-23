@@ -46,7 +46,7 @@ axiosInstance.interceptors.request.use(
 
 const axiosBaseQuery =
     (
-        { baseUrl }: { baseUrl: string } = { baseUrl: '' },
+        { basePath }: { basePath: string } = { basePath: '' },
     ): BaseQueryFn<
         {
             url: string;
@@ -61,7 +61,7 @@ const axiosBaseQuery =
     async ({ url, method, data, params, headers }) => {
         try {
             const result = await axiosInstance({
-                url: baseUrl + url,
+                url: basePath + url,
                 method,
                 data,
                 params,
