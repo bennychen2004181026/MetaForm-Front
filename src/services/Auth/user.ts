@@ -5,6 +5,7 @@ import axiosBaseQuery from '@/utils/axiosBaseQuery';
 
 type ResponseData = Record<string, string>;
 const userApis = createApi({
+    reducerPath: 'userApi',
     baseQuery: axiosBaseQuery({ basePath: '/users' }),
     endpoints: (builder) => ({
         login: builder.mutation<ResponseData, IField>({
