@@ -2,9 +2,11 @@ import React from 'react';
 
 import { SnackbarProvider } from 'notistack';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import styled from 'styled-components';
 
 import Snackbar from '@/components/SnackBar/index';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
 import AppRoute from '@/routes/AppRoute';
 import store from '@/store';
 
@@ -17,11 +19,13 @@ const App = () => {
         padding: 20px;
     `;
     return (
-        <Provider store={store}>
+        <Provider store={store.store}>
             <SnackbarProvider maxSnack={3}>
-                <Container>
-                    <AppRoute />
-                </Container>
+                <PersistGate loading={<LoadingSpinner />} persistor={store.persistor}>
+                    <Container>
+                        <AppRoute />
+                    </Container>
+                </PersistGate>
                 <Snackbar />
             </SnackbarProvider>
         </Provider>
