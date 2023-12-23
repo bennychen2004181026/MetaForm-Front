@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CloseIcon from '@mui/icons-material/Close';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import ImageIcon from '@mui/icons-material/Image';
 import { IconButton, ListItem, TextField } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -15,9 +16,15 @@ const StyledImageUploadButton = styled.div`
     visibility: hidden;
     margin-right: 4rem;
 `;
-const Styledabc = styled.div`
+const StyledDragButton = styled.div`
+    visibility: hidden;
+`;
+const StyledOptionContainer = styled.div`
     &:hover {
         & #onHoverUploadImageButton {
+            visibility: visible;
+        }
+        & #onHoverDragIcon {
             visibility: visible;
         }
     }
@@ -36,7 +43,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
         });
     };
     return (
-        <Styledabc>
+        <StyledOptionContainer>
             <ListItem
                 secondaryAction={
                     <IconButton onClick={handleDelete}>
@@ -44,6 +51,9 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                     </IconButton>
                 }
             >
+                <StyledDragButton id="onHoverDragIcon">
+                    <DragIndicatorIcon />
+                </StyledDragButton>
                 <ListItemIcon>
                     {checkbox ? <CheckBoxOutlineBlankIcon /> : <CircleOutlinedIcon />}
                 </ListItemIcon>
@@ -78,7 +88,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                     )}
                 </StyledImageUploadButton>
             </ListItem>
-        </Styledabc>
+        </StyledOptionContainer>
     );
 };
 
