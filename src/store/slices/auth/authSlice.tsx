@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
+import type { RootState } from '@/interfaces/redux';
 import { IUser } from '@/interfaces/User.interface';
 
 interface AuthState {
@@ -9,8 +10,8 @@ interface AuthState {
     role: string | null;
     company: string | null;
     userId: string | null;
-    isAccountComplete: boolean | null;
-    isActive: boolean | null;
+    isAccountComplete: boolean | false;
+    isActive: boolean | false;
 }
 
 const initialState: AuthState = {
@@ -20,8 +21,8 @@ const initialState: AuthState = {
     role: null,
     company: null,
     userId: null,
-    isAccountComplete: null,
-    isActive: null,
+    isAccountComplete: false,
+    isActive: false,
 };
 
 const authSlice = createSlice({
@@ -37,31 +38,29 @@ const authSlice = createSlice({
                 role: string | null;
                 company: string | null;
                 userId: string | null;
-                isAccountComplete: boolean | null;
-                isActive: boolean | null;
+                isAccountComplete: boolean | false;
+                isActive: boolean | false;
             }>,
         ) => {
-            state.user = action.payload.user;
-            state.token = action.payload.token;
-            state.email = action.payload.email;
-            state.role = action.payload.role;
-            state.company = action.payload.company;
-            state.userId = action.payload.userId;
-            state.isAccountComplete = action.payload.isAccountComplete;
-            state.isActive = action.payload.isActive;
+            const { user, token, email, role, company, userId, isAccountComplete, isActive } =
+                action.payload;
+            state.user = user;
+            state.token = token;
+            state.email = email;
+            state.role = role;
+            state.company = company;
+            state.userId = userId;
+            state.isAccountComplete = isAccountComplete;
+            state.isActive = isActive;
         },
-        clearCredentials: (state) => {
-            state.user = null;
-            state.token = null;
-            state.email = null;
-            state.role = null;
-            state.company = null;
-            state.userId = null;
-            state.isAccountComplete = null;
-            state.isActive = null;
+        clearCredentials: () => {
+            return { ...initialState };
         },
     },
 });
 
+export const authUser = (state: RootState) => state.auth.user;
+export const accountStatus = (state: RootState) => state.auth.isAccountComplete;
+export const authUserId = (state: RootState) => state.auth.userId;
 export const { setCredentials, clearCredentials } = authSlice.actions;
 export default authSlice.reducer;
