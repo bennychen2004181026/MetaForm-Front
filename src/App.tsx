@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import Snackbar from '@/components/SnackBar/index';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import AppRoute from '@/routes/AppRoute';
-import store from '@/store';
+import { persistor, store } from '@/store/store';
 
 const App = () => {
     const Container = styled.div`
@@ -19,9 +19,9 @@ const App = () => {
         padding: 20px;
     `;
     return (
-        <Provider store={store.store}>
+        <Provider store={store}>
             <SnackbarProvider maxSnack={3}>
-                <PersistGate loading={<LoadingSpinner />} persistor={store.persistor}>
+                <PersistGate loading={<LoadingSpinner />} persistor={persistor}>
                     <Container>
                         <AppRoute />
                     </Container>

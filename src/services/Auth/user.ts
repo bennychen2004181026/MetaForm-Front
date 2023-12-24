@@ -1,15 +1,14 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { IField } from '@/hooks/useForm';
+import { ILoginResponse, IUser } from '@/interfaces/User.interface';
 import axiosBaseQuery from '@/utils/axiosBaseQuery';
 
-type ResponseData = Record<string, string>;
 const userApis = createApi({
     reducerPath: 'userApi',
     baseQuery: axiosBaseQuery({ basePath: '/users' }),
     endpoints: (builder) => ({
-        login: builder.mutation<ResponseData, IField>({
-            query: (formData: IField) => ({
+        login: builder.mutation<ILoginResponse, IUser>({
+            query: (formData: IUser) => ({
                 url: '/login',
                 method: 'POST',
                 data: formData,

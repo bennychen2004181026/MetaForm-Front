@@ -2,12 +2,9 @@ import type { BaseQueryFn } from '@reduxjs/toolkit/query';
 import axios from 'axios';
 import type { AxiosError, AxiosRequestConfig } from 'axios';
 
-const {
-    NODE_ENV = 'development',
-    APP_URL_LOCAL = 'http://localhost:3000',
-    APP_URL_TEST = 'http://localhost:3001',
-    APP_URL_PRODUCTION = 'http://example.com',
-} = process.env;
+import { store } from '@/store/store';
+
+const { NODE_ENV = 'development', APP_URL_LOCAL, APP_URL_TEST, APP_URL_PRODUCTION } = process.env;
 
 const appURLs: {
     [key: string]: string;
@@ -15,9 +12,9 @@ const appURLs: {
     test: string;
     production: string;
 } = {
-    development: APP_URL_LOCAL,
-    test: APP_URL_TEST,
-    production: APP_URL_PRODUCTION,
+    development: APP_URL_LOCAL || 'http://localhost:3001',
+    test: APP_URL_TEST || 'http://localhost:3001',
+    production: APP_URL_PRODUCTION || 'http://localhost:3001',
 };
 
 const withCredentials = true;
@@ -34,9 +31,10 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     (config) => {
-        // const token = store.getState().auth.token;
-        // config.headers.Authorization = `Bearer ${getToken()}`;
-        //    if(token){config.headers.Authorization = `Bearer ${token}`;}
+        const { token } = store.getState().auth;
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
         return config;
     },
     (error) => {
