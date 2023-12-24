@@ -7,17 +7,17 @@ import styled from 'styled-components';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
 
-const NewQuestionTitleBox = styled(Box)({
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    flexBasis: '200px',
-    gap: '1em',
-    marginBottom: '2em',
-});
-const StyledQuestionTitle = styled(Box)({
-    flexGrow: 1,
-});
+const NewQuestionTitleBox = styled(Box)`
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-basis: 200px;
+    gap: 1em;
+    margin-bottom: 2em;
+`;
+const StyledQuestionTitle = styled(Box)`
+    flex-grow: 1;
+`;
 
 const QuestionTitle = () => {
     const { state } = useContext(NewQuestionContext);

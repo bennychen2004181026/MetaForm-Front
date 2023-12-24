@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 
-import ParagraphIcon from '@mui/icons-material/FeedOutlined';
 import { Grid, TextField } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -8,14 +7,11 @@ import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';
 
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
-import {
-    icons,
-    questionTypes,
-} from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/questionTypes';
+import { questionTypes } from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/questionTypes';
 
-const FixedWidthTypeSelector = styled('div')({
-    width: '300px',
-});
+const FixedWidthTypeSelector = styled.div`
+    width: 300px;
+`;
 const QuestionTypeSelector = () => {
     const [selectedQuestionType, setSelectedQuestionType] = useState(questionTypes[0].value);
     const { dispatch } = useContext(NewQuestionContext);
