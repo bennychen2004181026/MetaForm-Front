@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -8,12 +8,13 @@ import googleIcon from '@/assets/images/google-icon-logo.png';
 import StyledButton from '@/components/Button/Button';
 import ReusableForm from '@/components/ReusableForm';
 import Hyperlink from '@/components/StyledLink/';
-import { useAppDispatch } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
+import { ApiError } from '@/interfaces/ApiError';
 import { ILoginResponse, IUser } from '@/interfaces/User.interface';
 import Title from '@/layouts/MainLayout/Title';
 import userApis from '@/services/Auth/user';
-import { setCredentials } from '@/store/slices/auth/authSlice';
+import { authUser, setCredentials } from '@/store/slices/auth/authSlice';
 import GlobalStyle from '@/styles/GlobalStyle';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
@@ -35,14 +36,6 @@ interface ButtonProps {
     backgroundColor: string;
 }
 
-interface ApiErrorResponse {
-    error?: string;
-    data?: {
-        errors?: Array<{ message?: string; name?: string; statusCode?: number; field?: string }>;
-    };
-    status?: number;
-}
-
 const LoginButton = styled(StyledButton)<ButtonProps>`
     background-color: ${(props) => props.backgroundColor};
     font-weight: bold;
@@ -52,8 +45,19 @@ const LoginButton = styled(StyledButton)<ButtonProps>`
 const Login = () => {
     const showSnackbar = useSnackbarHelper();
     const { useLoginMutation } = userApis;
+    const [login] = useLoginMutation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const fetchedUser: IUser = useAppSelector(authUser);
+    const [initialCheckDone, setInitialCheckDone] = useState(false);
+
+    useEffect(() => {
+        if (!initialCheckDone && fetchedUser !== null) {
+            showSnackbar(`You are already login.`, 'warning');
+            navigate('/user-dashboard');
+        }
+        setInitialCheckDone(true);
+    }, [fetchedUser, navigate]);
 
     const formFields: IField[] = [
         {
@@ -73,10 +77,7 @@ const Login = () => {
             key: 'password',
             type: 'input',
             value: '',
-            validationRules: [
-                { key: 'isRequired', additionalData: 'Password' },
-                { key: 'validatePassword' },
-            ],
+            validationRules: [{ key: 'isRequired', additionalData: 'Password' }],
         },
     ];
 
@@ -91,36 +92,36 @@ const Login = () => {
     } = useForm(formFields);
 
     const loginFunction = async () => {
-        const [login, { isError, error }] = useLoginMutation();
+        try {
+            const response: ILoginResponse = await login(fieldsData).unwrap();
+            const { message, user, token, isAccountComplete } = response;
+            const { email, role, company, _id, isActive } = user;
+            dispatch(
+                setCredentials({
+                    user: user as IUser,
+                    token,
+                    email: email ?? null,
+                    role: role ?? null,
+                    company: company ?? null,
+                    userId: _id ?? null,
+                    isAccountComplete: isAccountComplete ?? false,
+                    isActive: isActive ?? false,
+                }),
+            );
+            showSnackbar(`${message}`, 'success');
+            setTimeout(() => {
+                if (isAccountComplete) {
+                    navigate('/user-dashboard');
+                } else {
+                    navigate(`/company-profile/${_id}`);
+                }
+            }, 500);
+        } catch (error) {
+            const apiError = error as ApiError;
+            const errorMessage =
+                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
 
-        const response: ILoginResponse = await login(fieldsData).unwrap();
-        const { message, user, token, isAccountComplete } = response;
-        const { email, username, role, company, _id, isActive } = user;
-        dispatch(
-            setCredentials({
-                user: user as IUser,
-                token,
-                email: email ?? null,
-                role: role ?? null,
-                company: company ?? null,
-                userId: _id ?? null,
-                isAccountComplete: isAccountComplete ?? null,
-                isActive: isActive ?? null,
-            }),
-        );
-        showSnackbar(`${message}`, 'success');
-        if (isAccountComplete === true) {
-            navigate('/user-dashboard');
-        }
-        navigate('/create-user', { state: { email, username } });
-
-        if (isError) {
-            const apiError = error as ApiErrorResponse;
-            const statusCode = apiError.status || apiError.data?.errors?.[0]?.statusCode;
-            const customErrorMessage = apiError.data?.errors?.[0]?.message;
-            const defaultErrorMessage = apiError.error ?? 'An unknown error occurred';
-            const errorMessage = customErrorMessage || defaultErrorMessage;
-            showSnackbar(`Status Code: ${statusCode}\nError: ${errorMessage}`, 'error');
+            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
         }
     };
 
