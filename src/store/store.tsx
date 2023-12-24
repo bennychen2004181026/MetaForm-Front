@@ -14,6 +14,7 @@ import {
 import authReducer from './slices/auth/authSlice';
 import userApis from '@/services/Auth/user';
 import snackbarSlice from '@/store/slices/snackbar/snackbarSlice';
+import { setGetTokenMethod } from '@/utils/tokenHandler';
 
 const persistConfig = {
     key: 'root',
@@ -39,5 +40,6 @@ export const store = configureStore({
         }).concat(userApis.middleware),
 });
 
+setGetTokenMethod(() => store.getState().auth.token);
 export const persistor = persistStore(store);
 export default { store, persistor };
