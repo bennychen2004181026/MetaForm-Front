@@ -44,7 +44,7 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
         case 'ADD_OPTION':
             return {
                 ...state,
-                options: [...state.options, payload],
+                options: [payload, ...state.options],
             };
         case 'DELETE_OPTION':
             return {

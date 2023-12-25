@@ -8,17 +8,17 @@ import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestio
 import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
 import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/TextEditor';
 
-const NewQuestionTitleBox = styled(Box)`
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    flex-basis: 200px;
-    gap: 1em;
-    margin-bottom: 2em;
-`;
-const StyledQuestionTitle = styled(Box)`
-    flex-grow: 1;
-`;
+const NewQuestionTitleBox = styled(Box)({
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    flexBasis: '200px',
+    gap: '1em',
+    marginBottom: '2em',
+});
+const StyledQuestionTitle = styled(Box)({
+    flexGrow: 1,
+});
 
 const QuestionTitle = () => {
     const { state } = useContext(NewQuestionContext);

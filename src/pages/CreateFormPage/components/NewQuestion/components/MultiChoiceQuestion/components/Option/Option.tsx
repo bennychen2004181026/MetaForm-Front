@@ -41,12 +41,6 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                 value: option.value,
             },
         });
-        if (option.otherOption) {
-            dispatch({
-                type: 'ALLOW_OTHER_OPTION',
-                payload: false,
-            });
-        }
     };
     return (
         <StyledOptionContainer>
