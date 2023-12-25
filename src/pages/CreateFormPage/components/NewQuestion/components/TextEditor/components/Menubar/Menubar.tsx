@@ -6,10 +6,16 @@ import { IconButton } from '@mui/material';
 import { Editor } from '@tiptap/react';
 import './styles.css';
 
-import AddLinkBox from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/components/AddLinkBox';
+import AddLinkPopup from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/components/AddLinkPopup';
 import TextOperation from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/components/Menubar/components/TextOperations';
 
-const MenuBar = ({ editor }: { editor: Editor | null }) => {
+const MenuBar = ({
+    editor,
+    setFocus,
+}: {
+    editor: Editor | null;
+    setFocus: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
     const [modal, setModal] = useState(false);
     if (!editor) {
         return null;
@@ -33,7 +39,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                             <AddLinkIcon />
                         </button>
                     )}
-                    {modal && <AddLinkBox editor={editor} setModal={setModal} />}
+                    {modal && <AddLinkPopup editor={editor} modal={modal} setModal={setModal} />}
                 </div>
             </div>
         </div>

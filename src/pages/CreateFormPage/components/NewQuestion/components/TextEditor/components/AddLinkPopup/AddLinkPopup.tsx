@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 
-import { Box, Button, IconButton, TextField } from '@mui/material';
+import { Box, Button, Dialog, DialogTitle, IconButton, TextField } from '@mui/material';
 import { Editor } from '@tiptap/react';
+import styled from 'styled-components';
 
-const AddLinkBox = ({
+const AddLinkPopup = ({
     editor,
+    modal,
     setModal,
 }: {
     editor: Editor;
+    modal: boolean;
     setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
     const [input, setInput] = useState('');
@@ -30,7 +33,7 @@ const AddLinkBox = ({
             <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-1 jcc aic">
                 <TextField
                     required
-                    id="form-question-title"
+                    id="new-link"
                     defaultValue=""
                     variant="outlined"
                     type="text"
@@ -48,4 +51,4 @@ const AddLinkBox = ({
         </Box>
     );
 };
-export default AddLinkBox;
+export default AddLinkPopup;
