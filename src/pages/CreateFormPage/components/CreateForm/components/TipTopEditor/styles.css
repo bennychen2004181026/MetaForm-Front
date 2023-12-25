@@ -1,0 +1,13 @@
+@import "https://ease-css.netlify.app/ease/css/ease.css";
+
+.ProseMirror {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgb(238, 238, 238);
+  outline: none;
+  color: rgb(65, 65, 65);
+  font-size: 1em;
+  width: 95%;
+  margin: 0.4rem auto;
+  overflow: auto;
+  height: 4em;
+}

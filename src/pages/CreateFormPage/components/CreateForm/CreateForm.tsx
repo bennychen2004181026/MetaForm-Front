@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Container } from '@mui/material';
 
+import TextEditor from './components/TipTopEditor/TextEditor';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import FormQuestions from '@/pages/CreateFormPage/components/CreateForm/components/FormQuestions';
 import FormTitleField from '@/pages/CreateFormPage/components/CreateForm/components/FormTitleField';
@@ -11,7 +12,7 @@ const CreateForm = () => {
     return (
         <Container>
             <ConditionalSectionContainer backgroundColor="#03787c">
-                <FormTitleField />
+                <TextEditor />
             </ConditionalSectionContainer>
             <ConditionalSectionContainer backgroundColor="#03787c">
                 <GlobalState>

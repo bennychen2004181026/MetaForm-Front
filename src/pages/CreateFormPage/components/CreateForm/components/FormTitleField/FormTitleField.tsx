@@ -2,6 +2,8 @@ import React from 'react';
 
 import { TextField } from '@mui/material';
 
+import Editor from '../QuillEditor/QuillEditor';
+
 const EditFormTitle = () => {
     return (
         <>
@@ -25,6 +27,7 @@ const EditFormTitle = () => {
                     fullWidth
                 />
             </div>
+            <Editor />
         </>
     );
 };
