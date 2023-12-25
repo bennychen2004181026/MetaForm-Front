@@ -43,7 +43,6 @@ const Editor = () => {
     };
     return (
         <div>
-            {/* {console.log(code)} */}
             <ReactQuill
                 theme="snow"
                 modules={modules}

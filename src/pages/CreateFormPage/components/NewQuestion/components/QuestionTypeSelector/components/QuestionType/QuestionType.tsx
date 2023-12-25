@@ -7,7 +7,6 @@ const imageFolderUrl =
 
 const QuestionType = ({ key, value, icon }: { key: string; value: string; icon: string }) => {
     const imageUrl = `${imageFolderUrl}${icon}.png`;
-    console.log({ key, value, icon });
     return (
         <MenuItem key={key} value={value}>
             <ListItemIcon sx={{ alignItems: 'center', mx: '3em' }}>

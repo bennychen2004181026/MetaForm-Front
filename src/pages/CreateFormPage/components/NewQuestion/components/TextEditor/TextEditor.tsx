@@ -7,7 +7,6 @@ import Underline from '@tiptap/extension-underline';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 
-import AddLinkPopup from './components/AddLinkPopup';
 import MenuBar from './components/Menubar/Menubar';
 
 const StyledMenubar = styled.div``;
@@ -17,7 +16,6 @@ const useOutsideClick = (callback: () => void) => {
     const ref = useRef<HTMLDivElement>(null);
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            console.log(event.target);
             if (event.target) {
                 if (ref.current && !ref.current.contains(event.target as Node)) {
                     callback();
