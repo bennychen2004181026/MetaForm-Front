@@ -1,0 +1,94 @@
+@import "https://ease-css.netlify.app/ease/css/ease.css";
+.App {
+  font-family: sans-serif;
+  margin: 0 auto;
+  max-width: 1500px;
+}
+.f-white {
+  color: white;
+}
+
+hr {
+  border: 0px;
+  border-top: 1px solid rgb(233, 233, 233);
+}
+.is-active {
+  background: rgb(230, 0, 146);
+  color: white;
+}
+
+.btn,
+button {
+  background-color: transparent;
+  border: 1px solid rgb(235, 235, 235);
+  /* padding: 0.2rem 0.7rem; */
+  border-radius: 5px;
+  margin: 0rem 0.3rem;
+  cursor: pointer;
+  transition: 0.15s all;
+}
+.container {
+  width: 80%;
+  margin: 0 auto;
+  /* justify-content: center; */
+}
+.btn-array {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ProseMirror {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgb(238, 238, 238);
+  outline: none;
+  color: rgb(65, 65, 65);
+  font-size: 1.3rem;
+  width: 95%;
+  margin: 0.4rem auto;
+  overflow: auto;
+  height: 100px;
+}
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: "Start writing...";
+  float: left;
+  color: #ced4da;
+  pointer-events: none;
+  height: 0;
+}
+.ProseMirror img {
+  max-width: 15rem;
+  height: auto;
+}
+.ProseMirror a {
+  color: rgb(0, 51, 255);
+  font-weight: bold;
+  cursor: pointer;
+}
+.t-center {
+  text-align: center;
+}
+.modal {
+  padding: 10rem;
+  position: absolute;
+  top: 0;
+  left: 2.2rem;
+  background: rgb(230, 0, 146);
+  z-index: 10;
+  border-radius: 5px;
+}
+.close {
+  right: 0.5rem;
+  top: 0.5rem;
+}
+.w-100 {
+  width: 100%;
+}
+.unlink {
+  background-color: rgb(230, 0, 146);
+  color: white;
+}
+
+button:hover {
+  background-color: rgb(230, 0, 146);
+  color: white;
+}

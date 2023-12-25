@@ -4,9 +4,9 @@ import ImageIcon from '@mui/icons-material/Image';
 import { Box, IconButton, TextField } from '@mui/material';
 import styled from 'styled-components';
 
-import TextEditor from '@/pages/CreateFormPage/components/CreateForm/components/TipTopEditor/TextEditor';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
+import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/TextEditor';
 
 const NewQuestionTitleBox = styled(Box)`
     text-align: center;

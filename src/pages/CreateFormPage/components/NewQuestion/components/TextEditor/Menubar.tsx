@@ -1,37 +1,40 @@
 import React, { useState } from 'react';
 
-import AddLinkIcon from '@mui/icons-material/AddLink';
-import LinkOffIcon from '@mui/icons-material/LinkOff';
-import './styles.css';
-import { IconButton } from '@mui/material';
 import { Editor } from '@tiptap/react';
+import { BiUnlink } from 'react-icons/bi';
+import { BsLink45Deg } from 'react-icons/bs';
+import './styles.css';
+import { RiImageAddFill } from 'react-icons/ri';
 
 import AddLinkBox from './AddLinkBox';
 import TextOperation from './TextOperations';
 
 const MenuBar = ({ editor }: { editor: Editor | null }) => {
-    const [modal, setModal] = useState<boolean>(false);
+    const [modal, setModal] = useState(false);
+    const [imageModal, setImageModal] = useState(false);
+
     if (!editor) {
         return null;
     }
+
     return (
-        <div>
+        <div className="btn-array gap-1 mtb1-rem">
             <TextOperation editor={editor} />
-            <div>
-                <div>
+            <div className="flex">
+                <div className="relative" onMouseLeave={() => setModal(false)}>
                     {editor.isActive('link') ? (
-                        <IconButton
-                            type="button"
+                        <button
                             className="unlink"
+                            type="button"
                             title="Remove link"
                             onClick={() => editor.chain().focus().unsetLink().run()}
                         >
-                            <LinkOffIcon />
-                        </IconButton>
+                            <BiUnlink />
+                        </button>
                     ) : (
-                        <IconButton type="button" title="add a link" onClick={() => setModal(true)}>
-                            <AddLinkIcon />
-                        </IconButton>
+                        <button type="button" title="add a link" onClick={() => setModal(true)}>
+                            <BsLink45Deg size={28} />
+                        </button>
                     )}
                     {modal && <AddLinkBox editor={editor} setModal={setModal} />}
                 </div>
