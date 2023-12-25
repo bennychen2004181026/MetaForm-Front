@@ -40,7 +40,6 @@ const TextEditor = () => {
         autofocus: false,
         onUpdate() {
             setEditorContent(editor!.getHTML());
-            console.log(editorContent);
         },
     });
     return (
