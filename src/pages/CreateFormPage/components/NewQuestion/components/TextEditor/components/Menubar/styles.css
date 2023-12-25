@@ -13,7 +13,7 @@ hr {
   border-top: 1px solid rgb(233, 233, 233);
 }
 .is-active {
-  background: rgb(230, 0, 146);
+  background: #03787c;
   color: white;
 }
 
@@ -23,7 +23,7 @@ button {
   border: 1px solid rgb(235, 235, 235);
   /* padding: 0.2rem 0.7rem; */
   border-radius: 5px;
-  margin: 0rem 0.3rem;
+  margin: 0rem 0.2rem;
   cursor: pointer;
   transition: 0.15s all;
 }
@@ -34,22 +34,23 @@ button {
 }
 .btn-array {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
 }
 .ProseMirror {
-  padding: 0.2rem 0.5rem;
-  border: 1px solid rgb(238, 238, 238);
+  /* padding: 0.2rem 0.5rem; */
+  border-style: dotted;
+  border: 1px solid #03787c;
   outline: none;
-  color: rgb(65, 65, 65);
+  color: rgb(0, 0, 0);
   font-size: 1.3rem;
   width: 95%;
-  margin: 0.4rem auto;
+  margin: 0.1rem auto;
   overflow: auto;
-  height: 100px;
+  height: 2em;
 }
 .ProseMirror p.is-editor-empty:first-child::before {
-  content: "Start writing...";
+  content: "Your Question...";
   float: left;
   color: #ced4da;
   pointer-events: none;
@@ -65,14 +66,14 @@ button {
   cursor: pointer;
 }
 .t-center {
-  text-align: center;
+  text-align: left;
 }
 .modal {
   padding: 10rem;
   position: absolute;
   top: 0;
   left: 2.2rem;
-  background: rgb(230, 0, 146);
+  background: #03787c;
   z-index: 10;
   border-radius: 5px;
 }
@@ -84,11 +85,11 @@ button {
   width: 100%;
 }
 .unlink {
-  background-color: rgb(230, 0, 146);
+  background-color: #03787c;
   color: white;
 }
 
 button:hover {
-  background-color: rgb(230, 0, 146);
+  background-color: #03787c;
   color: white;
 }

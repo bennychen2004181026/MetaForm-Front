@@ -7,23 +7,20 @@ import Underline from '@tiptap/extension-underline';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 
-import MenuBar from './Menubar';
+import MenuBar from './components/Menubar/Menubar';
 
 const StyledMenubar = styled.div``;
 
 const StyledEditor = styled.div``;
 const useOutsideClick = (callback: () => void) => {
     const ref = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (ref.current && !ref.current.contains(event.target as Node)) {
                 callback();
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
-
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
@@ -38,13 +35,12 @@ const TextEditor = () => {
     const ref = useOutsideClick(() => {
         setFocus(false);
     });
-
     const editor = useEditor({
         extensions: [StarterKit, Underline, Link, Placeholder],
         autofocus: false,
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        onUpdate({ editor }) {
-            setEditorContent(editor.getHTML());
+        onUpdate() {
+            setEditorContent(editor!.getHTML());
+            console.log(editorContent);
         },
     });
     return (

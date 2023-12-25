@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { FormatBold, FormatItalic, FormatUnderlined } from '@mui/icons-material';
+import { Box, Button, IconButton, TextField } from '@mui/material';
 import { Editor } from '@tiptap/react';
 import { BsTypeBold, BsTypeItalic, BsTypeUnderline } from 'react-icons/bs';
 
@@ -12,7 +14,7 @@ const TextOperation = ({ editor }: { editor: Editor }) => {
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 className={editor.isActive('bold') ? 'is-active' : ''}
             >
-                <BsTypeBold size={28} />
+                <FormatBold />
             </button>
             <button
                 title="Italics"
@@ -20,7 +22,7 @@ const TextOperation = ({ editor }: { editor: Editor }) => {
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 className={editor.isActive('italic') ? 'is-active' : ''}
             >
-                <BsTypeItalic size={28} />
+                <FormatItalic />
             </button>
             <button
                 title="underline"
@@ -28,7 +30,7 @@ const TextOperation = ({ editor }: { editor: Editor }) => {
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
                 className={editor.isActive('underline') ? 'is-active' : ''}
             >
-                <BsTypeUnderline size={28} />
+                <FormatUnderlined />
             </button>
         </div>
     );
