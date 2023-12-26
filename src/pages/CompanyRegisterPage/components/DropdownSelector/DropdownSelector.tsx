@@ -23,7 +23,7 @@ interface DropdownSelectorProps {
 interface CustomFieldProps {
     customMargin?: string;
 }
-const StyledSelectorTextFiled = styled(TextField)<CustomFieldProps>`
+const StyledSelectorTextField = styled(TextField)<CustomFieldProps>`
     margin-bottom: ${(props) => props.customMargin};
 `;
 
@@ -42,7 +42,7 @@ const DropdownSelector = (props: DropdownSelectorProps) => {
     const { data, focus, onBlur, onChange, validation } = useForm(selectorFields);
     const { id, label, key, getErrorMessage, margin } = selectorConfig;
     return (
-        <StyledSelectorTextFiled
+        <StyledSelectorTextField
             key={id}
             label={label}
             variant="outlined"
@@ -63,7 +63,7 @@ const DropdownSelector = (props: DropdownSelectorProps) => {
                     {option}
                 </MenuItem>
             ))}
-        </StyledSelectorTextFiled>
+        </StyledSelectorTextField>
     );
 };
 export default DropdownSelector;
