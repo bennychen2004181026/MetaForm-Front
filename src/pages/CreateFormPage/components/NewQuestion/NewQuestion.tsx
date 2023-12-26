@@ -1,29 +1,16 @@
 import React from 'react';
 
-import { Grid } from '@mui/material';
+import styled from 'styled-components';
 
-import QuestionTypeSelector from './components/QuestionTypeSelector';
+import QuestionBody from './components/QuestionBody/QuestionBody';
+import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
-const NewQuestion = ({ children }: { children: React.ReactNode }) => {
+const NewQuestion = () => {
     return (
-        <Grid
-            container
-            xs={12}
-            sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-            }}
-        >
-            <Grid item xs={8}>
-                {children}
-            </Grid>
-            <Grid item xs={3}>
-                <QuestionTypeSelector />
-            </Grid>
-        </Grid>
+        <div>
+            <QuestionTitle />
+            <QuestionBody />
+        </div>
     );
 };
 export default NewQuestion;

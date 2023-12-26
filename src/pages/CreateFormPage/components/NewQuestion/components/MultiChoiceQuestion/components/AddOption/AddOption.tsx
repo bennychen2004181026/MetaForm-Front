@@ -4,10 +4,10 @@ import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRou
 import { IconButton, TextField } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { MuitichoiceContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 
 const AddOption = () => {
-    const { dispatch } = useContext(MuitichoiceContext);
+    const { dispatch } = useContext(NewQuestionContext);
     const [text, SetText] = useState<string>('Add Option');
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

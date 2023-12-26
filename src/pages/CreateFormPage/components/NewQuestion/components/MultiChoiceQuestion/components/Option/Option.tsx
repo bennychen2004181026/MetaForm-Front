@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton, ListItem } from '@mui/material';
@@ -7,13 +8,12 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
 import IOption from '@/interfaces/IOption';
-import { MuitichoiceContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 
-const Option = ({ option }: { option: IOption }) => {
-    const { dispatch } = useContext(MuitichoiceContext);
+const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: boolean }) => {
+    const { dispatch } = useContext(NewQuestionContext);
     const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
-        console.log('in delete');
         dispatch({
             type: 'DELETE_OPTION',
             payload: {
@@ -31,7 +31,7 @@ const Option = ({ option }: { option: IOption }) => {
             }
         >
             <ListItemIcon>
-                <CircleOutlinedIcon />
+                {checkbox ? <CheckBoxOutlineBlankIcon /> : <CircleOutlinedIcon />}
             </ListItemIcon>
             <ListItemText primary={option.value} />
         </ListItem>
