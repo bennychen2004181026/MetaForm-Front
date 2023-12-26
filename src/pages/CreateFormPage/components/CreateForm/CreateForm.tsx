@@ -2,12 +2,11 @@ import React from 'react';
 
 import { Container } from '@mui/material';
 
-import TextEditor from '../NewQuestion/components/TextEditor/TextEditor';
-
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import FormQuestions from '@/pages/CreateFormPage/components/CreateForm/components/FormQuestions';
 import FormTitleField from '@/pages/CreateFormPage/components/CreateForm/components/FormTitleField';
 import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor';
 
 const CreateForm = () => {
     return (

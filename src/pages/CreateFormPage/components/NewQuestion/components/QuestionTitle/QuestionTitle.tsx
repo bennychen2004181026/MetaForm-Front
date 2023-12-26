@@ -35,16 +35,6 @@ const QuestionTitle = () => {
         <NewQuestionTitleBox>
             <StyledQuestionTitle>
                 <TextEditor />
-                {/* <TextField
-                    required
-                    id="form-question-title"
-                    defaultValue={title}
-                    variant="filled"
-                    type="text"
-                    onBlur={onBlur}
-                    maxRows={1}
-                    fullWidth
-                /> */}
             </StyledQuestionTitle>
             <IconButton>
                 <ImageIcon fontSize="large" />

@@ -1,9 +1,7 @@
 import React from 'react';
 
 import { FormatBold, FormatItalic, FormatUnderlined } from '@mui/icons-material';
-import { Box, Button, IconButton, TextField } from '@mui/material';
 import { Editor } from '@tiptap/react';
-import { BsTypeBold, BsTypeItalic, BsTypeUnderline } from 'react-icons/bs';
 
 const TextOperation = ({ editor }: { editor: Editor }) => {
     return (
