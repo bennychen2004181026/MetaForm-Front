@@ -1,7 +1,5 @@
 import React from 'react';
 
-import QuillEditor from '../CreateForm/components/QuillEditor/QuillEditor';
-
 import QuestionBody from './components/QuestionBody/QuestionBody';
 import BottomToolbar from '@/pages/CreateFormPage/components/NewQuestion/components/BottomToolbar';
 import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
@@ -14,7 +12,6 @@ const NewQuestion = () => {
                 <QuestionTitle />
                 <QuestionBody />
                 <BottomToolbar />
-                {/* <TextEditor /> */}
             </div>
         </GlobalState>
     );
