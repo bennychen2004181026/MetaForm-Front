@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import ImageIcon from '@mui/icons-material/Image';
-import { Box, IconButton, TextField } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import styled from 'styled-components';
 
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
