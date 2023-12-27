@@ -15,6 +15,7 @@ const StyledMenubar = styled.div``;
 const StyledEditor = styled.div`
     .ProseMirror {
         border: 1px solid #03787c;
+        background: #eeeeee;
         outline: none;
         color: rgb(0, 0, 0);
         font-size: 1.3rem;
