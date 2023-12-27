@@ -4,6 +4,8 @@ import ImageIcon from '@mui/icons-material/Image';
 import { Box, IconButton, TextField } from '@mui/material';
 import styled from 'styled-components';
 
+import ImageUploadDialog from '../ImageUploader/ImageUploadDialog';
+
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
 import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
 import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/TextEditor';
@@ -40,6 +42,7 @@ const QuestionTitle = () => {
                 <ImageIcon fontSize="large" />
             </IconButton>
             <QuestionTypeSelector />
+            {/* <ImageUploadDialog /> */}
         </NewQuestionTitleBox>
     );
 };

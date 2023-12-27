@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { FormatBold, FormatItalic, FormatUnderlined } from '@mui/icons-material';
+import {
+    FormatBold,
+    FormatClear,
+    FormatItalic,
+    FormatPaint,
+    FormatUnderlined,
+} from '@mui/icons-material';
 import { Editor } from '@tiptap/react';
 
 const TextOperation = ({ editor }: { editor: Editor }) => {
@@ -12,7 +18,7 @@ const TextOperation = ({ editor }: { editor: Editor }) => {
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 className={editor.isActive('bold') ? 'is-active' : ''}
             >
-                <FormatBold />
+                <FormatBold fontSize="small" />
             </button>
             <button
                 title="Italics"
@@ -20,7 +26,7 @@ const TextOperation = ({ editor }: { editor: Editor }) => {
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 className={editor.isActive('italic') ? 'is-active' : ''}
             >
-                <FormatItalic />
+                <FormatItalic fontSize="small" />
             </button>
             <button
                 title="underline"
@@ -28,7 +34,22 @@ const TextOperation = ({ editor }: { editor: Editor }) => {
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
                 className={editor.isActive('underline') ? 'is-active' : ''}
             >
-                <FormatUnderlined />
+                <FormatUnderlined fontSize="small" />
+            </button>
+            <button
+                title="unset-all-marks"
+                type="button"
+                className={editor.isActive('underline') ? 'is-active' : ''}
+                onClick={() => editor.commands.toggleHighlight({ color: '#ffcc00' })}
+            >
+                <FormatPaint fontSize="small" />
+            </button>
+            <button
+                title="unset-all-marks"
+                type="button"
+                onClick={() => editor.commands.unsetAllMarks()}
+            >
+                <FormatClear fontSize="small" />
             </button>
         </div>
     );

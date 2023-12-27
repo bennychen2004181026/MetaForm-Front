@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import styled from '@emotion/styled';
+import Highlight from '@tiptap/extension-highlight';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
@@ -11,7 +12,30 @@ import MenuBar from './components/Menubar/Menubar';
 
 const StyledMenubar = styled.div``;
 
-const StyledEditor = styled.div``;
+const StyledEditor = styled.div`
+    .ProseMirror {
+        border: 1px solid #03787c;
+        outline: none;
+        color: rgb(0, 0, 0);
+        font-size: 1.3rem;
+        width: 95%;
+        margin: 0.1rem auto;
+        overflow: auto;
+        height: 2em;
+    }
+    .t-center {
+        text-align: left;
+    }
+    .ProseMirror p.is-editor-empty:first-child::before {
+        content: '       Your Question...';
+        float: left;
+        color: #ced4da;
+        pointer-events: none;
+        height: 0;
+    }
+    min-width: 400px;
+    width: 600px;
+`;
 const useOutsideClick = (callback: () => void) => {
     const ref = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -38,7 +62,7 @@ const TextEditor = () => {
         setFocus(false);
     });
     const editor = useEditor({
-        extensions: [StarterKit, Underline, Link, Placeholder],
+        extensions: [StarterKit, Underline, Link, Highlight, Placeholder],
         autofocus: false,
         onUpdate() {
             setEditorContent(editor!.getHTML());
