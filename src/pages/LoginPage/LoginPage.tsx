@@ -58,9 +58,9 @@ const Login = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    useUserRedirect();
-
     const { handleGoogleLoginClick } = useGoogleOAuth(currentApiUrl);
+
+    useUserRedirect();
 
     const formFields: IField[] = [
         {
