@@ -5,7 +5,7 @@ import type { AxiosError, AxiosRequestConfig } from 'axios';
 import { getTokenMethod } from '@/utils/tokenHandler';
 
 const {
-    NODE_ENV = 'test',
+    NODE_ENV = 'development',
     REACT_APP_API_URL_LOCAL,
     REACT_APP_API_URL_TEST,
     REACT_APP_API_URL_PRODUCTION,
@@ -24,9 +24,10 @@ const appURLs: {
 
 const withCredentials = true;
 const timeout = 30000;
+export const currentApiUrl = appURLs[NODE_ENV];
 
 const axiosInstance = axios.create({
-    baseURL: `${appURLs[NODE_ENV]}`,
+    baseURL: `${currentApiUrl}`,
     withCredentials,
     timeout,
     headers: {
@@ -47,7 +48,7 @@ axiosInstance.interceptors.request.use(
     },
 );
 
-const axiosBaseQuery =
+export const axiosBaseQuery =
     (
         { basePath }: { basePath: string } = { basePath: '' },
     ): BaseQueryFn<
@@ -81,5 +82,3 @@ const axiosBaseQuery =
             };
         }
     };
-
-export default axiosBaseQuery;

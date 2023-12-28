@@ -60,5 +60,7 @@ const authSlice = createSlice({
 });
 
 export const authUser = (state: RootState) => state.auth.user;
+export const accountStatus = (state: RootState) => state.auth.isAccountComplete;
+export const authUserId = (state: RootState) => state.auth.userId;
 export const { setCredentials, clearCredentials } = authSlice.actions;
 export default authSlice.reducer;
