@@ -10,7 +10,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import styled from 'styled-components';
 
 import IOption from '@/interfaces/IOption';
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/NewQuestionContext';
 
 const StyledImageUploadButton = styled.div`
     visibility: hidden;
@@ -32,6 +33,15 @@ const StyledOptionContainer = styled.div`
 
 const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: boolean }) => {
     const { dispatch } = useContext(NewQuestionContext);
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
     const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         dispatch({
@@ -93,6 +103,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                         <IconButton />
                     )}
                 </StyledImageUploadButton>
+                <ImageUploadDialog open={open} onClose={handleClose} />
             </ListItem>
         </StyledOptionContainer>
     );
