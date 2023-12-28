@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import googleIcon from '@/assets/images/google-icon-logo.png';
 import StyledButton from '@/components/Button/Button';
+import InformativeText from '@/components/InformativeText';
 import ReusableForm from '@/components/ReusableForm';
 import Hyperlink from '@/components/StyledLink/';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
@@ -37,9 +38,14 @@ interface ButtonProps {
 }
 
 const LoginButton = styled(StyledButton)<ButtonProps>`
-    background-color: ${(props) => props.backgroundColor};
-    font-weight: bold;
-    text-transform: none;
+    && {
+        background-color: #7f8785;
+        font-weight: bold;
+        text-transform: none;
+        &:hover {
+            background-color: #4e6145;
+        }
+    }
 `;
 
 const Login = () => {
@@ -50,6 +56,25 @@ const Login = () => {
     const navigate = useNavigate();
     const fetchedUser: IUser = useAppSelector(authUser);
     const [initialCheckDone, setInitialCheckDone] = useState(false);
+    const googleOAuthTimeout = useRef<NodeJS.Timeout | null>(null);
+
+    const {
+        NODE_ENV,
+        REACT_APP_API_URL_LOCAL,
+        REACT_APP_API_URL_TEST,
+        REACT_APP_API_URL_PRODUCTION,
+    } = process.env;
+
+    const apiURLs: {
+        [key: string]: string | undefined;
+        development: string | undefined;
+        test: string | undefined;
+        production: string | undefined;
+    } = {
+        development: REACT_APP_API_URL_LOCAL,
+        test: REACT_APP_API_URL_TEST,
+        production: REACT_APP_API_URL_PRODUCTION,
+    };
 
     useEffect(() => {
         if (!initialCheckDone && fetchedUser !== null) {
@@ -58,6 +83,56 @@ const Login = () => {
         }
         setInitialCheckDone(true);
     }, [fetchedUser, navigate]);
+
+    useEffect(() => {
+        const messageHandler = (event: MessageEvent) => {
+            if (
+                event.origin !== `${apiURLs[NODE_ENV as string]}` ||
+                !event.data.source ||
+                event.data.source !== 'GoogleOAuth'
+            ) {
+                return;
+            }
+
+            if (event.data.errors) {
+                const { errors } = event.data;
+                showSnackbar(`StatusCode: ${errors[0].statusCode}\n${errors[0].message}`, 'error');
+                return;
+            }
+
+            const { message, token, user, isAccountComplete } = event.data;
+            const { email, role, company, _id, isActive } = user;
+            dispatch(
+                setCredentials({
+                    user: user as IUser,
+                    token,
+                    email: email ?? null,
+                    role: role ?? null,
+                    company: company ?? null,
+                    userId: _id ?? null,
+                    isAccountComplete: isAccountComplete ?? false,
+                    isActive: isActive ?? false,
+                }),
+            );
+            showSnackbar(`${message}`, 'success');
+            googleOAuthTimeout.current = setTimeout(() => {
+                if (isAccountComplete) {
+                    navigate('/user-dashboard');
+                } else {
+                    navigate(`/company-profile/${_id}`);
+                }
+            }, 500);
+        };
+
+        window.addEventListener('message', messageHandler);
+
+        return () => {
+            window.removeEventListener('message', messageHandler);
+            if (googleOAuthTimeout.current) {
+                clearTimeout(googleOAuthTimeout.current);
+            }
+        };
+    }, []);
 
     const formFields: IField[] = [
         {
@@ -134,8 +209,25 @@ const Login = () => {
         }
     };
 
+    const handleGoogleLoginClick = async () => {
+        const width = window.screen.width / 2;
+        const height = window.screen.height / 2;
+        const left = (window.screen.width - width) / 2;
+        const top = (window.screen.height - height) / 2;
+        window.open(
+            `${apiURLs[NODE_ENV as string]}/users/auth/google`,
+            'GoogleAuthWindow',
+            `height=${height},width=${width},top=${top},left=${left}`,
+        );
+    };
+
+    const handleRedirectToRegister = () => {
+        const path = `/register-option`;
+        navigate(path);
+    };
+
     const forgotPassword = () => {
-        const path = `../forgot-password`;
+        const path = `/forgot-password`;
         navigate(path);
     };
     const submitButtonText = 'Confirm';
@@ -154,13 +246,20 @@ const Login = () => {
                 handleSubmit={handleSubmit}
                 submitButtonText={submitButtonText}
             >
+                <InformativeText
+                    textBeforeLink="Wanna create account? Let's start with "
+                    link={{
+                        text: 'create account.',
+                        onClick: handleRedirectToRegister,
+                    }}
+                />
                 <Typography variant="subtitle1" sx={{ padding: '5px', textAlign: 'center' }}>
                     Forgot password? Click <Hyperlink text="here" onClick={forgotPassword} />
                 </Typography>
                 <LoginButton
                     variant="contained"
                     startIcon={<GoogleIcon src={googleIcon} />}
-                    backgroundColor="silver"
+                    onClick={handleGoogleLoginClick}
                 >
                     Sign in with Google
                 </LoginButton>
