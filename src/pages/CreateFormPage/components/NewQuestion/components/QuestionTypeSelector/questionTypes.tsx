@@ -12,6 +12,7 @@ import TimeIcon from '@mui/icons-material/TimerOutlined';
 import IOption from '@/interfaces/IOption';
 import CheckboxesQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/CheckboxesQuestion';
 import DatePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/DatePickerQuestion';
+import FileUploadQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/FileUploadQuestion';
 import MuitiChoiceQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion';
 import ParagraphQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/ParagraphQuestion';
 import ShortAnswerQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/ShortAnswerQuestion';
@@ -45,26 +46,21 @@ const questionTypes: IOption[] = [
     },
     {
         id: '3',
-        value: questionTypeStrings.DROPDOWN,
-        icon: <DropDownIcon />,
-    },
-    {
-        id: '4',
         value: questionTypeStrings.CHECKBOXES,
         icon: <CheckBoxIcon />,
     },
     {
-        id: '5',
+        id: '4',
         value: questionTypeStrings.FILE_UPLOAD,
         icon: <FileUploadIcon />,
     },
     {
-        id: '6',
+        id: '5',
         value: questionTypeStrings.DATEPICKER,
         icon: <DateIcon />,
     },
     {
-        id: '7',
+        id: '6',
         value: questionTypeStrings.TIMEPICKER,
         icon: <TimeIcon />,
     },
@@ -87,11 +83,13 @@ const getQuestion = (questionId: string) => {
             return <ShortAnswerQuestion />;
         case '2':
             return <ParagraphQuestion />;
-        case '4':
+        case '3':
             return <CheckboxesQuestion />;
-        case '6':
+        case '4':
+            return <FileUploadQuestion />;
+        case '5':
             return <DatePickerQuestion />;
-        case '7':
+        case '6':
             return <TimePickerQuestion />;
         default:
             return <MuitiChoiceQuestion isCheckbox={false} />;
