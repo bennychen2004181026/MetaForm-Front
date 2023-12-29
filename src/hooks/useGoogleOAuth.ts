@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '@/hooks/redux';
-import { IUser } from '@/interfaces/User.interface';
+import { IUser, Role } from '@/interfaces/User.interface';
 import { setCredentials } from '@/store/slices/auth/authSlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
@@ -36,7 +36,7 @@ const useGoogleOAuth = (currentApiUrl: string | undefined) => {
                     user: user as IUser,
                     token,
                     email: email ?? null,
-                    role: role ?? null,
+                    role: (role as Role) ?? null,
                     company: company ?? null,
                     userId: _id ?? null,
                     isAccountComplete: isAccountComplete ?? false,
