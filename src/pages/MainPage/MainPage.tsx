@@ -12,7 +12,7 @@ import GlobalStyle from '@/styles/GlobalStyle';
 const LoginPage = () => {
     const navigate = useNavigate();
     const handleSignUpButton = () => {
-        navigate('/registeroption');
+        navigate('/register-option');
     };
     return (
         <div>
