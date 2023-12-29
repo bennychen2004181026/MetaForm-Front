@@ -1,43 +1,60 @@
 import React from 'react';
 
-import { useSnackbar } from 'notistack';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import InformativeText from '@/components/InformativeText/index';
+import { ApiError } from '@/interfaces/ApiError';
+import { IVerifyEmailResponse } from '@/interfaces/User.interface';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
 import MainLayout from '@/layouts/MainLayout';
+import userApis from '@/services/Auth/user';
+import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
-interface EmailVerificationPageProps {
-    email: string;
-}
-
-const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ email }) => {
-    const { enqueueSnackbar } = useSnackbar();
+const EmailVerificationPage: React.FC = () => {
+    const showSnackbar = useSnackbarHelper();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { useVerifyEmailMutation } = userApis;
+    const [verifyEmail, { isLoading }] = useVerifyEmailMutation();
+    const { email, username } = location.state || {};
 
     const handleEmailClick = () => {
-        enqueueSnackbar('Please log in to your email account to verify your email.', {
-            variant: 'info',
-        });
+        showSnackbar('Please log in to your email account to verify your email.', 'info');
     };
 
-    const handleResendEmail = () => {
-        // Logic to resend the verification email
-        enqueueSnackbar('Resend email logic triggered', {
-            variant: 'info',
-        });
+    const handleResendEmail = async () => {
+        try {
+            const response: IVerifyEmailResponse = await verifyEmail(location.state).unwrap();
+            const { message, email: responseEmail, username: responseUsername } = response;
+            showSnackbar(`${message}`, 'success');
+            setTimeout(() => {
+                navigate('/email-verification', {
+                    state: { email: responseEmail, username: responseUsername },
+                });
+            }, 500);
+        } catch (error) {
+            const apiError = error as ApiError;
+            const errorMessage =
+                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
+
+            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+        }
     };
 
     const handleChangeEmail = () => {
-        // Logic to navigate back to the previous page to change the email
-        enqueueSnackbar('Page will direct to the former page', {
-            variant: 'info',
-        });
+        navigate(-1);
     };
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <div>
             <MainLayout>
                 <InformativeText
                     textBeforeLink="We've sent an email to "
-                    link={{ text: email, onClick: handleEmailClick }}
+                    link={{ text: email || 'Email', onClick: handleEmailClick }}
                     textAfterLink=" to verify your email address and activate your account. The link in the email will expire in 10 minutes."
                 />
                 <InformativeText

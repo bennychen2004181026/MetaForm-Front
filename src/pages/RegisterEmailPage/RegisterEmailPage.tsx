@@ -64,9 +64,7 @@ const RegisterEmail = () => {
             const response: IVerifyEmailResponse = await verifyEmail(fieldsData).unwrap();
             const { message, email, username } = response;
             showSnackbar(`${message}`, 'success');
-            setTimeout(() => {
-                navigate('/email-verification', { state: { email, username } });
-            }, 500);
+            navigate('/email-verification', { state: { email, username } });
         } catch (error) {
             const apiError = error as ApiError;
             const errorMessage =
