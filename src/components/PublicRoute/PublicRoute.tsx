@@ -1,41 +1,36 @@
-import React, { ReactNode } from 'react';
+import React, { useEffect } from 'react';
 
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { useAppSelector } from '@/hooks/redux';
 import { IUser } from '@/interfaces/User.interface';
 import { accountStatus, authUser, authUserId } from '@/store/slices/auth/authSlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
-interface PublicRouteProps {
-    children: ReactNode;
-}
-
-const PublicRoute = ({ children }: PublicRouteProps) => {
+const PublicRoute = () => {
     const showSnackbar = useSnackbarHelper();
     const fetchedUser: IUser = useAppSelector(authUser);
     const fetchAccountStatus: boolean = useAppSelector(accountStatus);
     const fetchUserId: string = useAppSelector(authUserId);
     const location = useLocation();
 
-    let redirectPath = '';
-    let message = '';
+    const path =
+        fetchedUser && !fetchAccountStatus ? `/company-profile/${fetchUserId}` : '/user-dashboard';
 
-    if (fetchedUser !== null) {
-        if (!fetchAccountStatus) {
-            message = 'You are already login, but need to complete your account first';
-            redirectPath = `/company-profile/${fetchUserId}`;
-        } else {
-            message = 'You are already login.';
-            redirectPath = '/user-dashboard';
+    useEffect(() => {
+        if (fetchedUser !== null) {
+            const message = !fetchAccountStatus
+                ? 'You are already logged in, but need to complete your account first'
+                : 'You are already logged in.';
+            showSnackbar(message, 'warning');
         }
+    }, []);
 
-        showSnackbar(message, 'warning');
-
-        return <Navigate to={redirectPath} state={{ from: location }} replace />;
-    }
-
-    return children;
+    return fetchedUser !== null ? (
+        <Navigate to={path} state={{ from: location }} replace />
+    ) : (
+        <Outlet />
+    );
 };
 
 export default PublicRoute;
