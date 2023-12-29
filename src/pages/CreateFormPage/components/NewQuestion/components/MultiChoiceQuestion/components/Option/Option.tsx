@@ -19,7 +19,7 @@ const StyledImageUploadButton = styled.div`
     visibility: hidden;
     margin-right: 4rem;
 `;
-const StyledDragButton = styled.div`
+const StyledDragIcon = styled.span`
     visibility: hidden;
 `;
 const StyledOptionContainer = styled.div`
@@ -90,9 +90,9 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                     </IconButton>
                 }
             >
-                <StyledDragButton id="onHoverDragIcon">
-                    <DragIndicatorIcon />
-                </StyledDragButton>
+                <StyledDragIcon id="onHoverDragIcon">
+                    <DragIndicatorIcon id="onHoverDragIcon" />
+                </StyledDragIcon>
                 <ListItemIcon>
                     {checkbox ? <CheckBoxOutlineBlankIcon /> : <CircleOutlinedIcon />}
                 </ListItemIcon>
