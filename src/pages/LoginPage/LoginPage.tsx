@@ -12,7 +12,6 @@ import Hyperlink from '@/components/StyledLink/';
 import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
 import useGoogleOAuth from '@/hooks/useGoogleOAuth';
-import useUserRedirect from '@/hooks/useUserRedirect';
 import { ApiError } from '@/interfaces/ApiError';
 import { ILoginResponse, IUser } from '@/interfaces/User.interface';
 import Title from '@/layouts/MainLayout/Title';
@@ -59,8 +58,6 @@ const Login = () => {
     const navigate = useNavigate();
 
     const { handleGoogleLoginClick } = useGoogleOAuth(currentApiUrl);
-
-    useUserRedirect();
 
     const formFields: IField[] = [
         {
