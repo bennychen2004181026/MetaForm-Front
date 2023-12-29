@@ -15,13 +15,21 @@ const RegisterPage = React.lazy(() => import('@/pages/RegisterPage'));
 const CompanyProfileStepperPage = React.lazy(() => import('@/pages/CompanyProfileStepperPage'));
 const ForgotPasswordPage = React.lazy(() => import('@/pages/ForgotPasswordPage'));
 const ResetPasswordPage = React.lazy(() => import('@/pages/ResetPasswordPage'));
+const PublicRoute = React.lazy(() => import('@/components/PublicRoute'));
 
 const AppRoute = () => (
     <Suspense fallback={<LoadingSpinner />}>
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/login" element={<LoginPage />} />
+                <Route
+                    path="/login"
+                    element={
+                        <PublicRoute>
+                            <LoginPage />
+                        </PublicRoute>
+                    }
+                />
                 <Route path="/verification/:token" element={<EmailLinkVerificationPage />} />
                 <Route path="/create-user" element={<RegisterPage />} />
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
