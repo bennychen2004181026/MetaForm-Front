@@ -11,8 +11,11 @@ import TimeIcon from '@mui/icons-material/TimerOutlined';
 
 import IOption from '@/interfaces/IOption';
 import CheckboxesQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/CheckboxesQuestion';
+import DatePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/DatePickerQuestion';
 import MuitiChoiceQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion';
+import ParagraphQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/ParagraphQuestion';
 import ShortAnswerQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/ShortAnswerQuestion';
+import TimePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/TimePickerQuestion';
 
 enum questionTypeStrings {
     MULTIPLE_CHOICE = 'Multiple Choice',
@@ -70,7 +73,6 @@ const questionIcons = [
     ChoiceIcon,
     ShortAnswerIcon,
     ParagraphIcon,
-    DropDownIcon,
     CheckBoxIcon,
     FileUploadIcon,
     DateIcon,
@@ -83,8 +85,14 @@ const getQuestion = (questionId: string) => {
             return <MuitiChoiceQuestion isCheckbox={false} />;
         case '1':
             return <ShortAnswerQuestion />;
+        case '2':
+            return <ParagraphQuestion />;
         case '4':
             return <CheckboxesQuestion />;
+        case '6':
+            return <DatePickerQuestion />;
+        case '7':
+            return <TimePickerQuestion />;
         default:
             return <MuitiChoiceQuestion isCheckbox={false} />;
     }
