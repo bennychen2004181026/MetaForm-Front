@@ -1,11 +1,12 @@
 import React, { Dispatch, createContext, useMemo, useReducer } from 'react';
 
 import IOption from '@/interfaces/IOption';
-import { IImage, IQuestion, IQuestionTitle } from '@/interfaces/IQuestion';
+import { IImage, IQuestion } from '@/interfaces/IQuestion';
 
 const initState: IQuestion = {
     questionType: '0',
     questionId: '1',
+    required: true,
     title: { content: 'What is your age range?' },
     options: [
         { id: '1', value: 'Under 10' },

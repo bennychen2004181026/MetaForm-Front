@@ -2,6 +2,7 @@ import IOption from '@/interfaces/IOption';
 
 interface IQuestion {
     questionId: string;
+    required: boolean;
     questionType: string;
     title: IQuestionTitle;
     options: IOption[];
