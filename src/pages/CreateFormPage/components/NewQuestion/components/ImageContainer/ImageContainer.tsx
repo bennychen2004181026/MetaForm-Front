@@ -6,17 +6,20 @@ import { IImage } from '@/interfaces/IQuestion';
 
 const StyledImageContainer = styled.div`
     img {
-        max-height: ${(props) => props.theme.optionMaxHieght};
+        max-height: ${(props) => props.theme.maxHieght};
+        max-width: ${(props) => props.theme.maxWidth};
     }
     padding: ${(props) => props.theme.padding};
 `;
 const theme = {
     large: {
-        optionMaxHieght: '400px',
+        maxHieght: '400px',
+        maxWidth: '400px',
         padding: '20px 20px',
     },
     small: {
-        optionMaxHieght: '200px',
+        maxHieght: '200px',
+        maxWidth: '200px',
         padding: '20px 60px',
     },
 };
