@@ -24,7 +24,7 @@ const PublicRoute = () => {
                 : 'You are already logged in.';
             showSnackbar(message, 'warning');
         }
-    }, [fetchedUser, fetchAccountStatus, fetchUserId, showSnackbar]);
+    }, []);
 
     return fetchedUser !== null ? (
         <Navigate to={path} state={{ from: location }} replace />
