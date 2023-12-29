@@ -34,8 +34,10 @@ const AddOption = () => {
     };
 
     return (
-        <ButtonGroup variant="contained" aria-label="outlined primary button group">
-            <Button onClick={handleAddOption}>Add option</Button>
+        <ButtonGroup variant="outlined">
+            <Button onClick={handleAddOption} aria-label="Add a new Option">
+                Add option
+            </Button>
             {!other ? (
                 <Button onClick={handleAllowOtherOption}>Add Other </Button>
             ) : (

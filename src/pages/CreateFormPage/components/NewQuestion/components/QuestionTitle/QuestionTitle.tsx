@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import AddImageIcon from '@mui/icons-material/AddPhotoAlternate';
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { Box, IconButton } from '@mui/material';
 import styled from 'styled-components';
 
@@ -56,7 +56,7 @@ const QuestionTitle = () => {
                     <TextEditor onTitleChange={onTitleChange} />
                 </StyledQuestionTitle>
                 <IconButton onClick={handleClickOpen}>
-                    <AddImageIcon fontSize="large" />
+                    <ImageOutlinedIcon fontSize="large" />
                 </IconButton>
                 <QuestionTypeSelector />
                 <ImageUploadDialog

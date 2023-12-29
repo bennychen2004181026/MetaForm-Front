@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 
-import AddImageIcon from '@mui/icons-material/AddPhotoAlternate';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { IconButton, ListItem, TextField } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import styled from 'styled-components';
@@ -120,7 +120,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                 <StyledImageUploadButton id="onHoverUploadImageButton">
                     {!option.otherOption && (
                         <IconButton onClick={handleClickOpen}>
-                            <AddImageIcon fontSize="medium" />
+                            <ImageOutlinedIcon fontSize="medium" />
                         </IconButton>
                     )}
                 </StyledImageUploadButton>
