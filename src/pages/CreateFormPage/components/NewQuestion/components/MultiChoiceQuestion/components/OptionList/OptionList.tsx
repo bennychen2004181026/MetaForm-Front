@@ -5,7 +5,7 @@ import { List } from '@mui/material';
 import Option from '../Option';
 
 import IOption from '@/interfaces/IOption';
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
 
 const OptionList = ({ dense, isCheckbox }: { dense: boolean; isCheckbox: boolean }) => {
     const { dispatch, state } = useContext(NewQuestionContext);

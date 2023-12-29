@@ -2,7 +2,7 @@ import React from 'react';
 
 import { TextField } from '@mui/material';
 
-import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/TextEditor';
+import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor';
 
 const FormTitleField = () => {
     return (
@@ -27,7 +27,10 @@ const FormTitleField = () => {
                     fullWidth
                 />
             </div>
+<<<<<<< HEAD
             <TextEditor />
+=======
+>>>>>>> origin/feature/MET-101-paragraph-question--time-and-dat
         </>
     );
 };

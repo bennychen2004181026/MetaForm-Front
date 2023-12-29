@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
 
 const AddOption = () => {
     const { dispatch, state } = useContext(NewQuestionContext);
@@ -34,8 +34,10 @@ const AddOption = () => {
     };
 
     return (
-        <ButtonGroup variant="contained" aria-label="outlined primary button group">
-            <Button onClick={handleAddOption}>Add option</Button>
+        <ButtonGroup variant="outlined">
+            <Button onClick={handleAddOption} aria-label="Add a new Option">
+                Add option
+            </Button>
             {!other ? (
                 <Button onClick={handleAllowOtherOption}>Add Other </Button>
             ) : (

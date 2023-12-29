@@ -14,7 +14,6 @@ interface UseUploadImageProps {
     ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
     userId: string | undefined;
 }
-
 const useUploadImage = ({
     setIsLoading,
     setUploadProgress,

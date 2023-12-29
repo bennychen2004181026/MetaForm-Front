@@ -1,9 +1,18 @@
 import IOption from '@/interfaces/IOption';
 
 interface IQuestion {
+    questionId: string;
     questionType: string;
-    title: string;
+    title: IQuestionTitle;
     options: IOption[];
     other: boolean;
 }
-export default IQuestion;
+interface IQuestionTitle {
+    content: string;
+    image?: IImage;
+}
+interface IImage {
+    name: string;
+    url: string;
+}
+export type { IQuestionTitle, IImage, IQuestion };

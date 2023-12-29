@@ -26,7 +26,7 @@ const AppRoute = () => (
                 <Route path="/create-user" element={<RegisterPage />} />
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/company-profile/:userId" element={<CompanyProfileStepperPage />} />
-                <Route path="/registeremail" element={<RegisterEmailPage />} />
+                <Route path="/register-email" element={<RegisterEmailPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/registeroption" element={<RegisterOptionPage />} />

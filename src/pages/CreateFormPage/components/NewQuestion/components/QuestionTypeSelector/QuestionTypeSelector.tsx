@@ -6,7 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';
 
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
 import { questionTypes } from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/questionTypes';
 
 const FixedWidthTypeSelector = styled.div`

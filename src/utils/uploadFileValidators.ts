@@ -102,6 +102,7 @@ export const logoValidators = [
     logoTypeValidator(validTypes),
     logoDimensionValidator(100, 100, 600, 600),
 ];
+export const questionImageValidators = [logoTypeValidator(validTypes)];
 
 const dragValidation = (items: DataTransferItemList): boolean => {
     if (!items.length || items[0].kind !== 'file' || !validTypes.includes(items[0].type)) {
@@ -110,7 +111,6 @@ const dragValidation = (items: DataTransferItemList): boolean => {
 
     return true;
 };
-
 export default {
     logoValidators,
     validateFile,
@@ -118,4 +118,5 @@ export default {
     logoTypeValidator,
     logoDimensionValidator,
     dragValidation,
+    questionImageValidators,
 };
