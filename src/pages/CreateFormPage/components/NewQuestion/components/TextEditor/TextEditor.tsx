@@ -22,7 +22,7 @@ const StyledEditor = styled.div`
         width: 95%;
         margin: 0.1rem auto;
         overflow: auto;
-        height: 2em;
+        height: 100%;
     }
     .t-center {
         text-align: left;
@@ -56,8 +56,7 @@ const useOutsideClick = (callback: () => void) => {
     return ref;
 };
 
-const TextEditor = () => {
-    const [editorContent, setEditorContent] = useState('');
+const TextEditor = ({ onTitleChange }: { onTitleChange: (newTitle: string) => void }) => {
     const [focus, setFocus] = useState(true);
     const ref = useOutsideClick(() => {
         setFocus(false);
@@ -66,7 +65,7 @@ const TextEditor = () => {
         extensions: [StarterKit, Underline, Link, Highlight, Placeholder],
         autofocus: false,
         onUpdate() {
-            setEditorContent(editor!.getHTML());
+            onTitleChange(editor!.getHTML());
         },
     });
     return (

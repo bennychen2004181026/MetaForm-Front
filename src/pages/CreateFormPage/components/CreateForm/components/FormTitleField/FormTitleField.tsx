@@ -27,7 +27,6 @@ const FormTitleField = () => {
                     fullWidth
                 />
             </div>
-            <TextEditor />
         </>
     );
 };

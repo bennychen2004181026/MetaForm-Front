@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 
+import { IImage } from '@/interfaces/IQuestion';
 import uploadFileToS3 from '@/utils/uploadFileToS3';
 import uploadFileValidators, {
     questionImageValidators,
@@ -7,13 +8,17 @@ import uploadFileValidators, {
 } from '@/utils/uploadFileValidators';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
-const useUploadQuestionImage = () => {
+const useUploadQuestionImage = ({ questionId }: { questionId: string }) => {
     const showSnackbar = useSnackbarHelper();
     const [isDragging, setIsDragging] = useState(false);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const imgRef = useRef<HTMLImageElement>(null);
+    const [selectedImage, setSelectedImage] = useState<IImage | null>(null);
+    const imgRef = useRef<HTMLInputElement | null>(null);
     const [isFileValid, setIsFileValid] = useState(true);
-
+    const getImageName = () => {
+        const timestamp = new Date().getTime();
+        const fileName = `question-${questionId}-${timestamp}.jpeg`;
+        return fileName;
+    };
     const handleFileSelection = useCallback(
         async (file: File) => {
             const validationResult = await validateFile(file, questionImageValidators);
@@ -22,7 +27,7 @@ const useUploadQuestionImage = () => {
                 showSnackbar(`Validation Error: ${validationResult}`, 'error');
                 return;
             }
-            setSelectedImage(URL.createObjectURL(file));
+            setSelectedImage({ name: getImageName(), url: URL.createObjectURL(file) });
             setIsFileValid(true);
         },
         [questionImageValidators, showSnackbar],
@@ -58,7 +63,7 @@ const useUploadQuestionImage = () => {
         [handleDragEnter, handleDragOver, handleDragLeave, handleFileSelection],
     );
 
-    const handleUploadButton = useCallback(
+    const onFileSelect = useCallback(
         async (event: React.ChangeEvent<HTMLInputElement>) => {
             const file = event.target.files ? event.target.files[0] : null;
             if (file) {
@@ -69,12 +74,13 @@ const useUploadQuestionImage = () => {
     );
 
     return {
+        handleFileSelection,
         isDragging,
         handleDragEnter,
         handleDragOver,
         handleDrop,
         handleDragLeave,
-        handleUploadButton,
+        onFileSelect,
         selectedImage,
         setSelectedImage,
         imgRef,

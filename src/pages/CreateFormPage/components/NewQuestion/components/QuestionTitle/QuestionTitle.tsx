@@ -4,8 +4,11 @@ import AddImageIcon from '@mui/icons-material/AddPhotoAlternate';
 import { Box, IconButton } from '@mui/material';
 import styled from 'styled-components';
 
+import ImageContainer from '../ImageContainer';
+
+import { IImage } from '@/interfaces/IQuestion';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/NewQuestionContext';
 import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
 import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/TextEditor';
 
@@ -16,24 +19,30 @@ const NewQuestionTitleBox = styled(Box)`
     flex-basis: 200px;
     gap: 1em;
     margin-bottom: 2em;
+    align-items: flex-start;
 `;
 const StyledQuestionTitle = styled(Box)`
     flex-grow: 1;
 `;
-
 const QuestionTitle = () => {
-    const { state } = useContext(NewQuestionContext);
-    const { title } = state;
+    const { state, dispatch } = useContext(NewQuestionContext);
+    const { title, questionId } = state;
     const [open, setOpen] = React.useState(false);
-    const { dispatch } = useContext(NewQuestionContext);
-    const onBlur = () => {
+    const onTitleChange = (newTitle: string) => {
         dispatch({
             type: 'SAVE_TITLE',
-            payload: title,
+            payload: newTitle,
         });
     };
+
     const handleClose = () => {
         setOpen(false);
+    };
+    const insertImage = (image: IImage) => {
+        dispatch({
+            type: 'INSERT_TITLE_IMAGE',
+            payload: image,
+        });
     };
 
     const handleClickOpen = () => {
@@ -41,16 +50,24 @@ const QuestionTitle = () => {
     };
 
     return (
-        <NewQuestionTitleBox>
-            <StyledQuestionTitle>
-                <TextEditor />
-            </StyledQuestionTitle>
-            <IconButton onClick={handleClickOpen}>
-                <AddImageIcon fontSize="large" />
-            </IconButton>
-            <QuestionTypeSelector />
-            <ImageUploadDialog open={open} onClose={handleClose} />
-        </NewQuestionTitleBox>
+        <>
+            <NewQuestionTitleBox>
+                <StyledQuestionTitle>
+                    <TextEditor onTitleChange={onTitleChange} />
+                </StyledQuestionTitle>
+                <IconButton onClick={handleClickOpen}>
+                    <AddImageIcon fontSize="large" />
+                </IconButton>
+                <QuestionTypeSelector />
+                <ImageUploadDialog
+                    key={questionId}
+                    open={open}
+                    insertImage={insertImage}
+                    onClose={handleClose}
+                />
+            </NewQuestionTitleBox>
+            {title.image && <ImageContainer large image={title.image} />}
+        </>
     );
 };
 

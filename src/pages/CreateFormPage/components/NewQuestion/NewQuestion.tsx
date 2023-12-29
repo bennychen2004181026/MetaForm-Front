@@ -2,7 +2,7 @@ import React from 'react';
 
 import QuestionBody from './components/QuestionBody/QuestionBody';
 import BottomToolbar from '@/pages/CreateFormPage/components/NewQuestion/components/BottomToolbar';
-import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/NewQuestionContext';
+import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
 import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
 const NewQuestion = () => {

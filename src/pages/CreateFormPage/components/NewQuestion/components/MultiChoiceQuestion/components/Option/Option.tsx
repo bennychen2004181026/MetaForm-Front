@@ -10,8 +10,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import styled from 'styled-components';
 
 import IOption from '@/interfaces/IOption';
+import { IImage } from '@/interfaces/IQuestion';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
+import ImageContainer from '@/pages/CreateFormPage/components/NewQuestion/components/ImageContainer';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/NewQuestionContext';
 
 const StyledImageUploadButton = styled.div`
     visibility: hidden;
@@ -32,13 +34,34 @@ const StyledOptionContainer = styled.div`
 `;
 
 const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: boolean }) => {
-    const { dispatch } = useContext(NewQuestionContext);
+    const { dispatch, state } = useContext(NewQuestionContext);
     const [open, setOpen] = React.useState(false);
-
+    const { options, questionId } = state;
     const handleClose = () => {
         setOpen(false);
     };
-
+    const insertImage = (image: IImage) => {
+        const index = options.findIndex((obj) => obj.id === option.id);
+        options[index] = {
+            ...option,
+            image,
+        };
+        dispatch({
+            type: 'SET_OPTIONS',
+            payload: options,
+        });
+    };
+    const removeImage = () => {
+        const index = state.options.findIndex((obj) => obj.id === option.id);
+        options[index] = {
+            id: option.id,
+            value: option.value,
+        };
+        dispatch({
+            type: 'SET_OPTIONS',
+            payload: options,
+        });
+    };
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -95,16 +118,21 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                 )}
 
                 <StyledImageUploadButton id="onHoverUploadImageButton">
-                    {!option.otherOption ? (
-                        <IconButton>
+                    {!option.otherOption && (
+                        <IconButton onClick={handleClickOpen}>
                             <AddImageIcon fontSize="medium" />
                         </IconButton>
-                    ) : (
-                        <IconButton />
                     )}
                 </StyledImageUploadButton>
-                <ImageUploadDialog open={open} onClose={handleClose} />
             </ListItem>
+            {option.image && <ImageContainer large={false} image={option.image} />}
+
+            <ImageUploadDialog
+                key={questionId}
+                open={open}
+                insertImage={insertImage}
+                onClose={handleClose}
+            />
         </StyledOptionContainer>
     );
 };

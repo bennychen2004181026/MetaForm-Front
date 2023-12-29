@@ -5,15 +5,15 @@ import { Container } from '@mui/material';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import FormQuestions from '@/pages/CreateFormPage/components/CreateForm/components/FormQuestions';
 import FormTitleField from '@/pages/CreateFormPage/components/CreateForm/components/FormTitleField';
-import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/NewQuestionContext';
+import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
 import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor';
 
 const CreateForm = () => {
     return (
         <Container>
-            <ConditionalSectionContainer backgroundColor="#03787c">
+            {/* <ConditionalSectionContainer backgroundColor="#03787c">
                 <TextEditor />
-            </ConditionalSectionContainer>
+            </ConditionalSectionContainer> */}
             <ConditionalSectionContainer backgroundColor="#03787c">
                 <GlobalState>
                     <FormQuestions />
