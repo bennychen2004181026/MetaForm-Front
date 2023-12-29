@@ -11,9 +11,9 @@ import styled from 'styled-components';
 
 import IOption from '@/interfaces/IOption';
 import { IImage } from '@/interfaces/IQuestion';
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
 import ImageContainer from '@/pages/CreateFormPage/components/NewQuestion/components/ImageContainer';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 const StyledImageUploadButton = styled.div`
     visibility: hidden;
