@@ -13,27 +13,27 @@ const ProtectedRoute = () => {
     const fetchAccountStatus: boolean = useAppSelector(accountStatus);
     const fetchUserId: string = useAppSelector(authUserId);
     const location = useLocation();
+    const currentPath = location.pathname;
+    const profilePath = `/company-profile/${fetchUserId}`;
 
     useEffect(() => {
         if (!fetchedUser) {
             showSnackbar('You need to login first', 'warning');
         }
-        if (fetchedUser && !fetchAccountStatus) {
+        if (fetchedUser && !fetchAccountStatus && currentPath !== profilePath) {
             showSnackbar(
                 'You are already logged in, but need to complete your account first',
                 'warning',
             );
         }
-    }, [fetchedUser, fetchAccountStatus, showSnackbar]);
+    }, []);
 
     if (!fetchedUser) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
-    if (fetchedUser && !fetchAccountStatus) {
-        return (
-            <Navigate to={`/company-profile/${fetchUserId}`} state={{ from: location }} replace />
-        );
+    if (fetchedUser && !fetchAccountStatus && currentPath !== profilePath) {
+        return <Navigate to={`${profilePath}`} state={{ from: location }} replace />;
     }
 
     return <Outlet />;

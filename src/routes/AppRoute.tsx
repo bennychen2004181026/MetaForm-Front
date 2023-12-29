@@ -16,6 +16,9 @@ const CompanyProfileStepperPage = React.lazy(() => import('@/pages/CompanyProfil
 const ForgotPasswordPage = React.lazy(() => import('@/pages/ForgotPasswordPage'));
 const ResetPasswordPage = React.lazy(() => import('@/pages/ResetPasswordPage'));
 const PublicRoute = React.lazy(() => import('@/components/PublicRoute'));
+const ProtectedRoute = React.lazy(() => import('@/components/ProtectedRoute'));
+const CompanyDashboardRoute = React.lazy(() => import('@/components/CompanyDashboardRoute'));
+const SuperAdminRoute = React.lazy(() => import('@/components/SuperAdminRoute'));
 
 const AppRoute = () => (
     <Suspense fallback={<LoadingSpinner />}>
@@ -28,13 +31,26 @@ const AppRoute = () => (
                 <Route path="/verification/:token" element={<EmailLinkVerificationPage />} />
                 <Route path="/create-user" element={<RegisterPage />} />
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
-                <Route path="/company-profile/:userId" element={<CompanyProfileStepperPage />} />
                 <Route path="/register-email" element={<RegisterEmailPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/register-option" element={<RegisterOptionPage />} />
                 <Route path="/forms" element={<FormListPage />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route
+                        path="/company-profile/:userId"
+                        element={<CompanyProfileStepperPage />}
+                    />
+                    <Route path="/user-dashboard" />
+                    <Route element={<CompanyDashboardRoute />}>
+                        <Route path="/companies/:companyId/employees" />
+                        <Route path="/companies/:companyId/invite-employees" />
+                        <Route element={<SuperAdminRoute />}>
+                            <Route path="/companies/:companyId/users/:userId/update-company-profile" />
+                        </Route>
+                    </Route>
+                </Route>
             </Routes>
         </BrowserRouter>
     </Suspense>
