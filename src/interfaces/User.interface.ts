@@ -30,3 +30,9 @@ export enum Role {
     Admin = 'admin',
     Employee = 'employee',
 }
+
+export interface IVerifyEmailResponse {
+    message: string;
+    email: string;
+    username: string;
+}
