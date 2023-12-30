@@ -12,7 +12,7 @@ const SuperAdminRoute = () => {
     const fetchUserRole: Role = useAppSelector(authUserRole);
 
     useEffect(() => {
-        if (fetchUserRole === Role.Admin) {
+        if (fetchUserRole !== Role.SuperAdmin) {
             showSnackbar('Unauthorized Super Admin access', 'warning');
         }
     }, [fetchUserRole, showSnackbar]);

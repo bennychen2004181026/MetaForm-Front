@@ -17,7 +17,7 @@ const CompanyDashboardRoute = () => {
         if (fetchedUser && !allowedRoles.includes(fetchUserRole)) {
             showSnackbar('Unauthorized access', 'warning');
         }
-    }, []);
+    }, [fetchedUser, allowedRoles, fetchUserRole, showSnackbar]);
 
     return <Outlet />;
 };

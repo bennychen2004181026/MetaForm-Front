@@ -26,7 +26,7 @@ const ProtectedRoute = () => {
                 'warning',
             );
         }
-    }, []);
+    }, [fetchedUser, fetchAccountStatus, showSnackbar, currentPath, profilePath]);
 
     if (!fetchedUser) {
         return <Navigate to="/login" state={{ from: location }} replace />;
