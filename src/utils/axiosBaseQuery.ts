@@ -4,6 +4,8 @@ import type { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { getTokenMethod } from '@/utils/tokenHandler';
 
+type EnvType = 'development' | 'test' | 'production';
+
 const {
     NODE_ENV = 'development',
     REACT_APP_API_URL_LOCAL,
@@ -11,12 +13,7 @@ const {
     REACT_APP_API_URL_PRODUCTION,
 } = process.env;
 
-const appURLs: {
-    [key: string]: string | undefined;
-    development: string | undefined;
-    test: string | undefined;
-    production: string | undefined;
-} = {
+const appURLs: Record<EnvType, string | undefined> = {
     development: REACT_APP_API_URL_LOCAL,
     test: REACT_APP_API_URL_TEST,
     production: REACT_APP_API_URL_PRODUCTION,
@@ -25,8 +22,10 @@ const appURLs: {
 const withCredentials = true;
 const timeout = 30000;
 
+const env: EnvType = (NODE_ENV as EnvType) || 'development';
+
 const axiosInstance = axios.create({
-    baseURL: `${appURLs[NODE_ENV]}`,
+    baseURL: `${appURLs[env]}`,
     withCredentials,
     timeout,
     headers: {
