@@ -34,18 +34,26 @@ const EmailLinkVerificationMain: React.FC<EmailLinkVerificationMainProps> = ({ t
 
     useEffect(() => {
         let timer: number | undefined;
+
         if (data && !stopCountdown) {
             showSnackbar(`${data.message}`, 'success');
             timer = window.setInterval(() => {
-                setCountdown((currentCountdown) => currentCountdown - 1);
+                setCountdown((currentCountdown) => {
+                    if (currentCountdown <= 0) {
+                        clearInterval(timer);
+                        return 0;
+                    }
+                    return currentCountdown - 1;
+                });
             }, 1000);
         }
+
         return () => {
             if (timer !== undefined) {
-                clearInterval(timer);
+                clearInterval(timer); // 清除计时器
             }
         };
-    }, [data, stopCountdown, setCountdown]);
+    }, [data, stopCountdown, showSnackbar]);
 
     if (isLoading) {
         return (
