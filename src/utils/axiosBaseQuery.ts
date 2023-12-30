@@ -29,6 +29,8 @@ const timeout = 30000;
 
 const env: EnvType = (NODE_ENV as EnvType) in appURLs ? (NODE_ENV as EnvType) : 'development';
 
+export const currentApiUrl = appURLs[env];
+
 const axiosInstance = axios.create({
     baseURL: `${appURLs[env]}`,
     withCredentials,
