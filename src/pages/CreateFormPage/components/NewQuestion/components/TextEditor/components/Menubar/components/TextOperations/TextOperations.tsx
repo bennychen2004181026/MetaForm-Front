@@ -1,57 +1,55 @@
 import React from 'react';
 
-import {
-    FormatBold,
-    FormatClear,
-    FormatItalic,
-    FormatPaint,
-    FormatUnderlined,
-} from '@mui/icons-material';
+import { FormatBold, FormatClear, FormatItalic, FormatUnderlined } from '@mui/icons-material';
 import { Editor } from '@tiptap/react';
+import styled from 'styled-components';
 
+const StyledButton = styled.button<{ active?: boolean }>`
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: 0.1s all;
+    color: ${({ active }) => (active ? '#212121' : '#757575')};
+    &:hover {
+        color: #212121;
+    }
+`;
 const TextOperation = ({ editor }: { editor: Editor }) => {
     return (
         <div className="flex">
-            <button
+            <StyledButton
                 title="bold"
                 type="button"
+                active={editor.isActive('bold')}
                 onClick={() => editor.chain().focus().toggleBold().run()}
-                className={editor.isActive('bold') ? 'is-active' : ''}
             >
                 <FormatBold fontSize="small" />
-            </button>
-            <button
+            </StyledButton>
+            <StyledButton
                 title="Italics"
                 type="button"
+                active={editor.isActive('italic')}
                 onClick={() => editor.chain().focus().toggleItalic().run()}
-                className={editor.isActive('italic') ? 'is-active' : ''}
             >
                 <FormatItalic fontSize="small" />
-            </button>
-            <button
+            </StyledButton>
+            <StyledButton
                 title="underline"
                 type="button"
+                active={editor.isActive('underline')}
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
-                className={editor.isActive('underline') ? 'is-active' : ''}
             >
                 <FormatUnderlined fontSize="small" />
-            </button>
-            <button
+            </StyledButton>
+            <StyledButton
                 title="unset-all-marks"
                 type="button"
-                className={editor.isActive('underline') ? 'is-active' : ''}
-                onClick={() => editor.commands.toggleHighlight({ color: '#ffcc00' })}
-            >
-                <FormatPaint fontSize="small" />
-            </button>
-            <button
-                title="unset-all-marks"
-                type="button"
+                active
                 onClick={() => editor.commands.unsetAllMarks()}
             >
                 <FormatClear fontSize="small" />
-            </button>
+            </StyledButton>
         </div>
     );
 };
-export default TextOperation;
+export { StyledButton, TextOperation };

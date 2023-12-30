@@ -1,1 +1,1 @@
-export { default } from './TextOperations';
+export { StyledButton, TextOperation } from './TextOperations';

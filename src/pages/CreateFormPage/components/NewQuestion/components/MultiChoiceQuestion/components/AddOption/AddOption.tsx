@@ -38,13 +38,10 @@ const AddOption = () => {
             <Button onClick={handleAddOption} aria-label="Add a new Option">
                 Add option
             </Button>
-            {!other ? (
-                <Button onClick={handleAllowOtherOption}>Add Other </Button>
-            ) : (
-                <Button disabled onClick={handleAllowOtherOption}>
-                    Add Other
-                </Button>
-            )}
+
+            <Button onClick={handleAllowOtherOption} aria-label="Add Other Option" disabled={other}>
+                Add Other
+            </Button>
         </ButtonGroup>
     );
 };
