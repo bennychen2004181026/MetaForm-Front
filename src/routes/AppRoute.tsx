@@ -16,6 +16,7 @@ const RegisterPage = React.lazy(() => import('@/pages/RegisterPage'));
 const CompanyProfileStepperPage = React.lazy(() => import('@/pages/CompanyProfileStepperPage'));
 const ForgotPasswordPage = React.lazy(() => import('@/pages/ForgotPasswordPage'));
 const ResetPasswordPage = React.lazy(() => import('@/pages/ResetPasswordPage'));
+const CreateEmployeePage = React.lazy(() => import('@/pages/CreateEmployeePage'));
 const AppRoute = () => (
     <Suspense fallback={<LoadingSpinner />}>
         <BrowserRouter>
@@ -32,6 +33,10 @@ const AppRoute = () => (
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/register-option" element={<RegisterOptionPage />} />
                 <Route path="/forms" element={<FormListPage />} />
+                <Route
+                    path="/companies/:companyId/invite-employees/:token"
+                    element={<CreateEmployeePage />}
+                />
                 <Route path="/create-form" element={<CreateFormPage />} />
             </Routes>
         </BrowserRouter>
