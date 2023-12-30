@@ -5,7 +5,7 @@ import { Container } from '@mui/material';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import FormQuestions from '@/pages/CreateFormPage/components/CreateForm/components/FormQuestions';
 import FormTitleField from '@/pages/CreateFormPage/components/CreateForm/components/FormTitleField';
-import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 const CreateForm = () => {
     return (
@@ -14,9 +14,7 @@ const CreateForm = () => {
                 <FormTitleField />
             </ConditionalSectionContainer>
             <ConditionalSectionContainer backgroundColor="#03787c">
-                <GlobalState>
-                    <FormQuestions />
-                </GlobalState>
+                <FormQuestions />
             </ConditionalSectionContainer>
         </Container>
     );

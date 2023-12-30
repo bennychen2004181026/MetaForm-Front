@@ -9,8 +9,8 @@ import { IconButton, ListItem, TextField } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import styled from 'styled-components';
 
+import { IImage } from '@/interfaces/CreateForm.interface';
 import IOption from '@/interfaces/IOption';
-import { IImage } from '@/interfaces/IQuestion';
 import ImageContainer from '@/pages/CreateFormPage/components/NewQuestion/components/ImageContainer';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';

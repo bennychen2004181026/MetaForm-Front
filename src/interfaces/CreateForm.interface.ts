@@ -16,4 +16,10 @@ interface IImage {
     name: string;
     url: string;
 }
-export type { IQuestionTitle, IImage, IQuestion };
+interface IForm {
+    formId: string;
+    title: string;
+    description: string;
+    questions: IQuestion[];
+}
+export type { IQuestionTitle, IForm, IImage, IQuestion };

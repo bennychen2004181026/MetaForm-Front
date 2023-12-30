@@ -1,7 +1,7 @@
 import React, { Dispatch, createContext, useMemo, useReducer } from 'react';
 
+import { IImage, IQuestion } from '@/interfaces/CreateForm.interface';
 import IOption from '@/interfaces/IOption';
-import { IImage, IQuestion } from '@/interfaces/IQuestion';
 
 const initState: IQuestion = {
     questionType: '0',
@@ -43,6 +43,10 @@ type Actions =
     | {
           type: 'ALLOW_OTHER_OPTION';
           payload: boolean;
+      }
+    | {
+          type: 'SET_REQUIRED';
+          payload: boolean;
       };
 const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
     const { type, payload } = action;
@@ -82,6 +86,11 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
                 ...state,
                 other: action.payload,
             };
+        case 'SET_REQUIRED':
+            return {
+                ...state,
+                required: action.payload,
+            };
         default:
             throw new Error(
                 'Invalid action, valid actions: [SAVE_TITLE,ADD_OPTION,DELETE_OPTION,CHANGE_QUESTION_TYPE]',
@@ -97,11 +106,11 @@ const NewQuestionContext = createContext<{
 interface Props {
     children: React.ReactNode;
 }
-const GlobalState: React.FC<Props> = ({ children }) => {
+const GlobalNewQuestionState: React.FC<Props> = ({ children }) => {
     const [state, dispatch] = useReducer(questionReducer, initState);
     const value = useMemo(() => {
         return { state, dispatch };
     }, [state]);
     return <NewQuestionContext.Provider value={value}>{children}</NewQuestionContext.Provider>;
 };
-export { NewQuestionContext, GlobalState };
+export { NewQuestionContext, GlobalNewQuestionState as GlobalState };
