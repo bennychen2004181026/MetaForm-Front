@@ -6,6 +6,11 @@ import { getTokenMethod } from '@/utils/tokenHandler';
 
 type EnvType = 'development' | 'test' | 'production';
 
+interface AxiosQueryError {
+    status: number;
+    data: unknown;
+}
+
 const {
     NODE_ENV = 'development',
     REACT_APP_API_URL_LOCAL,
@@ -22,7 +27,7 @@ const appURLs: Record<EnvType, string | undefined> = {
 const withCredentials = true;
 const timeout = 30000;
 
-const env: EnvType = (NODE_ENV as EnvType) || 'development';
+const env: EnvType = (NODE_ENV as EnvType) in appURLs ? (NODE_ENV as EnvType) : 'development';
 
 const axiosInstance = axios.create({
     baseURL: `${appURLs[env]}`,
@@ -58,7 +63,7 @@ const axiosBaseQuery =
             headers?: AxiosRequestConfig['headers'];
         },
         unknown,
-        unknown
+        AxiosQueryError
     > =>
     async ({ url, method, data, params, headers }) => {
         try {
@@ -74,7 +79,7 @@ const axiosBaseQuery =
             const err = axiosError as AxiosError;
             return {
                 error: {
-                    status: err.response?.status,
+                    status: err.response?.status ?? 500,
                     data: err.response?.data || err.message,
                 },
             };
