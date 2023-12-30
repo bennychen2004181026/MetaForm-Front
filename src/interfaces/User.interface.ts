@@ -42,3 +42,10 @@ export interface IVerifyEmailTokenResponse {
     email: string;
     username: string;
 }
+
+export interface ICreateUserResponse {
+    message: string;
+    user: IUser;
+    token: string;
+    isAccountComplete: boolean;
+}

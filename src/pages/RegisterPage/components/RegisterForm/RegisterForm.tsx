@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box } from '@mui/system';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import StyledButton from '@/components/Button';
 import ReusableForm from '@/components/ReusableForm';
@@ -10,9 +10,16 @@ import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const RegisterForm = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const showSnackbar = useSnackbarHelper();
     // Former page delivers with email, username in the location.state
     const { email, username } = location.state || {};
+
+    if (!email || !username) {
+        showSnackbar(`Missing necessary state`, 'error');
+        navigate(-1);
+    }
+
     const formFields: IField[] = [
         {
             id: 1,

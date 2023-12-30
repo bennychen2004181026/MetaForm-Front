@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import {
+    ICreateUserResponse,
     ILoginResponse,
     IUser,
     IVerifyEmailResponse,
@@ -30,6 +31,13 @@ const userApis = createApi({
             query: (token: string) => ({
                 url: `/verification/${token}`,
                 method: 'GET',
+            }),
+        }),
+        createUser: builder.mutation<ICreateUserResponse, IUser>({
+            query: (formData: IUser) => ({
+                url: 'create-account',
+                method: 'POST',
+                body: formData,
             }),
         }),
     }),
