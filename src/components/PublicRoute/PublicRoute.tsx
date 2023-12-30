@@ -14,9 +14,6 @@ const PublicRoute = () => {
     const fetchUserId: string = useAppSelector(authUserId);
     const location = useLocation();
 
-    const path =
-        fetchedUser && !fetchAccountStatus ? `/company-profile/${fetchUserId}` : '/user-dashboard';
-
     useEffect(() => {
         if (fetchedUser !== null) {
             const message = !fetchAccountStatus
@@ -24,13 +21,14 @@ const PublicRoute = () => {
                 : 'You are already logged in.';
             showSnackbar(message, 'warning');
         }
-    }, []);
+    }, [fetchedUser, fetchAccountStatus, showSnackbar]);
 
-    return fetchedUser !== null ? (
-        <Navigate to={path} state={{ from: location }} replace />
-    ) : (
-        <Outlet />
-    );
+    if (fetchedUser) {
+        const path = fetchAccountStatus ? '/user-dashboard' : `/company-profile/${fetchUserId}`;
+        return <Navigate to={path} state={{ from: location }} replace />;
+    }
+
+    return <Outlet />;
 };
 
 export default PublicRoute;

@@ -15,7 +15,7 @@ const SuperAdminRoute = () => {
         if (fetchUserRole === Role.Admin) {
             showSnackbar('Unauthorized Super Admin access', 'warning');
         }
-    }, []);
+    }, [fetchUserRole, showSnackbar]);
 
     return <Outlet />;
 };
