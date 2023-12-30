@@ -10,8 +10,8 @@ interface AuthState {
     role: Role | null;
     company: string | null;
     userId: string | null;
-    isAccountComplete: boolean | false;
-    isActive: boolean | false;
+    isAccountComplete: boolean;
+    isActive: boolean;
 }
 
 const initialState: AuthState = {
