@@ -18,7 +18,6 @@ const NewQuestionTitleBox = styled(Box)`
     flex-direction: row;
     flex-basis: 200px;
     gap: 1em;
-    margin-bottom: 20px;
     align-items: flex-start;
 `;
 const StyledQuestionTitle = styled(Box)`

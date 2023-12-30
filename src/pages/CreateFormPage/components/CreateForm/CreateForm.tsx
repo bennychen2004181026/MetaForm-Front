@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Container } from '@mui/material';
+import styled from 'styled-components';
 
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import FormQuestions from '@/pages/CreateFormPage/components/CreateForm/components/FormQuestions';

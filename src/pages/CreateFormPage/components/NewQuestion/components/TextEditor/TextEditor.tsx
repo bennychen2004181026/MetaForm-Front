@@ -10,11 +10,8 @@ import StarterKit from '@tiptap/starter-kit';
 
 import MenuBar from './components/Menubar/Menubar';
 
-const StyledMenubar = styled.div``;
-
 const StyledEditor = styled.div`
     .ProseMirror {
-        border: 1px solid #03787c;
         background: #eeeeee;
         outline: none;
         color: rgb(0, 0, 0);
@@ -23,9 +20,7 @@ const StyledEditor = styled.div`
         margin: 0.1rem auto;
         overflow: auto;
         height: 100%;
-    }
-    .t-center {
-        text-align: left;
+        font-family: 'Noto Sans', sans-serif;
     }
     .ProseMirror p.is-editor-empty:first-child::before {
         content: '       Your Question...';
@@ -37,30 +32,8 @@ const StyledEditor = styled.div`
     min-width: 400px;
     width: 600px;
 `;
-const useOutsideClick = (callback: () => void) => {
-    const ref = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (event.target) {
-                if (ref.current && !ref.current.contains(event.target as Node)) {
-                    callback();
-                }
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [callback]);
-
-    return ref;
-};
 
 const TextEditor = ({ onTitleChange }: { onTitleChange: (newTitle: string) => void }) => {
-    const [focus, setFocus] = useState(true);
-    const ref = useOutsideClick(() => {
-        setFocus(false);
-    });
     const editor = useEditor({
         extensions: [StarterKit, Underline, Link, Highlight, Placeholder],
         autofocus: false,
@@ -69,13 +42,9 @@ const TextEditor = ({ onTitleChange }: { onTitleChange: (newTitle: string) => vo
         },
     });
     return (
-        <StyledEditor ref={ref} onClick={() => setFocus(true)}>
+        <StyledEditor>
             <EditorContent editor={editor} />
-            {focus && (
-                <StyledMenubar>
-                    <MenuBar editor={editor} setFocus={setFocus} />
-                </StyledMenubar>
-            )}
+            <MenuBar editor={editor} />
         </StyledEditor>
     );
 };

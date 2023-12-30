@@ -6,7 +6,7 @@ import OptionList from './components/OptionList';
 const MuitiChoiceQuestion = ({ isCheckbox = false }: { isCheckbox: boolean }) => {
     return (
         <div>
-            <OptionList dense isCheckbox={isCheckbox} />
+            <OptionList isCheckbox={isCheckbox} />
             <AddOption />
         </div>
     );

@@ -7,7 +7,7 @@ import Option from '../Option';
 import IOption from '@/interfaces/IOption';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
-const OptionList = ({ dense, isCheckbox }: { dense: boolean; isCheckbox: boolean }) => {
+const OptionList = ({ isCheckbox }: { isCheckbox: boolean }) => {
     const { dispatch, state } = useContext(NewQuestionContext);
     const { options } = state;
     const [draggingOption, setDraggingOption] = useState<null | IOption>(null);
@@ -40,7 +40,7 @@ const OptionList = ({ dense, isCheckbox }: { dense: boolean; isCheckbox: boolean
         }
     };
     return (
-        <List dense={dense}>
+        <List>
             {options.map((option) => (
                 <div
                     key={option.id}
