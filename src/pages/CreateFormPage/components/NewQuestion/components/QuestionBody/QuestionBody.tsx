@@ -7,8 +7,9 @@ import { getQuestion } from '@/pages/CreateFormPage/components/NewQuestion/compo
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 const QuestionBodyContainer = styled.div`
-    padding: 0 40px;
+    padding: 0 10px;
     margin-bottom: 40px;
+    margin-top: 10px;
 `;
 const QuestionBodyDivider = styled.div`
     margin-bottom: 10px;

@@ -18,9 +18,19 @@ const NewQuestionTitleBox = styled(Box)`
     flex-direction: row;
     flex-basis: 200px;
     gap: 1em;
+    justify-content: space-between;
     align-items: flex-start;
 `;
 const StyledQuestionTitle = styled(Box)`
+    flex-grow: 1;
+`;
+const StyledTitleImageIconBox = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+`;
+const StyledQuestionTypeSelector = styled(QuestionTypeSelector)`
+    width: 150px;
     flex-grow: 1;
 `;
 const QuestionTitle = () => {
@@ -51,13 +61,15 @@ const QuestionTitle = () => {
     return (
         <>
             <NewQuestionTitleBox>
-                <StyledQuestionTitle>
-                    <TextEditor onTitleChange={onTitleChange} />
-                </StyledQuestionTitle>
-                <IconButton onClick={handleClickOpen}>
-                    <ImageOutlinedIcon fontSize="large" />
-                </IconButton>
-                <QuestionTypeSelector />
+                <StyledTitleImageIconBox>
+                    <StyledQuestionTitle>
+                        <TextEditor onTitleChange={onTitleChange} />
+                    </StyledQuestionTitle>
+                    <IconButton onClick={handleClickOpen}>
+                        <ImageOutlinedIcon fontSize="large" />
+                    </IconButton>
+                </StyledTitleImageIconBox>
+                <StyledQuestionTypeSelector />
                 <ImageUploadDialog
                     key={questionId}
                     open={open}

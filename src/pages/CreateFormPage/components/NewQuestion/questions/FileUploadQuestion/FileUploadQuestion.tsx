@@ -4,9 +4,21 @@ import { FormControl, ListItemText, MenuItem, OutlinedInput } from '@mui/materia
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import styled from 'styled-components';
 
 const fileTypes = ['Image', 'PDF'];
-const CheckboxLabels = () => {
+const StyledFormControl = styled(FormControl)`
+    margin: 1rem;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+`;
+const StyledFormGroup = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`;
+const FileUploadQuestion = () => {
     const [numOfFiles, setNumOfFiles] = React.useState(1);
     const [allowedFiletypes, setAllowedFileTypes] = React.useState<string[]>([]);
 
@@ -30,10 +42,12 @@ const CheckboxLabels = () => {
         setNumOfFiles(event.target.value as number);
     };
     return (
-        <FormGroup>
+        <StyledFormGroup>
             <div>
-                <FormControl sx={{ m: 1, width: 300 }}>
-                    <p>Allowed File Types</p>
+                <StyledFormControl>
+                    <div>
+                        <p>Allowed File Types</p>
+                    </div>
                     <Select
                         labelId="demo-multiple-checkbox-label"
                         id="demo-multiple-checkbox"
@@ -52,10 +66,10 @@ const CheckboxLabels = () => {
                             </MenuItem>
                         ))}
                     </Select>
-                </FormControl>
+                </StyledFormControl>
             </div>
             <div>
-                <FormControl sx={{ m: 1, width: 300 }}>
+                <StyledFormControl>
                     <p>Maximum files accepted</p>
                     <Select
                         labelId="demo-simple-select-label"
@@ -67,9 +81,9 @@ const CheckboxLabels = () => {
                         <MenuItem value={2}>2</MenuItem>
                         <MenuItem value={3}>3</MenuItem>
                     </Select>
-                </FormControl>
+                </StyledFormControl>
             </div>
-        </FormGroup>
+        </StyledFormGroup>
     );
 };
-export default CheckboxLabels;
+export default FileUploadQuestion;

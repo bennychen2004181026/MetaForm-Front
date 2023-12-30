@@ -1,17 +1,13 @@
 import React, { useContext, useState } from 'react';
 
-import { Grid, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
-import styled from 'styled-components';
 
 import { questionTypes } from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/questionTypes';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
-const FixedWidthTypeSelector = styled.div`
-    width: 300px;
-`;
 const QuestionTypeSelector = () => {
     const [selectedQuestionType, setSelectedQuestionType] = useState(questionTypes[0].value);
     const { dispatch } = useContext(NewQuestionContext);
@@ -27,41 +23,31 @@ const QuestionTypeSelector = () => {
         setSelectedQuestionType(e.target.value);
     };
     return (
-        <FixedWidthTypeSelector>
-            <TextField
-                id="questionTypeSelector"
-                select
-                fullWidth
-                value={selectedQuestionType}
-                onChange={(e) => onChangeSelect(e)}
-            >
-                {questionTypes.map((option) => {
-                    return (
-                        <MenuItem
-                            key={option.id}
-                            value={option.value}
-                            sx={{ display: 'flex', flexDirection: 'row' }}
-                        >
-                            <Grid container sx={{ display: 'flex' }}>
-                                <Grid item xs={4}>
-                                    <ListItemIcon
-                                        sx={{
-                                            alignItems: 'center',
-                                            mx: '3em',
-                                        }}
-                                    >
-                                        {option.icon}
-                                    </ListItemIcon>
-                                </Grid>
-                                <Grid item xs={8}>
-                                    <ListItemText>{option.value}</ListItemText>
-                                </Grid>
-                            </Grid>
-                        </MenuItem>
-                    );
-                })}
-            </TextField>
-        </FixedWidthTypeSelector>
+        <TextField
+            id="questionTypeSelector"
+            select
+            fullWidth
+            value={selectedQuestionType}
+            onChange={(e) => onChangeSelect(e)}
+        >
+            {questionTypes.map((option) => {
+                return (
+                    <MenuItem
+                        key={option.id}
+                        value={option.value}
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            height: '3em',
+                            fontFamily: `'Noto Sans', sans-serif`,
+                        }}
+                    >
+                        <ListItemIcon>{option.icon}</ListItemIcon>
+                        <ListItemText>{option.value}</ListItemText>
+                    </MenuItem>
+                );
+            })}
+        </TextField>
     );
 };
 
