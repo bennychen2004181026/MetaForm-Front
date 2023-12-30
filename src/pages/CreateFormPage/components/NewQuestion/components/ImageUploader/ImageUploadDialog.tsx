@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext } from 'react';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import styled from 'styled-components';
@@ -19,11 +19,14 @@ const StyledDialogContent = styled.div`
     display: flex;
     flex-direction: column;
 `;
-
+const StyledDragBox = styled.div<{ isDragging: boolean; isFileValid: boolean }>`
+    background-color: ${({ isDragging, isFileValid }) =>
+        isDragging && isFileValid ? '#03a9f4' : 'white'};
+`;
 const ImageUploadDialog = (props: ImageInsertDialogProps) => {
-    const { onClose, open, key, insertImage } = props;
+    const { onClose, open, insertImage } = props;
     const { state } = useContext(NewQuestionContext);
-    const { questionId, title } = state;
+    const { questionId } = state;
     const results = useUploadQuestionImage({ questionId });
     const {
         isDragging,
@@ -54,7 +57,7 @@ const ImageUploadDialog = (props: ImageInsertDialogProps) => {
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Insert Image</DialogTitle>
             <DialogContent>
-                <div style={{ backgroundColor: isDragging && isFileValid ? '#03a9f4' : 'white' }}>
+                <StyledDragBox isDragging={isDragging} isFileValid={isFileValid}>
                     <DragDropBox
                         isDragging={isDragging}
                         onDragEnter={handleDragEnter}
@@ -68,22 +71,23 @@ const ImageUploadDialog = (props: ImageInsertDialogProps) => {
                                 <ImageContainer image={selectedImage} large={false} />
                             )}
                             {!isDragging && (
-                                <Button variant="outlined" onClick={selectFiles}>
-                                    Browse
-                                    <input
-                                        type="file"
-                                        hidden
-                                        ref={imgRef}
-                                        accept="image/*"
-                                        onChange={onFileSelect}
-                                    />
-                                </Button>
+                                <>
+                                    <Button variant="outlined" onClick={selectFiles}>
+                                        Browse
+                                        <input
+                                            type="file"
+                                            hidden
+                                            ref={imgRef}
+                                            accept="image/*"
+                                            onChange={onFileSelect}
+                                        />
+                                    </Button>
+                                    <p>Or Drag a file here</p>
+                                </>
                             )}
-
-                            {!isDragging && <p>Or Drag a file here</p>}
                         </StyledDialogContent>
                     </DragDropBox>
-                </div>
+                </StyledDragBox>
             </DialogContent>
             <DialogActions>
                 <Button variant="contained" onClick={handleInsert}>

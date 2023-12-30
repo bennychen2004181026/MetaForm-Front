@@ -15,21 +15,11 @@ import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestio
 import ImageContainer from '@/pages/CreateFormPage/components/NewQuestion/components/ImageContainer';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 
-const StyledImageUploadButton = styled.div`
-    visibility: hidden;
-    margin-right: 4rem;
-`;
-const StyledDragButton = styled.div`
-    visibility: hidden;
-`;
-const StyledOptionContainer = styled.div`
+const StyledButtonContainer = styled.div<{ isUploadButton?: boolean }>`
+    opacity: 0;
+    margin-right: ${({ isUploadButton }) => (isUploadButton ? '4rem' : '0')};
     &:hover {
-        & #onHoverUploadImageButton {
-            visibility: visible;
-        }
-        & #onHoverDragIcon {
-            visibility: visible;
-        }
+        opacity: 1;
     }
 `;
 
@@ -62,7 +52,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
             payload: options,
         });
     };
-    const handleClickOpen = () => {
+    const handleClickImageIcon = () => {
         setOpen(true);
     };
     const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
@@ -82,7 +72,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
         }
     };
     return (
-        <StyledOptionContainer>
+        <>
             <ListItem
                 secondaryAction={
                     <IconButton onClick={handleDelete}>
@@ -90,40 +80,28 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                     </IconButton>
                 }
             >
-                <StyledDragButton id="onHoverDragIcon">
+                <StyledButtonContainer>
                     <DragIndicatorIcon />
-                </StyledDragButton>
+                </StyledButtonContainer>
                 <ListItemIcon>
                     {checkbox ? <CheckBoxOutlineBlankIcon /> : <CircleOutlinedIcon />}
                 </ListItemIcon>
-                {option.otherOption ? (
-                    <TextField
-                        id="option"
-                        defaultValue={option.value}
-                        variant="standard"
-                        type="text"
-                        disabled
-                        fullWidth
-                        maxRows={1}
-                    />
-                ) : (
-                    <TextField
-                        id="option"
-                        defaultValue={option.value}
-                        variant="standard"
-                        type="text"
-                        fullWidth
-                        maxRows={1}
-                    />
-                )}
-
-                <StyledImageUploadButton id="onHoverUploadImageButton">
-                    {!option.otherOption && (
-                        <IconButton onClick={handleClickOpen}>
+                <TextField
+                    id="option"
+                    defaultValue={option.value}
+                    variant="standard"
+                    type="text"
+                    disabled={!!option.otherOption}
+                    fullWidth
+                    maxRows={1}
+                />
+                {!option.otherOption && (
+                    <StyledButtonContainer isUploadButton>
+                        <IconButton onClick={handleClickImageIcon}>
                             <ImageOutlinedIcon fontSize="medium" />
                         </IconButton>
-                    )}
-                </StyledImageUploadButton>
+                    </StyledButtonContainer>
+                )}
             </ListItem>
             {option.image && <ImageContainer large={false} image={option.image} />}
 
@@ -133,7 +111,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                 insertImage={insertImage}
                 onClose={handleClose}
             />
-        </StyledOptionContainer>
+        </>
     );
 };
 

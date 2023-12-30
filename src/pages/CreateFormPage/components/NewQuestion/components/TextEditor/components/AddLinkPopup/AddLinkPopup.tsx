@@ -1,36 +1,48 @@
 import React, { useState } from 'react';
 
-import { Box, Button, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import { Editor } from '@tiptap/react';
 import styled from 'styled-components';
 
 const AddLinkPopup = ({
     editor,
-    modal,
-    setModal,
+    open,
+    setOpen,
 }: {
     editor: Editor;
-    modal: boolean;
-    setModal: React.Dispatch<React.SetStateAction<boolean>>;
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
     const [input, setInput] = useState('');
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setInput(e.target.value);
     };
     const setlink = (inputLink: string) => {
         editor.chain().focus().extendMarkRange('link').setLink({ href: inputLink }).run();
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         setlink(input);
-        setModal(false);
+        setOpen(false);
         setInput('');
     };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (
-        <Box>
-            <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-1 jcc aic">
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">Add Link</DialogTitle>
+            <DialogContent>
                 <TextField
                     required
                     id="new-link"
@@ -39,16 +51,16 @@ const AddLinkPopup = ({
                     type="text"
                     label="Link to"
                     maxRows={1}
-                    onChange={(e) => handleChange}
+                    onChange={(e) => handleChange(e)}
                 />
-                <Button color="secondary" onClick={() => setModal(false)}>
-                    Cancel
-                </Button>
-                <Button variant="contained" color="success" type="submit">
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={handleSubmit} autoFocus>
                     Add
                 </Button>
-            </form>
-        </Box>
+            </DialogActions>
+        </Dialog>
     );
 };
 export default AddLinkPopup;
