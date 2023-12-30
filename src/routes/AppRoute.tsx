@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import CompanyRegisterPage from '@/pages/CompanyRegisterPage';
+import CreateFormPage from '@/pages/CreateFormPage/CreateFormPage';
 import FormListPage from '@/pages/FormListPage';
 import LoginPage from '@/pages/LoginPage';
 import MainPage from '@/pages/MainPage';
@@ -16,6 +17,7 @@ const CompanyProfileStepperPage = React.lazy(() => import('@/pages/CompanyProfil
 const ForgotPasswordPage = React.lazy(() => import('@/pages/ForgotPasswordPage'));
 const ResetPasswordPage = React.lazy(() => import('@/pages/ResetPasswordPage'));
 const PublicRoute = React.lazy(() => import('@/components/PublicRoute'));
+const CreateEmployeePage = React.lazy(() => import('@/pages/CreateEmployeePage'));
 const ProtectedRoute = React.lazy(() => import('@/components/ProtectedRoute'));
 const CompanyDashboardRoute = React.lazy(() => import('@/components/CompanyDashboardRoute'));
 const SuperAdminRoute = React.lazy(() => import('@/components/SuperAdminRoute'));
@@ -37,6 +39,11 @@ const AppRoute = () => (
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/forms" element={<FormListPage />} />
+                <Route
+                    path="/companies/:companyId/invite-employees/:token"
+                    element={<CreateEmployeePage />}
+                />
+                <Route path="/create-form" element={<CreateFormPage />} />
                 <Route element={<ProtectedRoute />}>
                     <Route
                         path="/company-profile/:userId"
