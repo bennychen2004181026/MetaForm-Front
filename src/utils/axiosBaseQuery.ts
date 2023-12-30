@@ -51,7 +51,7 @@ axiosInstance.interceptors.request.use(
     },
 );
 
-export const axiosBaseQuery =
+const axiosBaseQuery =
     (
         { basePath }: { basePath: string } = { basePath: '' },
     ): BaseQueryFn<
@@ -85,3 +85,5 @@ export const axiosBaseQuery =
             };
         }
     };
+
+export default axiosBaseQuery;
