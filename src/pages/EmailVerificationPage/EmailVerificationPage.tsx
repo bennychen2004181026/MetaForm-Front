@@ -16,7 +16,12 @@ const EmailVerificationPage: React.FC = () => {
     const navigate = useNavigate();
     const { useVerifyEmailMutation } = userApis;
     const [verifyEmail, { isLoading }] = useVerifyEmailMutation();
-    const { email, username } = location.state || {};
+    const { email: emailData, username } = location.state || {};
+
+    if (!emailData || !username) {
+        showSnackbar(`Missing necessary state`, 'error');
+        navigate(-1);
+    }
 
     const handleEmailClick = () => {
         showSnackbar('Please log in to your email account to verify your email.', 'info');
@@ -24,14 +29,12 @@ const EmailVerificationPage: React.FC = () => {
 
     const handleResendEmail = async () => {
         try {
-            const response: IVerifyEmailResponse = await verifyEmail(location.state).unwrap();
-            const { message, email: responseEmail, username: responseUsername } = response;
+            const response: IVerifyEmailResponse = await verifyEmail({
+                email: emailData,
+                username,
+            }).unwrap();
+            const { message } = response;
             showSnackbar(`${message}`, 'success');
-            setTimeout(() => {
-                navigate('/email-verification', {
-                    state: { email: responseEmail, username: responseUsername },
-                });
-            }, 500);
         } catch (error) {
             const apiError = error as ApiError;
             const errorMessage =
@@ -54,7 +57,7 @@ const EmailVerificationPage: React.FC = () => {
             <MainLayout>
                 <InformativeText
                     textBeforeLink="We've sent an email to "
-                    link={{ text: email || 'Email', onClick: handleEmailClick }}
+                    link={{ text: emailData || 'Email', onClick: handleEmailClick }}
                     textAfterLink=" to verify your email address and activate your account. The link in the email will expire in 10 minutes."
                 />
                 <InformativeText

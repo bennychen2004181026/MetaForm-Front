@@ -31,8 +31,11 @@ const AppRoute = () => (
                     <Route path="/register-option" element={<RegisterOptionPage />} />
                     <Route path="/register-email" element={<RegisterEmailPage />} />
                     <Route path="/email-verification" element={<EmailVerificationPage />} />
+                    <Route
+                        path="/users/verification/:token"
+                        element={<EmailLinkVerificationPage />}
+                    />
                 </Route>
-                <Route path="/verification/:token" element={<EmailLinkVerificationPage />} />
                 <Route path="/create-user" element={<RegisterPage />} />
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
