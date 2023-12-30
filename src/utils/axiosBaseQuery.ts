@@ -4,6 +4,13 @@ import type { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { getTokenMethod } from '@/utils/tokenHandler';
 
+type EnvType = 'development' | 'test' | 'production';
+
+interface AxiosQueryError {
+    status: number;
+    data: unknown;
+}
+
 const {
     NODE_ENV = 'development',
     REACT_APP_API_URL_LOCAL,
@@ -11,12 +18,7 @@ const {
     REACT_APP_API_URL_PRODUCTION,
 } = process.env;
 
-const appURLs: {
-    [key: string]: string | undefined;
-    development: string | undefined;
-    test: string | undefined;
-    production: string | undefined;
-} = {
+const appURLs: Record<EnvType, string | undefined> = {
     development: REACT_APP_API_URL_LOCAL,
     test: REACT_APP_API_URL_TEST,
     production: REACT_APP_API_URL_PRODUCTION,
@@ -24,10 +26,13 @@ const appURLs: {
 
 const withCredentials = true;
 const timeout = 30000;
-export const currentApiUrl = appURLs[NODE_ENV];
+
+const env: EnvType = (NODE_ENV as EnvType) in appURLs ? (NODE_ENV as EnvType) : 'development';
+
+export const currentApiUrl = appURLs[env];
 
 const axiosInstance = axios.create({
-    baseURL: `${currentApiUrl}`,
+    baseURL: `${appURLs[env]}`,
     withCredentials,
     timeout,
     headers: {
@@ -48,7 +53,7 @@ axiosInstance.interceptors.request.use(
     },
 );
 
-export const axiosBaseQuery =
+const axiosBaseQuery =
     (
         { basePath }: { basePath: string } = { basePath: '' },
     ): BaseQueryFn<
@@ -60,7 +65,7 @@ export const axiosBaseQuery =
             headers?: AxiosRequestConfig['headers'];
         },
         unknown,
-        unknown
+        AxiosQueryError
     > =>
     async ({ url, method, data, params, headers }) => {
         try {
@@ -76,9 +81,11 @@ export const axiosBaseQuery =
             const err = axiosError as AxiosError;
             return {
                 error: {
-                    status: err.response?.status,
+                    status: err.response?.status ?? 500,
                     data: err.response?.data || err.message,
                 },
             };
         }
     };
+
+export default axiosBaseQuery;

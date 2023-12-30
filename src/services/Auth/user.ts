@@ -6,7 +6,7 @@ import {
     IVerifyEmailResponse,
     IVerifyEmailTokenResponse,
 } from '@/interfaces/User.interface';
-import { axiosBaseQuery } from '@/utils/axiosBaseQuery';
+import axiosBaseQuery from '@/utils/axiosBaseQuery';
 
 const userApis = createApi({
     reducerPath: 'userApi',
