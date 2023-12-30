@@ -6,16 +6,19 @@ import styled from 'styled-components';
 
 import googleIcon from '@/assets/images/google-icon-logo.png';
 import StyledButton from '@/components/Button/Button';
+import InformativeText from '@/components/InformativeText';
 import ReusableForm from '@/components/ReusableForm';
 import Hyperlink from '@/components/StyledLink/';
 import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
+import useGoogleOAuth from '@/hooks/useGoogleOAuth';
 import { ApiError } from '@/interfaces/ApiError';
 import { ILoginResponse, IUser } from '@/interfaces/User.interface';
 import Title from '@/layouts/MainLayout/Title';
 import userApis from '@/services/Auth/user';
 import { setCredentials } from '@/store/slices/auth/authSlice';
 import GlobalStyle from '@/styles/GlobalStyle';
+import { currentApiUrl } from '@/utils/axiosBaseQuery';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const LoginContent = styled.div`
@@ -37,9 +40,14 @@ interface ButtonProps {
 }
 
 const LoginButton = styled(StyledButton)<ButtonProps>`
-    background-color: ${(props) => props.backgroundColor};
-    font-weight: bold;
-    text-transform: none;
+    && {
+        background-color: #7f8785;
+        font-weight: bold;
+        text-transform: none;
+        &:hover {
+            background-color: #4e6145;
+        }
+    }
 `;
 
 const Login = () => {
@@ -48,6 +56,8 @@ const Login = () => {
     const [login] = useLoginMutation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
+    const { handleGoogleLoginClick } = useGoogleOAuth(currentApiUrl);
 
     const formFields: IField[] = [
         {
@@ -124,6 +134,11 @@ const Login = () => {
         }
     };
 
+    const handleRedirectToRegister = () => {
+        const path = `/register-option`;
+        navigate(path);
+    };
+
     const forgotPassword = () => {
         const path = `../forgot-password`;
         navigate(path);
@@ -144,13 +159,20 @@ const Login = () => {
                 handleSubmit={handleSubmit}
                 submitButtonText={submitButtonText}
             >
+                <InformativeText
+                    textBeforeLink="Wanna create account? Let's start with "
+                    link={{
+                        text: 'create account.',
+                        onClick: handleRedirectToRegister,
+                    }}
+                />
                 <Typography variant="subtitle1" sx={{ padding: '5px', textAlign: 'center' }}>
                     Forgot password? Click <Hyperlink text="here" onClick={forgotPassword} />
                 </Typography>
                 <LoginButton
                     variant="contained"
                     startIcon={<GoogleIcon src={googleIcon} />}
-                    backgroundColor="silver"
+                    onClick={handleGoogleLoginClick}
                 >
                     Sign in with Google
                 </LoginButton>

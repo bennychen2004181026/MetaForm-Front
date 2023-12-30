@@ -15,6 +15,10 @@ const useSnackbarHelper = () => {
             action: (key) => (
                 <CloseSnackbarButton snackbarKey={key} closeSnackbar={closeSnackbar} />
             ),
+            style: {
+                wordBreak: 'break-word',
+                whiteSpace: 'pre-wrap',
+            },
         } as OptionsObject);
     };
 
