@@ -8,8 +8,13 @@ import googleIcon from '@/assets/images/google-icon-logo.png';
 import StyledButton from '@/components/Button/Button';
 import ReusableForm from '@/components/ReusableForm';
 import Hyperlink from '@/components/StyledLink/';
+import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
+import { ApiError } from '@/interfaces/ApiError';
+import { ILoginResponse, IUser } from '@/interfaces/User.interface';
 import Title from '@/layouts/MainLayout/Title';
+import userApis from '@/services/Auth/user';
+import { setCredentials } from '@/store/slices/auth/authSlice';
 import GlobalStyle from '@/styles/GlobalStyle';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
@@ -39,6 +44,11 @@ const LoginButton = styled(StyledButton)<ButtonProps>`
 
 const Login = () => {
     const showSnackbar = useSnackbarHelper();
+    const { useLoginMutation } = userApis;
+    const [login] = useLoginMutation();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const formFields: IField[] = [
         {
             id: 1,
@@ -57,10 +67,7 @@ const Login = () => {
             key: 'password',
             type: 'input',
             value: '',
-            validationRules: [
-                { key: 'isRequired', additionalData: 'Password' },
-                { key: 'validatePassword' },
-            ],
+            validationRules: [{ key: 'isRequired', additionalData: 'Password' }],
         },
     ];
 
@@ -74,16 +81,49 @@ const Login = () => {
         validateAllFields,
     } = useForm(formFields);
 
+    const loginFunction = async () => {
+        try {
+            const response: ILoginResponse = await login(fieldsData).unwrap();
+            const { message, user, token, isAccountComplete } = response;
+            const { email, role, company, _id, isActive } = user;
+            dispatch(
+                setCredentials({
+                    user: user as IUser,
+                    token,
+                    email: email ?? null,
+                    role: role ?? null,
+                    company: company ?? null,
+                    userId: _id ?? null,
+                    isAccountComplete: isAccountComplete ?? false,
+                    isActive: isActive ?? false,
+                }),
+            );
+            showSnackbar(`${message}`, 'success');
+            setTimeout(() => {
+                if (isAccountComplete) {
+                    navigate('/user-dashboard');
+                } else {
+                    navigate(`/company-profile/${_id}`);
+                }
+            }, 500);
+        } catch (error) {
+            const apiError = error as ApiError;
+            const errorMessage =
+                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
+
+            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+        }
+    };
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!validateAllFields()) {
             showSnackbar('Please fill all the required valid fields first', 'error');
         } else {
-            // temporary message, to be updated with authentification logic
-            showSnackbar('login successful', 'success');
+            await loginFunction();
         }
     };
-    const navigate = useNavigate();
+
     const forgotPassword = () => {
         const path = `../forgot-password`;
         navigate(path);
