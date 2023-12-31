@@ -1,29 +1,8 @@
 import React, { Dispatch, createContext, useMemo, useReducer } from 'react';
 
-import { IForm, IImage, IQuestion } from '@/interfaces/CreateForm.interface';
-import IOption from '@/interfaces/IOption';
-import NewQuestion from '@/pages/CreateFormPage/components/NewQuestion';
+import { IForm, IQuestion } from '@/interfaces/CreateForm.interface';
+import { initFormState } from '@/pages/CreateFormPage/components/CreateForm/initForm';
 
-const formState: IForm = {
-    formId: '1',
-    title: 'Test Form by Monash university',
-    description:
-        'This form is designed to conduct a survey on the employment of IT graduate in 2023',
-    questions: [
-        {
-            questionType: '0',
-            questionId: '1',
-            required: true,
-            title: { content: 'What is your age range?' },
-            options: [
-                { id: '1', value: 'Under 10' },
-                { id: '2', value: '10 - 20' },
-                { id: '3', value: '20 - 30' },
-            ],
-            other: false,
-        },
-    ],
-};
 type Actions =
     | {
           type: 'ADD_QUESTION';
@@ -31,7 +10,7 @@ type Actions =
       }
     | {
           type: 'DELETE_QUESTION';
-          payload: IQuestion;
+          payload: string;
       }
     | {
           type: 'CHANGE_FORM_TITLE';
@@ -40,6 +19,10 @@ type Actions =
     | {
           type: 'CHANGE_FORM_DESCRIPTION';
           payload: string;
+      }
+    | {
+          type: 'SET_QUESTIONS';
+          payload: IQuestion[];
       };
 const formReducer = (state: IForm, action: Actions): IForm => {
     const { type, payload } = action;
@@ -53,7 +36,7 @@ const formReducer = (state: IForm, action: Actions): IForm => {
             return {
                 ...state,
                 questions: state.questions.filter(
-                    (question) => question.questionId !== action.payload.questionId,
+                    (question) => question.questionId !== action.payload,
                 ),
             };
         case 'CHANGE_FORM_TITLE':
@@ -76,16 +59,25 @@ const formReducer = (state: IForm, action: Actions): IForm => {
 const NewFormGlobalContext = createContext<{
     state: IForm;
     dispatch: Dispatch<Actions>;
-}>({ state: formState, dispatch: () => null });
+}>({ state: initFormState, dispatch: () => null });
 
 interface Props {
     children: React.ReactNode;
 }
+// const GlobalNewFormState: React.FC<Props> = ({ questions }) => {
+//     const [state, dispatch] = useReducer(formReducer, initFormState);
+//     const value = useMemo(() => {
+//         return { state, dispatch };
+//     }, [state]);
+//     return <NewFormGlobalContext.Provider value={value}>{children}</NewFormGlobalContext.Provider>;
+// };
+
 const GlobalNewFormState: React.FC<Props> = ({ children }) => {
-    const [state, dispatch] = useReducer(formReducer, formState);
+    const [state, dispatch] = useReducer(formReducer, initFormState);
     const value = useMemo(() => {
         return { state, dispatch };
     }, [state]);
     return <NewFormGlobalContext.Provider value={value}>{children}</NewFormGlobalContext.Provider>;
 };
+
 export { NewFormGlobalContext, GlobalNewFormState };

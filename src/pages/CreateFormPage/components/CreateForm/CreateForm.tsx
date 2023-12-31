@@ -1,23 +1,29 @@
 import React from 'react';
 
 import { Container } from '@mui/material';
-import styled from 'styled-components';
 
+import AddQuestion from './components/AddQuestion';
+import SubmitButton from '@/components/SubmitButton';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import FormQuestions from '@/pages/CreateFormPage/components/CreateForm/components/FormQuestions';
 import FormTitleField from '@/pages/CreateFormPage/components/CreateForm/components/FormTitleField';
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
+import { GlobalNewFormState } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
 
 const CreateForm = () => {
+    const handleSubmit = () => {};
     return (
-        <Container>
-            <ConditionalSectionContainer backgroundColor="#03787c">
-                <FormTitleField />
-            </ConditionalSectionContainer>
-            <ConditionalSectionContainer backgroundColor="#03787c">
-                <FormQuestions />
-            </ConditionalSectionContainer>
-        </Container>
+        <GlobalNewFormState>
+            <Container>
+                <ConditionalSectionContainer backgroundColor="#03787c">
+                    <FormTitleField />
+                </ConditionalSectionContainer>
+                <ConditionalSectionContainer backgroundColor="#03787c">
+                    <FormQuestions />
+                    <AddQuestion />
+                </ConditionalSectionContainer>
+                <SubmitButton isValid text="Create Form" handleSubmit={handleSubmit} />
+            </Container>
+        </GlobalNewFormState>
     );
 };
 export default CreateForm;

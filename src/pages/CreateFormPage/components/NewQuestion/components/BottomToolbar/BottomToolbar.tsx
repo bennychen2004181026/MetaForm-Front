@@ -6,6 +6,7 @@ import { Divider, FormControlLabel, IconButton } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import styled from 'styled-components';
 
+import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 const BottomToolbarContainer = styled.div`
@@ -14,22 +15,29 @@ const BottomToolbarContainer = styled.div`
     justify-content: flex-end;
 `;
 const BottomToolbar = () => {
-    const { state, dispatch } = useContext(NewQuestionContext);
-    const { required } = state;
+    const { state: questionState, dispatch: questionDispatch } = useContext(NewQuestionContext);
+    const { dispatch: formDispatch } = useContext(NewFormGlobalContext);
+
+    const { required, questionId } = questionState;
 
     const handleRequiredChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({
+        questionDispatch({
             type: 'SET_REQUIRED',
             payload: event.target.checked,
         });
     };
-
+    const handleDeleteQuestion = () => {
+        formDispatch({
+            type: 'DELETE_QUESTION',
+            payload: questionId,
+        });
+    };
     return (
         <BottomToolbarContainer>
             <IconButton>
                 <ContentCopyIcon />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={handleDeleteQuestion}>
                 <DeleteForeverIcon />
             </IconButton>
             <Divider orientation="vertical" variant="middle" flexItem sx={{ margin: '0 30px' }} />
