@@ -53,7 +53,8 @@ const EmailLinkVerificationMain: React.FC<EmailLinkVerificationMainProps> = ({ t
                 clearInterval(timer);
             }
         };
-    }, [data, stopCountdown, showSnackbar]);
+        // showSnackbar will re-appear because of the countdown, so remove
+    }, [data, setCountdown]);
 
     if (isLoading) {
         return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Box } from '@mui/system';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -22,10 +22,12 @@ const RegisterForm = () => {
     // Former page delivers with email, username in the location.state
     const { email, username } = location.state || {};
 
-    if (!email || !username) {
-        showSnackbar(`Missing necessary state`, 'error');
-        navigate(-1);
-    }
+    useEffect(() => {
+        if (!email || !username) {
+            showSnackbar(`Missing necessary state, please re verify your email`, 'error');
+            navigate('/register-email');
+        }
+    }, [email, username]);
 
     const formFields: IField[] = [
         {

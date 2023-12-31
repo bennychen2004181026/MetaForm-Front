@@ -35,9 +35,9 @@ const userApis = createApi({
         }),
         createUser: builder.mutation<ICreateUserResponse, IUser>({
             query: (formData: IUser) => ({
-                url: 'create-account',
+                url: '/create-account',
                 method: 'POST',
-                body: formData,
+                data: formData,
             }),
         }),
     }),

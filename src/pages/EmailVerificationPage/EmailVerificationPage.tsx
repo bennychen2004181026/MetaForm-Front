@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -18,10 +18,12 @@ const EmailVerificationPage: React.FC = () => {
     const [verifyEmail, { isLoading }] = useVerifyEmailMutation();
     const { email: emailData, username } = location.state || {};
 
-    if (!emailData || !username) {
-        showSnackbar(`Missing necessary state`, 'error');
-        navigate(-1);
-    }
+    useEffect(() => {
+        if (!emailData || !username) {
+            showSnackbar(`Missing necessary state`, 'error');
+            navigate(-1);
+        }
+    }, [emailData, username]);
 
     const handleEmailClick = () => {
         showSnackbar('Please log in to your email account to verify your email.', 'info');

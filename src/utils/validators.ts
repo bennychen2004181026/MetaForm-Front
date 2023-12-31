@@ -29,7 +29,8 @@ export const validators: Validators = {
     isRequired: ({ value, additionalData }: ValidatorArgs) =>
         !isEmpty(value.trim()) ? '' : `Please enter ${additionalData}!`,
     validatePassword: ({ value }: ValidatorArgs) =>
-        PASSWORD_REGEX.test(value) && !isEmpty(value)
+        // ensure the empty input identified as no error when it's not required
+        isEmpty(value) || (PASSWORD_REGEX.test(value) && !isEmpty(value))
             ? ''
             : 'at least one number,lowercase and uppercase letter, (@,#,$,%,^,_,&,*,!)and 8 to 32 characters long',
     validateConfirmPassword: ({ value, formData, additionalData }: ValidatorArgs) =>
@@ -37,11 +38,13 @@ export const validators: Validators = {
             ? ''
             : 'Password and Confirm Password does not match.',
     validateEmail: ({ value }: ValidatorArgs) =>
-        EMAIL_REGEX.test(value) && !isEmpty(value) ? '' : 'Invalid email format',
+        isEmpty(value) || (EMAIL_REGEX.test(value) && !isEmpty(value))
+            ? ''
+            : 'Invalid email format',
     validateABN: ({ value }: ValidatorArgs) =>
-        ABN_REGEX.test(value) && !isEmpty(value) ? '' : 'Must be 11 digits',
+        isEmpty(value) || (ABN_REGEX.test(value) && !isEmpty(value)) ? '' : 'Must be 11 digits',
     validateName: ({ value, additionalData }: ValidatorArgs) =>
-        NAME_REGEX.test(value) && !isEmpty(value)
+        isEmpty(value) || (NAME_REGEX.test(value) && !isEmpty(value))
             ? ''
             : `${additionalData} must be 3 to 26 characters long and only allow for a-zA-ZÀ-ÖØ-öø-ÿ, apostrophes, spaces, and hyphens`,
 };
