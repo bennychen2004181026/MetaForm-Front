@@ -4,7 +4,7 @@ import { SnackbarKey, useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux';
 
 import CloseSnackbarButton from '@/components/CloseSnackbarButton';
-import { RootState } from '@/store/store';
+import type { RootState } from '@/interfaces/redux';
 
 const Snackbar = () => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();

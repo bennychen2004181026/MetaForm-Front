@@ -112,7 +112,8 @@ const useForm = (fields: IField[]) => {
 
     const onFieldsBlur = useCallback(
         (key: string) => (): void => {
-            setFieldsFocus((prev) => ({ ...prev, [key]: true }));
+            const isFieldEmpty = fieldsData[key] === '';
+            setFieldsFocus((prev) => ({ ...prev, [key]: !isFieldEmpty }));
             validateField(key, fieldsData[key]);
         },
         [fieldsData, validateField],
