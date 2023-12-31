@@ -21,9 +21,7 @@ const NewQuestionTitleBox = styled(Box)`
     justify-content: space-between;
     align-items: flex-start;
 `;
-const StyledQuestionTitle = styled(Box)`
-    flex-grow: 1;
-`;
+
 const StyledTitleImageIconBox = styled.div`
     display: flex;
     flex-direction: row;
@@ -31,7 +29,6 @@ const StyledTitleImageIconBox = styled.div`
 `;
 const StyledQuestionTypeSelector = styled(QuestionTypeSelector)`
     width: 150px;
-    flex-grow: 1;
 `;
 const QuestionTitle = () => {
     const { state, dispatch } = useContext(NewQuestionContext);
