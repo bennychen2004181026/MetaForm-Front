@@ -53,3 +53,7 @@ export interface ICreateUserResponse {
 export interface IForgotPasswordResponse {
     message: string;
 }
+
+export interface IResetPasswordResponse {
+    message: string;
+}

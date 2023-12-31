@@ -4,6 +4,7 @@ import {
     ICreateUserResponse,
     IForgotPasswordResponse,
     ILoginResponse,
+    IResetPasswordResponse,
     IUser,
     IVerifyEmailResponse,
     IVerifyEmailTokenResponse,
@@ -44,6 +45,13 @@ const userApis = createApi({
         forgotPassword: builder.mutation<IForgotPasswordResponse, IUser>({
             query: (formData: IUser) => ({
                 url: '/forgotPassword',
+                method: 'POST',
+                data: formData,
+            }),
+        }),
+        resetPassword: builder.mutation<IResetPasswordResponse, IUser>({
+            query: (formData: IUser) => ({
+                url: '/resetPassword',
                 method: 'POST',
                 data: formData,
             }),
