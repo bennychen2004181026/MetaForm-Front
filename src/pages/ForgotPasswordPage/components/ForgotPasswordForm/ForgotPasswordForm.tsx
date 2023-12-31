@@ -4,6 +4,10 @@ import { Box, Link, Typography } from '@mui/material';
 
 import ReusableForm from '@/components/ReusableForm';
 import useForm, { IField } from '@/hooks/useForm';
+import { ApiError } from '@/interfaces/ApiError';
+import { IForgotPasswordResponse } from '@/interfaces/User.interface';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
+import userApis from '@/services/Auth/user';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const formFields: IField[] = [
@@ -29,17 +33,35 @@ const ForgotPasswordForm: React.FC = () => {
         validateAllFields,
     } = useForm(formFields);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const { useForgotPasswordMutation } = userApis;
+    const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+
+    const forgotPasswordFunction = async () => {
+        try {
+            const response: IForgotPasswordResponse = await forgotPassword(fieldsData).unwrap();
+            const { message } = response;
+            showSnackbar(`${message}`, 'success');
+        } catch (error) {
+            const apiError = error as ApiError;
+            const errorMessage =
+                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
+
+            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+        }
+    };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!validateAllFields) {
             showSnackbar('Please fill the Work Email', 'error');
         } else {
-            showSnackbar(
-                'The email has sent to the email address if the email address already registered.',
-                'info',
-            );
+            await forgotPasswordFunction();
         }
     };
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <Box sx={{ maxWidth: 480 }}>

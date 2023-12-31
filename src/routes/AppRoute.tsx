@@ -38,9 +38,9 @@ const AppRoute = () => (
                         element={<EmailLinkVerificationPage />}
                     />
                     <Route path="/create-user" element={<RegisterPage />} />
+                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 </Route>
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/forms" element={<FormListPage />} />
                 <Route
