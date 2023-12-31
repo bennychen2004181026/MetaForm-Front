@@ -44,14 +44,13 @@ const OptionList = ({ isCheckbox }: { isCheckbox: boolean }) => {
             {options.map((option) => (
                 <div
                     key={option.id}
-                    className={`option ${option === draggingOption ? 'dragging' : ''}`}
                     draggable="true"
                     onDragStart={(e) => handleDragStart(e, option)}
                     onDragEnd={handleDragEnd}
                     onDragOver={handleDragOver}
                     onDrop={() => handleDrop(option)}
                 >
-                    <Option key={option.id} option={option} checkbox={isCheckbox} />
+                    <Option option={option} checkbox={isCheckbox} />
                 </div>
             ))}
         </List>

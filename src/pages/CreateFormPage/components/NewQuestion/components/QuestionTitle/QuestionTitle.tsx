@@ -35,7 +35,7 @@ const StyledQuestionTypeSelector = styled(QuestionTypeSelector)`
 `;
 const QuestionTitle = () => {
     const { state, dispatch } = useContext(NewQuestionContext);
-    const { title, questionId } = state;
+    const { title, questionId, questionType } = state;
     const [open, setOpen] = React.useState(false);
     const onTitleChange = (newTitle: string) => {
         dispatch({
@@ -71,7 +71,7 @@ const QuestionTitle = () => {
                 </StyledTitleImageIconBox>
                 <StyledQuestionTypeSelector />
                 <ImageUploadDialog
-                    key={questionId}
+                    key={questionType}
                     open={open}
                     insertImage={insertImage}
                     onClose={handleClose}

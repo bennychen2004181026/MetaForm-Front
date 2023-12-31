@@ -21,5 +21,6 @@ interface IForm {
     title: string;
     description: string;
     questions: IQuestion[];
+    numberOfQuestions: number;
 }
 export type { IQuestionTitle, IForm, IImage, IQuestion };

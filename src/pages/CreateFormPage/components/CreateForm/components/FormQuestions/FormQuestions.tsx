@@ -1,59 +1,57 @@
-import React, { createContext, useContext, useState } from 'react';
-
-import { Container, Stack } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import React, { useContext, useState } from 'react';
 
 import { IQuestion } from '@/interfaces/CreateForm.interface';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
 import NewQuestion from '@/pages/CreateFormPage/components/NewQuestion';
-import store from '@/store';
-import { RootState } from '@/store/store';
+import { GlobalState as GlobalQuestionState } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 const FormQuestions = () => {
-    // const formQuestions = useSelector((state: RootState) => state.newForm.questions);
     const { dispatch, state } = useContext(NewFormGlobalContext);
-    const { questions } = state;
-    // const [draggingOption, setDraggingOption] = useState<null | IQuestion>(null);
-    // const handleDragStart = (e: React.DragEvent<HTMLDivElement>, option: IQuestion) => {
-    //     setDraggingOption(option);
-    //     e.dataTransfer.setData('text/plain', '');
-    // };
+    const { numberOfQuestions, questions } = state;
+    const [draggingQuestion, setDraggingQuestion] = useState<null | IQuestion>(null);
+    console.log(questions);
+    const handleDragStart = (e: React.DragEvent<HTMLDivElement>, draggingQuestionIndex: number) => {
+        const question = questions[draggingQuestionIndex];
+        setDraggingQuestion(question);
+        e.dataTransfer.setData('text/plain', '');
+    };
 
-    // const handleDragEnd = () => {
-    //     setDraggingOption(null);
-    // };
+    const handleDragEnd = () => {
+        setDraggingQuestion(null);
+    };
 
-    // const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    //     e.preventDefault();
-    // };
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+    };
 
-    // const handleDrop = (targetQuestion: IQuestion) => {
-    //     if (!draggingOption) return;
+    const handleDrop = (targetQuestionIndex: number) => {
+        const targetQuestion = questions[targetQuestionIndex];
+        if (!draggingQuestion) return;
 
-    //     const currentIndex = formQuestions.indexOf(draggingOption);
-    //     const targetIndex = formQuestions.indexOf(targetQuestion);
+        const currentIndex = questions.indexOf(draggingQuestion);
+        const targetIndex = questions.indexOf(targetQuestion);
 
-    //     if (currentIndex !== -1 && targetIndex !== -1) {
-    //         formQuestions.splice(currentIndex, 1);
-    //         formQuestions.splice(targetIndex, 0, draggingOption);
-    //         dispatch({
-    //             type: 'SET_QUESTIONS',
-    //             payload: formQuestions,
-    //         });
-    //     }
-    // };
+        if (currentIndex !== -1 && targetIndex !== -1) {
+            questions.splice(currentIndex, 1);
+            questions.splice(targetIndex, 0, draggingQuestion);
+            dispatch({
+                type: 'SET_QUESTIONS',
+                payload: questions,
+            });
+        }
+    };
     return (
-        <Container>
-            {questions.map((question) => (
-                <ConditionalSectionContainer key={question.questionId} elevation={1} square={false}>
-                    <Provider store={store}>
-                        <NewQuestion />
-                    </Provider>
-                </ConditionalSectionContainer>
-            ))}
-        </Container>
+        <div>
+            {[...Array(numberOfQuestions)].map((e, i) => {
+                const questionId = Math.floor(Math.random() * 1000000).toString();
+                return (
+                    <GlobalQuestionState key={e}>
+                        <NewQuestion questionId={questionId} />
+                    </GlobalQuestionState>
+                );
+            })}
+        </div>
     );
 };
 

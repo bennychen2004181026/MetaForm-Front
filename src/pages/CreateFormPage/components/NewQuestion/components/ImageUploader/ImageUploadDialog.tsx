@@ -26,7 +26,7 @@ const StyledDragBox = styled.div<{ isDragging: boolean; isFileValid: boolean }>`
 const ImageUploadDialog = (props: ImageInsertDialogProps) => {
     const { onClose, open, insertImage } = props;
     const { state } = useContext(NewQuestionContext);
-    const { questionId } = state;
+    const { questionType: questionId } = state;
     const results = useUploadQuestionImage({ questionId });
     const {
         isDragging,

@@ -5,7 +5,7 @@ import IOption from '@/interfaces/IOption';
 
 const initState: IQuestion = {
     questionType: '0',
-    questionId: '1',
+    questionId: Math.floor(Math.random() * 1000000).toString(),
     required: true,
     title: { content: 'What is your age range?' },
     options: [
@@ -47,6 +47,10 @@ type Actions =
     | {
           type: 'SET_REQUIRED';
           payload: boolean;
+      }
+    | {
+          type: 'CHANGE_QUESTION_ID';
+          payload: string;
       };
 const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
     const { type, payload } = action;
@@ -90,6 +94,11 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
             return {
                 ...state,
                 required: action.payload,
+            };
+        case 'CHANGE_QUESTION_ID':
+            return {
+                ...state,
+                questionId: action.payload,
             };
         default:
             throw new Error(

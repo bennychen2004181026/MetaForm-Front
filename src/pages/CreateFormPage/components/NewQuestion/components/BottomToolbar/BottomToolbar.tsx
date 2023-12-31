@@ -31,6 +31,10 @@ const BottomToolbar = () => {
             type: 'DELETE_QUESTION',
             payload: questionId,
         });
+        formDispatch({
+            type: 'CHANGE_QUESTION_NUMBER',
+            payload: -1,
+        });
     };
     return (
         <BottomToolbarContainer>

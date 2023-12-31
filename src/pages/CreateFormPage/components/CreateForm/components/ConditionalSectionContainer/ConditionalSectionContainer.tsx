@@ -17,6 +17,7 @@ const ConditionalSectionContainer = ({
         <Paper
             elevation={elevation}
             square={square}
+            variant="outlined"
             sx={{
                 p: 4,
                 marginBottom: '20px',

@@ -23,6 +23,10 @@ type Actions =
     | {
           type: 'SET_QUESTIONS';
           payload: IQuestion[];
+      }
+    | {
+          type: 'CHANGE_QUESTION_NUMBER';
+          payload: number;
       };
 const formReducer = (state: IForm, action: Actions): IForm => {
     const { type, payload } = action;
@@ -35,19 +39,27 @@ const formReducer = (state: IForm, action: Actions): IForm => {
         case 'DELETE_QUESTION':
             return {
                 ...state,
-                questions: state.questions.filter(
-                    (question) => question.questionId !== action.payload,
-                ),
+                questions: state.questions.filter((question) => question.questionId !== payload),
             };
         case 'CHANGE_FORM_TITLE':
             return {
                 ...state,
-                title: action.payload,
+                title: payload,
             };
         case 'CHANGE_FORM_DESCRIPTION':
             return {
                 ...state,
-                description: action.payload,
+                description: payload,
+            };
+        case 'CHANGE_QUESTION_NUMBER':
+            return {
+                ...state,
+                numberOfQuestions: state.numberOfQuestions + payload,
+            };
+        case 'SET_QUESTIONS':
+            return {
+                ...state,
+                questions: payload,
             };
         default:
             throw new Error(
@@ -64,13 +76,6 @@ const NewFormGlobalContext = createContext<{
 interface Props {
     children: React.ReactNode;
 }
-// const GlobalNewFormState: React.FC<Props> = ({ questions }) => {
-//     const [state, dispatch] = useReducer(formReducer, initFormState);
-//     const value = useMemo(() => {
-//         return { state, dispatch };
-//     }, [state]);
-//     return <NewFormGlobalContext.Provider value={value}>{children}</NewFormGlobalContext.Provider>;
-// };
 
 const GlobalNewFormState: React.FC<Props> = ({ children }) => {
     const [state, dispatch] = useReducer(formReducer, initFormState);

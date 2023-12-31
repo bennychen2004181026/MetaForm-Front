@@ -3,27 +3,20 @@ import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
 
-import { IQuestion } from '@/interfaces/CreateForm.interface';
 import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
-import { initQuestionState } from '@/pages/CreateFormPage/components/CreateForm/initForm';
 
 const StyledAddQuestionButton = styled(Button)`
     width: 100%;
     margin-top: 20px;
 `;
+
 const AddQuestion = () => {
-    const { dispatch, state } = useContext(NewFormGlobalContext);
+    const { dispatch } = useContext(NewFormGlobalContext);
     const handleAddQuestion = () => {
-        const newQuestion: IQuestion = {
-            ...initQuestionState,
-            questionId: Math.floor(Math.random() * 10000).toString(),
-        };
-        console.log(newQuestion);
         dispatch({
-            type: 'ADD_QUESTION',
-            payload: newQuestion,
+            type: 'CHANGE_QUESTION_NUMBER',
+            payload: 1,
         });
-        console.log(state);
     };
 
     return (
