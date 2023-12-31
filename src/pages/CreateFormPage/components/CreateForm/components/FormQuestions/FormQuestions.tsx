@@ -1,19 +1,16 @@
 import React, { useContext, useState } from 'react';
 
 import { IQuestion } from '@/interfaces/CreateForm.interface';
-import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
 import NewQuestion from '@/pages/CreateFormPage/components/NewQuestion';
 import { GlobalState as GlobalQuestionState } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 const FormQuestions = () => {
     const { dispatch, state } = useContext(NewFormGlobalContext);
-    const { numberOfQuestions, questions } = state;
+    const { questions } = state;
     const [draggingQuestion, setDraggingQuestion] = useState<null | IQuestion>(null);
-    console.log(questions);
-    const handleDragStart = (e: React.DragEvent<HTMLDivElement>, draggingQuestionIndex: number) => {
-        const question = questions[draggingQuestionIndex];
-        setDraggingQuestion(question);
+    const handleDragStart = (e: React.DragEvent<HTMLDivElement>, dragQuestion: IQuestion) => {
+        setDraggingQuestion(dragQuestion);
         e.dataTransfer.setData('text/plain', '');
     };
 
@@ -25,8 +22,7 @@ const FormQuestions = () => {
         e.preventDefault();
     };
 
-    const handleDrop = (targetQuestionIndex: number) => {
-        const targetQuestion = questions[targetQuestionIndex];
+    const handleDrop = (targetQuestion: IQuestion) => {
         if (!draggingQuestion) return;
 
         const currentIndex = questions.indexOf(draggingQuestion);
@@ -43,11 +39,18 @@ const FormQuestions = () => {
     };
     return (
         <div>
-            {[...Array(numberOfQuestions)].map((e, i) => {
-                const questionId = Math.floor(Math.random() * 1000000).toString();
+            {questions.map((question) => {
                 return (
-                    <GlobalQuestionState key={e}>
-                        <NewQuestion questionId={questionId} />
+                    <GlobalQuestionState questionState={question} key={question.questionId}>
+                        <div
+                            draggable="true"
+                            onDragStart={(e) => handleDragStart(e, question)}
+                            onDragEnd={handleDragEnd}
+                            onDragOver={handleDragOver}
+                            onDrop={() => handleDrop(question)}
+                        >
+                            <NewQuestion />
+                        </div>
                     </GlobalQuestionState>
                 );
             })}

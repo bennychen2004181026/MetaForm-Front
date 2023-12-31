@@ -4,7 +4,7 @@ const initQuestionState: IQuestion = {
     questionType: '0',
     questionId: '1',
     required: true,
-    title: { content: '' },
+    title: { content: 'Your age' },
     options: [{ id: '1', value: 'Option 1' }],
     other: false,
 };

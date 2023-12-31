@@ -16,9 +16,10 @@ const BottomToolbarContainer = styled.div`
 `;
 const BottomToolbar = () => {
     const { state: questionState, dispatch: questionDispatch } = useContext(NewQuestionContext);
-    const { dispatch: formDispatch } = useContext(NewFormGlobalContext);
+    const { state: formState, dispatch: formDispatch } = useContext(NewFormGlobalContext);
 
     const { required, questionId } = questionState;
+    const { questions } = formState;
 
     const handleRequiredChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         questionDispatch({
@@ -31,14 +32,42 @@ const BottomToolbar = () => {
             type: 'DELETE_QUESTION',
             payload: questionId,
         });
+    };
+    const handleCopyQuestion = async () => {
+        await updateCurrentQuestionInForm();
+        const index = questions.indexOf(questionState);
+        const newQuestion = {
+            ...questionState,
+            questionId: Math.floor(Math.random() * 10000).toString(),
+        };
+        let newQuestions = [];
+        if (index === questions.length) {
+            newQuestions = [...questions, newQuestion];
+        } else {
+            newQuestions = [...questions.slice(0, index), newQuestion, ...questions.slice(index)];
+        }
         formDispatch({
-            type: 'CHANGE_QUESTION_NUMBER',
-            payload: -1,
+            type: 'SET_QUESTIONS',
+            payload: newQuestions,
         });
     };
+    function updateCurrentQuestionInForm() {
+        const index = questions
+            .map((question) => question.questionId)
+            .indexOf(questionState.questionId);
+        const newQuestions = [
+            ...questions.slice(0, index),
+            questionState,
+            ...questions.slice(index + 1),
+        ];
+        formDispatch({
+            type: 'SET_QUESTIONS',
+            payload: newQuestions,
+        });
+    }
     return (
         <BottomToolbarContainer>
-            <IconButton>
+            <IconButton onClick={handleCopyQuestion}>
                 <ContentCopyIcon />
             </IconButton>
             <IconButton onClick={handleDeleteQuestion}>

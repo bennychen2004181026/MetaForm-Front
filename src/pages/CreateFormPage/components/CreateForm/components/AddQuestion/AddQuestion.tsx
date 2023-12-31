@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import styled from 'styled-components';
 
 import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
+import { initQuestionState } from '@/pages/CreateFormPage/components/CreateForm/initForm';
 
 const StyledAddQuestionButton = styled(Button)`
     width: 100%;
@@ -14,8 +15,11 @@ const AddQuestion = () => {
     const { dispatch } = useContext(NewFormGlobalContext);
     const handleAddQuestion = () => {
         dispatch({
-            type: 'CHANGE_QUESTION_NUMBER',
-            payload: 1,
+            type: 'ADD_QUESTION',
+            payload: {
+                ...initQuestionState,
+                questionId: Math.floor(Math.random() * 10000).toString(),
+            },
         });
     };
 

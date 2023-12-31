@@ -23,10 +23,6 @@ type Actions =
     | {
           type: 'SET_QUESTIONS';
           payload: IQuestion[];
-      }
-    | {
-          type: 'CHANGE_QUESTION_NUMBER';
-          payload: number;
       };
 const formReducer = (state: IForm, action: Actions): IForm => {
     const { type, payload } = action;
@@ -50,11 +46,6 @@ const formReducer = (state: IForm, action: Actions): IForm => {
             return {
                 ...state,
                 description: payload,
-            };
-        case 'CHANGE_QUESTION_NUMBER':
-            return {
-                ...state,
-                numberOfQuestions: state.numberOfQuestions + payload,
             };
         case 'SET_QUESTIONS':
             return {

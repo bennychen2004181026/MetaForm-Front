@@ -27,6 +27,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
     const { dispatch, state } = useContext(NewQuestionContext);
     const [open, setOpen] = React.useState(false);
     const { options, questionId } = state;
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -39,6 +40,13 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
         dispatch({
             type: 'SET_OPTIONS',
             payload: options,
+        });
+    };
+    const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const newOption = { ...option, value: e.target.value };
+        dispatch({
+            type: 'UPDATE_OPTION',
+            payload: newOption,
         });
     };
     const removeImage = () => {
@@ -90,6 +98,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                     id="option"
                     defaultValue={option.value}
                     variant="standard"
+                    onChange={(e) => handleOptionChange(e)}
                     type="text"
                     disabled={!!option.otherOption}
                     fullWidth

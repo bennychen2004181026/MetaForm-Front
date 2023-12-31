@@ -34,13 +34,20 @@ const StyledEditor = styled.div`
     width: 600px;
 `;
 
-const TextEditor = ({ onTitleChange }: { onTitleChange: (newTitle: string) => void }) => {
+const TextEditor = ({
+    onTitleChange,
+    value,
+}: {
+    onTitleChange: (newTitle: string) => void;
+    value: string;
+}) => {
     const editor = useEditor({
         extensions: [StarterKit, Underline, Link, Highlight, Placeholder],
         autofocus: false,
         onUpdate() {
             onTitleChange(editor!.getHTML());
         },
+        content: value,
     });
     return (
         <StyledEditor>
