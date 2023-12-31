@@ -39,9 +39,9 @@ const AppRoute = () => (
                     />
                     <Route path="/create-user" element={<RegisterPage />} />
                     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                    <Route path="/users/resetPassword/:token" element={<ResetPasswordPage />} />
                 </Route>
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
-                <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/forms" element={<FormListPage />} />
                 <Route
                     path="/companies/:companyId/invite-employees/:token"
