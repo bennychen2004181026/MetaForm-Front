@@ -49,3 +49,7 @@ export interface ICreateUserResponse {
     token: string;
     isAccountComplete: boolean;
 }
+
+export interface IForgotPasswordResponse {
+    message: string;
+}
