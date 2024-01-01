@@ -1,3 +1,6 @@
+import { ICompany } from '@/interfaces/ICompany';
+import Role from '@/interfaces/UserEnum';
+
 export interface IUser {
     username?: string;
     _id?: string;
@@ -17,18 +20,12 @@ export interface ILoginResponse {
     user: IUser;
     token: string;
     email?: string;
-    company?: string;
+    companyInfo?: ICompany;
     role?: string;
     userId?: string;
     isAccountComplete?: boolean;
     isActive?: boolean;
     message?: string;
-}
-
-export enum Role {
-    SuperAdmin = 'super_admin',
-    Admin = 'admin',
-    Employee = 'employee',
 }
 
 export interface IVerifyEmailResponse {

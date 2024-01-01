@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { ILoginResponse, IUser, IVerifyEmailResponse } from '@/interfaces/User.interface';
+import { ILoginResponse, IUser, IVerifyEmailResponse } from '@/interfaces/IUser';
 import axiosBaseQuery from '@/utils/axiosBaseQuery';
 
 const userApis = createApi({

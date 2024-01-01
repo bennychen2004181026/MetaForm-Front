@@ -3,7 +3,8 @@ import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { useAppSelector } from '@/hooks/redux';
-import { IUser, Role } from '@/interfaces/User.interface';
+import { IUser } from '@/interfaces/IUser';
+import Role from '@/interfaces/UserEnum';
 import { authUser, authUserRole } from '@/store/slices/auth/authSlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
