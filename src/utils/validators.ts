@@ -3,12 +3,17 @@ import { isEmpty } from 'lodash/';
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^_&*]).{8,32}$/;
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const ABN_REGEX = /^\d{11}$/;
+const NAME_REGEX = /^[a-zA-ZÀ-ÖØ-öø-ÿ' -]{3,26}$/;
+const USERNAME_REGEX = /^[a-zA-Z0-9_.-]{5,20}$/;
+
 interface Validators {
     isRequired: (args: ValidatorArgs) => string;
     validatePassword: (args: ValidatorArgs) => string;
     validateConfirmPassword: (args: ValidatorArgs) => string;
     validateEmail: (args: ValidatorArgs) => string;
     validateABN: (args: ValidatorArgs) => string;
+    validateName: (args: ValidatorArgs) => string;
+    validateUsername: (args: ValidatorArgs) => string;
 }
 
 interface GetErrorMessagesProps {
@@ -27,17 +32,28 @@ export const validators: Validators = {
     isRequired: ({ value, additionalData }: ValidatorArgs) =>
         !isEmpty(value.trim()) ? '' : `Please enter ${additionalData}!`,
     validatePassword: ({ value }: ValidatorArgs) =>
-        PASSWORD_REGEX.test(value) && !isEmpty(value)
+        // ensure the empty input identified as no error when it's not required
+        isEmpty(value) || (PASSWORD_REGEX.test(value) && !isEmpty(value))
             ? ''
-            : 'at least one number,lowercase and uppercase letter, (@,#,$,%,^,_,&,*,!)and 8 to 32 characters long',
+            : 'Please enter a valid password between 8 and 32 characters long, including at least one digit, one lowercase letter, one uppercase letter, and one special character (!@#$%^_&*).',
     validateConfirmPassword: ({ value, formData, additionalData }: ValidatorArgs) =>
         value === formData[additionalData as keyof typeof formData]
             ? ''
             : 'Password and Confirm Password does not match.',
     validateEmail: ({ value }: ValidatorArgs) =>
-        EMAIL_REGEX.test(value) && !isEmpty(value) ? '' : 'Invalid email format',
+        isEmpty(value) || (EMAIL_REGEX.test(value) && !isEmpty(value))
+            ? ''
+            : 'Invalid email format',
     validateABN: ({ value }: ValidatorArgs) =>
-        ABN_REGEX.test(value) && !isEmpty(value) ? '' : 'Must be 11 digits',
+        isEmpty(value) || (ABN_REGEX.test(value) && !isEmpty(value)) ? '' : 'Must be 11 digits',
+    validateName: ({ value, additionalData }: ValidatorArgs) =>
+        isEmpty(value) || (NAME_REGEX.test(value) && !isEmpty(value))
+            ? ''
+            : `Please enter a valid ${additionalData} consisting of 3 to 26 characters, including letters, accented letters, apostrophes, spaces, or hyphens.`,
+    validateUsername: ({ value, additionalData }: ValidatorArgs) =>
+        isEmpty(value) || (USERNAME_REGEX.test(value) && !isEmpty(value))
+            ? ''
+            : `Please enter a valid ${additionalData} consisting of 5 to 20 characters, including letters (both uppercase and lowercase), numbers, underscores, periods, or hyphens.`,
 };
 
 export const getErrorMessage = ({
