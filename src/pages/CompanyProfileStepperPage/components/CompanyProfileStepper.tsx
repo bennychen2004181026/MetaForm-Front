@@ -68,7 +68,6 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
     const showSnackbar = useSnackbarHelper();
     const [activeStep, setActiveStep] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-    const [uploadProgress, setUploadProgress] = useState(0);
     const industryArray = industries.map((industry) => industry.name);
     const fields: IField[] = [
         {
@@ -152,9 +151,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         handleDragLeave,
         handleUploadButton,
         selectedImage,
-        setSelectedImage,
         croppedImageBlob,
-        setCroppedImageBlob,
         handleCropConfirmation,
         handleCroppedImage,
         isCropping,
@@ -165,7 +162,6 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         isFileValid,
     } = useUploadImage({
         setIsLoading,
-        setUploadProgress,
         onDataChange,
         userId,
     });
@@ -196,10 +192,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
                         handleDrop={handleDrop}
                         handleUploadButton={handleUploadButton}
                         isLoading={isLoading}
-                        uploadProgress={uploadProgress}
                         selectedImage={selectedImage}
-                        setSelectedImage={setSelectedImage}
-                        setCroppedImageBlob={setCroppedImageBlob}
                         croppedImageBlob={croppedImageBlob}
                         handleCropConfirmation={handleCropConfirmation}
                         handleCroppedImage={handleCroppedImage}
