@@ -1,21 +1,20 @@
 import React, { useContext, useState } from 'react';
 
-import ParagraphIcon from '@mui/icons-material/FeedOutlined';
-import { Grid, TextField } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';
 
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
-import {
-    icons,
-    questionTypes,
-} from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/questionTypes';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
+import { questionTypes } from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/questionTypes';
 
-const FixedWidthTypeSelector = styled('div')({
-    width: '300px',
-});
+const FixedWidthTypeSelector = styled.div`
+    width: 300px;
+`;
+const StyledMenuItem = styled(MenuItem)`
+    height: 2em;
+`;
 const QuestionTypeSelector = () => {
     const [selectedQuestionType, setSelectedQuestionType] = useState(questionTypes[0].value);
     const { dispatch } = useContext(NewQuestionContext);
@@ -38,30 +37,23 @@ const QuestionTypeSelector = () => {
                 fullWidth
                 value={selectedQuestionType}
                 onChange={(e) => onChangeSelect(e)}
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            {selectedQuestionType
+                                ? questionTypes.find(
+                                      (questionType) => questionType.value === selectedQuestionType,
+                                  )?.icon
+                                : null}
+                        </InputAdornment>
+                    ),
+                }}
             >
                 {questionTypes.map((option) => {
                     return (
-                        <MenuItem
-                            key={option.id}
-                            value={option.value}
-                            sx={{ display: 'flex', flexDirection: 'row' }}
-                        >
-                            <Grid container sx={{ display: 'flex' }}>
-                                <Grid item xs={4}>
-                                    <ListItemIcon
-                                        sx={{
-                                            alignItems: 'center',
-                                            mx: '3em',
-                                        }}
-                                    >
-                                        {option.icon}
-                                    </ListItemIcon>
-                                </Grid>
-                                <Grid item xs={8}>
-                                    <ListItemText>{option.value}</ListItemText>
-                                </Grid>
-                            </Grid>
-                        </MenuItem>
+                        <StyledMenuItem key={option.id} value={option.value}>
+                            <ListItemText>{option.value}</ListItemText>
+                        </StyledMenuItem>
                     );
                 })}
             </TextField>

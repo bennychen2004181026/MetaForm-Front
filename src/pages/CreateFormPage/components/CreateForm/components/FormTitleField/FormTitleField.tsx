@@ -2,9 +2,9 @@ import React from 'react';
 
 import { TextField } from '@mui/material';
 
-import Editor from '../QuillEditor/QuillEditor';
+import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor';
 
-const EditFormTitle = () => {
+const FormTitleField = () => {
     return (
         <>
             <div>
@@ -27,8 +27,7 @@ const EditFormTitle = () => {
                     fullWidth
                 />
             </div>
-            <Editor />
         </>
     );
 };
-export default EditFormTitle;
+export default FormTitleField;
