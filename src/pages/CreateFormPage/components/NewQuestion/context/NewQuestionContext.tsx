@@ -51,7 +51,7 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
         case 'ADD_OPTION':
             return {
                 ...state,
-                options: [...state.options, payload],
+                options: [payload, ...state.options],
             };
         case 'UPDATE_OPTION':
             state.options.find((a) => a.id === payload.id)!.value = payload.value;

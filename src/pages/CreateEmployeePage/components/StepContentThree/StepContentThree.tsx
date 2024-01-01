@@ -74,7 +74,7 @@ const labelMapping = {
 const StepContentThree: React.FC<StepContentThreeProps> = ({ fieldsData }) => {
     const fieldDataArray = Object.entries(fieldsData);
     const filteredFieldsData = fieldDataArray.filter(
-        ([key, value]) => !['password', 'confirmPassword'].includes(key),
+        ([key]) => !['password', 'confirmPassword'].includes(key),
     );
     return (
         <StyledStepperBoxContainer>

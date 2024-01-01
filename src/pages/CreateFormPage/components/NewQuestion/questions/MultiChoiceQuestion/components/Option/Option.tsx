@@ -49,17 +49,6 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
             payload: newOption,
         });
     };
-    const removeImage = () => {
-        const index = state.options.findIndex((obj) => obj.id === option.id);
-        options[index] = {
-            id: option.id,
-            value: option.value,
-        };
-        dispatch({
-            type: 'SET_OPTIONS',
-            payload: options,
-        });
-    };
     const handleClickImageIcon = () => {
         setOpen(true);
     };
@@ -72,12 +61,6 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                 value: option.value,
             },
         });
-        if (option.otherOption) {
-            dispatch({
-                type: 'ALLOW_OTHER_OPTION',
-                payload: false,
-            });
-        }
     };
     return (
         <>

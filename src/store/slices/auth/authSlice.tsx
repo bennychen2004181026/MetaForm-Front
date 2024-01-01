@@ -1,13 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import type { RootState } from '@/interfaces/redux';
-import { IUser } from '@/interfaces/User.interface';
+import { IUser, Role } from '@/interfaces/User.interface';
 
 interface AuthState {
     user: IUser | null;
     token: string | null;
     email: string | null;
-    role: string | null;
+    role: Role | null;
     company: string | null;
     userId: string | null;
     isAccountComplete: boolean;
@@ -35,7 +35,7 @@ const authSlice = createSlice({
                 user: IUser;
                 token: string;
                 email: string | null;
-                role: string | null;
+                role: Role | null;
                 company: string | null;
                 userId: string | null;
                 isAccountComplete: boolean | false;
@@ -62,5 +62,6 @@ const authSlice = createSlice({
 export const authUser = (state: RootState) => state.auth.user;
 export const accountStatus = (state: RootState) => state.auth.isAccountComplete;
 export const authUserId = (state: RootState) => state.auth.userId;
+export const authUserRole = (state: RootState) => state.auth.role;
 export const { setCredentials, clearCredentials } = authSlice.actions;
 export default authSlice.reducer;
