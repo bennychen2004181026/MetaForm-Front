@@ -7,7 +7,7 @@ export interface IUser {
     password?: string;
     confirmedPassword?: string;
     company?: string;
-    role?: string;
+    role?: Role;
     token?: string | null;
     isActive?: boolean;
     isAccountComplete?: boolean;
@@ -23,4 +23,10 @@ export interface ILoginResponse {
     isAccountComplete?: boolean;
     isActive?: boolean;
     message?: string;
+}
+
+export enum Role {
+    SuperAdmin = 'super_admin',
+    Admin = 'admin',
+    Employee = 'employee',
 }
