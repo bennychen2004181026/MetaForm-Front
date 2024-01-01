@@ -4,6 +4,7 @@ import { debounce } from 'lodash';
 import { ApiError } from '@/interfaces/ApiError';
 import { IGetS3PreSignedUrlResponse } from '@/interfaces/IUser';
 import userApis from '@/services/Auth/user';
+import s3Apis from '@/services/S3';
 
 interface UploadUtilsProps {
     file: File;
@@ -49,13 +50,18 @@ const uploadFileToS3 = async ({
         showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
         return;
     }
+    const { useUploadFileToS3Mutation } = s3Apis;
+    const [uploadToS3] = useUploadFileToS3Mutation();
+    const uploadParams = {
+        url: uploadUrl,
+        file,
+        headers: {
+            'Content-Type': file.type,
+        },
+    };
 
     try {
-        await axios.put(uploadUrl, file, {
-            headers: {
-                'Content-Type': file.type,
-            },
-        });
+        await uploadToS3(uploadParams).unwrap();
 
         const cloudFrontPresignedUrlResponse = await axios.get(
             'http://localhost:3001/users/getCloudFrontPresignedUrl',
