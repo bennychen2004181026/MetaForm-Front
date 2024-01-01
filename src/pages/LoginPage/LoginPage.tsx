@@ -13,7 +13,7 @@ import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
 import useGoogleOAuth from '@/hooks/useGoogleOAuth';
 import { ApiError } from '@/interfaces/ApiError';
-import { ILoginResponse, IUser } from '@/interfaces/User.interface';
+import { ILoginResponse, IUser, Role } from '@/interfaces/User.interface';
 import Title from '@/layouts/MainLayout/Title';
 import userApis from '@/services/Auth/user';
 import { setCredentials } from '@/store/slices/auth/authSlice';
@@ -101,7 +101,7 @@ const Login = () => {
                     user: user as IUser,
                     token,
                     email: email ?? null,
-                    role: role ?? null,
+                    role: (role as Role) ?? null,
                     company: company ?? null,
                     userId: _id ?? null,
                     isAccountComplete: isAccountComplete ?? false,

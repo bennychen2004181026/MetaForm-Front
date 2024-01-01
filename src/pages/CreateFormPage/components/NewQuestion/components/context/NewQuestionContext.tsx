@@ -1,7 +1,7 @@
 import React, { Dispatch, createContext, useMemo, useReducer } from 'react';
 
 import IOption from '@/interfaces/IOption';
-import { IImage, IQuestion, IQuestionTitle } from '@/interfaces/IQuestion';
+import { IImage, IQuestion } from '@/interfaces/IQuestion';
 
 const initState: IQuestion = {
     questionType: '0',
@@ -49,7 +49,7 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
         case 'ADD_OPTION':
             return {
                 ...state,
-                options: [...state.options, payload],
+                options: [payload, ...state.options],
             };
         case 'DELETE_OPTION':
             return {

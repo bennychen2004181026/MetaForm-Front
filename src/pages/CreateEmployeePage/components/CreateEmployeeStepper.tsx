@@ -63,7 +63,7 @@ interface CreateEmployeeStepperProps {
     token: string | undefined;
 }
 
-const CreateEmployeeStepper: React.FC<CreateEmployeeStepperProps> = ({ companyId, token }) => {
+const CreateEmployeeStepper: React.FC<CreateEmployeeStepperProps> = () => {
     const showSnackbar = useSnackbarHelper();
     const [activeStep, setActiveStep] = useState(0);
     const fields: IField[] = [
@@ -92,7 +92,10 @@ const CreateEmployeeStepper: React.FC<CreateEmployeeStepperProps> = ({ companyId
             key: 'username',
             type: 'input',
             value: '',
-            validationRules: [{ key: 'isRequired', additionalData: 'Username' }],
+            validationRules: [
+                { key: 'isRequired', additionalData: 'Username' },
+                { key: 'validateUsername', additionalData: 'username' },
+            ],
         },
         {
             id: 4,
