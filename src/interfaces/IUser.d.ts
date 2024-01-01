@@ -55,10 +55,10 @@ export interface IResetPasswordResponse {
 }
 
 export interface IGetS3PreSignedUrlResponse {
-    uploadUrl: string;
+    url: string;
     key: string;
 }
 
 export interface IGetCloudFrontPreSignedUrlResponse {
-    data: string;
+    cloudFrontSignedUrl: string;
 }

@@ -2,6 +2,8 @@ import { useCallback, useRef, useState } from 'react';
 
 import { PixelCrop } from 'react-image-crop';
 
+import userApis from '@/services/Auth/user';
+import s3Apis from '@/services/S3';
 import uploadFileToS3 from '@/utils/uploadFileToS3';
 import uploadFileValidators from '@/utils/uploadFileValidators';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
@@ -30,6 +32,12 @@ const useUploadImage = ({
     const imgRef = useRef<HTMLImageElement>(null);
     const [croppedPreviewUrl, setCroppedPreviewUrl] = useState<string | null>(null);
     const [isFileValid, setIsFileValid] = useState(true);
+
+    const [getS3PreSignedUrlQuery, { data: s3PreSignedUrlData }] =
+        userApis.useLazyGetS3PreSignedUrlQuery();
+    const [uploadToS3] = s3Apis.useUploadFileToS3Mutation();
+    const [getCloudFrontPreSignedUrlQuery, { data: cloudFrontData }] =
+        userApis.useLazyGetCloudFrontPreSignedUrlQuery();
 
     const handleFileSelection = useCallback(
         async (file: File) => {
@@ -69,8 +77,25 @@ const useUploadImage = ({
             onDataChange,
             showSnackbar,
             userId,
+            getS3PreSignedUrlQuery,
+            uploadToS3,
+            getCloudFrontPreSignedUrlQuery,
+            s3PreSignedUrlData,
+            cloudFrontData,
         });
-    }, [croppedImageBlob, userId, setIsLoading, setUploadProgress, onDataChange, showSnackbar]);
+    }, [
+        croppedImageBlob,
+        userId,
+        setIsLoading,
+        setUploadProgress,
+        onDataChange,
+        showSnackbar,
+        getS3PreSignedUrlQuery,
+        uploadToS3,
+        getCloudFrontPreSignedUrlQuery,
+        s3PreSignedUrlData,
+        cloudFrontData,
+    ]);
 
     const handleDragEnter = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();

@@ -17,6 +17,13 @@ interface UploadUtilsProps {
         variant: 'default' | 'error' | 'success' | 'warning' | 'info',
     ) => void;
     userId: string | undefined;
+    getS3PreSignedUrlQuery: ReturnType<typeof userApis.useLazyGetS3PreSignedUrlQuery>[0];
+    uploadToS3: ReturnType<typeof s3Apis.useUploadFileToS3Mutation>[0];
+    getCloudFrontPreSignedUrlQuery: ReturnType<
+        typeof userApis.useLazyGetCloudFrontPreSignedUrlQuery
+    >[0];
+    s3PreSignedUrlData: IGetS3PreSignedUrlResponse | undefined;
+    cloudFrontData: IGetCloudFrontPreSignedUrlResponse | undefined;
 }
 const uploadFileToS3 = async ({
     file,
@@ -25,6 +32,11 @@ const uploadFileToS3 = async ({
     onDataChange,
     showSnackbar,
     userId,
+    getS3PreSignedUrlQuery,
+    uploadToS3,
+    getCloudFrontPreSignedUrlQuery,
+    s3PreSignedUrlData,
+    cloudFrontData,
 }: UploadUtilsProps): Promise<string | void> => {
     const debouncedProgressUpdate = debounce((progress) => {
         setUploadProgress(progress);
@@ -37,33 +49,27 @@ const uploadFileToS3 = async ({
         return;
     }
 
-    const { useLazyGetS3PreSignedUrlQuery, useLazyGetCloudFrontPreSignedUrlQuery } = userApis;
-    const [getS3PreSignedUrlQuery, { data }] = useLazyGetS3PreSignedUrlQuery();
-
-    const { useUploadFileToS3Mutation } = s3Apis;
-    const [uploadToS3] = useUploadFileToS3Mutation();
-
     try {
+        setIsLoading(true);
         await getS3PreSignedUrlQuery().unwrap();
 
-        const { uploadUrl, key } = data as IGetS3PreSignedUrlResponse;
+        const { url, key } = s3PreSignedUrlData as IGetS3PreSignedUrlResponse;
 
         const uploadParams = {
-            url: uploadUrl,
+            url,
             file,
             headers: {
                 'Content-Type': file.type,
             },
         };
         await uploadToS3(uploadParams).unwrap();
-
-        const [getCloudFrontPreSignedUrlQuery, { data: response }] =
-            useLazyGetCloudFrontPreSignedUrlQuery();
-
         await getCloudFrontPreSignedUrlQuery(key).unwrap();
 
         showSnackbar(`You had successfully uploaded the logo`, 'success');
-        onDataChange('companyLogo')((response as IGetCloudFrontPreSignedUrlResponse).data);
+        onDataChange('companyLogo')(
+            (cloudFrontData as IGetCloudFrontPreSignedUrlResponse).cloudFrontSignedUrl,
+        );
+        setIsLoading(false);
     } catch (error) {
         const apiError = error as ApiError;
         const errorMessage =
