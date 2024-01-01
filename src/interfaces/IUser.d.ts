@@ -63,3 +63,16 @@ export interface IGetS3PreSignedUrlResponse {
 export interface IGetCloudFrontPreSignedUrlResponse {
     cloudFrontSignedUrl: string;
 }
+
+export interface ICompleteAccountResponse {
+    message: string;
+    token: string;
+    companyInfo: ICompany;
+    user: IUser;
+    isAccountComplete: boolean;
+}
+
+export interface ICompleteAccountRequest {
+    userId: string;
+    formData: ICompany;
+}
