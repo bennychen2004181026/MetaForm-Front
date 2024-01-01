@@ -11,6 +11,7 @@ const initState: IQuestion = {
         { id: '2', value: '10 - 20' },
         { id: '3', value: '20 - 30' },
     ],
+    other: false,
 };
 type Actions =
     | {
@@ -28,6 +29,14 @@ type Actions =
     | {
           type: 'CHANGE_QUESTION_TYPE';
           payload: string;
+      }
+    | {
+          type: 'SET_OPTIONS';
+          payload: IOption[];
+      }
+    | {
+          type: 'ALLOW_OTHER_OPTION';
+          payload: boolean;
       };
 const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
     const { type, payload } = action;
@@ -51,6 +60,16 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
             return {
                 ...state,
                 questionType: action.payload,
+            };
+        case 'SET_OPTIONS':
+            return {
+                ...state,
+                options: action.payload,
+            };
+        case 'ALLOW_OTHER_OPTION':
+            return {
+                ...state,
+                other: action.payload,
             };
         default:
             throw new Error(

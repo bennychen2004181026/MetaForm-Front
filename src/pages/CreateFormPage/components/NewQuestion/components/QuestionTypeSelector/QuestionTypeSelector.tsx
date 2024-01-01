@@ -1,15 +1,20 @@
 import React, { useContext, useState } from 'react';
 
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import { InputAdornment, TextField } from '@mui/material';
+import ParagraphIcon from '@mui/icons-material/FeedOutlined';
+import { Grid, TextField } from '@mui/material';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';
 
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
-import { questionTypes } from '@/pages/CreateFormPage/components/NewQuestion/questionTypes';
+import {
+    icons,
+    questionTypes,
+} from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/questionTypes';
 
 const FixedWidthTypeSelector = styled('div')({
-    width: '200px',
+    width: '300px',
 });
 const QuestionTypeSelector = () => {
     const [selectedQuestionType, setSelectedQuestionType] = useState(questionTypes[0].value);
@@ -25,7 +30,6 @@ const QuestionTypeSelector = () => {
         });
         setSelectedQuestionType(e.target.value);
     };
-
     return (
         <FixedWidthTypeSelector>
             <TextField
@@ -34,19 +38,32 @@ const QuestionTypeSelector = () => {
                 fullWidth
                 value={selectedQuestionType}
                 onChange={(e) => onChangeSelect(e)}
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <RadioButtonCheckedIcon />
-                        </InputAdornment>
-                    ),
-                }}
             >
-                {questionTypes.map((option) => (
-                    <MenuItem key={option.id} value={option.value}>
-                        {option.value}
-                    </MenuItem>
-                ))}
+                {questionTypes.map((option) => {
+                    return (
+                        <MenuItem
+                            key={option.id}
+                            value={option.value}
+                            sx={{ display: 'flex', flexDirection: 'row' }}
+                        >
+                            <Grid container sx={{ display: 'flex' }}>
+                                <Grid item xs={4}>
+                                    <ListItemIcon
+                                        sx={{
+                                            alignItems: 'center',
+                                            mx: '3em',
+                                        }}
+                                    >
+                                        {option.icon}
+                                    </ListItemIcon>
+                                </Grid>
+                                <Grid item xs={8}>
+                                    <ListItemText>{option.value}</ListItemText>
+                                </Grid>
+                            </Grid>
+                        </MenuItem>
+                    );
+                })}
             </TextField>
         </FixedWidthTypeSelector>
     );
