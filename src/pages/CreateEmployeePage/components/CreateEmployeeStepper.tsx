@@ -92,7 +92,10 @@ const CreateEmployeeStepper: React.FC<CreateEmployeeStepperProps> = ({ companyId
             key: 'username',
             type: 'input',
             value: '',
-            validationRules: [{ key: 'isRequired', additionalData: 'Username' }],
+            validationRules: [
+                { key: 'isRequired', additionalData: 'Username' },
+                { key: 'validateUsername', additionalData: 'username' },
+            ],
         },
         {
             id: 4,
