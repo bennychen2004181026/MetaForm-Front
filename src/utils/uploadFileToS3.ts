@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { debounce } from 'lodash';
 
+import { ApiError } from '@/interfaces/ApiError';
+import { IGetS3PreSignedUrlResponse } from '@/interfaces/User.interface';
+import userApis from '@/services/Auth/user';
+
 interface UploadUtilsProps {
     file: File;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,10 +37,20 @@ const uploadFileToS3 = async ({
         return;
     }
 
-    try {
-        const uploadResponse = await axios.get('http://localhost:3001/users/getPresignedUrl');
-        const { url: uploadUrl, key } = uploadResponse.data;
+    const { useGetS3PreSignedUrlQuery } = userApis;
+    const { data, error } = useGetS3PreSignedUrlQuery();
+    const { uploadUrl, key } = data as IGetS3PreSignedUrlResponse;
 
+    if (error) {
+        const apiError = error as ApiError;
+        const errorMessage =
+            apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
+
+        showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+        return;
+    }
+
+    try {
         await axios.put(uploadUrl, file, {
             headers: {
                 'Content-Type': file.type,
@@ -51,8 +65,8 @@ const uploadFileToS3 = async ({
         const { cloudFrontSignedUrl } = cloudFrontPresignedUrlResponse.data;
         showSnackbar(`You had successfully uploaded the logo ${cloudFrontSignedUrl}`, 'success');
         onDataChange('companyLogo')(cloudFrontSignedUrl);
-    } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
         showSnackbar(errorMessage, 'error');
         setIsLoading(false);
     }

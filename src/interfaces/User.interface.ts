@@ -57,3 +57,8 @@ export interface IForgotPasswordResponse {
 export interface IResetPasswordResponse {
     message: string;
 }
+
+export interface IGetS3PreSignedUrlResponse {
+    uploadUrl: string;
+    key: string;
+}

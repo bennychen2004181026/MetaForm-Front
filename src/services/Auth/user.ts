@@ -3,6 +3,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import {
     ICreateUserResponse,
     IForgotPasswordResponse,
+    IGetS3PreSignedUrlResponse,
     ILoginResponse,
     IResetPasswordResponse,
     IUser,
@@ -54,6 +55,12 @@ const userApis = createApi({
                 url: '/resetPassword',
                 method: 'POST',
                 data: formData,
+            }),
+        }),
+        getS3PreSignedUrl: builder.query<IGetS3PreSignedUrlResponse, void>({
+            query: () => ({
+                url: '/getPresignedUrl',
+                method: 'GET',
             }),
         }),
     }),
