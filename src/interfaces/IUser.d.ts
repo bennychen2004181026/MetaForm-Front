@@ -58,3 +58,7 @@ export interface IGetS3PreSignedUrlResponse {
     uploadUrl: string;
     key: string;
 }
+
+export interface IGetCloudFrontPreSignedUrlResponse {
+    data: string;
+}
