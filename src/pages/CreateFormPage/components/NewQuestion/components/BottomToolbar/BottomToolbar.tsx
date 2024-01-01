@@ -43,6 +43,8 @@ const BottomToolbar = () => {
         let newQuestions = [];
         if (index === questions.length) {
             newQuestions = [...questions, newQuestion];
+        } else if (index === 0) {
+            newQuestions = [questions[0], newQuestion, ...questions.slice(1)];
         } else {
             newQuestions = [...questions.slice(0, index), newQuestion, ...questions.slice(index)];
         }

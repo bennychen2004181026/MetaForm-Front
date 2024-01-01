@@ -59,9 +59,9 @@ const QuestionTitle = () => {
         <>
             <NewQuestionTitleBox>
                 <StyledTitleImageIconBox>
-                    <StyledQuestionTitle>
-                        <TextEditor onTitleChange={onTitleChange} value={title.content} />
-                    </StyledQuestionTitle>
+                    {/* <StyledQuestionTitle> */}
+                    <TextEditor onTitleChange={onTitleChange} value={title.content} />
+                    {/* </StyledQuestionTitle> */}
                     <IconButton onClick={handleClickOpen}>
                         <ImageOutlinedIcon fontSize="large" />
                     </IconButton>

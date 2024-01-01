@@ -1,13 +1,24 @@
 import React, { useContext, useState } from 'react';
 
+import DragHandleIcon from '@mui/icons-material/DragHandle';
+import styled from 'styled-components';
+
 import { IQuestion } from '@/interfaces/CreateForm.interface';
+import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
 import NewQuestion from '@/pages/CreateFormPage/components/NewQuestion';
 import { GlobalState as GlobalQuestionState } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
+const StyledDragIcon = styled.div`
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+`;
 const FormQuestions = () => {
     const { dispatch, state } = useContext(NewFormGlobalContext);
     const { questions } = state;
+    const [draggable, setDraggable] = useState(false);
     const [draggingQuestion, setDraggingQuestion] = useState<null | IQuestion>(null);
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>, dragQuestion: IQuestion) => {
         setDraggingQuestion(dragQuestion);
@@ -17,7 +28,6 @@ const FormQuestions = () => {
     const handleDragEnd = () => {
         setDraggingQuestion(null);
     };
-
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
     };
@@ -43,13 +53,21 @@ const FormQuestions = () => {
                 return (
                     <GlobalQuestionState questionState={question} key={question.questionId}>
                         <div
-                            draggable="true"
+                            draggable={draggable}
                             onDragStart={(e) => handleDragStart(e, question)}
                             onDragEnd={handleDragEnd}
                             onDragOver={handleDragOver}
                             onDrop={() => handleDrop(question)}
                         >
-                            <NewQuestion />
+                            <ConditionalSectionContainer elevation={1} square={false}>
+                                <StyledDragIcon>
+                                    <DragHandleIcon
+                                        onMouseDown={() => setDraggable(true)}
+                                        onMouseUp={() => setDraggable(false)}
+                                    />
+                                </StyledDragIcon>
+                                <NewQuestion />
+                            </ConditionalSectionContainer>
                         </div>
                     </GlobalQuestionState>
                 );
