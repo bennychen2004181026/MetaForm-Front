@@ -34,7 +34,10 @@ const RegisterEmail = () => {
             key: 'username',
             type: 'input',
             value: '',
-            validationRules: [{ key: 'isRequired', additionalData: 'username' }],
+            validationRules: [
+                { key: 'isRequired', additionalData: 'username' },
+                { key: 'validateUsername', additionalData: 'username' },
+            ],
         },
         {
             id: 2,
