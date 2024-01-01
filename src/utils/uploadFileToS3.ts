@@ -2,7 +2,7 @@ import axios from 'axios';
 import { debounce } from 'lodash';
 
 import { ApiError } from '@/interfaces/ApiError';
-import { IGetS3PreSignedUrlResponse } from '@/interfaces/User.interface';
+import { IGetS3PreSignedUrlResponse } from '@/interfaces/IUser';
 import userApis from '@/services/Auth/user';
 
 interface UploadUtilsProps {

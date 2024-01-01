@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import InformativeText from '@/components/InformativeText/index';
 import { ApiError } from '@/interfaces/ApiError';
-import { IVerifyEmailResponse } from '@/interfaces/User.interface';
+import { IVerifyEmailResponse } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import MainLayout from '@/layouts/MainLayout';
 import userApis from '@/services/Auth/user';

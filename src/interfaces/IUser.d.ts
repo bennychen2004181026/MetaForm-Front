@@ -1,3 +1,5 @@
+import Role from '@/interfaces/UserEnum';
+
 export interface IUser {
     username?: string;
     _id?: string;
@@ -23,12 +25,6 @@ export interface ILoginResponse {
     isAccountComplete?: boolean;
     isActive?: boolean;
     message?: string;
-}
-
-export enum Role {
-    SuperAdmin = 'super_admin',
-    Admin = 'admin',
-    Employee = 'employee',
 }
 
 export interface IVerifyEmailResponse {

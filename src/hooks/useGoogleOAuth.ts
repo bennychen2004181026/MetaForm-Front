@@ -3,7 +3,8 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '@/hooks/redux';
-import { IUser, Role } from '@/interfaces/User.interface';
+import { IUser } from '@/interfaces/IUser';
+import Role from '@/interfaces/UserEnum';
 import { setCredentials } from '@/store/slices/auth/authSlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
