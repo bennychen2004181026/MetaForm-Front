@@ -1,3 +1,4 @@
+import { ICompany } from '@/interfaces/ICompany';
 import Role from '@/interfaces/UserEnum';
 
 export interface IUser {
@@ -19,7 +20,7 @@ export interface ILoginResponse {
     user: IUser;
     token: string;
     email?: string;
-    company?: string;
+    companyInfo?: ICompany;
     role?: string;
     userId?: string;
     isAccountComplete?: boolean;

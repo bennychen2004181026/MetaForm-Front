@@ -13,6 +13,7 @@ import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
 import useGoogleOAuth from '@/hooks/useGoogleOAuth';
 import { ApiError } from '@/interfaces/ApiError';
+import { ICompany } from '@/interfaces/ICompany';
 import { ILoginResponse, IUser } from '@/interfaces/IUser';
 import Role from '@/interfaces/UserEnum';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
@@ -96,7 +97,7 @@ const Login = () => {
     const loginFunction = async () => {
         try {
             const response: ILoginResponse = await login(fieldsData).unwrap();
-            const { message, user, token, isAccountComplete } = response;
+            const { message, user, token, isAccountComplete, companyInfo } = response;
             const { email, role, company, _id, isActive } = user;
             dispatch(
                 setCredentials({
@@ -106,6 +107,7 @@ const Login = () => {
                     role: (role as Role) ?? null,
                     company: company ?? null,
                     userId: _id ?? null,
+                    companyInfo: (companyInfo as ICompany) ?? null,
                     isAccountComplete: isAccountComplete ?? false,
                     isActive: isActive ?? false,
                 }),

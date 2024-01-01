@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '@/hooks/redux';
+import { ICompany } from '@/interfaces/ICompany';
 import { IUser } from '@/interfaces/IUser';
 import Role from '@/interfaces/UserEnum';
 import { setCredentials } from '@/store/slices/auth/authSlice';
@@ -30,7 +31,7 @@ const useGoogleOAuth = (currentApiUrl: string | undefined) => {
                 return;
             }
 
-            const { message, token, user, isAccountComplete } = event.data;
+            const { message, token, user, isAccountComplete, companyInfo } = event.data;
             const { email, role, company, _id, isActive } = user;
             dispatch(
                 setCredentials({
@@ -40,6 +41,7 @@ const useGoogleOAuth = (currentApiUrl: string | undefined) => {
                     role: (role as Role) ?? null,
                     company: company ?? null,
                     userId: _id ?? null,
+                    companyInfo: (companyInfo as ICompany) ?? null,
                     isAccountComplete: isAccountComplete ?? false,
                     isActive: isActive ?? false,
                 }),
