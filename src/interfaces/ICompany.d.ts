@@ -1,4 +1,5 @@
 export interface ICompany {
+    _id?: string;
     companyName?: string;
     abn?: string;
     logo?: string;

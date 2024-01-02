@@ -19,6 +19,7 @@ import StepContentTwo from '@/pages/CompanyProfileStepperPage/components/StepCon
 import industries from '@/pages/CompanyRegisterPage/industryOptions';
 import userApis from '@/services/Auth/user';
 import { setCredentials } from '@/store/slices/auth/authSlice';
+import { setCompanyInfo } from '@/store/slices/company/companySlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const steps = ['Enter company profile', 'Upload the company logo', 'Review and submit'];
@@ -155,8 +156,21 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
                 userId,
                 formData: fieldsData,
             } as ICompleteAccountRequest).unwrap();
-            const { message, token, companyInfo, user, isAccountComplete } = response;
+
+            const { message, user, token, isAccountComplete, companyInfo } = response;
             const { email, role, company, _id, isActive } = user;
+            const {
+                _id: companyId,
+                companyName,
+                abn,
+                logo,
+                description,
+                industry,
+                isActive: isCompanyActive,
+                address,
+                employees,
+            } = companyInfo as ICompany;
+
             dispatch(
                 setCredentials({
                     user: user as IUser,
@@ -170,6 +184,21 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
                     isActive: isActive ?? false,
                 }),
             );
+
+            dispatch(
+                setCompanyInfo({
+                    companyId: companyId ?? null,
+                    companyName: companyName ?? null,
+                    abn: abn ?? null,
+                    logo: logo ?? null,
+                    description: description ?? null,
+                    industry: industry ?? null,
+                    isActive: isCompanyActive ?? false,
+                    employees: Array.isArray(employees) && employees.length > 0 ? employees : [],
+                    address: address ?? null,
+                }),
+            );
+
             showSnackbar(`${message}`, 'success');
             navigate('/user-dashboard');
         } catch (error) {
@@ -188,10 +217,6 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
             await completeAccountFunction();
         }
     };
-
-    if (isSubmitLoading) {
-        return <LoadingSpinner />;
-    }
 
     const {
         isDragging,
@@ -260,6 +285,10 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
                 throw new Error('Invalid step index');
         }
     };
+
+    if (isSubmitLoading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <Box sx={{ width: '100%' }}>

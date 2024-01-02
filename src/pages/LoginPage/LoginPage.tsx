@@ -20,6 +20,7 @@ import LoadingSpinner from '@/layouts/LoadingSpinner';
 import Title from '@/layouts/MainLayout/Title';
 import userApis from '@/services/Auth/user';
 import { setCredentials } from '@/store/slices/auth/authSlice';
+import { setCompanyInfo } from '@/store/slices/company/companySlice';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { currentApiUrl } from '@/utils/axiosBaseQuery';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
@@ -98,7 +99,8 @@ const Login = () => {
         try {
             const response: ILoginResponse = await login(fieldsData).unwrap();
             const { message, user, token, isAccountComplete, companyInfo } = response;
-            const { email, role, company, _id, isActive } = user;
+            const { email, role, company, _id: userId, isActive } = user;
+
             dispatch(
                 setCredentials({
                     user: user as IUser,
@@ -106,17 +108,47 @@ const Login = () => {
                     email: email ?? null,
                     role: (role as Role) ?? null,
                     company: company ?? null,
-                    userId: _id ?? null,
+                    userId: userId ?? null,
                     companyInfo: (companyInfo as ICompany) ?? null,
                     isAccountComplete: isAccountComplete ?? false,
                     isActive: isActive ?? false,
                 }),
             );
+
+            if (companyInfo) {
+                const {
+                    _id,
+                    companyName,
+                    abn,
+                    logo,
+                    description,
+                    industry,
+                    isActive: isCompanyActive,
+                    address,
+                    employees,
+                } = companyInfo as ICompany;
+
+                dispatch(
+                    setCompanyInfo({
+                        companyId: _id ?? null,
+                        companyName: companyName ?? null,
+                        abn: abn ?? null,
+                        logo: logo ?? null,
+                        description: description ?? null,
+                        industry: industry ?? null,
+                        isActive: isCompanyActive ?? false,
+                        employees:
+                            Array.isArray(employees) && employees.length > 0 ? employees : [],
+                        address: address ?? null,
+                    }),
+                );
+            }
+
             showSnackbar(`${message}`, 'success');
             if (isAccountComplete) {
                 navigate('/user-dashboard');
             } else {
-                navigate(`/company-profile/${_id}`);
+                navigate(`/company-profile/${userId}`);
             }
         } catch (error) {
             const apiError = error as ApiError;

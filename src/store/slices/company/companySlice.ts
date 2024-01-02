@@ -10,7 +10,7 @@ interface CompanyInfoState {
     description: string | null;
     industry: string | null;
     isActive: boolean;
-    employees: Record<string, string | boolean>[] | [];
+    employees: string[] | [];
     address: string | null;
 }
 
@@ -33,14 +33,14 @@ const companySlice = createSlice({
         setCompanyInfo: (
             state,
             action: PayloadAction<{
-                companyId: string;
-                companyName: string;
-                abn: string;
+                companyId: string | null;
+                companyName: string | null;
+                abn: string | null;
                 logo: string | null;
                 description: string | null;
-                industry: string;
+                industry: string | null;
                 isActive: boolean;
-                employees: Record<string, string | boolean>[] | [];
+                employees: string[] | [];
                 address: string | null;
             }>,
         ) => {
@@ -76,7 +76,7 @@ export const myCompanyABN = (state: RootState) => state.company.abn;
 export const myCompanyLogo = (state: RootState) => state.company.logo;
 export const myCompanyDescription = (state: RootState) => state.company.description;
 export const myCompanyIndustry = (state: RootState) => state.company.industry;
-export const myCompanyEmployeesInfo = (state: RootState) => state.company.employees;
+export const myCompanyEmployeeIds = (state: RootState) => state.company.employees;
 export const myCompanyAddress = (state: RootState) => state.company.address;
 export const { setCompanyInfo, clearCompanyInfo } = companySlice.actions;
 export default companySlice.reducer;
