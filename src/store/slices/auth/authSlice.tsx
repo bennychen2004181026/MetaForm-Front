@@ -43,8 +43,8 @@ const authSlice = createSlice({
                 company: string | null;
                 userId: string | null;
                 companyInfo: ICompany | null;
-                isAccountComplete: boolean | false;
-                isActive: boolean | false;
+                isAccountComplete: boolean;
+                isActive: boolean;
             }>,
         ) => {
             const {
