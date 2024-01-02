@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 
 import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import SubmitButton from '@/components/SubmitButton';
+import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
 import useUploadImage from '@/hooks/useUploadImage';
+import { ApiError } from '@/interfaces/ApiError';
+import { ICompany } from '@/interfaces/ICompany';
+import { ICompleteAccountRequest, ICompleteAccountResponse, IUser } from '@/interfaces/IUser';
+import Role from '@/interfaces/UserEnum';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
 import StepContentOne from '@/pages/CompanyProfileStepperPage/components/StepContentOne';
 import StepContentThree from '@/pages/CompanyProfileStepperPage/components/StepContentThree';
 import StepContentTwo from '@/pages/CompanyProfileStepperPage/components/StepContentTwo';
 import industries from '@/pages/CompanyRegisterPage/industryOptions';
+import userApis from '@/services/Auth/user';
+import { setCredentials } from '@/store/slices/auth/authSlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const steps = ['Enter company profile', 'Upload the company logo', 'Review and submit'];
@@ -67,7 +76,12 @@ interface CompanyProfileStepperProps {
 const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId }) => {
     const showSnackbar = useSnackbarHelper();
     const [activeStep, setActiveStep] = useState(0);
+    const { useCompleteAccountMutation } = userApis;
     const [isLoading, setIsLoading] = useState(false);
+    const [completeAccount, { isLoading: isSubmitLoading }] = useCompleteAccountMutation();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const industryArray = industries.map((industry) => industry.name);
     const fields: IField[] = [
         {
@@ -135,13 +149,49 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         });
     };
 
+    const completeAccountFunction = async () => {
+        try {
+            const response: ICompleteAccountResponse = await completeAccount({
+                userId,
+                formData: fieldsData,
+            } as ICompleteAccountRequest).unwrap();
+            const { message, token, companyInfo, user, isAccountComplete } = response;
+            const { email, role, company, _id, isActive } = user;
+            dispatch(
+                setCredentials({
+                    user: user as IUser,
+                    token,
+                    email: email ?? null,
+                    role: (role as Role) ?? null,
+                    company: company ?? null,
+                    userId: _id ?? null,
+                    companyInfo: (companyInfo as ICompany) ?? null,
+                    isAccountComplete: isAccountComplete ?? false,
+                    isActive: isActive ?? false,
+                }),
+            );
+            showSnackbar(`${message}`, 'success');
+            navigate('/user-dashboard');
+        } catch (error) {
+            const apiError = error as ApiError;
+            const errorMessage =
+                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
+
+            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+        }
+    };
+
     const handleSubmit = async () => {
         if (!validateAllFields()) {
             showSnackbar('Please fill all the required valid fields first', 'error');
         } else {
-            showSnackbar('You had successfully created account', 'success');
+            await completeAccountFunction();
         }
     };
+
+    if (isSubmitLoading) {
+        return <LoadingSpinner />;
+    }
 
     const {
         isDragging,
