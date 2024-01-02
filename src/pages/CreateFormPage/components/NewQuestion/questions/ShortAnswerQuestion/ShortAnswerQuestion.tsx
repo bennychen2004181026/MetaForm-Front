@@ -4,7 +4,7 @@ import { TextField } from '@mui/material';
 import styled from 'styled-components';
 
 const StyledLengthTextfield = styled(TextField)`
-    width: 80%;
+    width: 40rem;
 `;
 const ShortAnswerQuestion = () => {
     return (
