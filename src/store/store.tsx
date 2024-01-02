@@ -12,6 +12,7 @@ import {
 } from 'redux-persist';
 
 import authReducer from './slices/auth/authSlice';
+import companyReducer from './slices/company/companySlice';
 import userApis from '@/services/Auth/user';
 import s3Apis from '@/services/S3';
 import snackbarSlice from '@/store/slices/snackbar/snackbarSlice';
@@ -20,13 +21,14 @@ import { setGetTokenMethod } from '@/utils/tokenHandler';
 const persistConfig = {
     key: 'root',
     storage: localForage,
-    whitelist: ['auth'],
+    whitelist: ['auth', 'company'],
 };
 
 const rootReducer = combineReducers({
     [userApis.reducerPath]: userApis.reducer,
     [s3Apis.reducerPath]: s3Apis.reducer,
     auth: authReducer,
+    company: companyReducer,
     snackbar: snackbarSlice,
 });
 
