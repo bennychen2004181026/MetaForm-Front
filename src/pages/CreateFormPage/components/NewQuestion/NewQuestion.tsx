@@ -1,16 +1,19 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import QuestionBody from './components/QuestionBody/QuestionBody';
+import BottomToolbar from '@/pages/CreateFormPage/components/NewQuestion/components/BottomToolbar';
+import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
 import QuestionTitle from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTitle';
 
 const NewQuestion = () => {
     return (
-        <div>
-            <QuestionTitle />
-            <QuestionBody />
-        </div>
+        <GlobalState>
+            <div>
+                <QuestionTitle />
+                <QuestionBody />
+                <BottomToolbar />
+            </div>
+        </GlobalState>
     );
 };
 export default NewQuestion;

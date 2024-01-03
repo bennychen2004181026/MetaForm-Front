@@ -63,7 +63,7 @@ interface CreateEmployeeStepperProps {
     token: string | undefined;
 }
 
-const CreateEmployeeStepper: React.FC<CreateEmployeeStepperProps> = ({ companyId, token }) => {
+const CreateEmployeeStepper: React.FC<CreateEmployeeStepperProps> = () => {
     const showSnackbar = useSnackbarHelper();
     const [activeStep, setActiveStep] = useState(0);
     const fields: IField[] = [

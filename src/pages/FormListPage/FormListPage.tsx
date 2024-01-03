@@ -1,6 +1,6 @@
 import React from 'react';
 
-import IForm from '@/interfaces/Form.interface';
+import IForm from '@/interfaces/Form';
 import Header from '@/layouts/Header';
 import Table from '@/pages/FormListPage/components/Table';
 import { formTableColumns } from '@/pages/FormListPage/FormTableColumns';
