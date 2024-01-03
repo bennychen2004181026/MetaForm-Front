@@ -2,7 +2,9 @@ import React from 'react';
 
 import { TextField } from '@mui/material';
 
-const EditFormTitle = () => {
+import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor';
+
+const FormTitleField = () => {
     return (
         <>
             <div>
@@ -28,4 +30,4 @@ const EditFormTitle = () => {
         </>
     );
 };
-export default EditFormTitle;
+export default FormTitleField;

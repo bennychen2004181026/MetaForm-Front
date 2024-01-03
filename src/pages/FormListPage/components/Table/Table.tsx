@@ -10,7 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
-import IForm from '@/interfaces/Form.interface';
+import IForm from '@/interfaces/Form';
 import TableHead from '@/pages/FormListPage/components/Table/components/TableHead';
 import TableToolbar from '@/pages/FormListPage/components/Table/components/TableToolbar';
 import { IColumn } from '@/pages/FormListPage/FormTableColumns';
