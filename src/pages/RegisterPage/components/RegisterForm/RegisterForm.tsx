@@ -5,11 +5,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import StyledButton from '@/components/Button';
 import ReusableForm from '@/components/ReusableForm';
+import Role from '@/constants/roles';
 import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
 import { ApiError } from '@/interfaces/ApiError';
 import { ICreateUserResponse, IUser } from '@/interfaces/IUser';
-import Role from '@/interfaces/UserEnum';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import userApis from '@/services/Auth/user';
 import { setCredentials } from '@/store/slices/auth/authSlice';
