@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import SubmitButton from '@/components/SubmitButton';
+import Role from '@/constants/roles';
 import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
 import useUploadImage from '@/hooks/useUploadImage';
 import { ApiError } from '@/interfaces/ApiError';
 import { ICompany } from '@/interfaces/ICompany';
 import { ICompleteAccountRequest, ICompleteAccountResponse, IUser } from '@/interfaces/IUser';
-import Role from '@/interfaces/UserEnum';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import StepContentOne from '@/pages/CompanyProfileStepperPage/components/StepContentOne';
 import StepContentThree from '@/pages/CompanyProfileStepperPage/components/StepContentThree';
