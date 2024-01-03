@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
+import Role from '@/constants/roles';
 import { IUser } from '@/interfaces/IUser';
 import type { RootState } from '@/interfaces/redux';
-import Role from '@/interfaces/UserEnum';
 
 interface AuthState {
     user: IUser | null;

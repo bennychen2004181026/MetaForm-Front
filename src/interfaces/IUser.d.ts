@@ -1,4 +1,4 @@
-import Role from '@/interfaces/UserEnum';
+import Role from '@/constants/roles';
 
 export interface IUser {
     username?: string;
