@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import ReusableForm from '@/components/ReusableForm';
 import useForm, { IField } from '@/hooks/useForm';
 import { ApiError } from '@/interfaces/ApiError';
-import { IVerifyEmailResponse } from '@/interfaces/User.interface';
+import { IVerifyEmailResponse } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import Title from '@/layouts/MainLayout/Title';
 import userApis from '@/services/Auth/user';

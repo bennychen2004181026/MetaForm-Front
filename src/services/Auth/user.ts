@@ -6,7 +6,7 @@ import {
     IUser,
     IVerifyEmailResponse,
     IVerifyEmailTokenResponse,
-} from '@/interfaces/User.interface';
+} from '@/interfaces/IUser';
 import axiosBaseQuery from '@/utils/axiosBaseQuery';
 
 const userApis = createApi({
