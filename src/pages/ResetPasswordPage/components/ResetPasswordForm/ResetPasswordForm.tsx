@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import ReusableForm from '@/components/ReusableForm';
 import useForm, { IField } from '@/hooks/useForm';
 import { ApiError } from '@/interfaces/ApiError';
-import { IResetPasswordResponse } from '@/interfaces/User.interface';
+import { IResetPasswordResponse } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import userApis from '@/services/Auth/user';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';

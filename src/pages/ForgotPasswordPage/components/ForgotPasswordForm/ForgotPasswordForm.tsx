@@ -5,7 +5,7 @@ import { Box, Link, Typography } from '@mui/material';
 import ReusableForm from '@/components/ReusableForm';
 import useForm, { IField } from '@/hooks/useForm';
 import { ApiError } from '@/interfaces/ApiError';
-import { IForgotPasswordResponse } from '@/interfaces/User.interface';
+import { IForgotPasswordResponse } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import userApis from '@/services/Auth/user';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
