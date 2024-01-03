@@ -1,5 +1,4 @@
-import { ICompany } from '@/interfaces/ICompany';
-import Role from '@/interfaces/UserEnum';
+import Role from '@/constants/roles';
 
 export interface IUser {
     username?: string;
@@ -20,7 +19,7 @@ export interface ILoginResponse {
     user: IUser;
     token: string;
     email?: string;
-    companyInfo?: ICompany;
+    company?: string;
     role?: string;
     userId?: string;
     isAccountComplete?: boolean;
