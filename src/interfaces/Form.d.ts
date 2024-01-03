@@ -1,7 +1,12 @@
+import { IQuestion } from './CreateForm.interface';
+
 export default interface IForm {
-    id: string;
+    formId: string;
     title: string;
+    description: string;
+    expireTime: string;
     author: string;
     createTime: string;
-    numberOfResponse: string;
+    numberOfResponses: number;
+    questions: IQuestion[];
 }
