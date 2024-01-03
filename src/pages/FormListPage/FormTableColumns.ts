@@ -1,4 +1,4 @@
-import IForm from '@/interfaces/Form.interface';
+import IForm from '@/interfaces/Form';
 
 interface IColumn {
     disablePadding: boolean;

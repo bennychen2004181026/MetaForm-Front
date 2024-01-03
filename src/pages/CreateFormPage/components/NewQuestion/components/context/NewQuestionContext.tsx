@@ -1,16 +1,18 @@
 import React, { Dispatch, createContext, useMemo, useReducer } from 'react';
 
 import IOption from '@/interfaces/IOption';
-import IQuestion from '@/interfaces/IQuestion';
+import { IImage, IQuestion } from '@/interfaces/IQuestion';
 
 const initState: IQuestion = {
     questionType: '0',
-    title: 'What is your age range?',
+    questionId: '1',
+    title: { content: 'What is your age range?' },
     options: [
         { id: '1', value: 'Under 10' },
         { id: '2', value: '10 - 20' },
         { id: '3', value: '20 - 30' },
     ],
+    other: false,
 };
 type Actions =
     | {
@@ -26,8 +28,20 @@ type Actions =
           payload: string;
       }
     | {
+          type: 'INSERT_TITLE_IMAGE';
+          payload: IImage;
+      }
+    | {
           type: 'CHANGE_QUESTION_TYPE';
           payload: string;
+      }
+    | {
+          type: 'SET_OPTIONS';
+          payload: IOption[];
+      }
+    | {
+          type: 'ALLOW_OTHER_OPTION';
+          payload: boolean;
       };
 const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
     const { type, payload } = action;
@@ -45,12 +59,27 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
         case 'SAVE_TITLE':
             return {
                 ...state,
-                title: action.payload,
+                title: { ...state.title, content: action.payload },
+            };
+        case 'INSERT_TITLE_IMAGE':
+            return {
+                ...state,
+                title: { ...state.title, image: action.payload },
             };
         case 'CHANGE_QUESTION_TYPE':
             return {
                 ...state,
                 questionType: action.payload,
+            };
+        case 'SET_OPTIONS':
+            return {
+                ...state,
+                options: action.payload,
+            };
+        case 'ALLOW_OTHER_OPTION':
+            return {
+                ...state,
+                other: action.payload,
             };
         default:
             throw new Error(

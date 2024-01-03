@@ -1,49 +1,48 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
-import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
-import { IconButton, TextField } from '@mui/material';
-import InputAdornment from '@mui/material/InputAdornment';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
 
 const AddOption = () => {
-    const { dispatch } = useContext(NewQuestionContext);
-    const [text, SetText] = useState<string>('Add Option');
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const { dispatch, state } = useContext(NewQuestionContext);
+    const { options, other } = state;
+    const totalOptions = options.length;
+    const handleAddOption = () => {
         dispatch({
             type: 'ADD_OPTION',
             payload: {
                 id: Math.floor(Math.random() * 10000).toString(),
-                value: text,
+                value: `Option  ${totalOptions + 1}`,
             },
         });
-        SetText('Add Option');
+    };
+    const handleAllowOtherOption = () => {
+        dispatch({
+            type: 'ALLOW_OTHER_OPTION',
+            payload: true,
+        });
+        dispatch({
+            type: 'ADD_OPTION',
+            payload: {
+                id: Math.floor(Math.random() * 10000).toString(),
+                value: 'Other',
+                otherOption: true,
+            },
+        });
     };
 
     return (
-        <form onSubmit={onSubmit}>
-            <TextField
-                required
-                id="muitichoice-question-option"
-                value={text}
-                variant="standard"
-                margin="normal"
-                fullWidth
-                onChange={(e) => {
-                    SetText(e.target.value);
-                }}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton type="submit">
-                                <AddCircleOutlineRoundedIcon />
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
-            />
-        </form>
+        <ButtonGroup variant="outlined">
+            <Button onClick={handleAddOption} aria-label="Add a new Option">
+                Add option
+            </Button>
+
+            <Button onClick={handleAllowOtherOption} aria-label="Add Other Option" disabled={other}>
+                Add Other
+            </Button>
+        </ButtonGroup>
     );
 };
 
