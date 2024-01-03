@@ -1,5 +1,5 @@
+import Role from '@/constants/roles';
 import { ICompany } from '@/interfaces/ICompany';
-import Role from '@/interfaces/UserEnum';
 
 export interface IUser {
     username?: string;

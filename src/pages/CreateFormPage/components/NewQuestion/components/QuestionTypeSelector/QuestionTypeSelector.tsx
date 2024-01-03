@@ -1,16 +1,20 @@
 import React, { useContext, useState } from 'react';
 
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { InputAdornment, TextField } from '@mui/material';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';
 
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion/context/GlobalState';
-import { questionTypes } from '@/pages/CreateFormPage/components/NewQuestion/questionTypes';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
+import { questionTypes } from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/questionTypes';
 
-const FixedWidthTypeSelector = styled('div')({
-    width: '200px',
-});
+const FixedWidthTypeSelector = styled.div`
+    width: 300px;
+`;
+const StyledMenuItem = styled(MenuItem)`
+    height: 2em;
+`;
 const QuestionTypeSelector = () => {
     const [selectedQuestionType, setSelectedQuestionType] = useState(questionTypes[0].value);
     const { dispatch } = useContext(NewQuestionContext);
@@ -25,7 +29,6 @@ const QuestionTypeSelector = () => {
         });
         setSelectedQuestionType(e.target.value);
     };
-
     return (
         <FixedWidthTypeSelector>
             <TextField
@@ -37,16 +40,22 @@ const QuestionTypeSelector = () => {
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
-                            <RadioButtonCheckedIcon />
+                            {selectedQuestionType
+                                ? questionTypes.find(
+                                      (questionType) => questionType.value === selectedQuestionType,
+                                  )?.icon
+                                : null}
                         </InputAdornment>
                     ),
                 }}
             >
-                {questionTypes.map((option) => (
-                    <MenuItem key={option.id} value={option.value}>
-                        {option.value}
-                    </MenuItem>
-                ))}
+                {questionTypes.map((option) => {
+                    return (
+                        <StyledMenuItem key={option.id} value={option.value}>
+                            <ListItemText>{option.value}</ListItemText>
+                        </StyledMenuItem>
+                    );
+                })}
             </TextField>
         </FixedWidthTypeSelector>
     );

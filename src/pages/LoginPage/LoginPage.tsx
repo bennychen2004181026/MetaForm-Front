@@ -9,13 +9,13 @@ import StyledButton from '@/components/Button/Button';
 import InformativeText from '@/components/InformativeText';
 import ReusableForm from '@/components/ReusableForm';
 import Hyperlink from '@/components/StyledLink/';
+import Role from '@/constants/roles';
 import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
 import useGoogleOAuth from '@/hooks/useGoogleOAuth';
 import { ApiError } from '@/interfaces/ApiError';
 import { ICompany } from '@/interfaces/ICompany';
 import { ILoginResponse, IUser } from '@/interfaces/IUser';
-import Role from '@/interfaces/UserEnum';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import Title from '@/layouts/MainLayout/Title';
 import userApis from '@/services/Auth/user';
@@ -99,11 +99,11 @@ const Login = () => {
         try {
             const response: ILoginResponse = await login(fieldsData).unwrap();
             const { message, user, token, isAccountComplete, companyInfo } = response;
-            const { email, role, company, _id: userId, isActive } = user;
+            const { email, role, company, _id: userId, isActive } = user as IUser;
 
             dispatch(
                 setCredentials({
-                    user: user as IUser,
+                    user,
                     token,
                     email: email ?? null,
                     role: (role as Role) ?? null,
@@ -153,7 +153,7 @@ const Login = () => {
         } catch (error) {
             const apiError = error as ApiError;
             const errorMessage =
-                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
+                apiError.data?.errors?.[0].message ?? apiError.data ?? 'An unknown error occurred';
 
             showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
         }

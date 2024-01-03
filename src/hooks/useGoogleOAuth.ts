@@ -2,10 +2,10 @@ import { useEffect, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import Role from '@/constants/roles';
 import { useAppDispatch } from '@/hooks/redux';
 import { ICompany } from '@/interfaces/ICompany';
 import { IUser } from '@/interfaces/IUser';
-import Role from '@/interfaces/UserEnum';
 import { setCredentials } from '@/store/slices/auth/authSlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
