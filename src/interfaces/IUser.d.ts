@@ -46,10 +46,6 @@ export interface ICreateUserResponse {
     isAccountComplete: boolean;
 }
 
-export interface IForgotPasswordResponse {
-    message: string;
-}
-
-export interface IResetPasswordResponse {
+export interface IPasswordResponse {
     message: string;
 }

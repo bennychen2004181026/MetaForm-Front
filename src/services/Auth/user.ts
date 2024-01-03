@@ -2,9 +2,8 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 
 import {
     ICreateUserResponse,
-    IForgotPasswordResponse,
     ILoginResponse,
-    IResetPasswordResponse,
+    IPasswordResponse,
     IUser,
     IVerifyEmailResponse,
     IVerifyEmailTokenResponse,
@@ -42,14 +41,14 @@ const userApis = createApi({
                 data: formData,
             }),
         }),
-        forgotPassword: builder.mutation<IForgotPasswordResponse, IUser>({
+        forgotPassword: builder.mutation<IPasswordResponse, IUser>({
             query: (formData: IUser) => ({
                 url: '/forgotPassword',
                 method: 'POST',
                 data: formData,
             }),
         }),
-        resetPassword: builder.mutation<IResetPasswordResponse, IUser>({
+        resetPassword: builder.mutation<IPasswordResponse, IUser>({
             query: (formData: IUser) => ({
                 url: '/resetPassword',
                 method: 'POST',
