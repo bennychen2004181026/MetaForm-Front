@@ -1,8 +1,8 @@
 import React, { Dispatch, createContext, useMemo, useReducer } from 'react';
 
-import { IImage, IQuestion } from '@/interfaces/CreateForm.interface';
+import { IImage, IQuestion } from '@/interfaces/CreateForm';
 import IOption from '@/interfaces/IOption';
-import { initQuestionState as initState } from '@/pages/CreateFormPage/components/CreateForm/initForm';
+import { initQuestionState as initState } from '@/pages/CreateFormPage/components/CreateForm/InitForm';
 
 type Actions =
     | {

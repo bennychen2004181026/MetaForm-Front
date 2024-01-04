@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IImage } from './CreateForm.interface';
+import { IImage } from './CreateForm';
 
 interface IOption {
     id: string;

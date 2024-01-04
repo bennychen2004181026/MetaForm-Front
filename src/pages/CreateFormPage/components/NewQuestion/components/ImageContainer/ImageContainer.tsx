@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ThemeProvider, styled } from 'styled-components';
 
-import { IImage } from '@/interfaces/CreateForm.interface';
+import { IImage } from '@/interfaces/CreateForm';
 
 const StyledImageContainer = styled.div`
     img {
