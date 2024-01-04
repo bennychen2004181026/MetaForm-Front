@@ -26,6 +26,7 @@ const StyledDisplayModeToggle = styled(DisplayModeToggle)`
 `;
 
 const StyledHeader = styled.div`
+    width: 1280px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
