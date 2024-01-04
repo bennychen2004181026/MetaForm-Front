@@ -9,11 +9,12 @@ import StyledButton from '@/components/Button/Button';
 import InformativeText from '@/components/InformativeText';
 import ReusableForm from '@/components/ReusableForm';
 import Hyperlink from '@/components/StyledLink/';
+import Role from '@/constants/roles';
 import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
 import useGoogleOAuth from '@/hooks/useGoogleOAuth';
 import { ApiError } from '@/interfaces/ApiError';
-import { ILoginResponse, IUser, Role } from '@/interfaces/User.interface';
+import { ILoginResponse } from '@/interfaces/User';
 import Title from '@/layouts/MainLayout/Title';
 import userApis from '@/services/Auth/user';
 import { setCredentials } from '@/store/slices/auth/authSlice';
@@ -98,7 +99,7 @@ const Login = () => {
             const { email, role, company, _id, isActive } = user;
             dispatch(
                 setCredentials({
-                    user: user as IUser,
+                    user,
                     token,
                     email: email ?? null,
                     role: (role as Role) ?? null,
@@ -119,7 +120,7 @@ const Login = () => {
         } catch (error) {
             const apiError = error as ApiError;
             const errorMessage =
-                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
+                apiError.data?.errors?.[0].message ?? apiError.data ?? 'An unknown error occurred';
 
             showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
         }

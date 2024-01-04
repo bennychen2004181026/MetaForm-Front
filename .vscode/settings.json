@@ -2,5 +2,5 @@
     "files.eol": "\r\n",
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit"
-    },
+    }
 }
