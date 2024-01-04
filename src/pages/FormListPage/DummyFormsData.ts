@@ -4,7 +4,7 @@ const dummyFormsData: IForm[] = [
     {
         formId: '1',
         title: 'Test Form by Monash university Web development',
-        numberOfResponses: 10,
+        numberOfResponses: 12,
         createTime: '2021-03-25',
         expireTime: '2022-03-25',
         author: 'Yansong',
@@ -32,7 +32,7 @@ const dummyFormsData: IForm[] = [
     {
         formId: '2',
         title: 'Test Form by Monash university Yansong',
-        numberOfResponses: 10,
+        numberOfResponses: 1,
         createTime: '2021-03-25',
         expireTime: '2022-03-25',
         author: 'Yansong',
@@ -60,7 +60,7 @@ const dummyFormsData: IForm[] = [
     {
         formId: '3',
         title: 'Test Form by Monash university Machine Learning',
-        numberOfResponses: 10,
+        numberOfResponses: 34,
         createTime: '2021-03-25',
         expireTime: '2022-03-25',
         author: 'Yansong',

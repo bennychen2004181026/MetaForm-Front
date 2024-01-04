@@ -24,9 +24,7 @@ const StyledFooter = styled.div`
     aligh-items: center;
 `;
 interface FormCardProps {
-    // formId: string;
     formTitle: string;
-    // createTime: string;
     numOfResponses: number;
 }
 const StyledHeader = styled(CardHeader)`
@@ -35,6 +33,7 @@ const StyledHeader = styled(CardHeader)`
 `;
 const StyledCardContainer = styled(Box)`
     max-width: 400px;
+    min-width: 300px;
 `;
 const StyledTypographyForResponse = styled(Typography)`
     display: inline-block;
