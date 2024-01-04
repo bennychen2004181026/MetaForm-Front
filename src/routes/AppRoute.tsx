@@ -22,6 +22,7 @@ const ProtectedRoute = React.lazy(() => import('@/components/ProtectedRoute'));
 const CompanyDashboardRoute = React.lazy(() => import('@/components/CompanyDashboardRoute'));
 const SuperAdminRoute = React.lazy(() => import('@/components/SuperAdminRoute'));
 const EmailVerificationPage = React.lazy(() => import('@/pages/EmailVerificationPage'));
+const DashboardLandingPage = React.lazy(() => import('@/pages/DashboardLandingPage'));
 
 const AppRoute = () => (
     <Suspense fallback={<LoadingSpinner />}>
@@ -49,6 +50,7 @@ const AppRoute = () => (
                     element={<CreateEmployeePage />}
                 />
                 <Route path="/create-form" element={<CreateFormPage />} />
+                <Route path="/companies/:companyId/dashboard" element={<DashboardLandingPage />} />
                 <Route element={<ProtectedRoute />}>
                     <Route
                         path="/company-profile/:userId"
