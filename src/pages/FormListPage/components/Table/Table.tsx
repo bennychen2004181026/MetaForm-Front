@@ -106,7 +106,7 @@ const Table = ({ forms }: { forms: IForm[] }) => {
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
-        [order, orderBy, page, rowsPerPage],
+        [order, orderBy, page, rowsPerPage, forms],
     );
     return (
         <div>
