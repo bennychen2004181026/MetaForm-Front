@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
 import EmailIcon from '@mui/icons-material/Email';
@@ -6,6 +6,7 @@ import { Alert, Box, Chip, IconButton, TextareaAutosize, Typography } from '@mui
 import styled from 'styled-components';
 
 import StartIconButton from '@/components/StartIconButton';
+import userInviteEmployees from '@/hooks/userInviteEmployees';
 
 const StyledStartIconButtonBox = styled(Box)`
     margin: 100px 0;
@@ -58,87 +59,17 @@ const StyledValidEmailsBox = styled(Box)`
 `;
 
 const InviteUsers = () => {
-    const [emails, setEmails] = useState<string[]>([]);
-    const [emailInput, setEmailInput] = useState('');
-    const [error, setError] = useState('');
-
-    const isValidEmail = (email: string) => {
-        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return pattern.test(email);
-    };
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setError('');
-
-        const input = event.target.value.replace(/^ +/, '').replace(/,|，/g, ',');
-        setEmailInput(input);
-
-        const trimmedInput = input.endsWith(',') ? input.slice(0, -1) : input;
-
-        const emailHolders = trimmedInput.split(',');
-        const invalidEmails = emailHolders.filter((email) => email && !isValidEmail(email.trim()));
-
-        if (invalidEmails.length > 0) {
-            setError('One or more email addresses entered are in an invalid format');
-        }
-    };
-
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (['Enter', 'Tab', ','].includes(event.key)) {
-            event.preventDefault();
-
-            const trimmedInput = emailInput.endsWith(',') ? emailInput.slice(0, -1) : emailInput;
-
-            const newEmails = trimmedInput
-                .split(',')
-                .map((email) => email.trim())
-                .filter((email) => email && isValidEmail(email));
-
-            if (newEmails.length > 0) {
-                setEmails((prevEmails) => [...new Set([...prevEmails, ...newEmails])]);
-                setEmailInput('');
-            } else if (trimmedInput) {
-                setError('Email address entered is in an invalid format');
-            }
-        } else if (event.key === 'Backspace' && !emailInput) {
-            setEmails((prevEmails) => prevEmails.slice(0, -1));
-        }
-    };
-
-    const removeEmail = (index: number): void => {
-        setEmails(emails.filter((email, i) => i !== index));
-    };
-
-    const handleDelete = (emailToDelete: string): (() => void) => {
-        return () => {
-            removeEmail(emails.indexOf(emailToDelete));
-        };
-    };
-    const handleBlur = () => {
-        setError('');
-        const emailCandidates = emailInput
-            .split(',')
-            .map((email) => email.trim())
-            .filter((email) => email);
-
-        const validEmails = emailCandidates.filter((email) => isValidEmail(email));
-        const hasInvalidEmails = emailCandidates.length !== validEmails.length;
-
-        if (hasInvalidEmails) {
-            setError('One or more email addresses entered are in an invalid format');
-        } else {
-            setEmails((prevEmails) => [...new Set([...prevEmails, ...validEmails])]);
-            setEmailInput('');
-        }
-    };
-
-    const handleFocus = () => {
-        setError('');
-    };
-
-    const handleClearAll = () => {
-        setEmails([]);
-    };
+    const {
+        emails,
+        emailInput,
+        error,
+        handleInputChange,
+        handleKeyDown,
+        handleDelete,
+        handleBlur,
+        handleFocus,
+        handleClearAll,
+    } = userInviteEmployees();
 
     return (
         <StyledInviteEmployeesBox>
