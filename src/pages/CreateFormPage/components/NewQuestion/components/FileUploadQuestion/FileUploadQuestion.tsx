@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { FormControl, ListItemText, MenuItem, OutlinedInput } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import styled from 'styled-components';
 
@@ -72,8 +71,7 @@ const FileUploadQuestion = () => {
                 <StyledFormControl>
                     <p>Maximum files accepted</p>
                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        id="file_upload_type_select"
                         value={numOfFiles}
                         onChange={(e) => handleNumOfFilesChange(e)}
                     >
