@@ -82,7 +82,7 @@
         "test": "craco test",
         "eject": "craco eject",
         "lint": "eslint .",
-        "lint:fix": "eslint src/*.{ts,tsx,d.ts} *.{ts,tsx} --fix",
+        "lint:fix": "eslint src/*.{ts,tsx,d.ts} --fix",
         "prettier": "prettier src/*.{ts,tsx} --check",
         "prettier:fix": "yarn run prettier --write .",
         "format": "yarn run prettier:fix && yarn run lint:fix",
