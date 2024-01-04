@@ -1,14 +1,61 @@
 import React, { useState } from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
-import CropIcon from '@mui/icons-material/Crop';
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import IconButton from '@mui/material/IconButton';
-import TextField from '@mui/material/TextField';
+import EmailIcon from '@mui/icons-material/Email';
+import { Alert, Box, Chip, IconButton, TextareaAutosize, Typography } from '@mui/material/';
+import styled from 'styled-components';
 
 import StartIconButton from '@/components/StartIconButton';
+
+const StyledStartIconButtonBox = styled(Box)`
+    margin: 100px 0;
+`;
+
+const StyledInviteEmployeesBox = styled(Box)`
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+`;
+
+const StyledEmailsInputsBox = styled(Box)`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    position: relative;
+`;
+
+const StyledIconButton = styled(IconButton)`
+    position: absolute;
+    top: 0;
+    right: 0;
+`;
+
+const StyledTextArea = styled(TextareaAutosize)`
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 18.5px 14px;
+    margin: 8px 0;
+    font-size: 16px;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: 2px solid #3f51b5;
+    }
+`;
+
+const StyledValidEmailsBox = styled(Box)`
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 30px 0 0 20px;
+`;
 
 const InviteUsers = () => {
     const [emails, setEmails] = useState<string[]>([]);
@@ -20,7 +67,7 @@ const InviteUsers = () => {
         return pattern.test(email);
     };
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setError('');
 
         const input = event.target.value.replace(/^ +/, '').replace(/,|，/g, ',');
@@ -36,7 +83,7 @@ const InviteUsers = () => {
         }
     };
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (['Enter', 'Tab', ','].includes(event.key)) {
             event.preventDefault();
 
@@ -68,6 +115,7 @@ const InviteUsers = () => {
         };
     };
     const handleBlur = () => {
+        setError('');
         const emailCandidates = emailInput
             .split(',')
             .map((email) => email.trim())
@@ -83,51 +131,50 @@ const InviteUsers = () => {
             setEmailInput('');
         }
     };
+
     const handleFocus = () => {
         setError('');
     };
+
     const handleClearAll = () => {
         setEmails([]);
     };
 
     return (
-        <Box sx={{ '& > :not(style)': { m: 1 } }}>
-            <h3>Invite employees to Metafom</h3>
-            <p>
-                Invite teammates to collaborate and create form in your organization. We&apos;ll ask
+        <StyledInviteEmployeesBox>
+            <Typography variant="h5" gutterBottom>
+                Invite employees to Metafom
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+                Invite teammates to collaborate and create form in your organization. We&lsquo;ll
                 employees to enter their personal details when they sign up within company.
-            </p>
-            <TextField
-                label="Email addresses"
-                value={emailInput}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-                onBlur={handleBlur}
-                onFocus={handleFocus}
-                placeholder="Invite by email address..."
-                helperText="Separate emails using a comma. Note, we can't send invitations to distribution lists."
-                fullWidth
-                margin="normal"
-                error={!!error}
-                InputProps={{
-                    startAdornment: emails.map((email) => (
-                        <Chip key={email} label={email} onDelete={handleDelete(email)} />
-                    )),
-                    endAdornment: (
-                        <IconButton onClick={handleClearAll}>
-                            <CloseIcon />
-                        </IconButton>
-                    ),
-                }}
-            />
+            </Typography>
+            <StyledEmailsInputsBox>
+                <StyledTextArea
+                    aria-label="Email addresses"
+                    placeholder="Invite by email address..."
+                    value={emailInput}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    minRows={2}
+                />
+                <StyledIconButton onClick={handleClearAll}>
+                    <CloseIcon />
+                </StyledIconButton>
+            </StyledEmailsInputsBox>
             {error && <Alert severity="error">{error}</Alert>}
-            <StartIconButton
-                text="Confirm"
-                disabled={false}
-                startIcon={<CropIcon />}
-                variant="contained"
-            />
-        </Box>
+            <StyledValidEmailsBox>
+                {emails.map((email) => (
+                    <Chip key={email} label={email} onDelete={handleDelete(email)} />
+                ))}
+            </StyledValidEmailsBox>
+
+            <StyledStartIconButtonBox>
+                <StartIconButton text="Send" startIcon={<EmailIcon />} variant="contained" />
+            </StyledStartIconButtonBox>
+        </StyledInviteEmployeesBox>
     );
 };
 

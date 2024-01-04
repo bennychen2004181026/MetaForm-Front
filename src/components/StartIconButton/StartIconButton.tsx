@@ -15,6 +15,7 @@ interface StartIconButtonProps {
 const StyledStartIconButton = styled(Button)`
     height: 4vh;
     width: 16vw;
+    min-width: 180px;
     border: none;
     padding: 2px;
     border-radius: 10%;
@@ -29,7 +30,7 @@ const StartIconButton: React.FC<StartIconButtonProps> = ({
     startIcon,
     variant = 'text',
     children,
-    disabled,
+    disabled = false,
 }) => {
     return (
         <StyledStartIconButton
