@@ -9,7 +9,7 @@ import { IUser } from '@/interfaces/IUser';
 import { setCredentials } from '@/store/slices/auth/authSlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
-const useGoogleOAuth = (currentApiUrl: string | undefined) => {
+const useGoogleOAuth = (currentApiUrl?: string) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const showSnackbar = useSnackbarHelper();
