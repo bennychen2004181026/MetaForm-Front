@@ -15,6 +15,7 @@ import useForm, { IField } from '@/hooks/useForm';
 import useGoogleOAuth from '@/hooks/useGoogleOAuth';
 import { ApiError } from '@/interfaces/ApiError';
 import { ILoginResponse, IUser } from '@/interfaces/IUser';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
 import Title from '@/layouts/MainLayout/Title';
 import userApis from '@/services/Auth/user';
 import { setCredentials } from '@/store/slices/auth/authSlice';
@@ -54,7 +55,7 @@ const LoginButton = styled(StyledButton)<ButtonProps>`
 const Login = () => {
     const showSnackbar = useSnackbarHelper();
     const { useLoginMutation } = userApis;
-    const [login] = useLoginMutation();
+    const [login, { isLoading }] = useLoginMutation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -110,13 +111,11 @@ const Login = () => {
                 }),
             );
             showSnackbar(`${message}`, 'success');
-            setTimeout(() => {
-                if (isAccountComplete) {
-                    navigate('/user-dashboard');
-                } else {
-                    navigate(`/company-profile/${_id}`);
-                }
-            }, 500);
+            if (isAccountComplete) {
+                navigate('/user-dashboard');
+            } else {
+                navigate(`/company-profile/${_id}`);
+            }
         } catch (error) {
             const apiError = error as ApiError;
             const errorMessage =
@@ -145,6 +144,11 @@ const Login = () => {
         navigate(path);
     };
     const submitButtonText = 'Confirm';
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
+
     return (
         <LoginContent>
             <GlobalStyle />

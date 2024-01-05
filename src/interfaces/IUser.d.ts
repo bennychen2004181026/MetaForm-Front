@@ -32,3 +32,9 @@ export interface IVerifyEmailResponse {
     email: string;
     username: string;
 }
+
+export interface IVerifyEmailTokenResponse {
+    message: string;
+    email: string;
+    username: string;
+}
