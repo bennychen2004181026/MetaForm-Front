@@ -13,14 +13,14 @@ interface UploadUtilsProps {
         message: string,
         variant: 'default' | 'error' | 'success' | 'warning' | 'info',
     ) => void;
-    userId: string | undefined;
+    userId?: string;
     getS3PreSignedUrlQuery: ReturnType<typeof userApis.useLazyGetS3PreSignedUrlQuery>[0];
     uploadToS3: ReturnType<typeof s3Apis.useUploadFileToS3Mutation>[0];
     getCloudFrontPreSignedUrlQuery: ReturnType<
         typeof userApis.useLazyGetCloudFrontPreSignedUrlQuery
     >[0];
-    s3PreSignedUrlData: IGetS3PreSignedUrlResponse | undefined;
-    cloudFrontData: IGetCloudFrontPreSignedUrlResponse | undefined;
+    s3PreSignedUrlData?: IGetS3PreSignedUrlResponse;
+    cloudFrontData?: IGetCloudFrontPreSignedUrlResponse;
 }
 const uploadFileToS3 = async ({
     file,
