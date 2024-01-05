@@ -26,3 +26,9 @@ export interface ILoginResponse {
     isActive?: boolean;
     message?: string;
 }
+
+export interface IVerifyEmailResponse {
+    message: string;
+    email: string;
+    username: string;
+}

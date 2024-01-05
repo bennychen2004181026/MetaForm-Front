@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import Role from '@/constants/roles';
+import { IUser } from '@/interfaces/IUser';
 import type { RootState } from '@/interfaces/redux';
-import { IUser } from '@/interfaces/User';
 
 interface AuthState {
     user: IUser | null;
@@ -39,8 +39,8 @@ const authSlice = createSlice({
                 role: Role | null;
                 company: string | null;
                 userId: string | null;
-                isAccountComplete: boolean | false;
-                isActive: boolean | false;
+                isAccountComplete: boolean;
+                isActive: boolean;
             }>,
         ) => {
             const { user, token, email, role, company, userId, isAccountComplete, isActive } =

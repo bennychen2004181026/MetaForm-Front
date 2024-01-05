@@ -14,7 +14,7 @@ import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
 import useGoogleOAuth from '@/hooks/useGoogleOAuth';
 import { ApiError } from '@/interfaces/ApiError';
-import { ILoginResponse } from '@/interfaces/User';
+import { ILoginResponse, IUser } from '@/interfaces/IUser';
 import Title from '@/layouts/MainLayout/Title';
 import userApis from '@/services/Auth/user';
 import { setCredentials } from '@/store/slices/auth/authSlice';
@@ -96,7 +96,7 @@ const Login = () => {
         try {
             const response: ILoginResponse = await login(fieldsData).unwrap();
             const { message, user, token, isAccountComplete } = response;
-            const { email, role, company, _id, isActive } = user;
+            const { email, role, company, _id, isActive } = user as IUser;
             dispatch(
                 setCredentials({
                     user,
