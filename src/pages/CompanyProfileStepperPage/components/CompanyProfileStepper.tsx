@@ -71,7 +71,7 @@ const NextButton = styled(Button)`
 `;
 
 interface CompanyProfileStepperProps {
-    userId: string | undefined;
+    userId?: string;
 }
 
 const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId }) => {
