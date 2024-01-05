@@ -15,7 +15,7 @@ const StyledMenubar = styled.div`
     display: flex;
     justify-content: left;
     align-items: center;
-    margin: 0.5em 0 0 1em;
+    margin: 0.8em 0 0 1em;
     gap: 5px;
 `;
 const MenuBar = ({ editor }: { editor: Editor | null }) => {

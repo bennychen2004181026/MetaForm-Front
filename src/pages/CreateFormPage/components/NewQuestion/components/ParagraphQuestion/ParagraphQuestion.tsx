@@ -5,13 +5,16 @@ import styled from 'styled-components';
 
 const StyledLengthTextfield = styled(TextField)`
     width: 40rem;
+    max-width: 800px;
 `;
-const ShortAnswerQuestion = () => {
+const ParagraphQuestion = () => {
     return (
         <StyledLengthTextfield
             id="short-answer-question-textfield"
-            defaultValue="Short answer text"
-            variant="standard"
+            defaultValue="Long answer text"
+            variant="outlined"
+            multiline
+            rows={4}
             margin="normal"
             disabled
             fullWidth
@@ -19,4 +22,4 @@ const ShortAnswerQuestion = () => {
     );
 };
 
-export default ShortAnswerQuestion;
+export default ParagraphQuestion;
