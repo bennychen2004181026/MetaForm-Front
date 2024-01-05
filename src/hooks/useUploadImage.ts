@@ -13,7 +13,7 @@ interface UseUploadImageProps {
     onDataChange: (
         field: string,
     ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
-    userId: string | undefined;
+    userId?: string;
 }
 const useUploadImage = ({ setIsLoading, onDataChange, userId }: UseUploadImageProps) => {
     const showSnackbar = useSnackbarHelper();
