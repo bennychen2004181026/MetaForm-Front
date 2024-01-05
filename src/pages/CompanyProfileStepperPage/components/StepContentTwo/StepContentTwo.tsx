@@ -13,24 +13,16 @@ import UploadBoxContentRenderer from '@/components/UploadBoxContentRenderer';
 
 const StyledStepperBoxContainer = styled(Box)`
     display: flex;
-    flex-direction: column;
-    @media (min-width: 768px) {
-        flex-direction: row;
+    flex-direction: row;
+    @media (max-width: 768px) {
+        flex-direction: column;
     }
-    width: 360px;
-    height: 260px;
-    @media (min-width: 600px) {
-        width: 500px;
-        height: 400px;
-    }
-    @media (min-width: 960px) {
-        width: 600px;
-        height: 500px;
-    }
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-top: 1px;
+    margin: 20px 0;
     gap: 1rem;
+    flex-wrap: wrap;
+    align-content: center;
 `;
 
 const IconButtonBox = styled(Box)`
@@ -38,8 +30,9 @@ const IconButtonBox = styled(Box)`
     flex-direction: column;
     align-content: center;
     justify-content: space-around;
-    flex-wrap: wrap;
-    height: 20vh;
+    flex-wrap: nowrap;
+    height: 60px;
+    margin: 30px 0;
 `;
 interface StepContentTwoProps {
     fieldsData: Record<string, string>;
