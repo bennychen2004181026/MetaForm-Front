@@ -5,7 +5,7 @@ import { Box, Link, Typography } from '@mui/material';
 import ReusableForm from '@/components/ReusableForm';
 import useForm, { IField } from '@/hooks/useForm';
 import { ApiError } from '@/interfaces/ApiError';
-import { IForgotPasswordResponse } from '@/interfaces/IUser';
+import { IPasswordResponse } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import userApis from '@/services/Auth/user';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
@@ -38,7 +38,7 @@ const ForgotPasswordForm: React.FC = () => {
 
     const forgotPasswordFunction = async () => {
         try {
-            const response: IForgotPasswordResponse = await forgotPassword(fieldsData).unwrap();
+            const response: IPasswordResponse = await forgotPassword(fieldsData).unwrap();
             const { message } = response;
             showSnackbar(`${message}`, 'success');
         } catch (error) {
