@@ -34,20 +34,14 @@ const userApis = createApi({
                 data: formData,
             }),
         }),
-        forgotPassword: builder.mutation<
-            IUerInterfaces.IForgotPasswordResponse,
-            IUerInterfaces.IUser
-        >({
+        forgotPassword: builder.mutation<IUerInterfaces.IPasswordResponse, IUerInterfaces.IUser>({
             query: (formData: IUerInterfaces.IUser) => ({
                 url: '/forgotPassword',
                 method: 'POST',
                 data: formData,
             }),
         }),
-        resetPassword: builder.mutation<
-            IUerInterfaces.IResetPasswordResponse,
-            IUerInterfaces.IUser
-        >({
+        resetPassword: builder.mutation<IUerInterfaces.IPasswordResponse, IUerInterfaces.IUser>({
             query: (formData: IUerInterfaces.IUser) => ({
                 url: '/resetPassword',
                 method: 'POST',

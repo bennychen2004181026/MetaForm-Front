@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import ReusableForm from '@/components/ReusableForm';
 import useForm, { IField } from '@/hooks/useForm';
 import { ApiError } from '@/interfaces/ApiError';
-import { IResetPasswordResponse } from '@/interfaces/IUser';
+import { IPasswordResponse } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import userApis from '@/services/Auth/user';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 interface ResetPasswordFormProps {
-    token: string | undefined;
+    token?: string;
 }
 
 const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token }) => {
@@ -74,7 +74,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token }) => {
 
     const resetPasswordFunction = async () => {
         try {
-            const response: IResetPasswordResponse = await resetPassword(fieldsData).unwrap();
+            const response: IPasswordResponse = await resetPassword(fieldsData).unwrap();
             const { message } = response;
             showSnackbar(`${message}`, 'success');
             navigate('/login');
