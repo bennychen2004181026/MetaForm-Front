@@ -64,7 +64,7 @@ export const getErrorMessage = ({
     let error:
         | {
               key: keyof typeof validators;
-              additionalData?: string | undefined;
+              additionalData?: string;
           }
         | undefined;
     if (validationRules) {

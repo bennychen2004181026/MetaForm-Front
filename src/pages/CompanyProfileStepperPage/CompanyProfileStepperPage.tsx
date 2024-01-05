@@ -7,7 +7,7 @@ import MainLayout from '@/layouts/MainLayout';
 import CompanyProfileStepper from '@/pages/CompanyProfileStepperPage/components/';
 
 const CompanyProfileStepperPage: React.FC = () => {
-    const { userId } = useParams<{ userId: string | undefined }>();
+    const { userId } = useParams<{ userId?: string }>();
     return (
         <div>
             <Header />
