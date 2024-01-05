@@ -20,7 +20,7 @@ export const formCardsSlice = createSlice({
             const filter = state.allForms.filter((form) =>
                 form.title.toLowerCase().includes(action.payload.toLocaleLowerCase()),
             );
-            return { ...state, searchedForms: filter };
+            state.searchedForms = filter;
         },
     },
 });

@@ -73,7 +73,7 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
             };
         case 'CHANGE_QUESTION_TYPE':
             return {
-                ...state,
+                ...{ ...initState, questionId: state.questionId, title: state.title },
                 questionType: action.payload,
             };
         case 'SET_OPTIONS':

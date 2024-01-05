@@ -9,6 +9,10 @@ type Actions =
           payload: IQuestion;
       }
     | {
+          type: 'UPDATE_QUESTION';
+          payload: { questionIndex: number; question: IQuestion };
+      }
+    | {
           type: 'DELETE_QUESTION';
           payload: string;
       }
@@ -32,6 +36,9 @@ const formReducer = (state: IForm, action: Actions): IForm => {
                 ...state,
                 questions: [...state.questions, payload],
             };
+        case 'UPDATE_QUESTION':
+            state.questions[payload.questionIndex] = payload.question;
+            return state;
         case 'DELETE_QUESTION':
             return {
                 ...state,
