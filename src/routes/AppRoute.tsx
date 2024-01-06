@@ -21,22 +21,29 @@ const CreateEmployeePage = React.lazy(() => import('@/pages/CreateEmployeePage')
 const ProtectedRoute = React.lazy(() => import('@/components/ProtectedRoute'));
 const CompanyDashboardRoute = React.lazy(() => import('@/components/CompanyDashboardRoute'));
 const SuperAdminRoute = React.lazy(() => import('@/components/SuperAdminRoute'));
+const EmailVerificationPage = React.lazy(() => import('@/pages/EmailVerificationPage'));
 
 const AppRoute = () => (
     <Suspense fallback={<LoadingSpinner />}>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<MainPage />} />
                 <Route element={<PublicRoute />}>
+                    <Route path="/" element={<MainPage />} />
                     <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register-option" element={<RegisterOptionPage />} />
+                    <Route path="/register-email" element={<RegisterEmailPage />} />
+                    <Route path="/email-verification" element={<EmailVerificationPage />} />
+                    <Route
+                        path="/users/verification/:token"
+                        element={<EmailLinkVerificationPage />}
+                    />
                 </Route>
-                <Route path="/verification/:token" element={<EmailLinkVerificationPage />} />
                 <Route path="/create-user" element={<RegisterPage />} />
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
-                <Route path="/register-email" element={<RegisterEmailPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
-                <Route path="/registeroption" element={<RegisterOptionPage />} />
+                <Route path="/companyRegister" element={<CompanyRegisterPage />} />
+                <Route path="/register-option" element={<RegisterOptionPage />} />
                 <Route path="/forms" element={<FormListPage />} />
                 <Route
                     path="/companies/:companyId/invite-employees/:token"

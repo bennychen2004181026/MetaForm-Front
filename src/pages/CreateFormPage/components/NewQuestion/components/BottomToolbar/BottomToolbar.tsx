@@ -54,9 +54,10 @@ const BottomToolbar = () => {
         });
     };
     function updateCurrentQuestionInForm() {
-        const index = questions
-            .map((question) => question.questionId)
-            .indexOf(questionState.questionId);
+        const index = questions.findIndex(
+            (question) => question.questionId === questionState.questionId,
+        );
+
         const newQuestions = [
             ...questions.slice(0, index),
             questionState,
