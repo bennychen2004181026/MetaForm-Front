@@ -1,4 +1,4 @@
-import { IForm, IQuestion } from '@/interfaces/CreateForm.interface';
+import { IForm, IQuestion } from '@/interfaces/CreateForm';
 
 const initQuestionState: IQuestion = {
     questionType: '0',

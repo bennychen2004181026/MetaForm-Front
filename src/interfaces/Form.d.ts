@@ -1,4 +1,4 @@
-import { IQuestion } from './CreateForm.interface';
+import { IQuestion } from './CreateForm';
 
 export default interface IForm {
     formId: string;
