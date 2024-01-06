@@ -1,6 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { ILoginResponse, IUser } from '@/interfaces/User';
+import {
+    ILoginResponse,
+    IUser,
+    IVerifyEmailResponse,
+    IVerifyEmailTokenResponse,
+} from '@/interfaces/IUser';
 import axiosBaseQuery from '@/utils/axiosBaseQuery';
 
 const userApis = createApi({
@@ -12,6 +17,19 @@ const userApis = createApi({
                 url: '/login',
                 method: 'POST',
                 data: formData,
+            }),
+        }),
+        verifyEmail: builder.mutation<IVerifyEmailResponse, IUser>({
+            query: (formData: IUser) => ({
+                url: '/verify-email',
+                method: 'POST',
+                data: formData,
+            }),
+        }),
+        verifyEmailToken: builder.query<IVerifyEmailTokenResponse, string>({
+            query: (token: string) => ({
+                url: `/verification/${token}`,
+                method: 'GET',
             }),
         }),
     }),

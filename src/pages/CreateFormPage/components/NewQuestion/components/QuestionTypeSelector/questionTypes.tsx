@@ -8,7 +8,7 @@ import ShortAnswerIcon from '@mui/icons-material/NotesOutlined';
 import ChoiceIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import TimeIcon from '@mui/icons-material/TimerOutlined';
 
-import IOption from '@/interfaces/IOption';
+import { IOption } from '@/interfaces/CreateForm';
 import CheckboxesQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/CheckboxesQuestion';
 import DatePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/DatePickerQuestion';
 import FileUploadQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/FileUploadQuestion';
