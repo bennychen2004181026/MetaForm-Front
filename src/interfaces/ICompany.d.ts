@@ -9,3 +9,8 @@ export interface ICompany {
     employees?: string[];
     address?: string;
 }
+
+export interface IGetEmployeesResponse {
+    message: string;
+    employeesArray: Record<string, string | boolean | string[]>[];
+}
