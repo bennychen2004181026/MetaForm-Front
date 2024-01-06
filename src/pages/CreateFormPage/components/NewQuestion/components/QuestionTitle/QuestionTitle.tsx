@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import ImageContainer from '../ImageContainer';
 
-import { IImage } from '@/interfaces/CreateForm';
+import { IImage } from '@/interfaces/CreateForm.interface';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
 import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/TextEditor';

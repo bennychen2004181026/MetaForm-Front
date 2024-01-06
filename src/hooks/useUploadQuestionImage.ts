@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 
-import { IImage } from '@/interfaces/CreateForm';
+import { IImage } from '@/interfaces/CreateForm.interface';
 import uploadFileValidators, {
     questionImageValidators,
     validateFile,

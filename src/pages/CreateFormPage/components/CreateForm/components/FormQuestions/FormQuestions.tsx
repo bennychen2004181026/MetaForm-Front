@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import styled from 'styled-components';
 
-import { IQuestion } from '@/interfaces/CreateForm';
+import { IQuestion } from '@/interfaces/CreateForm.interface';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
 import NewQuestion from '@/pages/CreateFormPage/components/NewQuestion';
