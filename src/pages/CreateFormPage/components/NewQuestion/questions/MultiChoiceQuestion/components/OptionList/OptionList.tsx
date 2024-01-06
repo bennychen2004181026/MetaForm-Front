@@ -4,7 +4,7 @@ import { List } from '@mui/material';
 
 import Option from '../Option';
 
-import IOption from '@/interfaces/IOption';
+import { IOption } from '@/interfaces/CreateForm';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 const OptionList = ({ isCheckbox }: { isCheckbox: boolean }) => {

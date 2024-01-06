@@ -23,4 +23,11 @@ interface IForm {
     questions: IQuestion[];
     numberOfQuestions: number;
 }
-export type { IQuestionTitle, IForm, IImage, IQuestion };
+interface IOption {
+    id: string;
+    value: string;
+    icon?: React.ReactNode;
+    otherOption?: boolean;
+    image?: IImage;
+}
+export type { IOption, IQuestionTitle, IForm, IImage, IQuestion };

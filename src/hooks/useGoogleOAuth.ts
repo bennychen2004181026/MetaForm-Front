@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Role from '@/constants/roles';
 import { useAppDispatch } from '@/hooks/redux';
-import { IUser } from '@/interfaces/User';
+import { IUser } from '@/interfaces/IUser';
 import { setCredentials } from '@/store/slices/auth/authSlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
