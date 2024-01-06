@@ -9,10 +9,10 @@ import Title from '@/layouts/MainLayout/Title';
 import ImageBox from '@/pages/MainPage/components/ImageBox';
 import GlobalStyle from '@/styles/GlobalStyle';
 
-const LoginPage = () => {
+const MainPage = () => {
     const navigate = useNavigate();
     const handleSignUpButton = () => {
-        navigate('/registeroption');
+        navigate('/register-option');
     };
     return (
         <div>
@@ -26,4 +26,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default MainPage;

@@ -5,8 +5,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import googleIcon from '@/assets/images/google-icon-logo.png';
+import useGoogleOAuth from '@/hooks/useGoogleOAuth';
 import Title from '@/layouts/MainLayout/Title';
 import GlobalStyle from '@/styles/GlobalStyle';
+import { currentApiUrl } from '@/utils/axiosBaseQuery';
 
 const Content = styled.div`
     display: flex;
@@ -37,22 +39,22 @@ const GoogleIcon = styled.img`
 `;
 
 const RegisterOptionPage = () => {
+    const { handleGoogleLoginClick } = useGoogleOAuth(currentApiUrl);
     return (
         <Content>
             <GlobalStyle />
             <Title content="Create your account" />
-            <Link to="../registergoogle">
-                <RegisterButton
-                    startIcon={<GoogleIcon src={googleIcon} />}
-                    sx={{ color: 'black', backgroundColor: 'white' }}
-                >
-                    Sign up with Google
-                </RegisterButton>
-            </Link>
+            <RegisterButton
+                startIcon={<GoogleIcon src={googleIcon} />}
+                sx={{ color: 'black', backgroundColor: 'white' }}
+                onClick={handleGoogleLoginClick}
+            >
+                Sign up with Google
+            </RegisterButton>
             <Typography variant="subtitle1" padding="15px">
                 or
             </Typography>
-            <Link to="../registeremail">
+            <Link to="/register-email">
                 <RegisterButton
                     sx={{
                         color: 'white',
