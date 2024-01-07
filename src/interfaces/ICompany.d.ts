@@ -32,3 +32,13 @@ export interface IGetEmployeesResponse {
     message: string;
     employeesArray: IEmployeeInfo[] | [];
 }
+
+export interface IInviteEmployeesResponse {
+    message: string;
+    failedEmailAddresses?: string[];
+}
+
+export interface IInviteEmployeesRequest {
+    companyId: string;
+    emails: string[];
+}
