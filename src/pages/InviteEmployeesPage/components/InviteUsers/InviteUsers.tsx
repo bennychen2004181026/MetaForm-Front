@@ -51,7 +51,7 @@ const StyledTextArea = styled(TextareaAutosize)`
     margin: 8px 0;
     font-size: 16px;
     box-sizing: border-box;
-
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     &:focus {
         outline: 2px solid #3f51b5;
     }
