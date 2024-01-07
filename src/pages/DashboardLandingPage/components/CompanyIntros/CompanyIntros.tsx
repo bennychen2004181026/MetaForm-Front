@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 
 import { Badge, Business, BusinessCenter, Groups2 } from '@mui/icons-material/';
 import { List, ListItem, ListItemAvatar } from '@mui/material/';
+import { SerializedError } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import DefaultCompanyLogo from '@/assets/images/DefaultCompanyLogo.jpg';
 import ListIconAndTextItem from '@/components/ListIconAndTextItem/';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { ApiError } from '@/interfaces/ApiError';
 import { IEmployeeInfo } from '@/interfaces/ICompany';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import companyApis from '@/services/company';
@@ -49,11 +50,22 @@ const CompanyIntros: React.FC = () => {
 
     useEffect(() => {
         if (error) {
-            const apiError = error as ApiError;
-            const errorMessage =
-                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
-
-            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+            let message;
+            let statusCode;
+            if (error instanceof AxiosError) {
+                statusCode = error.response?.status;
+                message = error.response?.data?.message || error.message;
+            } else {
+                const serializedError = error as SerializedError;
+                message = serializedError.message;
+                statusCode = serializedError.code;
+            }
+            showSnackbar(
+                `statusCode: ${statusCode ?? 500}\nmessage: ${
+                    message ?? 'An unknown error occurred'
+                }`,
+                'error',
+            );
         }
     }, [error]);
 
