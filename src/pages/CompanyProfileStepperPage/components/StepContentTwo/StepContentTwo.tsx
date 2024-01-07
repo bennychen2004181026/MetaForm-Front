@@ -101,7 +101,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
             >
                 <UploadBoxContentRenderer
                     isLoading={isLoading}
-                    companyLogo={fieldsData.companyLogo || croppedPreviewUrl}
+                    companyLogo={croppedPreviewUrl || fieldsData.logo}
                     cropComponent={cropComponent}
                 />
             </DragDropBox>

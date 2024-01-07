@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { Badge, Business, BusinessCenter } from '@mui/icons-material/';
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material/';
+import { Badge, Business, BusinessCenter, Groups2 } from '@mui/icons-material/';
+import { List, ListItem, ListItemAvatar } from '@mui/material/';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import DefaultCompanyLogo from '@/assets/images/DefaultCompanyLogo.jpg';
+import ListIconAndTextItem from '@/components/ListIconAndTextItem/';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { ApiError } from '@/interfaces/ApiError';
 import { IEmployeeInfo } from '@/interfaces/ICompany';
@@ -33,25 +34,15 @@ const Logo = styled.img`
     width: 100px;
 `;
 
-const StyledListItemText = styled(ListItemText)`
-    & .MuiListItemText-primary {
-        color: #1045cc;
-    }
-
-    & .MuiListItemText-secondary {
-        color: #a69355;
-    }
-`;
-
 const CompanyIntros: React.FC = () => {
     const { companyId } = useParams<{ companyId: string }>();
     const showSnackbar = useSnackbarHelper();
     const dispatch = useAppDispatch();
-    const companyName: string = useAppSelector(myCompanyName);
-    const companyABN: string = useAppSelector(myCompanyABN);
-    const companyLogo: string = useAppSelector(myCompanyLogo);
-    const companyIndustry: string = useAppSelector(myCompanyIndustry);
-    const companyMembers: IEmployeeInfo = useAppSelector(myCompanyMembersInfo);
+    const companyName: string | null = useAppSelector(myCompanyName);
+    const companyABN: string | null = useAppSelector(myCompanyABN);
+    const companyLogo: string | null = useAppSelector(myCompanyLogo);
+    const companyIndustry: string | null = useAppSelector(myCompanyIndustry);
+    const companyMembers: IEmployeeInfo[] | [] = useAppSelector(myCompanyMembersInfo) || [];
 
     const { useGetEmployeesQuery } = companyApis;
     const { data, error, isLoading } = useGetEmployeesQuery(companyId as string);
@@ -71,6 +62,8 @@ const CompanyIntros: React.FC = () => {
         dispatch(setEmployeesInfos(employeesArray));
     }
 
+    const activeMembers = companyMembers.filter((user) => user.isActive === true);
+
     if (isLoading) {
         return <LoadingSpinner />;
     }
@@ -82,30 +75,26 @@ const CompanyIntros: React.FC = () => {
                     <Logo src={companyLogo || DefaultCompanyLogo} alt="Default Company Logo" />
                 </ListItemAvatar>
             </StyledListItem>
-            <StyledListItem>
-                <ListItemAvatar>
-                    <Avatar>
-                        <BusinessCenter />
-                    </Avatar>
-                </ListItemAvatar>
-                <StyledListItemText primary="Company Name" secondary={`${companyName || 'None'}`} />
-            </StyledListItem>
-            <StyledListItem>
-                <ListItemAvatar>
-                    <Avatar>
-                        <Badge />
-                    </Avatar>
-                </ListItemAvatar>
-                <StyledListItemText primary="ABN" secondary={`${companyIndustry || 'None'}`} />
-            </StyledListItem>
-            <StyledListItem>
-                <ListItemAvatar>
-                    <Avatar>
-                        <Business />
-                    </Avatar>
-                </ListItemAvatar>
-                <StyledListItemText primary="Industry" secondary={`${companyABN || 'None'}`} />
-            </StyledListItem>
+            <ListIconAndTextItem
+                icon={<BusinessCenter />}
+                primaryText="Company Name"
+                secondaryText={`${companyName ?? 'Fail to fetch company info'}`}
+            />
+            <ListIconAndTextItem
+                icon={<Badge />}
+                primaryText="ABN"
+                secondaryText={`${companyABN ?? 'Fail to fetch company info'}`}
+            />
+            <ListIconAndTextItem
+                icon={<Business />}
+                primaryText="Industry"
+                secondaryText={`${companyIndustry ?? 'Fail to fetch company info'}`}
+            />
+            <ListIconAndTextItem
+                icon={<Groups2 />}
+                primaryText="Active members"
+                secondaryText={`${activeMembers.length ?? 'Fail to fetch company member info'}`}
+            />
         </List>
     );
 };

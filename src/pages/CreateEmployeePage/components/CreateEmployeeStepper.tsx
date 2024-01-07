@@ -147,7 +147,7 @@ const CreateEmployeeStepper: React.FC = () => {
             companyName: '',
             industry: '',
             abn: '',
-            companyLogo: '',
+            logo: '',
         });
     };
 

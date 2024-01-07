@@ -26,11 +26,9 @@ const useUploadImage = ({ setIsLoading, onDataChange, userId }: UseUploadImagePr
     const [croppedPreviewUrl, setCroppedPreviewUrl] = useState<string | null>(null);
     const [isFileValid, setIsFileValid] = useState(true);
 
-    const [getS3PreSignedUrlQuery, { data: s3PreSignedUrlData }] =
-        userApis.useLazyGetS3PreSignedUrlQuery();
+    const [getS3PreSignedUrlQuery] = userApis.useLazyGetS3PreSignedUrlQuery();
     const [uploadToS3] = s3Apis.useUploadFileToS3Mutation();
-    const [getCloudFrontPreSignedUrlQuery, { data: cloudFrontData }] =
-        userApis.useLazyGetCloudFrontPreSignedUrlQuery();
+    const [getCloudFrontPreSignedUrlQuery] = userApis.useLazyGetCloudFrontPreSignedUrlQuery();
 
     const handleFileSelection = useCallback(
         async (file: File) => {
@@ -72,8 +70,6 @@ const useUploadImage = ({ setIsLoading, onDataChange, userId }: UseUploadImagePr
             getS3PreSignedUrlQuery,
             uploadToS3,
             getCloudFrontPreSignedUrlQuery,
-            s3PreSignedUrlData,
-            cloudFrontData,
         });
     }, [
         croppedImageBlob,
@@ -84,8 +80,6 @@ const useUploadImage = ({ setIsLoading, onDataChange, userId }: UseUploadImagePr
         getS3PreSignedUrlQuery,
         uploadToS3,
         getCloudFrontPreSignedUrlQuery,
-        s3PreSignedUrlData,
-        cloudFrontData,
     ]);
 
     const handleDragEnter = useCallback((event: React.DragEvent<HTMLDivElement>) => {
@@ -123,6 +117,7 @@ const useUploadImage = ({ setIsLoading, onDataChange, userId }: UseUploadImagePr
             const file = event.target.files ? event.target.files[0] : null;
             if (file) {
                 await handleFileSelection(file);
+                event.target.value = '';
             }
         },
         [handleFileSelection],
