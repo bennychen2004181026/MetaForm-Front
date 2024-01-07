@@ -18,7 +18,7 @@ const companyApis = createApi({
             ICompanyInterfaces.IInviteEmployeesRequest
         >({
             query: ({ companyId, emails }) => ({
-                url: `/${companyId}/add-employees`,
+                url: `/${companyId}/invite-employees`,
                 method: 'POST',
                 data: { emails },
             }),

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 const userInviteEmployees = () => {
     const [emails, setEmails] = useState<string[]>([]);
@@ -78,6 +78,10 @@ const userInviteEmployees = () => {
         setError('');
     }, []);
 
+    const isAllEmailsValid = useMemo(() => {
+        return emails.length > 0 && emails.every((email) => isValidEmail(email));
+    }, [emails, isValidEmail]);
+
     return {
         emails,
         setEmails,
@@ -91,6 +95,7 @@ const userInviteEmployees = () => {
         handleBlur,
         handleFocus,
         handleClearAll,
+        isAllEmailsValid,
     };
 };
 

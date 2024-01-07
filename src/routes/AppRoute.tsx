@@ -53,10 +53,6 @@ const AppRoute = () => (
                 />
                 <Route path="/create-form" element={<CreateFormPage />} />
                 <Route
-                    path="/companies/:companyId/Invite-employees"
-                    element={<InviteEmployeesPage />}
-                />
-                <Route
                     path="/companies/:companyId/users/:userId/update-company-profile"
                     element={<UpdateCompanyProfilePage />}
                 />
@@ -71,8 +67,10 @@ const AppRoute = () => (
                             path="/companies/:companyId/dashboard"
                             element={<DashboardLandingPage />}
                         />
-                        <Route path="/companies/:companyId/employees" />
-                        <Route path="/companies/:companyId/invite-employees" />
+                        <Route
+                            path="/companies/:companyId/invite-employees"
+                            element={<InviteEmployeesPage />}
+                        />
                         <Route element={<SuperAdminRoute />}>
                             <Route path="/companies/:companyId/users/:userId/update-company-profile" />
                         </Route>

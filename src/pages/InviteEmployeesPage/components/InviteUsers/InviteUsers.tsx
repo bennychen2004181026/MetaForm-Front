@@ -6,7 +6,14 @@ import { Alert, Box, Chip, IconButton, TextareaAutosize, Typography } from '@mui
 import styled from 'styled-components';
 
 import StartIconButton from '@/components/StartIconButton';
+import { useAppSelector } from '@/hooks/redux';
 import userInviteEmployees from '@/hooks/userInviteEmployees';
+import { ApiError } from '@/interfaces/ApiError';
+import { IInviteEmployeesResponse } from '@/interfaces/ICompany';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
+import companyApis from '@/services/company';
+import { myCompanyId } from '@/store/slices/company/companySlice';
+import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const StyledStartIconButtonBox = styled(Box)`
     margin: 100px 0;
@@ -59,6 +66,11 @@ const StyledValidEmailsBox = styled(Box)`
 `;
 
 const InviteUsers = () => {
+    const showSnackbar = useSnackbarHelper();
+    const companyId: string = useAppSelector(myCompanyId);
+    const { useInviteEmployeesMutation } = companyApis;
+    const [invite, { isLoading }] = useInviteEmployeesMutation();
+
     const {
         emails,
         emailInput,
@@ -69,8 +81,32 @@ const InviteUsers = () => {
         handleBlur,
         handleFocus,
         handleClearAll,
+        isAllEmailsValid,
     } = userInviteEmployees();
 
+    const handleSubmit = async (): Promise<void> => {
+        try {
+            const response: IInviteEmployeesResponse = await invite({ companyId, emails }).unwrap();
+            const { message, failedEmailAddresses } = response;
+
+            if (failedEmailAddresses && failedEmailAddresses.length > 0) {
+                const failedEmails = failedEmailAddresses.join(', ');
+                showSnackbar(`${message}\n Failed emails: ${failedEmails}`, 'success');
+            } else {
+                showSnackbar(`${message}`, 'success');
+            }
+        } catch (submitError) {
+            const apiError = submitError as ApiError;
+            const errorMessage =
+                apiError.data?.errors?.[0].message ?? apiError.data ?? 'An unknown error occurred';
+
+            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+        }
+    };
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
     return (
         <StyledInviteEmployeesBox>
             <Typography variant="h5" gutterBottom>
@@ -103,7 +139,13 @@ const InviteUsers = () => {
             </StyledValidEmailsBox>
 
             <StyledStartIconButtonBox>
-                <StartIconButton text="Send" startIcon={<EmailIcon />} variant="contained" />
+                <StartIconButton
+                    text="Send"
+                    startIcon={<EmailIcon />}
+                    variant="contained"
+                    onClick={handleSubmit}
+                    disabled={!isAllEmailsValid}
+                />
             </StyledStartIconButtonBox>
         </StyledInviteEmployeesBox>
     );
