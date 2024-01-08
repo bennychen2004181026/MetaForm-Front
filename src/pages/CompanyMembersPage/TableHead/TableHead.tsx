@@ -15,7 +15,7 @@ type Order = 'asc' | 'desc';
 interface ITableHeadProps {
     onRequestSort: (event: React.MouseEvent<unknown>, property: keyof IList) => void;
     order: Order;
-    orderBy: string;
+    orderBy: keyof IList;
     rowCount: number;
 }
 
@@ -52,6 +52,7 @@ const ListTableHead = (props: ITableHeadProps) => {
                         </TableSortLabel>
                     </TableCell>
                 ))}
+                <TableCell key="delete" />
             </TableRow>
         </TableHead>
     );

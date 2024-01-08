@@ -15,10 +15,10 @@ const memberTableColumns: IColumn[] = [
         label: 'Name',
     },
     {
-        id: 'lastActive',
+        id: 'status',
         numeric: false,
         disablePadding: false,
-        label: 'Last Active',
+        label: 'Status',
     },
     {
         id: 'role',

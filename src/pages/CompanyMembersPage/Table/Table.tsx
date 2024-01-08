@@ -77,6 +77,7 @@ const Table = (props: TableProps) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
     const visibleRows = useMemo(
         () =>
@@ -86,24 +87,19 @@ const Table = (props: TableProps) => {
             ),
         [order, orderBy, page, rowsPerPage],
     );
+
     const stringToColor = (string: string) => {
-        let hash = 0;
-        let i;
-
-        /* eslint-disable no-bitwise */
-        for (i = 0; i < string.length; i += 1) {
-            hash = string.charCodeAt(i) + ((hash << 5) - hash);
-        }
-
-        let color = '#';
-
-        for (i = 0; i < 3; i += 1) {
+        const hash = Array.from(string).reduce((acc, char) => {
+            // eslint-disable-next-line no-bitwise
+            return char.charCodeAt(0) + ((acc << 5) - acc);
+        }, 0);
+        const color = Array.from({ length: 3 }, (_, i) => {
+            // eslint-disable-next-line no-bitwise
             const value = (hash >> (i * 8)) & 0xff;
-            color += `00${value.toString(16)}`.slice(-2);
-        }
-        /* eslint-enable no-bitwise */
+            return `00${value.toString(16)}`.slice(-2);
+        }).join('');
 
-        return color;
+        return `#${color}`;
     };
 
     const stringAvatar = (name: string) => {
@@ -120,6 +116,7 @@ const Table = (props: TableProps) => {
         'Cannot manage org. members create workspaces.Can use brand brand kits, but not create.',
         'Can view workspaces and brand kits, but not create. Role exclusive for Enterprise customers.',
     ];
+
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -134,7 +131,7 @@ const Table = (props: TableProps) => {
                         <TableBody>
                             {visibleRows.map((row) => {
                                 return (
-                                    <TableRow hover key={row.id} sx={{ cursor: 'pointer' }}>
+                                    <TableRow hover key={row.id}>
                                         <TableCell key="name">
                                             <ListItem alignItems="flex-start">
                                                 <ListItemAvatar>
@@ -146,7 +143,7 @@ const Table = (props: TableProps) => {
                                                 />
                                             </ListItem>
                                         </TableCell>
-                                        <TableCell key="lastActive">{row.lastActive}</TableCell>
+                                        <TableCell key="status">{row.status}</TableCell>
                                         <TableCell key="role">
                                             <FormControl fullWidth>
                                                 <Select
@@ -155,12 +152,16 @@ const Table = (props: TableProps) => {
                                                     displayEmpty
                                                     renderValue={(p) => {
                                                         let result;
-                                                        if (p === 'admin') {
+                                                        if (row.status === 'Inactive') {
+                                                            result = 'N/A';
+                                                        } else if (p === 'admin') {
                                                             result = 'Admin';
                                                         } else if (p === 'editor') {
                                                             result = 'Editor';
-                                                        } else {
+                                                        } else if (p === 'viewer') {
                                                             result = 'Viewer';
+                                                        } else {
+                                                            result = 'N/A';
                                                         }
                                                         return result;
                                                     }}
@@ -197,6 +198,11 @@ const Table = (props: TableProps) => {
                                                                 whiteSpace: 'normal',
                                                             }}
                                                         />
+                                                    </MenuItem>
+                                                    <MenuItem value="action">
+                                                        {row.status === 'Active'
+                                                            ? 'Deactivate'
+                                                            : 'Activate'}
                                                     </MenuItem>
                                                 </Select>
                                             </FormControl>
