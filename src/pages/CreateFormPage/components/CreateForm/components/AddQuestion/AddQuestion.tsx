@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import styled from 'styled-components';
 
 import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
-import { initQuestionState } from '@/pages/CreateFormPage/components/CreateForm/InitForm';
+import { initQuestionState } from '@/pages/CreateFormPage/components/CreateForm/InitformState';
 
 const StyledAddQuestionButton = styled(Button)`
     width: 100%;
