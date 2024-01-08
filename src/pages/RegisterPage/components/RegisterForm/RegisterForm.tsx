@@ -1,18 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Box } from '@mui/system';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import StyledButton from '@/components/Button';
 import ReusableForm from '@/components/ReusableForm';
+import Role from '@/constants/roles';
+import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
+import { ApiError } from '@/interfaces/ApiError';
+import { ICreateUserResponse, IUser } from '@/interfaces/IUser';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
+import userApis from '@/services/Auth/user';
+import { setCredentials } from '@/store/slices/auth/authSlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const RegisterForm = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const showSnackbar = useSnackbarHelper();
+    const dispatch = useAppDispatch();
     // Former page delivers with email, username in the location.state
     const { email, username } = location.state || {};
+
+    useEffect(() => {
+        if (!email || !username) {
+            showSnackbar(`Missing necessary state, please re verify your email`, 'error');
+            navigate('/register-email');
+        }
+    }, [email, username]);
+
     const formFields: IField[] = [
         {
             id: 1,
@@ -84,15 +101,48 @@ const RegisterForm = () => {
         validateAllFields,
     } = useForm(formFields);
 
+    const { useCreateUserMutation } = userApis;
+    const [createUser, { isLoading }] = useCreateUserMutation();
+
+    const createUserFunction = async () => {
+        try {
+            const response: ICreateUserResponse = await createUser(fieldsData).unwrap();
+            const { message, user, token, isAccountComplete } = response;
+            const { email: responseEmail, role, company, _id, isActive } = user as IUser;
+            dispatch(
+                setCredentials({
+                    user: user as IUser,
+                    token,
+                    email: responseEmail ?? null,
+                    role: (role as Role) ?? null,
+                    company: company ?? null,
+                    userId: _id ?? null,
+                    isAccountComplete: isAccountComplete ?? false,
+                    isActive: isActive ?? false,
+                }),
+            );
+            showSnackbar(`${message}`, 'success');
+            navigate(`/company-profile/${_id}`);
+        } catch (error) {
+            const apiError = error as ApiError;
+            const errorMessage =
+                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
+
+            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+        }
+    };
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!validateAllFields()) {
             showSnackbar('Please fill all the required valid fields first', 'error');
         } else {
-            // Logic with handleSubmit
-            showSnackbar('You had successfully created account', 'success');
+            await createUserFunction();
         }
     };
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <Box

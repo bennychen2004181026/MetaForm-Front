@@ -14,6 +14,7 @@ import {
 import authReducer from './slices/auth/authSlice';
 import formCardsSlice from './slices/formCards/formCardsSlice';
 import userApis from '@/services/Auth/user';
+import s3Apis from '@/services/S3';
 import snackbarSlice from '@/store/slices/snackbar/snackbarSlice';
 import { setGetTokenMethod } from '@/utils/tokenHandler';
 
@@ -25,6 +26,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     [userApis.reducerPath]: userApis.reducer,
+    [s3Apis.reducerPath]: s3Apis.reducer,
     auth: authReducer,
     snackbar: snackbarSlice,
     formCards: formCardsSlice,
@@ -39,7 +41,9 @@ export const store = configureStore({
             serializableCheck: {
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
-        }).concat(userApis.middleware),
+        })
+            .concat(userApis.middleware)
+            .concat(s3Apis.middleware),
 });
 type IRootState = ReturnType<typeof store.getState>;
 setGetTokenMethod(() => store.getState().auth.token);

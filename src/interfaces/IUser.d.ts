@@ -38,3 +38,23 @@ export interface IVerifyEmailTokenResponse {
     email: string;
     username: string;
 }
+
+export interface ICreateUserResponse {
+    message: string;
+    user: IUser;
+    token: string;
+    isAccountComplete: boolean;
+}
+
+export interface IPasswordResponse {
+    message: string;
+}
+
+export interface IGetS3PreSignedUrlResponse {
+    url: string;
+    key: string;
+}
+
+export interface IGetCloudFrontPreSignedUrlResponse {
+    cloudFrontSignedUrl: string;
+}
