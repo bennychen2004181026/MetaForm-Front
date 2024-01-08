@@ -50,10 +50,11 @@ const EmailLinkVerificationMain: React.FC<EmailLinkVerificationMainProps> = ({ t
 
         return () => {
             if (timer !== undefined) {
-                clearInterval(timer); // 清除计时器
+                clearInterval(timer);
             }
         };
-    }, [data, stopCountdown, showSnackbar]);
+        // showSnackbar will re-appear because of the countdown, so remove
+    }, [data, setCountdown]);
 
     if (isLoading) {
         return (
