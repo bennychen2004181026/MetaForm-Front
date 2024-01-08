@@ -23,6 +23,16 @@ const companyApis = createApi({
                 data: { emails },
             }),
         }),
+        addEmployee: builder.mutation<
+            ICompanyInterfaces.IAddEmployeeResponse,
+            ICompanyInterfaces.IAddEmployeeRequest
+        >({
+            query: ({ companyId, formData }) => ({
+                url: `/${companyId}/add-employees`,
+                method: 'POST',
+                data: formData,
+            }),
+        }),
     }),
 });
 
