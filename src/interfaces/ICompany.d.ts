@@ -49,7 +49,7 @@ export interface IAddEmployeeResponse {
     message: string;
     companyJson: ICompany;
     userJson: IEmployeeInfo;
-    employeesInfo: IEmployeeInfo[];
+    loginToken: string;
 }
 
 export interface IAddEmployeeRequest {
