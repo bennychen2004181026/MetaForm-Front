@@ -33,6 +33,16 @@ const companyApis = createApi({
                 data: formData,
             }),
         }),
+        updateCompanyProfile: builder.mutation<
+            ICompanyInterfaces.IUpdateCompanyProfileResponse,
+            ICompanyInterfaces.IUpdateCompanyProfileRequest
+        >({
+            query: ({ companyId, formData }) => ({
+                url: `/${companyId}/update-company-profile`,
+                method: 'POST',
+                data: formData,
+            }),
+        }),
     }),
 });
 
