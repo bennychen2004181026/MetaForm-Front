@@ -58,6 +58,31 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 interface TableProps {
     rows: IList[];
 }
+
+interface ROption {
+    key: string;
+    value: string;
+    desc: string;
+}
+
+const roleOptions: ROption[] = [
+    {
+        key: 'admin',
+        value: 'Admin',
+        desc: 'Can manage org. members, edit settings and billing. can create workspaces and brand kits.',
+    },
+    {
+        key: 'editor',
+        value: 'Editor',
+        desc: 'Cannot manage org. members create workspaces.Can use brand brand kits, but not create.',
+    },
+    {
+        key: 'viewer',
+        value: 'Viewer',
+        desc: 'Can view workspaces and brand kits, but not create. Role exclusive for Enterprise customers.',
+    },
+];
+
 const Table = (props: TableProps) => {
     const { rows } = props;
     const [order, setOrder] = useState<Order>('asc');
@@ -111,12 +136,6 @@ const Table = (props: TableProps) => {
         };
     };
 
-    const options = [
-        'Can manage org. members, edit settings and billing. can create workspaces and brand kits.',
-        'Cannot manage org. members create workspaces.Can use brand brand kits, but not create.',
-        'Can view workspaces and brand kits, but not create. Role exclusive for Enterprise customers.',
-    ];
-
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
@@ -169,36 +188,21 @@ const Table = (props: TableProps) => {
                                                         width: '120px',
                                                     }}
                                                 >
-                                                    <MenuItem value="admin">
-                                                        <ListItemText
-                                                            primary="Admin"
-                                                            secondary={options[0]}
-                                                            sx={{
-                                                                width: '350px',
-                                                                whiteSpace: 'normal',
-                                                            }}
-                                                        />
-                                                    </MenuItem>
-                                                    <MenuItem value="editor">
-                                                        <ListItemText
-                                                            primary="Editor"
-                                                            secondary={options[1]}
-                                                            sx={{
-                                                                width: '350px',
-                                                                whiteSpace: 'normal',
-                                                            }}
-                                                        />
-                                                    </MenuItem>
-                                                    <MenuItem value="viewer">
-                                                        <ListItemText
-                                                            primary="Viewer"
-                                                            secondary={options[2]}
-                                                            sx={{
-                                                                width: '350px',
-                                                                whiteSpace: 'normal',
-                                                            }}
-                                                        />
-                                                    </MenuItem>
+                                                    {roleOptions.map((option) => (
+                                                        <MenuItem
+                                                            key={option.key}
+                                                            value={option.key}
+                                                        >
+                                                            <ListItemText
+                                                                primary={option.value}
+                                                                secondary={option.desc}
+                                                                sx={{
+                                                                    width: '350px',
+                                                                    whiteSpace: 'normal',
+                                                                }}
+                                                            />
+                                                        </MenuItem>
+                                                    ))}
                                                     <MenuItem value="action">
                                                         {row.status === 'Active'
                                                             ? 'Deactivate'
