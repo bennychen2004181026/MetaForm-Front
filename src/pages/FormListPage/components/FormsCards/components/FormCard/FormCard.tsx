@@ -32,8 +32,7 @@ const StyledHeader = styled(CardHeader)`
     min-height: 200px;
 `;
 const StyledCardContainer = styled(Box)`
-    max-width: 400px;
-    min-width: 300px;
+    width: 350px;
 `;
 const StyledTypographyForResponse = styled(Typography)`
     display: inline-block;
