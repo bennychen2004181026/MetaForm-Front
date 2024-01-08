@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
 
-import IForm from '@/interfaces/Form';
+import { IForm } from '@/interfaces/CreateForm';
 import { formTableColumns } from '@/pages/FormListPage/FormTableColumns';
 
 type Order = 'asc' | 'desc';

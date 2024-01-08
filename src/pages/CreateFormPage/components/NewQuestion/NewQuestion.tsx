@@ -14,10 +14,11 @@ const NewQuestion = () => {
         const index = form.questions.findIndex(
             (question) => question.questionId === currentQuestion.questionId,
         );
-
+        const newQuestions = [...form.questions];
+        newQuestions[index] = currentQuestion;
         dispatch({
             type: 'UPDATE_QUESTION',
-            payload: { questionIndex: index, question: currentQuestion },
+            payload: newQuestions,
         });
     }, [currentQuestion]);
     return (

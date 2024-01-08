@@ -12,7 +12,7 @@ import {
 } from 'redux-persist';
 
 import authReducer from './slices/auth/authSlice';
-import formCardsSlice from './slices/formCards/formCardsSlice';
+import formSlice from './slices/form/formSlice';
 import userApis from '@/services/Auth/user';
 import snackbarSlice from '@/store/slices/snackbar/snackbarSlice';
 import { setGetTokenMethod } from '@/utils/tokenHandler';
@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
     [userApis.reducerPath]: userApis.reducer,
     auth: authReducer,
     snackbar: snackbarSlice,
-    formCards: formCardsSlice,
+    forms: formSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -46,3 +46,4 @@ setGetTokenMethod(() => store.getState().auth.token);
 export const persistor = persistStore(store);
 export default { store, persistor };
 export type { IRootState };
+export type AppDispatch = typeof store.dispatch;

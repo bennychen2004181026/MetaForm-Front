@@ -20,7 +20,20 @@ interface IForm {
     formId: string;
     title: string;
     description: string;
+    expire: string;
+    createdBy: string;
+    createTime?: string;
+    validFrom: string;
+    numberOfResponses: number;
     questions: IQuestion[];
+}
+interface INewForm {
+    title: string;
+    description: string;
+    expire: string;
+    createdBy: string;
+    validFrom: string;
+    questions: string[];
 }
 interface IOption {
     id: string;
@@ -29,4 +42,4 @@ interface IOption {
     otherOption?: boolean;
     image?: IImage;
 }
-export type { IOption, IQuestionTitle, IForm, IImage, IQuestion };
+export type { IOption, INewForm, IQuestionTitle, IForm, IImage, IQuestion };

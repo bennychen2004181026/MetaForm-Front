@@ -1,4 +1,4 @@
-import IForm from '@/interfaces/Form';
+import { IForm } from '@/interfaces/CreateForm';
 
 const dummyFormsData: IForm[] = [
     {
@@ -6,8 +6,9 @@ const dummyFormsData: IForm[] = [
         title: 'Test Form by Monash university Web development',
         numberOfResponses: 12,
         createTime: '2021-03-25',
-        expireTime: '2022-03-25',
-        author: 'Yansong',
+        expire: '2022-03-25',
+        createdBy: 'Yansong',
+        validFrom: '2022-02-25',
         description:
             'This form is designed to conduct a survey on the employment of IT graduate in 2023',
         questions: [
@@ -34,8 +35,9 @@ const dummyFormsData: IForm[] = [
         title: 'Test Form by Monash university Yansong',
         numberOfResponses: 1,
         createTime: '2021-03-25',
-        expireTime: '2022-03-25',
-        author: 'Yansong',
+        expire: '2022-03-25',
+        createdBy: 'Yansong',
+        validFrom: '2022-02-25',
         description:
             'This form is designed to conduct a survey on the employment of IT graduate in 2023',
         questions: [
@@ -58,12 +60,13 @@ const dummyFormsData: IForm[] = [
         ],
     },
     {
-        formId: '3',
+        formId: '1',
         title: 'Test Form by Monash university Machine Learning',
         numberOfResponses: 34,
         createTime: '2021-03-25',
-        expireTime: '2022-03-25',
-        author: 'Yansong',
+        expire: '2022-03-25',
+        createdBy: 'Yansong',
+        validFrom: '2022-02-25',
         description:
             'This form is designed to conduct a survey on the employment of IT graduate in 2023',
         questions: [

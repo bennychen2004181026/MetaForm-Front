@@ -1,4 +1,4 @@
-import IForm from '@/interfaces/Form';
+import { IForm } from '@/interfaces/CreateForm';
 
 interface IColumn {
     id: keyof IForm;
@@ -13,7 +13,7 @@ const formTableColumns: IColumn[] = [
         label: 'Title',
     },
     {
-        id: 'author',
+        id: 'createdBy',
         numeric: false,
         label: 'Author',
     },

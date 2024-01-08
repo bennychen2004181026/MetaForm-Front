@@ -3,7 +3,7 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 
 import FormCard from './FormCard/FormCard';
-import IForm from '@/interfaces/Form';
+import { IForm } from '@/interfaces/CreateForm';
 
 const FormCards = ({ forms }: { forms: IForm[] }) => {
     return (
