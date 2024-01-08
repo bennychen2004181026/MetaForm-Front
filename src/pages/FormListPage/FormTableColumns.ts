@@ -23,7 +23,7 @@ const formTableColumns: IColumn[] = [
         label: 'Time Created',
     },
     {
-        id: 'numberOfResponses',
+        id: 'responses',
         numeric: true,
         label: 'Responses',
     },

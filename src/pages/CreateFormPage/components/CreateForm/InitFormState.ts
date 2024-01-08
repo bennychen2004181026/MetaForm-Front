@@ -4,7 +4,7 @@ const initQuestionState: IQuestion = {
     questionType: '0',
     questionId: '1',
     required: true,
-    title: { content: 'Question title' },
+    questionTitle: { content: 'Question title' },
     options: [],
     other: false,
 };
@@ -13,9 +13,7 @@ const initFormState: IForm = {
     title: 'Form Title',
     description: 'Form description',
     questions: [initQuestionState],
-    expire: '2032',
     createdBy: '1',
-    validFrom: '2021',
-    numberOfResponses: 0,
+    responses: [],
 };
 export { initQuestionState, initFormState };

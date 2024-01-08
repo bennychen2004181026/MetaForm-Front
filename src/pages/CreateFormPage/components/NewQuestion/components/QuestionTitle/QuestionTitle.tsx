@@ -32,7 +32,7 @@ const StyledQuestionTypeSelector = styled(QuestionTypeSelector)`
 `;
 const QuestionTitle = () => {
     const { state, dispatch } = useContext(NewQuestionContext);
-    const { title, questionType } = state;
+    const { questionTitle: title, questionType } = state;
     const [open, setOpen] = React.useState(false);
     const onTitleChange = (newTitle: string) => {
         dispatch({

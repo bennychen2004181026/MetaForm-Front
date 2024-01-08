@@ -1,12 +1,19 @@
 import IOption from '@/interfaces/IOption';
 
+enum FileTypes {
+    IMAGE = 'Image',
+    PDF = 'PDF',
+}
+
 interface IQuestion {
     questionId: string;
     required: boolean;
     questionType: string;
-    title: IQuestionTitle;
+    questionTitle: IQuestionTitle;
     options: IOption[];
     other: boolean;
+    acceptFileTypes?: FileTypes;
+    numOfFiles?: 1 | 2 | 3;
 }
 interface IQuestionTitle {
     content: string;
@@ -20,23 +27,20 @@ interface IForm {
     formId: string;
     title: string;
     description: string;
-    expire: string;
     createdBy: string;
     createTime?: string;
-    validFrom: string;
-    numberOfResponses: number;
+    responses?: string[];
     questions: IQuestion[];
 }
 interface INewForm {
     title: string;
     description: string;
-    expire: string;
     createdBy: string;
-    validFrom: string;
     questions: string[];
 }
+
 interface IOption {
-    id: string;
+    id: string | undefined;
     value: string;
     icon?: React.ReactNode;
     otherOption?: boolean;

@@ -63,16 +63,20 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
         case 'SAVE_TITLE':
             return {
                 ...state,
-                title: { ...state.title, content: action.payload },
+                questionTitle: { ...state.questionTitle, content: action.payload },
             };
         case 'INSERT_TITLE_IMAGE':
             return {
                 ...state,
-                title: { ...state.title, image: action.payload },
+                questionTitle: { ...state.questionTitle, image: action.payload },
             };
         case 'CHANGE_QUESTION_TYPE':
             return {
-                ...{ ...initState, questionId: state.questionId, title: state.title },
+                ...{
+                    ...initState,
+                    questionId: state.questionId,
+                    questionTitle: state.questionTitle,
+                },
                 questionType: action.payload,
             };
         case 'SET_OPTIONS':
