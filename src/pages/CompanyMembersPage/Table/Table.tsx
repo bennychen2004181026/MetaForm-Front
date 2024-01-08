@@ -37,21 +37,22 @@ function getComparator<Key extends keyof never>(
     order: Order,
     orderBy: Key,
 ): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
+    return (a, b) => {
+        const compResult = descendingComparator(a, b, orderBy);
+        return order === 'desc' ? compResult : -compResult;
+    };
 }
 
 function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-    const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-    stabilizedThis.sort((a, b) => {
+    const indexedArray: [T, number][] = array.map((el, index) => [el, index]);
+    indexedArray.sort((a, b) => {
         const order = comparator(a[0], b[0]);
         if (order !== 0) {
             return order;
         }
         return a[1] - b[1];
     });
-    return stabilizedThis.map((el) => el[0]);
+    return indexedArray.map((el) => el[0]);
 }
 
 interface TableProps {
@@ -78,7 +79,6 @@ const Table = (props: TableProps) => {
         setPage(0);
     };
 
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
     const visibleRows = useMemo(
         () =>
             stableSort(rows, getComparator(order, orderBy)).slice(
@@ -210,15 +210,6 @@ const Table = (props: TableProps) => {
                                     </TableRow>
                                 );
                             })}
-                            {emptyRows > 0 && (
-                                <TableRow
-                                    style={{
-                                        height: 53 * emptyRows,
-                                    }}
-                                >
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
                         </TableBody>
                     </MUITable>
                 </TableContainer>
