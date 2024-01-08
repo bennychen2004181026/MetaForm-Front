@@ -39,7 +39,7 @@ const companyApis = createApi({
         >({
             query: ({ companyId, formData }) => ({
                 url: `/${companyId}/update-company-profile`,
-                method: 'POST',
+                method: 'PATCH',
                 data: formData,
             }),
         }),

@@ -4,6 +4,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CropFreeIcon from '@mui/icons-material/CropFree';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import CropComponent from '@/components/CropComponent';
@@ -12,10 +13,15 @@ import ReusableForm from '@/components/ReusableForm';
 import StartIconButton from '@/components/StartIconButton';
 import UploadBoxContentRenderer from '@/components/UploadBoxContentRenderer';
 import industries from '@/constants/industryOptions';
-import { useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
 import useUploadImage from '@/hooks/useUploadImage';
+import { ApiError } from '@/interfaces/ApiError';
+import { IUpdateCompanyProfileRequest, IUpdateCompanyProfileResponse } from '@/interfaces/ICompany';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
+import companyApis from '@/services/company';
 import { authUserId } from '@/store/slices/auth/authSlice';
+import { myCompanyId, setCompanyInfo } from '@/store/slices/company/companySlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const CompanyInfosBox = styled(Box)`
@@ -61,6 +67,11 @@ const UpdateCompanyProfileForm = () => {
     const showSnackbar = useSnackbarHelper();
     const [isLoading, setIsLoading] = useState(false);
     const fetchedUserId: string | null = useAppSelector(authUserId);
+    const companyId: string = useAppSelector(myCompanyId);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { useUpdateCompanyProfileMutation } = companyApis;
+    const [updateCompany, { isLoading: isUpdateLoading }] = useUpdateCompanyProfileMutation();
 
     const industryArray = industries.map((industry) => industry.name);
     const fields: IField[] = [
@@ -132,12 +143,54 @@ const UpdateCompanyProfileForm = () => {
         userId: fetchedUserId,
     });
 
+    const updateCompanyFunction = async () => {
+        try {
+            const response: IUpdateCompanyProfileResponse = await updateCompany({
+                companyId,
+                formData: fieldsData,
+            } as IUpdateCompanyProfileRequest).unwrap();
+            const { message, companyJson } = response;
+            const {
+                _id,
+                companyName,
+                abn,
+                logo,
+                description,
+                industry,
+                isActive,
+                employees,
+                address,
+            } = companyJson;
+            dispatch(
+                setCompanyInfo({
+                    companyId: _id ?? null,
+                    companyName: companyName ?? null,
+                    abn: abn ?? null,
+                    logo: logo ?? null,
+                    description: description ?? null,
+                    industry: industry ?? null,
+                    isActive: isActive ?? false,
+                    employeesIds: Array.isArray(employees) && employees.length > 0 ? employees : [],
+                    address: address ?? null,
+                }),
+            );
+            showSnackbar(`${message}`, 'success');
+            navigate(`/companies/${_id}/dashboard`);
+        } catch (error) {
+            const apiError = error as ApiError;
+            const errorMessage =
+                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
+
+            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+        }
+    };
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!validateAllFields()) {
             showSnackbar('Please fill all the required valid fields first', 'error');
         } else {
-            showSnackbar('submit logic', 'info');
+            await updateCompanyFunction();
         }
     };
 
@@ -154,6 +207,11 @@ const UpdateCompanyProfileForm = () => {
             />
         );
     }
+
+    if (isUpdateLoading) {
+        return <LoadingSpinner />;
+    }
+
     const submitButtonText = 'Update Profile';
     return (
         <CompanyInfosBox>
