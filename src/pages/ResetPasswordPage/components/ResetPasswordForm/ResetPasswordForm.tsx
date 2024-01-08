@@ -77,6 +77,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token }) => {
             const response: IPasswordResponse = await resetPassword(fieldsData).unwrap();
             const { message } = response;
             showSnackbar(`${message}`, 'success');
+            navigate('/login');
         } catch (error) {
             const apiError = error as ApiError;
             const errorMessage =

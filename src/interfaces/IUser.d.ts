@@ -49,3 +49,12 @@ export interface ICreateUserResponse {
 export interface IPasswordResponse {
     message: string;
 }
+
+export interface IGetS3PreSignedUrlResponse {
+    url: string;
+    key: string;
+}
+
+export interface IGetCloudFrontPreSignedUrlResponse {
+    cloudFrontSignedUrl: string;
+}
