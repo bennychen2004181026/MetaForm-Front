@@ -77,6 +77,7 @@ const companySlice = createSlice({
     },
 });
 
+export const myCompanyId = (state: RootState) => state.company.companyId;
 export const myCompanyName = (state: RootState) => state.company.companyName;
 export const myCompanyABN = (state: RootState) => state.company.abn;
 export const myCompanyLogo = (state: RootState) => state.company.logo;
