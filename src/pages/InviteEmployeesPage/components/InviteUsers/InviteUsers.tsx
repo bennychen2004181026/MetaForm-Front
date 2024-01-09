@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
 import EmailIcon from '@mui/icons-material/Email';
 import { Alert, Box, Chip, IconButton, TextareaAutosize, Typography } from '@mui/material/';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import StartIconButton from '@/components/StartIconButton';
-import { useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import userInviteEmployees from '@/hooks/userInviteEmployees';
 import { ApiError } from '@/interfaces/ApiError';
 import { IInviteEmployeesResponse } from '@/interfaces/ICompany';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import companyApis from '@/services/company';
+import * as authSliceExports from '@/store/slices/auth/authSlice';
 import { myCompanyId } from '@/store/slices/company/companySlice';
+import * as companySliceExports from '@/store/slices/company/companySlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const StyledStartIconButtonBox = styled(Box)`
@@ -67,9 +70,20 @@ const StyledValidEmailsBox = styled(Box)`
 
 const InviteUsers = () => {
     const showSnackbar = useSnackbarHelper();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const companyId: string = useAppSelector(myCompanyId);
     const { useInviteEmployeesMutation } = companyApis;
     const [invite, { isLoading }] = useInviteEmployeesMutation();
+
+    useEffect(() => {
+        if (!companyId) {
+            showSnackbar(`Miss company info and you need to re-login`, 'error');
+            dispatch(companySliceExports.clearCompanyInfo());
+            dispatch(authSliceExports.clearCredentials());
+            navigate('/login');
+        }
+    }, [companyId]);
 
     const {
         emails,

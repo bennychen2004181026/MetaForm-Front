@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Badge, Business, BusinessCenter, Groups2 } from '@mui/icons-material/';
 import { List, ListItem, ListItemAvatar } from '@mui/material/';
 import { SerializedError } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import DefaultCompanyLogo from '@/assets/images/DefaultCompanyLogo.jpg';
@@ -13,14 +13,8 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { IEmployeeInfo } from '@/interfaces/ICompany';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import companyApis from '@/services/company';
-import {
-    myCompanyABN,
-    myCompanyIndustry,
-    myCompanyLogo,
-    myCompanyMembersInfo,
-    myCompanyName,
-    setEmployeesInfos,
-} from '@/store/slices/company/companySlice';
+import * as authSliceExports from '@/store/slices/auth/authSlice';
+import * as companySliceExports from '@/store/slices/company/companySlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const StyledListItem = styled(ListItem)`
@@ -36,19 +30,39 @@ const Logo = styled.img`
 `;
 
 const CompanyIntros: React.FC = () => {
-    const { companyId } = useParams<{ companyId: string }>();
     const showSnackbar = useSnackbarHelper();
     const dispatch = useAppDispatch();
-    const companyName: string | null = useAppSelector(myCompanyName);
-    const companyABN: string | null = useAppSelector(myCompanyABN);
-    const companyLogo: string | null = useAppSelector(myCompanyLogo);
-    const companyIndustry: string | null = useAppSelector(myCompanyIndustry);
-    const companyMembers: IEmployeeInfo[] | [] = useAppSelector(myCompanyMembersInfo) || [];
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const companyId: string | null = useAppSelector(companySliceExports.myCompanyId);
+    const companyName: string | null = useAppSelector(companySliceExports.myCompanyName);
+    const companyABN: string | null = useAppSelector(companySliceExports.myCompanyABN);
+    const companyLogo: string | null = useAppSelector(companySliceExports.myCompanyLogo);
+    const companyIndustry: string | null = useAppSelector(companySliceExports.myCompanyIndustry);
+    const companyMembers: IEmployeeInfo[] | [] =
+        useAppSelector(companySliceExports.myCompanyMembersInfo) || [];
 
     const { useGetEmployeesQuery } = companyApis;
-    const { data, error, isLoading } = useGetEmployeesQuery(companyId as string);
+    const shouldFetch =
+        companyId && companyName && companyABN && companyLogo && companyIndustry && companyMembers;
+    const {
+        data,
+        error,
+        isLoading: isQueryLoading,
+    } = useGetEmployeesQuery(companyId as string, {
+        skip: !shouldFetch,
+    });
 
     useEffect(() => {
+        if (!shouldFetch) {
+            showSnackbar(`Miss company info and you need to re-login`, 'error');
+            dispatch(companySliceExports.clearCompanyInfo());
+            dispatch(authSliceExports.clearCredentials());
+            navigate('/login');
+            return;
+        }
+
+        setIsLoading(isQueryLoading);
         if (error) {
             let message;
             let statusCode;
@@ -67,11 +81,11 @@ const CompanyIntros: React.FC = () => {
                 'error',
             );
         }
-    }, [error]);
+    }, [shouldFetch, error]);
 
     if (data) {
         const { employeesArray } = data;
-        dispatch(setEmployeesInfos(employeesArray));
+        dispatch(companySliceExports.setEmployeesInfos(employeesArray));
     }
 
     const activeMembers = companyMembers.filter((user) => user.isActive === true);

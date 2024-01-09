@@ -77,6 +77,7 @@ const companySlice = createSlice({
     },
 });
 
+export const myCompanyId = (state: RootState) => state.company.companyId;
 export const myCompanyName = (state: RootState) => state.company.companyName;
 export const myCompanyABN = (state: RootState) => state.company.abn;
 export const myCompanyLogo = (state: RootState) => state.company.logo;
@@ -85,6 +86,5 @@ export const myCompanyIndustry = (state: RootState) => state.company.industry;
 export const myCompanyEmployeeIds = (state: RootState) => state.company.employeesIds;
 export const myCompanyAddress = (state: RootState) => state.company.address;
 export const myCompanyMembersInfo = (state: RootState) => state.company.employeesInfo;
-export const myCompanyId = (state: RootState) => state.company.companyId;
 export const { setCompanyInfo, clearCompanyInfo, setEmployeesInfos } = companySlice.actions;
 export default companySlice.reducer;
