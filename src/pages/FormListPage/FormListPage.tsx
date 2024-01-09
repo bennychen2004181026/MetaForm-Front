@@ -10,8 +10,8 @@ import Table from './components/Table';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import DisplayModeToggle from '@/pages/FormListPage/components/DisplayModeToggle';
 import {
+    FormStatus,
     fetchForms,
-    formStatus,
     getFilteredForms,
     getFormsError,
     getFormsStatus,
@@ -51,10 +51,10 @@ const FormList = () => {
     useEffect(() => {
         dispatch(fetchForms());
     }, []);
-    if (formsStatus === formStatus.LOADING) {
+    if (formsStatus === FormStatus.LOADING) {
         return <LoadingSpinner />;
     }
-    if (formsStatus === formStatus.FAILED) {
+    if (formsStatus === FormStatus.FAILED) {
         const showSnackbar = useSnackbarHelper();
         showSnackbar(`message: ${error}`, 'error');
     }
