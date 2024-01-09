@@ -30,6 +30,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     snackbar: snackbarSlice,
     forms: formSlice.reducer,
+    formResponses: formSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

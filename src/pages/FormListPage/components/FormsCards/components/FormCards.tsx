@@ -9,7 +9,7 @@ const FormCards = ({ forms }: { forms: IForm[] }) => {
     return (
         <Grid container spacing={4} justifyContent="center">
             {forms.map(({ formId, title, responses }) => (
-                <Grid item key={formId}>
+                <Grid item xs={12} md={6} lg={4} key={formId}>
                     <FormCard formTitle={title} responses={responses!} />
                 </Grid>
             ))}
