@@ -17,9 +17,11 @@ enum FormStatus {
 }
 interface IFormState {
     searchedForms: IForm[];
-    status: FormStatus;
+    fetchFormStatus: FormStatus;
     error?: string;
     newForm?: IForm;
+    createFormStatus: FormStatus;
+    createFormError?: string;
 }
 const addNewForm = createAsyncThunk('forms/createNewForm', async (newForm: IForm) => {
     const { questions: formQuestions } = newForm;
@@ -52,7 +54,8 @@ const fetchForms = createAsyncThunk('forms/fetchForms', async () => {
 
 const initialState: IFormState = {
     searchedForms: [],
-    status: FormStatus.IDLE,
+    fetchFormStatus: FormStatus.IDLE,
+    createFormStatus: FormStatus.IDLE,
 };
 
 export const formSlice = createSlice({
@@ -69,30 +72,30 @@ export const formSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(fetchForms.pending, (state) => {
-                state.status = FormStatus.LOADING;
+                state.fetchFormStatus = FormStatus.LOADING;
             })
             .addCase(fetchForms.fulfilled, (state, action) => {
-                state.status = FormStatus.SUCCESS;
+                state.fetchFormStatus = FormStatus.SUCCESS;
                 state.searchedForms = action.payload;
             })
             .addCase(fetchForms.rejected, (state, action) => {
-                state.status = FormStatus.FAILED;
+                state.fetchFormStatus = FormStatus.FAILED;
                 state.error = action.error.message;
             })
             .addCase(addNewForm.pending, (state) => {
-                state.status = FormStatus.LOADING;
+                state.createFormStatus = FormStatus.LOADING;
             })
             .addCase(addNewForm.fulfilled, (state) => {
-                state.status = FormStatus.SUCCESS;
+                state.createFormStatus = FormStatus.SUCCESS;
             })
             .addCase(addNewForm.rejected, (state, action) => {
-                state.status = FormStatus.FAILED;
-                state.error = action.error.message;
+                state.createFormStatus = FormStatus.FAILED;
+                state.createFormError = action.error.message;
             });
     },
 });
 const getFilteredForms = (state: IRootState) => state.forms.searchedForms;
-const getFormsStatus = (state: IRootState) => state.forms.status;
+const getFormsStatus = (state: IRootState) => state.forms.fetchFormStatus;
 const getFormsError = (state: IRootState) => state.forms.error;
 
 export const { searchProductsByTitle } = formSlice.actions;

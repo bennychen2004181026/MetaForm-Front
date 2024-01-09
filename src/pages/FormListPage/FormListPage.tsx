@@ -58,7 +58,6 @@ const FormList = () => {
         const showSnackbar = useSnackbarHelper();
         showSnackbar(`message: ${error}`, 'error');
     }
-
     const handleSearchBarChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
