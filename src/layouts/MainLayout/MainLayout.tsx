@@ -3,8 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-    padding: 160px 0;
-    margin: 0 auto;
+    padding: 20px;
+    margin: 80px auto;
     max-width: 1200px;
     width: 100%;
     min-height: 100%;
