@@ -38,11 +38,10 @@ const AppRoute = () => (
                         path="/users/verification/:token"
                         element={<EmailLinkVerificationPage />}
                     />
+                    <Route path="/create-user" element={<RegisterPage />} />
+                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                    <Route path="/users/resetPassword/:token" element={<ResetPasswordPage />} />
                 </Route>
-                <Route path="/create-user" element={<RegisterPage />} />
-                <Route path="/companyRegister" element={<CompanyRegisterPage />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/register-option" element={<RegisterOptionPage />} />
                 <Route path="/forms" element={<FormListPage />} />

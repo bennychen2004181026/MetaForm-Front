@@ -13,15 +13,17 @@ const PublicRoute = () => {
     const fetchAccountStatus: boolean = useAppSelector(accountStatus);
     const fetchUserId: string = useAppSelector(authUserId);
     const location = useLocation();
+    const noSnackbarPaths = ['/login', '/create-user'];
 
     useEffect(() => {
-        if (fetchedUser !== null) {
+        // exclude the snackbar displaying when these login paths
+        if (fetchedUser !== null && !noSnackbarPaths.includes(location.pathname)) {
             const message = !fetchAccountStatus
                 ? 'You are already logged in, but need to complete your account first'
                 : 'You are already logged in.';
             showSnackbar(message, 'warning');
         }
-    }, [fetchedUser, fetchAccountStatus, showSnackbar]);
+    }, [fetchedUser, fetchAccountStatus]);
 
     if (fetchedUser) {
         const path = fetchAccountStatus ? '/user-dashboard' : `/company-profile/${fetchUserId}`;
