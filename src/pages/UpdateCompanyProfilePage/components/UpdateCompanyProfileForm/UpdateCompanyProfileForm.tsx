@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CropFreeIcon from '@mui/icons-material/CropFree';
@@ -21,7 +21,8 @@ import { IUpdateCompanyProfileRequest, IUpdateCompanyProfileResponse } from '@/i
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import companyApis from '@/services/company';
 import { authUserId } from '@/store/slices/auth/authSlice';
-import { myCompanyId, setCompanyInfo } from '@/store/slices/company/companySlice';
+import * as authSliceExports from '@/store/slices/auth/authSlice';
+import * as companySliceExports from '@/store/slices/company/companySlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const CompanyInfosBox = styled(Box)`
@@ -67,13 +68,23 @@ const UpdateCompanyProfileForm = () => {
     const showSnackbar = useSnackbarHelper();
     const [isLoading, setIsLoading] = useState(false);
     const fetchedUserId: string | null = useAppSelector(authUserId);
-    const companyId: string = useAppSelector(myCompanyId);
+    const companyId: string = useAppSelector(companySliceExports.myCompanyId);
+
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { useUpdateCompanyProfileMutation } = companyApis;
     const [updateCompany, { isLoading: isUpdateLoading }] = useUpdateCompanyProfileMutation();
-
     const industryArray = industries.map((industry) => industry.name);
+
+    useEffect(() => {
+        if (!companyId || !fetchedUserId) {
+            showSnackbar('Require companyId or userId and you need to re-login', 'warning');
+            dispatch(companySliceExports.clearCompanyInfo());
+            dispatch(authSliceExports.clearCredentials());
+            navigate('/login');
+        }
+    }, [fetchedUserId, companyId, navigate, showSnackbar]);
+
     const fields: IField[] = [
         {
             id: 1,
@@ -149,33 +160,43 @@ const UpdateCompanyProfileForm = () => {
                 companyId,
                 formData: fieldsData,
             } as IUpdateCompanyProfileRequest).unwrap();
+
             const { message, companyJson } = response;
-            const {
-                _id,
-                companyName,
-                abn,
-                logo,
-                description,
-                industry,
-                isActive,
-                employees,
-                address,
-            } = companyJson;
-            dispatch(
-                setCompanyInfo({
-                    companyId: _id ?? null,
-                    companyName: companyName ?? null,
-                    abn: abn ?? null,
-                    logo: logo ?? null,
-                    description: description ?? null,
-                    industry: industry ?? null,
-                    isActive: isActive ?? false,
-                    employeesIds: Array.isArray(employees) && employees.length > 0 ? employees : [],
-                    address: address ?? null,
-                }),
-            );
-            showSnackbar(`${message}`, 'success');
-            navigate(`/companies/${_id}/dashboard`);
+
+            if (companyJson) {
+                const {
+                    _id,
+                    companyName,
+                    abn,
+                    logo,
+                    description,
+                    industry,
+                    isActive,
+                    employees,
+                    address,
+                } = companyJson;
+
+                dispatch(
+                    companySliceExports.setCompanyInfo({
+                        companyId: _id ?? null,
+                        companyName: companyName ?? null,
+                        abn: abn ?? null,
+                        logo: logo ?? null,
+                        description: description ?? null,
+                        industry: industry ?? null,
+                        isActive: isActive ?? false,
+                        employeesIds:
+                            Array.isArray(employees) && employees.length > 0 ? employees : [],
+                        address: address ?? null,
+                    }),
+                );
+
+                dispatch(authSliceExports.setCompanyInfoInUser({ companyInfo: companyJson }));
+                showSnackbar(`${message}`, 'success');
+                navigate(`/companies/${_id}/dashboard`);
+            } else {
+                showSnackbar(`${message}`, 'success');
+            }
         } catch (error) {
             const apiError = error as ApiError;
             const errorMessage =
