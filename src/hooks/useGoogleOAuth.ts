@@ -7,6 +7,7 @@ import { useAppDispatch } from '@/hooks/redux';
 import { ICompany } from '@/interfaces/ICompany';
 import { IUser } from '@/interfaces/IUser';
 import { setCredentials } from '@/store/slices/auth/authSlice';
+import { setCompanyInfo } from '@/store/slices/company/companySlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const useGoogleOAuth = (currentApiUrl?: string) => {
@@ -46,6 +47,35 @@ const useGoogleOAuth = (currentApiUrl?: string) => {
                     isActive: isActive ?? false,
                 }),
             );
+
+            if (companyInfo) {
+                const {
+                    _id: companyId,
+                    companyName,
+                    abn,
+                    logo,
+                    description,
+                    industry,
+                    isActive: isCompanyActive,
+                    address,
+                    employees,
+                } = companyInfo as ICompany;
+
+                dispatch(
+                    setCompanyInfo({
+                        companyId: companyId ?? null,
+                        companyName: companyName ?? null,
+                        abn: abn ?? null,
+                        logo: logo ?? null,
+                        description: description ?? null,
+                        industry: industry ?? null,
+                        isActive: isCompanyActive ?? false,
+                        employeesIds:
+                            Array.isArray(employees) && employees.length > 0 ? employees : [],
+                        address: address ?? null,
+                    }),
+                );
+            }
             showSnackbar(`${message}`, 'success');
             googleOAuthTimeout.current = setTimeout(() => {
                 if (isAccountComplete) {
