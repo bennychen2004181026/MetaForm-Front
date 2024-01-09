@@ -8,6 +8,7 @@ import CreateFormPage from '@/pages/CreateFormPage/CreateFormPage';
 import FormListPage from '@/pages/FormListPage';
 import LoginPage from '@/pages/LoginPage';
 import MainPage from '@/pages/MainPage';
+import NewResponsePage from '@/pages/NewResponsePage';
 import RegisterEmailPage from '@/pages/RegisterEmailPage';
 import RegisterOptionPage from '@/pages/RegisterOptionPage';
 
@@ -41,6 +42,8 @@ const AppRoute = () => (
                     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                     <Route path="/users/resetPassword/:token" element={<ResetPasswordPage />} />
                 </Route>
+                <Route path="/newResponse" element={<NewResponsePage />} />
+
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/register-option" element={<RegisterOptionPage />} />
                 <Route path="/forms" element={<FormListPage />} />
