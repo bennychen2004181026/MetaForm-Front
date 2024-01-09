@@ -13,7 +13,6 @@ import Role from '@/constants/roles';
 import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
 import useGoogleOAuth from '@/hooks/useGoogleOAuth';
-import { ApiError } from '@/interfaces/ApiError';
 import { ICompany } from '@/interfaces/ICompany';
 import { ILoginResponse, IUser } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
@@ -22,6 +21,7 @@ import userApis from '@/services/Auth/user';
 import { setCredentials } from '@/store/slices/auth/authSlice';
 import { setCompanyInfo } from '@/store/slices/company/companySlice';
 import GlobalStyle from '@/styles/GlobalStyle';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import { currentApiUrl } from '@/utils/axiosBaseQuery';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
@@ -151,11 +151,7 @@ const Login = () => {
                 navigate(`/company-profile/${userId}`);
             }
         } catch (error) {
-            const apiError = error as ApiError;
-            const errorMessage =
-                apiError.data?.errors?.[0].message ?? apiError.data ?? 'An unknown error occurred';
-
-            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+            ApiErrorHelper(error, showSnackbar);
         }
     };
 

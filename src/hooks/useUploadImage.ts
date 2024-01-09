@@ -2,8 +2,10 @@ import { useCallback, useRef, useState } from 'react';
 
 import { PixelCrop } from 'react-image-crop';
 
+import useHandleInvalidToken from '@/hooks/useHandleInvalidToken';
 import userApis from '@/services/Auth/user';
 import s3Apis from '@/services/S3';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import uploadFileToS3 from '@/utils/uploadFileToS3';
 import uploadFileValidators from '@/utils/uploadFileValidators';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
@@ -29,6 +31,7 @@ const useUploadImage = ({ setIsLoading, onDataChange, userId }: UseUploadImagePr
     const [getS3PreSignedUrlQuery] = userApis.useLazyGetS3PreSignedUrlQuery();
     const [uploadToS3] = s3Apis.useUploadFileToS3Mutation();
     const [getCloudFrontPreSignedUrlQuery] = userApis.useLazyGetCloudFrontPreSignedUrlQuery();
+    const handleInvalidToken = useHandleInvalidToken();
 
     const handleFileSelection = useCallback(
         async (file: File) => {
@@ -70,6 +73,8 @@ const useUploadImage = ({ setIsLoading, onDataChange, userId }: UseUploadImagePr
             getS3PreSignedUrlQuery,
             uploadToS3,
             getCloudFrontPreSignedUrlQuery,
+            ApiErrorHelper,
+            handleInvalidToken,
         });
     }, [
         croppedImageBlob,

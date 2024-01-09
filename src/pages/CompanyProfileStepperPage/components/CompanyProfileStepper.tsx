@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -7,10 +7,10 @@ import styled from 'styled-components';
 import SubmitButton from '@/components/SubmitButton';
 import industries from '@/constants/industryOptions';
 import Role from '@/constants/roles';
-import { useAppDispatch } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
+import useHandleInvalidToken from '@/hooks/useHandleInvalidToken';
 import useUploadImage from '@/hooks/useUploadImage';
-import { ApiError } from '@/interfaces/ApiError';
 import { ICompany } from '@/interfaces/ICompany';
 import { ICompleteAccountRequest, ICompleteAccountResponse, IUser } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
@@ -18,8 +18,9 @@ import StepContentOne from '@/pages/CompanyProfileStepperPage/components/StepCon
 import StepContentThree from '@/pages/CompanyProfileStepperPage/components/StepContentThree';
 import StepContentTwo from '@/pages/CompanyProfileStepperPage/components/StepContentTwo';
 import userApis from '@/services/Auth/user';
-import { setCredentials } from '@/store/slices/auth/authSlice';
+import { accountStatus, setCredentials } from '@/store/slices/auth/authSlice';
 import { setCompanyInfo } from '@/store/slices/company/companySlice';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const steps = ['Enter company profile', 'Upload the company logo', 'Review and submit'];
@@ -82,6 +83,15 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
     const [completeAccount, { isLoading: isSubmitLoading }] = useCompleteAccountMutation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const handleInvalidToken = useHandleInvalidToken();
+    const fetchAccountStatus: boolean = useAppSelector(accountStatus);
+
+    useEffect(() => {
+        if (!fetchAccountStatus) {
+            showSnackbar('You already have company bonded', 'warning');
+            navigate('/user-dashboard');
+        }
+    }, [fetchAccountStatus]);
 
     const industryArray = industries.map((industry) => industry.name);
     const fields: IField[] = [
@@ -212,11 +222,8 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
             showSnackbar(`${message}`, 'success');
             navigate('/user-dashboard');
         } catch (error) {
-            const apiError = error as ApiError;
-            const errorMessage =
-                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
-
-            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+            ApiErrorHelper(error, showSnackbar);
+            handleInvalidToken(error);
         }
     };
 

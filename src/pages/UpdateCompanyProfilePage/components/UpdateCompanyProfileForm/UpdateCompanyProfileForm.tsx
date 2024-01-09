@@ -15,14 +15,15 @@ import UploadBoxContentRenderer from '@/components/UploadBoxContentRenderer';
 import industries from '@/constants/industryOptions';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
+import useHandleInvalidToken from '@/hooks/useHandleInvalidToken';
 import useUploadImage from '@/hooks/useUploadImage';
-import { ApiError } from '@/interfaces/ApiError';
 import { IUpdateCompanyProfileRequest, IUpdateCompanyProfileResponse } from '@/interfaces/ICompany';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import companyApis from '@/services/company';
 import { authUserId } from '@/store/slices/auth/authSlice';
 import * as authSliceExports from '@/store/slices/auth/authSlice';
 import * as companySliceExports from '@/store/slices/company/companySlice';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const CompanyInfosBox = styled(Box)`
@@ -75,6 +76,7 @@ const UpdateCompanyProfileForm = () => {
     const { useUpdateCompanyProfileMutation } = companyApis;
     const [updateCompany, { isLoading: isUpdateLoading }] = useUpdateCompanyProfileMutation();
     const industryArray = industries.map((industry) => industry.name);
+    const handleInvalidToken = useHandleInvalidToken();
 
     useEffect(() => {
         if (!companyId || !fetchedUserId) {
@@ -198,11 +200,8 @@ const UpdateCompanyProfileForm = () => {
                 showSnackbar(`${message}`, 'success');
             }
         } catch (error) {
-            const apiError = error as ApiError;
-            const errorMessage =
-                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
-
-            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+            ApiErrorHelper(error, showSnackbar);
+            handleInvalidToken(error);
         }
     };
 

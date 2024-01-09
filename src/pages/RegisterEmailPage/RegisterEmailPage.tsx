@@ -6,12 +6,12 @@ import styled from 'styled-components';
 
 import ReusableForm from '@/components/ReusableForm';
 import useForm, { IField } from '@/hooks/useForm';
-import { ApiError } from '@/interfaces/ApiError';
 import { IVerifyEmailResponse } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import Title from '@/layouts/MainLayout/Title';
 import userApis from '@/services/Auth/user';
 import GlobalStyle from '@/styles/GlobalStyle';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const RegisterEmailContent = styled.div`
@@ -69,11 +69,7 @@ const RegisterEmail = () => {
             showSnackbar(`${message}`, 'success');
             navigate('/email-verification', { state: { email, username } });
         } catch (error) {
-            const apiError = error as ApiError;
-            const errorMessage =
-                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
-
-            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+            ApiErrorHelper(error, showSnackbar);
         }
     };
 
