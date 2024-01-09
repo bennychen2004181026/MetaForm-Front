@@ -4,7 +4,7 @@ import { Paper } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import styled from 'styled-components';
 
-import FormCard from './FormCard/FormCard';
+import FormCard from './FormCard/FomCard';
 
 const StyledGridContainer = styled(Grid)`
     padding: 0 20px;
