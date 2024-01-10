@@ -14,14 +14,14 @@ interface StartIconButtonProps {
 
 const StyledStartIconButton = styled(Button)`
     height: 4vh;
-    width: 16vw;
-    min-width: 180px;
+    width: 160px;
     border: none;
     padding: 2px;
     border-radius: 10%;
     transition:
         background-color 0.2s,
         color 0.2s;
+    margin: 10px 0;
 `;
 
 const StartIconButton: React.FC<StartIconButtonProps> = ({
