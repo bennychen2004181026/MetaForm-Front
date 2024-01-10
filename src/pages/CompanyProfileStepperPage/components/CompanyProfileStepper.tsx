@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import SubmitButton from '@/components/SubmitButton';
@@ -85,9 +85,12 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
     const navigate = useNavigate();
     const handleInvalidToken = useHandleInvalidToken();
     const fetchAccountStatus: boolean = useAppSelector(accountStatus);
+    const location = useLocation();
+    const urlPath = '/company-profile/';
+    const regex = new RegExp(`^${urlPath}`);
 
     useEffect(() => {
-        if (!fetchAccountStatus) {
+        if (fetchAccountStatus && !regex.test(location.pathname)) {
             showSnackbar('You already have company bonded', 'warning');
             navigate('/user-dashboard');
         }
