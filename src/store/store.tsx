@@ -46,6 +46,7 @@ export const store = configureStore({
             .concat(userApis.middleware)
             .concat(s3Apis.middleware),
 });
+
 type IRootState = ReturnType<typeof store.getState>;
 setGetTokenMethod(() => store.getState().auth.token);
 export const persistor = persistStore(store);

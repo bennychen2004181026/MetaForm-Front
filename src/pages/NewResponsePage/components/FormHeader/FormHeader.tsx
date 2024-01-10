@@ -1,15 +1,13 @@
 import React from 'react';
 
-import { Typography } from '@mui/material';
+import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 
 const FormHeader = () => {
     return (
-        <div>
-            <Typography variant="h1" component="h2">
-                h1. Heading
-            </Typography>
+        <ConditionalSectionContainer elevation={1} square={false}>
+            <h2>h1. Heading</h2>
             <p>Description</p>
-        </div>
+        </ConditionalSectionContainer>
     );
 };
 

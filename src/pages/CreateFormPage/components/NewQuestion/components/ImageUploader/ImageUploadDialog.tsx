@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import DragDropBox from '@/components/DragDropBox';
 import useUploadQuestionImage from '@/hooks/useUploadQuestionImage';
 import { IImage } from '@/interfaces/CreateForm';
-import ImageContainer from '@/pages/CreateFormPage/components/NewQuestion/components/ImageContainer';
+import ImageContainer from '@/layouts/ImageContainer';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 export interface ImageInsertDialogProps {

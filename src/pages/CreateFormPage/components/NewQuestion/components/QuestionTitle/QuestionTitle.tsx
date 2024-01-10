@@ -4,9 +4,8 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { Box, IconButton } from '@mui/material';
 import styled from 'styled-components';
 
-import ImageContainer from '../ImageContainer';
-
 import { IImage } from '@/interfaces/CreateForm';
+import ImageContainer from '@/layouts/ImageContainer';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
 import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/TextEditor';
@@ -78,3 +77,4 @@ const QuestionTitle = () => {
 };
 
 export default QuestionTitle;
+export { NewQuestionTitleBox };
