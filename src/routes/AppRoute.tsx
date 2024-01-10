@@ -25,6 +25,7 @@ const EmailVerificationPage = React.lazy(() => import('@/pages/EmailVerification
 const DashboardLandingPage = React.lazy(() => import('@/pages/DashboardLandingPage'));
 const InviteEmployeesPage = React.lazy(() => import('@/pages/InviteEmployeesPage'));
 const UpdateCompanyProfilePage = React.lazy(() => import('@/pages/UpdateCompanyProfilePage'));
+const ErrorPage = React.lazy(() => import('@/pages/ErrorPage'));
 
 const AppRoute = () => (
     <Suspense fallback={<LoadingSpinner />}>
@@ -75,6 +76,7 @@ const AppRoute = () => (
                         </Route>
                     </Route>
                 </Route>
+                <Route path="*" element={<ErrorPage />} />
             </Routes>
         </BrowserRouter>
     </Suspense>
