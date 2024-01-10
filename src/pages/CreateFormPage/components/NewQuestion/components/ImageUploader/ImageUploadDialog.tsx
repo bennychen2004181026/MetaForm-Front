@@ -5,9 +5,9 @@ import styled from 'styled-components';
 
 import DragDropBox from '@/components/DragDropBox';
 import useUploadQuestionImage from '@/hooks/useUploadQuestionImage';
-import { IImage } from '@/interfaces/IQuestion';
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
+import { IImage } from '@/interfaces/CreateForm';
 import ImageContainer from '@/pages/CreateFormPage/components/NewQuestion/components/ImageContainer';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 export interface ImageInsertDialogProps {
     open: boolean;
@@ -26,7 +26,7 @@ const StyledDragBox = styled.div<{ isDragging: boolean; isFileValid: boolean }>`
 const ImageUploadDialog = (props: ImageInsertDialogProps) => {
     const { onClose, open, insertImage } = props;
     const { state } = useContext(NewQuestionContext);
-    const { questionId } = state;
+    const { questionType: questionId } = state;
     const results = useUploadQuestionImage({ questionId });
     const {
         isDragging,

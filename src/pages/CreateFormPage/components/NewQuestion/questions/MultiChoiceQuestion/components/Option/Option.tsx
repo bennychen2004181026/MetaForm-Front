@@ -9,11 +9,10 @@ import { IconButton, ListItem, TextField } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import styled from 'styled-components';
 
-import IOption from '@/interfaces/IOption';
-import { IImage } from '@/interfaces/IQuestion';
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
+import { IImage, IOption } from '@/interfaces/CreateForm';
 import ImageContainer from '@/pages/CreateFormPage/components/NewQuestion/components/ImageContainer';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 const StyledButtonContainer = styled.div<{ isUploadButton?: boolean }>`
     opacity: 0;
@@ -27,6 +26,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
     const { dispatch, state } = useContext(NewQuestionContext);
     const [open, setOpen] = React.useState(false);
     const { options, questionId } = state;
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -39,6 +39,13 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
         dispatch({
             type: 'SET_OPTIONS',
             payload: options,
+        });
+    };
+    const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const newOption = { ...option, value: e.target.value };
+        dispatch({
+            type: 'UPDATE_OPTION',
+            payload: newOption,
         });
     };
 
@@ -74,6 +81,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                     id="option"
                     defaultValue={option.value}
                     variant="standard"
+                    onChange={(e) => handleOptionChange(e)}
                     type="text"
                     disabled={!!option.otherOption}
                     fullWidth
