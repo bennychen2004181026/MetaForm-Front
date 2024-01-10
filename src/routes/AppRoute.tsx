@@ -3,6 +3,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import LoadingSpinner from '@/layouts/LoadingSpinner';
+import CompanyMembersPage from '@/pages/CompanyMembersPage';
 import CompanyRegisterPage from '@/pages/CompanyRegisterPage';
 import CreateFormPage from '@/pages/CreateFormPage/CreateFormPage';
 import FormListPage from '@/pages/FormListPage';
@@ -55,6 +56,10 @@ const AppRoute = () => (
                 <Route
                     path="/companies/:companyId/users/:userId/update-company-profile"
                     element={<UpdateCompanyProfilePage />}
+                />
+                <Route
+                    path="/companies/:companyId/users/:userId/company-employees"
+                    element={<CompanyMembersPage />}
                 />
                 <Route element={<ProtectedRoute />}>
                     <Route
