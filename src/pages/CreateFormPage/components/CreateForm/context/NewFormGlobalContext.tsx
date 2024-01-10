@@ -1,12 +1,16 @@
 import React, { Dispatch, createContext, useMemo, useReducer } from 'react';
 
 import { IForm, IQuestion } from '@/interfaces/CreateForm';
-import { initFormState } from '@/pages/CreateFormPage/components/CreateForm/InitformState';
+import { initFormState } from '@/pages/CreateFormPage/components/CreateForm/InitFormState';
 
 type Actions =
     | {
           type: 'ADD_QUESTION';
           payload: IQuestion;
+      }
+    | {
+          type: 'UPDATE_QUESTION';
+          payload: IQuestion[];
       }
     | {
           type: 'DELETE_QUESTION';
@@ -23,6 +27,10 @@ type Actions =
     | {
           type: 'SET_QUESTIONS';
           payload: IQuestion[];
+      }
+    | {
+          type: 'SAVE_FORM';
+          payload: '';
       };
 const formReducer = (state: IForm, action: Actions): IForm => {
     const { type, payload } = action;
@@ -32,6 +40,8 @@ const formReducer = (state: IForm, action: Actions): IForm => {
                 ...state,
                 questions: [...state.questions, payload],
             };
+        case 'UPDATE_QUESTION':
+            return { ...state, questions: payload };
         case 'DELETE_QUESTION':
             return {
                 ...state,
@@ -52,6 +62,8 @@ const formReducer = (state: IForm, action: Actions): IForm => {
                 ...state,
                 questions: payload,
             };
+        case 'SAVE_FORM':
+            return state;
         default:
             throw new Error(
                 'Invalid action, valid actions: [SAVE_TITLE,ADD_OPTION,DELETE_OPTION,CHANGE_QUESTION_TYPE]',

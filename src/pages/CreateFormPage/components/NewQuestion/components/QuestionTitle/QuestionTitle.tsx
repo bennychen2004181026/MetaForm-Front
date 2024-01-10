@@ -32,7 +32,7 @@ const StyledQuestionTypeSelector = styled(QuestionTypeSelector)`
 `;
 const QuestionTitle = () => {
     const { state, dispatch } = useContext(NewQuestionContext);
-    const { title, questionType } = state;
+    const { questionTitle: title, questionType } = state;
     const [open, setOpen] = React.useState(false);
     const onTitleChange = (newTitle: string) => {
         dispatch({
@@ -59,9 +59,7 @@ const QuestionTitle = () => {
         <>
             <NewQuestionTitleBox>
                 <StyledTitleImageIconBox>
-                    {/* <StyledQuestionTitle> */}
                     <TextEditor onTitleChange={onTitleChange} value={title.content} />
-                    {/* </StyledQuestionTitle> */}
                     <IconButton onClick={handleClickOpen}>
                         <ImageOutlinedIcon fontSize="large" />
                     </IconButton>

@@ -14,9 +14,9 @@ import ImageContainer from '@/pages/CreateFormPage/components/NewQuestion/compon
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
-const StyledButtonContainer = styled.div<{ isUploadButton?: boolean }>`
+const StyledButtonContainer = styled.div<{ isuploadbutton?: boolean }>`
     opacity: 0;
-    margin-right: ${({ isUploadButton }) => (isUploadButton ? '4rem' : '0')};
+    margin-right: ${({ isuploadbutton }) => (isuploadbutton ? '4rem' : '0')};
     &:hover {
         opacity: 1;
     }
@@ -88,7 +88,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                     maxRows={1}
                 />
                 {!option.otherOption && (
-                    <StyledButtonContainer isUploadButton>
+                    <StyledButtonContainer isuploadbutton>
                         <IconButton onClick={handleClickImageIcon}>
                             <ImageOutlinedIcon fontSize="medium" />
                         </IconButton>

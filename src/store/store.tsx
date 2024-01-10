@@ -13,7 +13,7 @@ import {
 
 import authReducer from './slices/auth/authSlice';
 import companyReducer from './slices/company/companySlice';
-import formCardsSlice from './slices/formCards/formCardsSlice';
+import formSlice from './slices/form/formSlice';
 import userApis from '@/services/Auth/user';
 import companyApis from '@/services/company';
 import s3Apis from '@/services/S3';
@@ -33,7 +33,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     company: companyReducer,
     snackbar: snackbarSlice,
-    formCards: formCardsSlice,
+    forms: formSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -55,3 +55,4 @@ setGetTokenMethod(() => store.getState().auth.token);
 export const persistor = persistStore(store);
 export default { store, persistor };
 export type { IRootState };
+export type AppDispatch = typeof store.dispatch;

@@ -25,15 +25,14 @@ const StyledFooter = styled.div`
 `;
 interface FormCardProps {
     formTitle: string;
-    numOfResponses: number;
+    responses: string[];
 }
 const StyledHeader = styled(CardHeader)`
     justify-content: center;
     min-height: 200px;
 `;
 const StyledCardContainer = styled(Box)`
-    max-width: 400px;
-    min-width: 300px;
+    width: 350px;
 `;
 const StyledTypographyForResponse = styled(Typography)`
     display: inline-block;
@@ -41,7 +40,7 @@ const StyledTypographyForResponse = styled(Typography)`
     margin: auto 0;
 `;
 const cardActions = ['Share', 'Rename', 'Duplicate', 'Delete'];
-const FormCard = ({ formTitle, numOfResponses }: FormCardProps) => {
+const FormCard = ({ formTitle, responses }: FormCardProps) => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -57,7 +56,7 @@ const FormCard = ({ formTitle, numOfResponses }: FormCardProps) => {
                 <Divider light />
                 <StyledFooter>
                     <StyledTypographyForResponse variant="body1" color="text.secondary">
-                        {`${numOfResponses} Responses`}
+                        {`${responses.length} Responses`}
                     </StyledTypographyForResponse>
                     <IconButton aria-label="settings" onClick={handleClick}>
                         <MoreVertIcon />

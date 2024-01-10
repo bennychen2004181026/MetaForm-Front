@@ -8,7 +8,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import styled from 'styled-components';
 
-import IForm from '@/interfaces/Form';
+import { IForm } from '@/interfaces/CreateForm';
 import TableHead from '@/pages/FormListPage/components/Table/components/TableHead';
 import TableToolbar from '@/pages/FormListPage/components/Table/components/TableToolbar';
 import { formTableColumns as columns } from '@/pages/FormListPage/FormTableColumns';
