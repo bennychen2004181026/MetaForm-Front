@@ -2,6 +2,10 @@ import React, { ChangeEvent, MouseEvent, useMemo, useState } from 'react';
 
 import {
     Avatar,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
     FormControl,
     ListItem,
     ListItemAvatar,
@@ -9,6 +13,8 @@ import {
     Table as MUITable,
     MenuItem,
     Select,
+    SelectChangeEvent,
+    Typography,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -85,6 +91,7 @@ const roleOptions: ROption[] = [
 
 const Table = (props: TableProps) => {
     const { rows } = props;
+    const [list, setList] = useState(rows);
     const [order, setOrder] = useState<Order>('asc');
     const [orderBy, setOrderBy] = useState<keyof IList>('name');
     const [page, setPage] = useState(0);
@@ -106,7 +113,7 @@ const Table = (props: TableProps) => {
 
     const visibleRows = useMemo(
         () =>
-            stableSort(rows, getComparator(order, orderBy)).slice(
+            stableSort(list, getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
@@ -115,11 +122,9 @@ const Table = (props: TableProps) => {
 
     const stringToColor = (string: string) => {
         const hash = Array.from(string).reduce((acc, char) => {
-            // eslint-disable-next-line no-bitwise
             return char.charCodeAt(0) + ((acc << 5) - acc);
         }, 0);
         const color = Array.from({ length: 3 }, (_, i) => {
-            // eslint-disable-next-line no-bitwise
             const value = (hash >> (i * 8)) & 0xff;
             return `00${value.toString(16)}`.slice(-2);
         }).join('');
@@ -134,6 +139,55 @@ const Table = (props: TableProps) => {
             },
             children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
         };
+    };
+
+    const [open, setOpen] = useState(false);
+    const [updateRow, setUpdateRow] = useState('-1');
+    const [updateStatus, setUpdateStatus] = useState('-1');
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleCloseChange = () => {
+        const index = rows.findIndex((obj) => {
+            return obj.id === updateRow;
+        });
+        rows[index].status = updateStatus === 'activate' ? 'Active' : 'Inactive';
+        rows[index].role = updateStatus === 'activate' ? 'viewer' : 'N/A';
+        setList(rows);
+        setOpen(false);
+    };
+
+    const onSelectChange = (event: SelectChangeEvent<string>) => {
+        setUpdateRow(event.target.name);
+        setUpdateStatus(event.target.value);
+        if (event.target.value === 'activate' || event.target.value === 'deactivate') {
+            handleClickOpen();
+        } else {
+            const index = rows.findIndex((obj) => {
+                return obj.id === event.target.name;
+            });
+            rows[index].role = event.target.value;
+        }
+    };
+
+    const popupMessage = () => {
+        const action = updateStatus === 'activate' ? 'activated' : 'deactivated';
+        return `The member is now ${action}.`;
+    };
+
+    type RoleKey = 'admin' | 'editor' | 'viewer' | 'activate';
+
+    const roles: { [key in RoleKey]: string } = {
+        admin: 'Admin',
+        editor: 'Editor',
+        viewer: 'Viewer',
+        activate: 'Viewer',
     };
 
     return (
@@ -167,22 +221,15 @@ const Table = (props: TableProps) => {
                                             <FormControl fullWidth>
                                                 <Select
                                                     id="role-select"
+                                                    name={row.id}
                                                     defaultValue={row.role}
                                                     displayEmpty
+                                                    onChange={onSelectChange}
                                                     renderValue={(p) => {
-                                                        let result;
                                                         if (row.status === 'Inactive') {
-                                                            result = 'N/A';
-                                                        } else if (p === 'admin') {
-                                                            result = 'Admin';
-                                                        } else if (p === 'editor') {
-                                                            result = 'Editor';
-                                                        } else if (p === 'viewer') {
-                                                            result = 'Viewer';
-                                                        } else {
-                                                            result = 'N/A';
+                                                            return 'N/A';
                                                         }
-                                                        return result;
+                                                        return roles[p as RoleKey] || 'N/A';
                                                     }}
                                                     sx={{
                                                         width: '120px',
@@ -203,7 +250,13 @@ const Table = (props: TableProps) => {
                                                             />
                                                         </MenuItem>
                                                     ))}
-                                                    <MenuItem value="action">
+                                                    <MenuItem
+                                                        value={
+                                                            row.status === 'Active'
+                                                                ? 'deactivate'
+                                                                : 'activate'
+                                                        }
+                                                    >
                                                         {row.status === 'Active'
                                                             ? 'Deactivate'
                                                             : 'Activate'}
@@ -217,6 +270,16 @@ const Table = (props: TableProps) => {
                         </TableBody>
                     </MUITable>
                 </TableContainer>
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogContent>
+                        <Typography>{popupMessage()}</Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseChange} autoFocus>
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
@@ -230,4 +293,5 @@ const Table = (props: TableProps) => {
         </Box>
     );
 };
+
 export default Table;

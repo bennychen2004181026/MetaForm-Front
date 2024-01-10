@@ -49,6 +49,10 @@ const AppRoute = () => (
                     path="/companies/:companyId/invite-employees/:token"
                     element={<CreateEmployeePage />}
                 />
+                <Route
+                    path="/companies/:companyId/users/:userId/employees"
+                    element={<CompanyMembersPage />}
+                />
                 <Route path="/create-form" element={<CreateFormPage />} />
                 <Route element={<ProtectedRoute />}>
                     <Route
@@ -57,10 +61,6 @@ const AppRoute = () => (
                     />
                     <Route path="/user-dashboard" />
                     <Route element={<CompanyDashboardRoute />}>
-                        <Route
-                            path="/companies/:companyId/employees"
-                            element={<CompanyMembersPage />}
-                        />
                         <Route path="/companies/:companyId/invite-employees" />
                         <Route element={<SuperAdminRoute />}>
                             <Route path="/companies/:companyId/users/:userId/update-company-profile" />
