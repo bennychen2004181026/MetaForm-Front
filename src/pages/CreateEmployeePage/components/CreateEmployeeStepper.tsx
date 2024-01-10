@@ -58,12 +58,7 @@ const NextButton = styled(Button)`
     padding: 6px 12px;
 `;
 
-interface CreateEmployeeStepperProps {
-    companyId: string | undefined;
-    token: string | undefined;
-}
-
-const CreateEmployeeStepper: React.FC<CreateEmployeeStepperProps> = () => {
+const CreateEmployeeStepper: React.FC = () => {
     const showSnackbar = useSnackbarHelper();
     const [activeStep, setActiveStep] = useState(0);
     const fields: IField[] = [

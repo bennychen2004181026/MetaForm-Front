@@ -45,15 +45,12 @@ interface StepContentTwoProps {
     fieldsData: Record<string, string>;
     isDragging: boolean;
     isLoading: boolean;
-    uploadProgress: number;
     handleDragEnter: (event: React.DragEvent<HTMLDivElement>) => void;
     handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
     handleDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
     handleDrop: (event: React.DragEvent<HTMLDivElement>) => Promise<void>;
     handleUploadButton: (event: React.ChangeEvent<HTMLInputElement>) => void;
     selectedImage: string | null;
-    setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>;
-    setCroppedImageBlob: React.Dispatch<React.SetStateAction<Blob | null>>;
     croppedImageBlob: Blob | null;
     handleCropConfirmation: (croppedBlob: Blob) => void;
     handleCroppedImage: () => Promise<void>;
@@ -69,15 +66,12 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
     fieldsData,
     isDragging,
     isLoading,
-    uploadProgress,
     handleDragEnter,
     handleDragOver,
     handleDragLeave,
     handleDrop,
     handleUploadButton,
     selectedImage,
-    setSelectedImage,
-    setCroppedImageBlob,
     croppedImageBlob,
     handleCropConfirmation,
     handleCroppedImage,
@@ -114,7 +108,6 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
             >
                 <UploadBoxContentRenderer
                     isLoading={isLoading}
-                    uploadProgress={uploadProgress}
                     companyLogo={fieldsData.companyLogo || croppedPreviewUrl}
                     cropComponent={cropComponent}
                 />

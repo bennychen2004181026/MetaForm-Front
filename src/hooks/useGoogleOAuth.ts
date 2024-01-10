@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 import Role from '@/constants/roles';
 import { useAppDispatch } from '@/hooks/redux';
+import { ICompany } from '@/interfaces/ICompany';
 import { IUser } from '@/interfaces/IUser';
 import { setCredentials } from '@/store/slices/auth/authSlice';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
-const useGoogleOAuth = (currentApiUrl: string | undefined) => {
+const useGoogleOAuth = (currentApiUrl?: string) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const showSnackbar = useSnackbarHelper();
@@ -30,7 +31,7 @@ const useGoogleOAuth = (currentApiUrl: string | undefined) => {
                 return;
             }
 
-            const { message, token, user, isAccountComplete } = event.data;
+            const { message, token, user, isAccountComplete, companyInfo } = event.data;
             const { email, role, company, _id, isActive } = user;
             dispatch(
                 setCredentials({
@@ -40,6 +41,7 @@ const useGoogleOAuth = (currentApiUrl: string | undefined) => {
                     role: (role as Role) ?? null,
                     company: company ?? null,
                     userId: _id ?? null,
+                    companyInfo: (companyInfo as ICompany) ?? null,
                     isAccountComplete: isAccountComplete ?? false,
                     isActive: isActive ?? false,
                 }),

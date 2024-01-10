@@ -10,18 +10,12 @@ import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 interface UseUploadImageProps {
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    setUploadProgress: React.Dispatch<React.SetStateAction<number>>;
     onDataChange: (
         field: string,
     ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
-    userId: string | undefined;
+    userId?: string;
 }
-const useUploadImage = ({
-    setIsLoading,
-    setUploadProgress,
-    onDataChange,
-    userId,
-}: UseUploadImageProps) => {
+const useUploadImage = ({ setIsLoading, onDataChange, userId }: UseUploadImageProps) => {
     const showSnackbar = useSnackbarHelper();
     const [isDragging, setIsDragging] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -72,7 +66,6 @@ const useUploadImage = ({
         uploadFileToS3({
             file: new File([croppedImageBlob], fileName, { type: 'image/jpeg' }),
             setIsLoading,
-            setUploadProgress,
             onDataChange,
             showSnackbar,
             userId,
@@ -86,7 +79,6 @@ const useUploadImage = ({
         croppedImageBlob,
         userId,
         setIsLoading,
-        setUploadProgress,
         onDataChange,
         showSnackbar,
         getS3PreSignedUrlQuery,

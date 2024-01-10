@@ -1,5 +1,3 @@
-import { debounce } from 'lodash';
-
 import { ApiError } from '@/interfaces/ApiError';
 import { IGetCloudFrontPreSignedUrlResponse, IGetS3PreSignedUrlResponse } from '@/interfaces/IUser';
 import userApis from '@/services/Auth/user';
@@ -8,7 +6,6 @@ import s3Apis from '@/services/S3';
 interface UploadUtilsProps {
     file: File;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    setUploadProgress: React.Dispatch<React.SetStateAction<number>>;
     onDataChange: (
         field: string,
     ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
@@ -28,7 +25,6 @@ interface UploadUtilsProps {
 const uploadFileToS3 = async ({
     file,
     setIsLoading,
-    setUploadProgress,
     onDataChange,
     showSnackbar,
     userId,
@@ -38,10 +34,6 @@ const uploadFileToS3 = async ({
     s3PreSignedUrlData,
     cloudFrontData,
 }: UploadUtilsProps): Promise<string | void> => {
-    const debouncedProgressUpdate = debounce((progress) => {
-        setUploadProgress(progress);
-    }, 100);
-
     if (!userId) {
         const errorMessage = 'User ID is required for uploading.';
         showSnackbar(errorMessage, 'error');
