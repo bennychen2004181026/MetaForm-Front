@@ -7,7 +7,7 @@ import MainLayout from '@/layouts/MainLayout';
 import ResetPasswordForm from '@/pages/ResetPasswordPage/components/ResetPasswordForm';
 
 const ResetPasswordPage = () => {
-    const { token } = useParams<{ token: string | undefined }>();
+    const { token } = useParams<{ token?: string }>();
     return (
         <div>
             <Header />

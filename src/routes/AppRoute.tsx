@@ -22,6 +22,9 @@ const ProtectedRoute = React.lazy(() => import('@/components/ProtectedRoute'));
 const CompanyDashboardRoute = React.lazy(() => import('@/components/CompanyDashboardRoute'));
 const SuperAdminRoute = React.lazy(() => import('@/components/SuperAdminRoute'));
 const EmailVerificationPage = React.lazy(() => import('@/pages/EmailVerificationPage'));
+const DashboardLandingPage = React.lazy(() => import('@/pages/DashboardLandingPage'));
+const InviteEmployeesPage = React.lazy(() => import('@/pages/InviteEmployeesPage'));
+const UpdateCompanyProfilePage = React.lazy(() => import('@/pages/UpdateCompanyProfilePage'));
 
 const AppRoute = () => (
     <Suspense fallback={<LoadingSpinner />}>
@@ -49,6 +52,10 @@ const AppRoute = () => (
                     element={<CreateEmployeePage />}
                 />
                 <Route path="/create-form" element={<CreateFormPage />} />
+                <Route
+                    path="/companies/:companyId/users/:userId/update-company-profile"
+                    element={<UpdateCompanyProfilePage />}
+                />
                 <Route element={<ProtectedRoute />}>
                     <Route
                         path="/company-profile/:userId"
@@ -56,8 +63,14 @@ const AppRoute = () => (
                     />
                     <Route path="/user-dashboard" />
                     <Route element={<CompanyDashboardRoute />}>
-                        <Route path="/companies/:companyId/employees" />
-                        <Route path="/companies/:companyId/invite-employees" />
+                        <Route
+                            path="/companies/:companyId/dashboard"
+                            element={<DashboardLandingPage />}
+                        />
+                        <Route
+                            path="/companies/:companyId/invite-employees"
+                            element={<InviteEmployeesPage />}
+                        />
                         <Route element={<SuperAdminRoute />}>
                             <Route path="/companies/:companyId/users/:userId/update-company-profile" />
                         </Route>

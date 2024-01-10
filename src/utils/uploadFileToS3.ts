@@ -1,5 +1,3 @@
-import { debounce } from 'lodash';
-
 import { ApiError } from '@/interfaces/ApiError';
 import { IGetCloudFrontPreSignedUrlResponse, IGetS3PreSignedUrlResponse } from '@/interfaces/IUser';
 import userApis from '@/services/Auth/user';
@@ -8,7 +6,6 @@ import s3Apis from '@/services/S3';
 interface UploadUtilsProps {
     file: File;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    setUploadProgress: React.Dispatch<React.SetStateAction<number>>;
     onDataChange: (
         field: string,
     ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
@@ -16,32 +13,23 @@ interface UploadUtilsProps {
         message: string,
         variant: 'default' | 'error' | 'success' | 'warning' | 'info',
     ) => void;
-    userId?: string;
+    userId?: string | null;
     getS3PreSignedUrlQuery: ReturnType<typeof userApis.useLazyGetS3PreSignedUrlQuery>[0];
     uploadToS3: ReturnType<typeof s3Apis.useUploadFileToS3Mutation>[0];
     getCloudFrontPreSignedUrlQuery: ReturnType<
         typeof userApis.useLazyGetCloudFrontPreSignedUrlQuery
     >[0];
-    s3PreSignedUrlData?: IGetS3PreSignedUrlResponse;
-    cloudFrontData?: IGetCloudFrontPreSignedUrlResponse;
 }
 const uploadFileToS3 = async ({
     file,
     setIsLoading,
-    setUploadProgress,
     onDataChange,
     showSnackbar,
     userId,
     getS3PreSignedUrlQuery,
     uploadToS3,
     getCloudFrontPreSignedUrlQuery,
-    s3PreSignedUrlData,
-    cloudFrontData,
 }: UploadUtilsProps): Promise<string | void> => {
-    const debouncedProgressUpdate = debounce((progress) => {
-        setUploadProgress(progress);
-    }, 100);
-
     if (!userId) {
         const errorMessage = 'User ID is required for uploading.';
         showSnackbar(errorMessage, 'error');
@@ -51,7 +39,7 @@ const uploadFileToS3 = async ({
 
     try {
         setIsLoading(true);
-        await getS3PreSignedUrlQuery().unwrap();
+        const s3PreSignedUrlData = await getS3PreSignedUrlQuery().unwrap();
 
         const { url, key } = s3PreSignedUrlData as IGetS3PreSignedUrlResponse;
 
@@ -63,10 +51,10 @@ const uploadFileToS3 = async ({
             },
         };
         await uploadToS3(uploadParams).unwrap();
-        await getCloudFrontPreSignedUrlQuery(key).unwrap();
+        const cloudFrontData = await getCloudFrontPreSignedUrlQuery(key).unwrap();
 
         showSnackbar(`You had successfully uploaded the logo`, 'success');
-        onDataChange('companyLogo')(
+        onDataChange('logo')(
             (cloudFrontData as IGetCloudFrontPreSignedUrlResponse).cloudFrontSignedUrl,
         );
         setIsLoading(false);

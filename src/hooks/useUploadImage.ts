@@ -10,18 +10,12 @@ import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 interface UseUploadImageProps {
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    setUploadProgress: React.Dispatch<React.SetStateAction<number>>;
     onDataChange: (
         field: string,
     ) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string) => void;
-    userId: string | undefined;
+    userId?: string | null;
 }
-const useUploadImage = ({
-    setIsLoading,
-    setUploadProgress,
-    onDataChange,
-    userId,
-}: UseUploadImageProps) => {
+const useUploadImage = ({ setIsLoading, onDataChange, userId }: UseUploadImageProps) => {
     const showSnackbar = useSnackbarHelper();
     const [isDragging, setIsDragging] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -32,11 +26,9 @@ const useUploadImage = ({
     const [croppedPreviewUrl, setCroppedPreviewUrl] = useState<string | null>(null);
     const [isFileValid, setIsFileValid] = useState(true);
 
-    const [getS3PreSignedUrlQuery, { data: s3PreSignedUrlData }] =
-        userApis.useLazyGetS3PreSignedUrlQuery();
+    const [getS3PreSignedUrlQuery] = userApis.useLazyGetS3PreSignedUrlQuery();
     const [uploadToS3] = s3Apis.useUploadFileToS3Mutation();
-    const [getCloudFrontPreSignedUrlQuery, { data: cloudFrontData }] =
-        userApis.useLazyGetCloudFrontPreSignedUrlQuery();
+    const [getCloudFrontPreSignedUrlQuery] = userApis.useLazyGetCloudFrontPreSignedUrlQuery();
 
     const handleFileSelection = useCallback(
         async (file: File) => {
@@ -72,28 +64,22 @@ const useUploadImage = ({
         uploadFileToS3({
             file: new File([croppedImageBlob], fileName, { type: 'image/jpeg' }),
             setIsLoading,
-            setUploadProgress,
             onDataChange,
             showSnackbar,
             userId,
             getS3PreSignedUrlQuery,
             uploadToS3,
             getCloudFrontPreSignedUrlQuery,
-            s3PreSignedUrlData,
-            cloudFrontData,
         });
     }, [
         croppedImageBlob,
         userId,
         setIsLoading,
-        setUploadProgress,
         onDataChange,
         showSnackbar,
         getS3PreSignedUrlQuery,
         uploadToS3,
         getCloudFrontPreSignedUrlQuery,
-        s3PreSignedUrlData,
-        cloudFrontData,
     ]);
 
     const handleDragEnter = useCallback((event: React.DragEvent<HTMLDivElement>) => {
@@ -131,6 +117,7 @@ const useUploadImage = ({
             const file = event.target.files ? event.target.files[0] : null;
             if (file) {
                 await handleFileSelection(file);
+                event.target.value = '';
             }
         },
         [handleFileSelection],

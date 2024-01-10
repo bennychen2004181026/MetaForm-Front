@@ -109,6 +109,7 @@ const RegisterForm = () => {
             const response: ICreateUserResponse = await createUser(fieldsData).unwrap();
             const { message, user, token, isAccountComplete } = response;
             const { email: responseEmail, role, company, _id, isActive } = user as IUser;
+
             dispatch(
                 setCredentials({
                     user: user as IUser,
@@ -117,10 +118,12 @@ const RegisterForm = () => {
                     role: (role as Role) ?? null,
                     company: company ?? null,
                     userId: _id ?? null,
+                    companyInfo: null,
                     isAccountComplete: isAccountComplete ?? false,
                     isActive: isActive ?? false,
                 }),
             );
+
             showSnackbar(`${message}`, 'success');
             navigate(`/company-profile/${_id}`);
         } catch (error) {
