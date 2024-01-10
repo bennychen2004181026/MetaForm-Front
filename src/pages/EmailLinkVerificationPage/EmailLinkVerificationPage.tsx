@@ -7,7 +7,7 @@ import MainLayout from '@/layouts/MainLayout';
 import EmailLinkVerificationMain from '@/pages/EmailLinkVerificationPage/components/EmailLinkVerificationMain';
 
 const EmailLinkVerificationPage = () => {
-    const { token } = useParams<{ token: string | undefined }>();
+    const { token } = useParams<{ token?: string }>();
     return (
         <div>
             <Header />
