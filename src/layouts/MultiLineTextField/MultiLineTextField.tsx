@@ -15,6 +15,10 @@ const MultiLineTextField = ({
     requiredQuestion: boolean;
 }) => {
     const [blur, setBlur] = useState(false);
+    const [value, setValue] = useState('');
+    const handleContentChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setValue(e.target.value);
+    };
     return (
         <>
             <StyledLengthTextfield
@@ -24,9 +28,10 @@ const MultiLineTextField = ({
                 rows={4}
                 margin="normal"
                 fullWidth
+                onChange={(e) => handleContentChange(e)}
                 onBlur={() => setBlur(true)}
             />
-            {blur && requiredQuestion && (
+            {blur && requiredQuestion && value === '' && (
                 <Alert severity="error">This is a required question!</Alert>
             )}
         </>

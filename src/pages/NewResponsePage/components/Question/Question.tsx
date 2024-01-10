@@ -22,7 +22,7 @@ const getQuestionBodyByType = ({ question }: { question: IQuestion }) => {
         case '2':
             return <ParagraphQuestion required={question.required} />;
         case '3':
-            return <CheckBoxesQuestion question={question} />;
+            return <CheckBoxesQuestion />;
         case '4':
             return <FileUploadQuestion />;
         case '5':
