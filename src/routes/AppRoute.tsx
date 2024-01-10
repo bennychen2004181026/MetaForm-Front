@@ -57,8 +57,9 @@ const AppRoute = () => (
                     />
                     <Route path="/user-dashboard" />
                     <Route element={<CompanyDashboardRoute />}>
+                        <Route path="/companies/:companyId/employees" />
                         <Route
-                            path="/companies/:companyId/employees"
+                            path="/companies/:companyId/company-members"
                             element={<CompanyMembersPage />}
                         />
                         <Route path="/companies/:companyId/invite-employees" />
