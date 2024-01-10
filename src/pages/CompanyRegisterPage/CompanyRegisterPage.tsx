@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { TextField } from '@mui/material';
 import styled from 'styled-components';
 
-import industries from './industryOptions';
+import industries from '@/constants/industryOptions';
 import useForm from '@/hooks/useForm';
 import Title from '@/layouts/MainLayout/Title';
 import DropdownSelector from '@/pages/CompanyRegisterPage/components/DropdownSelector';
@@ -44,9 +44,9 @@ const industrySelectorConfig = {
     margin: '2rem',
 };
 const CompanyRegisterPage = () => {
-    const [formData, setFormData] = useState({ companyName: '', abn: '' });
+    const [formData, _] = useState({ companyName: '', abn: '' });
     const formField = companyRegisterType(formData);
-    const { data, focus, onBlur, onChange, validation } = useForm(formField);
+    const { data, focus, onBlur, onChange } = useForm(formField);
     const industryArray = industries.map((industry) => industry.name);
     return (
         <div>

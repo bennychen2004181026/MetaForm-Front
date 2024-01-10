@@ -53,7 +53,7 @@ const StepContentOne: React.FC<StepContentOneProps> = ({
         <StyledStepperBoxContainer>
             <ReusableForm
                 // Does not display companyLogo field
-                excludeFields={['companyLogo']}
+                excludeFields={['logo']}
                 formFields={formFields}
                 fieldsData={fieldsData}
                 onDataChange={onDataChange}
