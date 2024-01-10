@@ -1,3 +1,6 @@
+import Membership from '@/constants/Membership';
+import Role from '@/constants/roles';
+
 export interface ICompany {
     _id?: string;
     companyName?: string;
@@ -8,4 +11,24 @@ export interface ICompany {
     isActive?: boolean;
     employees?: string[];
     address?: string;
+}
+
+export interface IEmployeeInfo {
+    username: string;
+    firstName: string;
+    lastName: string | null;
+    email: string;
+    createdForms: string[] | [];
+    role: Role;
+    company: string;
+    isAccountComplete: boolean;
+    invitedBy: string | null;
+    isActive: boolean;
+    membershipType: Membership;
+    createdAt: string;
+    updatedAt: string;
+}
+export interface IGetEmployeesResponse {
+    message: string;
+    employeesArray: IEmployeeInfo[] | [];
 }

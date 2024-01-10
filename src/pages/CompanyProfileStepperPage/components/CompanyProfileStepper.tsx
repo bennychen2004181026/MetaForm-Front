@@ -113,7 +113,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         {
             id: 4,
             label: 'Company Logo URL',
-            key: 'companyLogo',
+            key: 'logo',
             type: 'file',
             value: '',
             validationRules: [],
@@ -146,7 +146,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
             companyName: '',
             industry: '',
             abn: '',
-            companyLogo: '',
+            logo: '',
         });
     };
 
@@ -194,7 +194,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
                     description: description ?? null,
                     industry: industry ?? null,
                     isActive: isCompanyActive ?? false,
-                    employees: Array.isArray(employees) && employees.length > 0 ? employees : [],
+                    employeesIds: Array.isArray(employees) && employees.length > 0 ? employees : [],
                     address: address ?? null,
                 }),
             );

@@ -19,8 +19,6 @@ interface UploadUtilsProps {
     getCloudFrontPreSignedUrlQuery: ReturnType<
         typeof userApis.useLazyGetCloudFrontPreSignedUrlQuery
     >[0];
-    s3PreSignedUrlData?: IGetS3PreSignedUrlResponse;
-    cloudFrontData?: IGetCloudFrontPreSignedUrlResponse;
 }
 const uploadFileToS3 = async ({
     file,
@@ -31,8 +29,6 @@ const uploadFileToS3 = async ({
     getS3PreSignedUrlQuery,
     uploadToS3,
     getCloudFrontPreSignedUrlQuery,
-    s3PreSignedUrlData,
-    cloudFrontData,
 }: UploadUtilsProps): Promise<string | void> => {
     if (!userId) {
         const errorMessage = 'User ID is required for uploading.';
@@ -43,7 +39,7 @@ const uploadFileToS3 = async ({
 
     try {
         setIsLoading(true);
-        await getS3PreSignedUrlQuery().unwrap();
+        const s3PreSignedUrlData = await getS3PreSignedUrlQuery().unwrap();
 
         const { url, key } = s3PreSignedUrlData as IGetS3PreSignedUrlResponse;
 
@@ -55,10 +51,10 @@ const uploadFileToS3 = async ({
             },
         };
         await uploadToS3(uploadParams).unwrap();
-        await getCloudFrontPreSignedUrlQuery(key).unwrap();
+        const cloudFrontData = await getCloudFrontPreSignedUrlQuery(key).unwrap();
 
         showSnackbar(`You had successfully uploaded the logo`, 'success');
-        onDataChange('companyLogo')(
+        onDataChange('logo')(
             (cloudFrontData as IGetCloudFrontPreSignedUrlResponse).cloudFrontSignedUrl,
         );
         setIsLoading(false);

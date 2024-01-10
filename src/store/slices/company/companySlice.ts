@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
+import { IEmployeeInfo } from '@/interfaces/ICompany';
 import type { RootState } from '@/interfaces/redux';
 
 interface CompanyInfoState {
@@ -10,8 +11,9 @@ interface CompanyInfoState {
     description: string | null;
     industry: string | null;
     isActive: boolean;
-    employees: string[] | [];
+    employeesIds: string[] | [];
     address: string | null;
+    employeesInfo: IEmployeeInfo[] | [];
 }
 
 const initialState: CompanyInfoState = {
@@ -22,8 +24,9 @@ const initialState: CompanyInfoState = {
     description: null,
     industry: null,
     isActive: false,
-    employees: [],
+    employeesIds: [],
     address: null,
+    employeesInfo: [],
 };
 
 const companySlice = createSlice({
@@ -40,7 +43,7 @@ const companySlice = createSlice({
                 description: string | null;
                 industry: string | null;
                 isActive: boolean;
-                employees: string[] | [];
+                employeesIds: string[] | [];
                 address: string | null;
             }>,
         ) => {
@@ -52,7 +55,7 @@ const companySlice = createSlice({
                 description,
                 industry,
                 isActive,
-                employees,
+                employeesIds,
                 address,
             } = action.payload;
             state.companyId = companyId;
@@ -62,21 +65,26 @@ const companySlice = createSlice({
             state.description = description;
             state.industry = industry;
             state.isActive = isActive;
-            state.employees = employees;
+            state.employeesIds = employeesIds;
             state.address = address;
         },
         clearCompanyInfo: () => {
             return { ...initialState };
         },
+        setEmployeesInfos(state, action: PayloadAction<IEmployeeInfo[]>) {
+            state.employeesInfo = action.payload;
+        },
     },
 });
 
+export const myCompanyId = (state: RootState) => state.company.companyId;
 export const myCompanyName = (state: RootState) => state.company.companyName;
 export const myCompanyABN = (state: RootState) => state.company.abn;
 export const myCompanyLogo = (state: RootState) => state.company.logo;
 export const myCompanyDescription = (state: RootState) => state.company.description;
 export const myCompanyIndustry = (state: RootState) => state.company.industry;
-export const myCompanyEmployeeIds = (state: RootState) => state.company.employees;
+export const myCompanyEmployeeIds = (state: RootState) => state.company.employeesIds;
 export const myCompanyAddress = (state: RootState) => state.company.address;
-export const { setCompanyInfo, clearCompanyInfo } = companySlice.actions;
+export const myCompanyMembersInfo = (state: RootState) => state.company.employeesInfo;
+export const { setCompanyInfo, clearCompanyInfo, setEmployeesInfos } = companySlice.actions;
 export default companySlice.reducer;

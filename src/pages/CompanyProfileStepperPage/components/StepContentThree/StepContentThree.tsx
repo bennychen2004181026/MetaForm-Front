@@ -100,10 +100,10 @@ const StepContentThree: React.FC<StepContentThreeProps> = ({ fieldsData }) => {
                     <LabelValuePair label="Industry" value={fieldsData.industry} />
                     <LabelValuePair label="ABN" value={fieldsData.abn} />
                 </StyledCompanyInfoBox>
-                <StyledLogoBox hasCompanyLogo={Boolean(fieldsData.companyLogo)}>
-                    {fieldsData.companyLogo ? (
+                <StyledLogoBox hasCompanyLogo={Boolean(fieldsData.logo)}>
+                    {fieldsData.logo ? (
                         <img
-                            src={fieldsData.companyLogo}
+                            src={fieldsData.logo}
                             alt="Company Logo"
                             style={{ maxWidth: '100%', maxHeight: '100%' }}
                         />

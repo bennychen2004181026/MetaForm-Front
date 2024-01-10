@@ -137,7 +137,7 @@ const Login = () => {
                         description: description ?? null,
                         industry: industry ?? null,
                         isActive: isCompanyActive ?? false,
-                        employees:
+                        employeesIds:
                             Array.isArray(employees) && employees.length > 0 ? employees : [],
                         address: address ?? null,
                     }),

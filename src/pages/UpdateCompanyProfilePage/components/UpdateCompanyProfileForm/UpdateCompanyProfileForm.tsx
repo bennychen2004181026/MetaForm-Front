@@ -92,7 +92,7 @@ const UpdateCompanyProfileForm = () => {
         {
             id: 4,
             label: 'Company Logo URL',
-            key: 'companyLogo',
+            key: 'logo',
             type: 'file',
             value: '',
             validationRules: [],
@@ -173,7 +173,7 @@ const UpdateCompanyProfileForm = () => {
                     >
                         <UploadBoxContentRenderer
                             isLoading={isLoading}
-                            companyLogo={fieldsData.companyLogo || croppedPreviewUrl}
+                            companyLogo={croppedPreviewUrl || fieldsData.logo}
                             cropComponent={cropComponent}
                         />
                     </DragDropBox>
@@ -198,7 +198,7 @@ const UpdateCompanyProfileForm = () => {
                 </StyledStepperBoxContainer>
             </LogoBox>
             <ReusableForm
-                excludeFields={['companyLogo']}
+                excludeFields={['logo']}
                 formFields={fields}
                 fieldsData={fieldsData}
                 fieldsFocus={fieldsFocus}
