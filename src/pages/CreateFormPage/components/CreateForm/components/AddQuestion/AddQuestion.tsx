@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 
+import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
 
@@ -28,6 +29,7 @@ const AddQuestion = () => {
             onClick={handleAddQuestion}
             aria-label="Add New Question"
             variant="contained"
+            startIcon={<ControlPointOutlinedIcon />}
         >
             Add Question
         </StyledAddQuestionButton>

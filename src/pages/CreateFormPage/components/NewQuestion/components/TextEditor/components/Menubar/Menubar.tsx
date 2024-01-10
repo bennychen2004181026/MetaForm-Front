@@ -5,7 +5,7 @@ import LinkOffIcon from '@mui/icons-material/LinkOff';
 import { Editor } from '@tiptap/react';
 import styled from 'styled-components';
 
-import AddLinkPopup from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/components/AddLinkPopup';
+import AddLinkPopup from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/components/Menubar/components/AddLinkPopup';
 import {
     StyledButton,
     TextOperation,

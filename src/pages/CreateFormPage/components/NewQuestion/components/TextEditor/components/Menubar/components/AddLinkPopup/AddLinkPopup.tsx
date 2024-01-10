@@ -6,7 +6,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Editor } from '@tiptap/react';
-import styled from 'styled-components';
 
 const AddLinkPopup = ({
     editor,
