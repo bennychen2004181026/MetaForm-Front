@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
 import EmailIcon from '@mui/icons-material/Email';
 import { Alert, Box, Chip, IconButton, TextareaAutosize, Typography } from '@mui/material/';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import StartIconButton from '@/components/StartIconButton';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import userInviteEmployees from '@/hooks/userInviteEmployees';
+import { ApiError } from '@/interfaces/ApiError';
+import { IInviteEmployeesResponse } from '@/interfaces/ICompany';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
+import companyApis from '@/services/company';
+import * as authSliceExports from '@/store/slices/auth/authSlice';
+import { myCompanyId } from '@/store/slices/company/companySlice';
+import * as companySliceExports from '@/store/slices/company/companySlice';
+import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const StyledStartIconButtonBox = styled(Box)`
     margin: 100px 0;
@@ -44,7 +54,7 @@ const StyledTextArea = styled(TextareaAutosize)`
     margin: 8px 0;
     font-size: 16px;
     box-sizing: border-box;
-
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     &:focus {
         outline: 2px solid #3f51b5;
     }
@@ -59,6 +69,22 @@ const StyledValidEmailsBox = styled(Box)`
 `;
 
 const InviteUsers = () => {
+    const showSnackbar = useSnackbarHelper();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const companyId: string = useAppSelector(myCompanyId);
+    const { useInviteEmployeesMutation } = companyApis;
+    const [invite, { isLoading }] = useInviteEmployeesMutation();
+
+    useEffect(() => {
+        if (!companyId) {
+            showSnackbar(`Miss company info and you need to re-login`, 'error');
+            dispatch(companySliceExports.clearCompanyInfo());
+            dispatch(authSliceExports.clearCredentials());
+            navigate('/login');
+        }
+    }, [companyId]);
+
     const {
         emails,
         emailInput,
@@ -69,8 +95,32 @@ const InviteUsers = () => {
         handleBlur,
         handleFocus,
         handleClearAll,
+        isAllEmailsValid,
     } = userInviteEmployees();
 
+    const handleSubmit = async (): Promise<void> => {
+        try {
+            const response: IInviteEmployeesResponse = await invite({ companyId, emails }).unwrap();
+            const { message, failedEmailAddresses } = response;
+
+            if (failedEmailAddresses && failedEmailAddresses.length > 0) {
+                const failedEmails = failedEmailAddresses.join(', ');
+                showSnackbar(`${message}\n Failed emails: ${failedEmails}`, 'success');
+            } else {
+                showSnackbar(`${message}`, 'success');
+            }
+        } catch (submitError) {
+            const apiError = submitError as ApiError;
+            const errorMessage =
+                apiError.data?.errors?.[0].message ?? apiError.data ?? 'An unknown error occurred';
+
+            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+        }
+    };
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
     return (
         <StyledInviteEmployeesBox>
             <Typography variant="h5" gutterBottom>
@@ -103,7 +153,13 @@ const InviteUsers = () => {
             </StyledValidEmailsBox>
 
             <StyledStartIconButtonBox>
-                <StartIconButton text="Send" startIcon={<EmailIcon />} variant="contained" />
+                <StartIconButton
+                    text="Send"
+                    startIcon={<EmailIcon />}
+                    variant="contained"
+                    onClick={handleSubmit}
+                    disabled={!isAllEmailsValid}
+                />
             </StyledStartIconButtonBox>
         </StyledInviteEmployeesBox>
     );

@@ -13,6 +13,16 @@ const companyApis = createApi({
                 method: 'GET',
             }),
         }),
+        inviteEmployees: builder.mutation<
+            ICompanyInterfaces.IInviteEmployeesResponse,
+            ICompanyInterfaces.IInviteEmployeesRequest
+        >({
+            query: ({ companyId, emails }) => ({
+                url: `/${companyId}/invite-employees`,
+                method: 'POST',
+                data: { emails },
+            }),
+        }),
     }),
 });
 
