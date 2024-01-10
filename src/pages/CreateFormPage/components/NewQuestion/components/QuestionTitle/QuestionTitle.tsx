@@ -6,11 +6,11 @@ import styled from 'styled-components';
 
 import ImageContainer from '../ImageContainer';
 
-import { IImage } from '@/interfaces/IQuestion';
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
+import { IImage } from '@/interfaces/CreateForm';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
 import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/TextEditor';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 const NewQuestionTitleBox = styled(Box)`
     text-align: center;
@@ -32,7 +32,7 @@ const StyledQuestionTypeSelector = styled(QuestionTypeSelector)`
 `;
 const QuestionTitle = () => {
     const { state, dispatch } = useContext(NewQuestionContext);
-    const { title, questionId } = state;
+    const { title, questionType } = state;
     const [open, setOpen] = React.useState(false);
     const onTitleChange = (newTitle: string) => {
         dispatch({
@@ -59,14 +59,16 @@ const QuestionTitle = () => {
         <>
             <NewQuestionTitleBox>
                 <StyledTitleImageIconBox>
-                    <TextEditor onTitleChange={onTitleChange} />
+                    {/* <StyledQuestionTitle> */}
+                    <TextEditor onTitleChange={onTitleChange} value={title.content} />
+                    {/* </StyledQuestionTitle> */}
                     <IconButton onClick={handleClickOpen}>
                         <ImageOutlinedIcon fontSize="large" />
                     </IconButton>
                 </StyledTitleImageIconBox>
                 <StyledQuestionTypeSelector />
                 <ImageUploadDialog
-                    key={questionId}
+                    key={questionType}
                     open={open}
                     insertImage={insertImage}
                     onClose={handleClose}

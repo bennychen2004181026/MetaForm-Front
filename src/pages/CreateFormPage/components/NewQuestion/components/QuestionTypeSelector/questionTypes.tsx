@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DropDownIcon from '@mui/icons-material/ArrowDropDownCircleOutlined';
 import FileUploadIcon from '@mui/icons-material/BackupOutlined';
 import DateIcon from '@mui/icons-material/CalendarMonthOutlined';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -9,14 +8,14 @@ import ShortAnswerIcon from '@mui/icons-material/NotesOutlined';
 import ChoiceIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import TimeIcon from '@mui/icons-material/TimerOutlined';
 
-import IOption from '@/interfaces/IOption';
-import CheckboxesQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/CheckboxesQuestion';
-import DatePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/DatePickerQuestion';
-import FileUploadQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/FileUploadQuestion';
-import MuitiChoiceQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/MultiChoiceQuestion';
-import ParagraphQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/ParagraphQuestion';
-import ShortAnswerQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/ShortAnswerQuestion';
-import TimePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/components/TimePickerQuestion';
+import { IOption } from '@/interfaces/CreateForm';
+import CheckboxesQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/CheckboxesQuestion';
+import DatePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/DatePickerQuestion';
+import FileUploadQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/FileUploadQuestion';
+import MuitiChoiceQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/MultiChoiceQuestion';
+import ParagraphQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/ParagraphQuestion';
+import ShortAnswerQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/ShortAnswerQuestion';
+import TimePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/TimePickerQuestion';
 
 enum questionTypeStrings {
     MULTIPLE_CHOICE = 'Multiple Choice',

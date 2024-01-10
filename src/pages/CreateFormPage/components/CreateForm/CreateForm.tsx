@@ -1,26 +1,29 @@
 import React from 'react';
 
 import { Container } from '@mui/material';
-import styled from 'styled-components';
 
+import AddQuestion from './components/AddQuestion';
+import SubmitButton from '@/components/SubmitButton';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import FormQuestions from '@/pages/CreateFormPage/components/CreateForm/components/FormQuestions';
 import FormTitleField from '@/pages/CreateFormPage/components/CreateForm/components/FormTitleField';
-import { GlobalState } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
-import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor';
+import { GlobalNewFormState } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
 
-const StyledCreateForm = styled(Container)`
-    font-family: 'Noto Sans', sans-serif;
-`;
 const CreateForm = () => {
+    const handleSubmit = () => {};
     return (
-        <StyledCreateForm>
-            <ConditionalSectionContainer backgroundColor="#03787c">
-                <GlobalState>
+        <GlobalNewFormState>
+            <Container>
+                <ConditionalSectionContainer backgroundColor="#03787c">
+                    <FormTitleField />
+                </ConditionalSectionContainer>
+                <ConditionalSectionContainer backgroundColor="#03787c">
                     <FormQuestions />
-                </GlobalState>
-            </ConditionalSectionContainer>
-        </StyledCreateForm>
+                    <AddQuestion />
+                </ConditionalSectionContainer>
+                <SubmitButton isValid text="Create Form" handleSubmit={handleSubmit} />
+            </Container>
+        </GlobalNewFormState>
     );
 };
 export default CreateForm;
