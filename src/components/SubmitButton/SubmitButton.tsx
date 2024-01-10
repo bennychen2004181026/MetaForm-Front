@@ -24,6 +24,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ isValid, text, handleSubmit
             sx={{
                 textTransform: 'none',
                 bgcolor: 'primary.main',
+                mt: 6,
                 '&:hover': {
                     bgcolor: 'primary.dark',
                     color: 'white',

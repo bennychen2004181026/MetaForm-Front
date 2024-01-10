@@ -2,17 +2,17 @@ import React from 'react';
 
 import Header from '@/layouts/Header/Header';
 import MainLayout from '@/layouts/MainLayout';
-import CreateEmployeeStepper from '@/pages/CreateEmployeePage/components/';
+import CompanyIntros from '@/pages/DashboardLandingPage/components/CompanyIntros';
 
-const CreateEmployeePage: React.FC = () => {
+const DashboardLandingPage = () => {
     return (
         <div>
             <Header />
             <MainLayout>
-                <CreateEmployeeStepper />
+                <CompanyIntros />
             </MainLayout>
         </div>
     );
 };
 
-export default CreateEmployeePage;
+export default DashboardLandingPage;

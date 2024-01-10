@@ -2,17 +2,17 @@ import React from 'react';
 
 import Header from '@/layouts/Header/Header';
 import MainLayout from '@/layouts/MainLayout';
-import CreateEmployeeStepper from '@/pages/CreateEmployeePage/components/';
+import InviteUsers from '@/pages/InviteEmployeesPage/components/InviteUsers';
 
-const CreateEmployeePage: React.FC = () => {
+const InviteEmployeesPage = () => {
     return (
         <div>
             <Header />
             <MainLayout>
-                <CreateEmployeeStepper />
+                <InviteUsers />
             </MainLayout>
         </div>
     );
 };
 
-export default CreateEmployeePage;
+export default InviteEmployeesPage;

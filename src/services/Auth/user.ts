@@ -64,6 +64,16 @@ const userApis = createApi({
                 params: { key },
             }),
         }),
+        completeAccount: builder.mutation<
+            IUerInterfaces.ICompleteAccountResponse,
+            IUerInterfaces.ICompleteAccountRequest
+        >({
+            query: ({ userId, formData }) => ({
+                url: `/${userId}/completeAccount`,
+                method: 'POST',
+                data: formData,
+            }),
+        }),
     }),
 });
 
