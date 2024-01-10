@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 
+import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
 
 import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
-import { initQuestionState } from '@/pages/CreateFormPage/components/CreateForm/InitformState';
+import { initQuestionState } from '@/pages/CreateFormPage/components/CreateForm/InitFormState';
 
 const StyledAddQuestionButton = styled(Button)`
     width: 100%;
@@ -28,6 +29,7 @@ const AddQuestion = () => {
             onClick={handleAddQuestion}
             aria-label="Add New Question"
             variant="contained"
+            startIcon={<ControlPointOutlinedIcon />}
         >
             Add Question
         </StyledAddQuestionButton>

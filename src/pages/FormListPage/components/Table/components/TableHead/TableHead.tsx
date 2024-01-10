@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
 
-import IForm from '@/interfaces/Form';
+import { IForm } from '@/interfaces/CreateForm';
 import { formTableColumns } from '@/pages/FormListPage/FormTableColumns';
 
 type Order = 'asc' | 'desc';
@@ -37,15 +37,14 @@ const EnhancedTableHead = (props: ITableHeadProps) => {
                         checked={rowCount > 0 && numSelected === rowCount}
                         onChange={onSelectAllClick}
                         inputProps={{
-                            'aria-label': 'select all desserts',
+                            'aria-label': 'select all forms',
                         }}
                     />
                 </TableCell>
                 {formTableColumns.map((column) => (
                     <TableCell
                         key={column.id}
-                        align={column.numeric ? 'right' : 'left'}
-                        padding={column.disablePadding ? 'none' : 'normal'}
+                        align="left"
                         sortDirection={orderBy === column.id ? order : false}
                     >
                         <TableSortLabel

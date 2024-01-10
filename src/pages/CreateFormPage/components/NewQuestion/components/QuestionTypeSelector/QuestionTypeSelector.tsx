@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 
 import { InputAdornment, TextField } from '@mui/material';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import ObjectID from 'bson-objectid';
 
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
@@ -13,7 +14,7 @@ const AddOption = () => {
         dispatch({
             type: 'ADD_OPTION',
             payload: {
-                id: Math.floor(Math.random() * 10000).toString(),
+                id: ObjectID().str,
                 value: `Option  ${totalOptions + 1}`,
             },
         });
@@ -26,7 +27,7 @@ const AddOption = () => {
         dispatch({
             type: 'ADD_OPTION',
             payload: {
-                id: Math.floor(Math.random() * 10000).toString(),
+                id: ObjectID().str,
                 value: 'Other',
                 otherOption: true,
             },

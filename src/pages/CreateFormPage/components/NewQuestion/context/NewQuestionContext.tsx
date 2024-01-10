@@ -1,7 +1,7 @@
 import React, { Dispatch, createContext, useMemo, useReducer } from 'react';
 
 import { IImage, IOption, IQuestion } from '@/interfaces/CreateForm';
-import { initQuestionState as initState } from '@/pages/CreateFormPage/components/CreateForm/InitformState';
+import { initQuestionState as initState } from '@/pages/CreateFormPage/components/CreateForm/InitFormState';
 
 type Actions =
     | {
@@ -50,7 +50,7 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
         case 'ADD_OPTION':
             return {
                 ...state,
-                options: [payload, ...state.options],
+                options: [...state.options, payload],
             };
         case 'UPDATE_OPTION':
             state.options.find((a) => a.id === payload.id)!.value = payload.value;
@@ -63,16 +63,20 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
         case 'SAVE_TITLE':
             return {
                 ...state,
-                title: { ...state.title, content: action.payload },
+                questionTitle: { ...state.questionTitle, content: action.payload },
             };
         case 'INSERT_TITLE_IMAGE':
             return {
                 ...state,
-                title: { ...state.title, image: action.payload },
+                questionTitle: { ...state.questionTitle, image: action.payload },
             };
         case 'CHANGE_QUESTION_TYPE':
             return {
-                ...state,
+                ...{
+                    ...initState,
+                    questionId: state.questionId,
+                    questionTitle: state.questionTitle,
+                },
                 questionType: action.payload,
             };
         case 'SET_OPTIONS':
