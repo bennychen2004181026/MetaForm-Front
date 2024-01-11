@@ -27,6 +27,7 @@ const InviteEmployeesPage = React.lazy(() => import('@/pages/InviteEmployeesPage
 const UpdateCompanyProfilePage = React.lazy(() => import('@/pages/UpdateCompanyProfilePage'));
 const ErrorPage = React.lazy(() => import('@/pages/ErrorPage'));
 const UserProfilePage = React.lazy(() => import('@/pages/UserProfilePage'));
+const ChangePasswordPage = React.lazy(() => import('@/pages/ChangePasswordPage'));
 
 const AppRoute = () => (
     <Suspense fallback={<LoadingSpinner />}>
@@ -56,6 +57,7 @@ const AppRoute = () => (
                 <Route path="/create-form" element={<CreateFormPage />} />
                 <Route element={<ProtectedRoute />}>
                     <Route path="/user-profile" element={<UserProfilePage />} />
+                    <Route path="/user-profile/change-password" element={<ChangePasswordPage />} />
                     <Route
                         path="/company-profile/:userId"
                         element={<CompanyProfileStepperPage />}

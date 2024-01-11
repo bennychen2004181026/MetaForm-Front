@@ -63,7 +63,7 @@ const ReusableForm: React.FC<FormProps> = ({
     const [showPassword, setShowPassword] = useState<Record<string, boolean>>({
         password: false,
         confirmPassword: false,
-        currentPassword: false,
+        newPassword: false,
     });
 
     const handleClickShowPassword = (field: string) => {

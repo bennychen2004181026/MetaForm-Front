@@ -12,11 +12,14 @@ const ChangePasswordForm: React.FC = () => {
     const formFields: IField[] = [
         {
             id: 1,
-            label: 'Current Password',
-            key: 'currentPassword',
+            label: 'New Password',
+            key: 'newPassword',
             type: 'password',
             value: '',
-            validationRules: [{ key: 'isRequired', additionalData: 'Password' }],
+            validationRules: [
+                { key: 'isRequired', additionalData: 'New Password' },
+                { key: 'validatePassword' },
+            ],
         },
         {
             id: 2,
@@ -24,10 +27,7 @@ const ChangePasswordForm: React.FC = () => {
             key: 'password',
             type: 'password',
             value: '',
-            validationRules: [
-                { key: 'isRequired', additionalData: 'Password' },
-                { key: 'validatePassword' },
-            ],
+            validationRules: [{ key: 'isRequired', additionalData: 'Password' }],
         },
         {
             id: 3,
@@ -37,7 +37,7 @@ const ChangePasswordForm: React.FC = () => {
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'Confirm Password' },
-                { key: 'validateConfirmPassword', additionalData: 'password' },
+                { key: 'validateConfirmPassword', additionalData: 'newPassword' },
             ],
         },
     ];
