@@ -79,7 +79,7 @@ const Login = () => {
             id: 2,
             label: 'Password',
             key: 'password',
-            type: 'input',
+            type: 'password',
             value: '',
             validationRules: [{ key: 'isRequired', additionalData: 'Password' }],
         },

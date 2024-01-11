@@ -112,7 +112,7 @@ const CreateEmployeeStepper: React.FC = () => {
             id: 4,
             label: 'Password',
             key: 'password',
-            type: 'input',
+            type: 'password',
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'Password' },
@@ -123,7 +123,7 @@ const CreateEmployeeStepper: React.FC = () => {
             id: 5,
             label: 'Confirm Password',
             key: 'confirmPassword',
-            type: 'input',
+            type: 'password',
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'Confirm Password' },
@@ -134,7 +134,7 @@ const CreateEmployeeStepper: React.FC = () => {
             id: 6,
             label: 'Token',
             key: 'token',
-            type: 'input',
+            type: 'token',
             value: token,
             validationRules: [],
         },
