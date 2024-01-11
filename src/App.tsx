@@ -16,6 +16,9 @@ const App = () => {
         display: flex;
         justify-content: center;
         padding: 20px;
+        @media (max-width: 600px) {
+            padding: 0;
+        }
     `;
     return (
         <Provider store={store}>
