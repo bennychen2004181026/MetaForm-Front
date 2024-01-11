@@ -69,7 +69,12 @@ export interface ICompleteAccountResponse {
     isAccountComplete: boolean;
 }
 
-export interface ICompleteAccountAndChangePasswordRequest {
+export interface ICompleteAccountRequest {
+    userId: string;
+    formData: ICompany;
+}
+
+export interface IChangePasswordRequest {
     userId: string;
     formData: IUser;
 }

@@ -66,7 +66,7 @@ const userApis = createApi({
         }),
         completeAccount: builder.mutation<
             IUerInterfaces.ICompleteAccountResponse,
-            IUerInterfaces.ICompleteAccountAndChangePasswordRequest
+            IUerInterfaces.ICompleteAccountRequest
         >({
             query: ({ userId, formData }) => ({
                 url: `/${userId}/completeAccount`,
@@ -76,7 +76,7 @@ const userApis = createApi({
         }),
         changePassword: builder.mutation<
             IUerInterfaces.IChangePasswordResponse,
-            IUerInterfaces.ICompleteAccountAndChangePasswordRequest
+            IUerInterfaces.IChangePasswordRequest
         >({
             query: ({ userId, formData }) => ({
                 url: `/${userId}/change-password`,
