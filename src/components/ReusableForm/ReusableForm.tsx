@@ -70,6 +70,10 @@ const ReusableForm: React.FC<FormProps> = ({
         setShowPassword({ ...showPassword, [field]: !showPassword[field] });
     };
 
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
     const renderField = (field: IField) => {
         switch (field.type) {
             case 'select':
@@ -118,6 +122,7 @@ const ReusableForm: React.FC<FormProps> = ({
                                 }
                             />
                         }
+                        type={showPassword[field.key] ? 'text' : 'password'}
                         value={fieldsData[field.key]}
                         onChange={onDataChange(field.key)}
                         onBlur={onFieldsBlur(field.key)}
@@ -129,6 +134,7 @@ const ReusableForm: React.FC<FormProps> = ({
                                     <IconButton
                                         aria-label={`toggle ${field.label} visibility`}
                                         onClick={() => handleClickShowPassword(field.key)}
+                                        onMouseDown={handleMouseDownPassword}
                                     >
                                         {showPassword[field.key] ? (
                                             <VisibilityOff />
