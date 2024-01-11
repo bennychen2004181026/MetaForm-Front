@@ -43,8 +43,7 @@ const CompanyIntros: React.FC = () => {
     const handleInvalidToken = useHandleInvalidToken();
 
     const { useGetEmployeesQuery } = companyApis;
-    const shouldFetch =
-        companyId && companyName && companyABN && companyLogo && companyIndustry && companyMembers;
+    const shouldFetch = companyId && companyName && companyABN && companyIndustry;
     const { data, error, isLoading } = useGetEmployeesQuery(companyId as string, {
         skip: !shouldFetch,
     });
