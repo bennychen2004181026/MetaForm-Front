@@ -129,11 +129,21 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         isValid,
         validateAllFields,
         setFieldsData,
+        validateFieldsByStep,
     } = useForm(fields);
 
+    const stepFieldKeys = [['companyName', 'industry', 'abn']];
     const isLastStep = activeStep === steps.length - 1;
+    const currentStepKeys = stepFieldKeys[activeStep] || [];
     const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        if (!validateFieldsByStep(currentStepKeys)) {
+            showSnackbar(
+                'Please fill the required valid fields in the current step first',
+                'error',
+            );
+        } else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
     };
 
     const handleBack = () => {

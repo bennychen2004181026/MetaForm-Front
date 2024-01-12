@@ -43,8 +43,7 @@ const CompanyIntros: React.FC = () => {
         useAppSelector(companySliceExports.myCompanyMembersInfo) || [];
 
     const { useGetEmployeesQuery } = companyApis;
-    const shouldFetch =
-        companyId && companyName && companyABN && companyLogo && companyIndustry && companyMembers;
+    const shouldFetch = companyId && companyName && companyABN && companyIndustry;
     const {
         data,
         error,

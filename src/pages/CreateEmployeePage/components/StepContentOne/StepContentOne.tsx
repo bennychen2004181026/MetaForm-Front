@@ -53,7 +53,7 @@ const StepContentOne: React.FC<StepContentOneProps> = ({
     return (
         <StyledStepperBoxContainer>
             <ReusableForm
-                excludeFields={['password', 'confirmPassword']}
+                excludeFields={['password', 'confirmPassword', 'token']}
                 formFields={formFields}
                 fieldsData={fieldsData}
                 onDataChange={onDataChange}
