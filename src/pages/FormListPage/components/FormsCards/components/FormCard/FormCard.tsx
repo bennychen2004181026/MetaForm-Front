@@ -31,9 +31,7 @@ const StyledHeader = styled(CardHeader)`
     justify-content: center;
     min-height: 200px;
 `;
-const StyledCardContainer = styled(Box)`
-    width: 350px;
-`;
+
 const StyledTypographyForResponse = styled(Typography)`
     display: inline-block;
     font-size: 20px;
@@ -50,7 +48,7 @@ const FormCard = ({ formTitle, responses }: FormCardProps) => {
     };
     const open = Boolean(anchorEl);
     return (
-        <StyledCardContainer>
+        <Box>
             <Card variant="outlined">
                 <StyledHeader title={formTitle} />
                 <Divider light />
@@ -84,7 +82,7 @@ const FormCard = ({ formTitle, responses }: FormCardProps) => {
                     </nav>
                 </Popover>
             </Card>
-        </StyledCardContainer>
+        </Box>
     );
 };
 export default FormCard;

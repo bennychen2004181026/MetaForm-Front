@@ -36,6 +36,9 @@ const StyledHeader = styled.div`
     flex-direction: row;
     justify-content: space-between;
 `;
+const StyledFormsContainer = styled.div`
+    width: 1280px;
+`;
 const StyledAddQuestionButton = styled(Button)`
     width: 200px;
     margin-top: 20px;
@@ -79,10 +82,10 @@ const FormList = () => {
                     setDisplayMode={setDisplayMode}
                 />
             </StyledHeader>
-            <div>
+            <StyledFormsContainer>
                 {displayMode === 'cards' && <FormCards forms={companyForms} />}
                 {displayMode === 'list' && <Table forms={companyForms} />}
-            </div>
+            </StyledFormsContainer>
             <StyledAddQuestionButton
                 aria-label="Add New Question"
                 variant="contained"

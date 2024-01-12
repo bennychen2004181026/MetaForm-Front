@@ -34,6 +34,7 @@ const rootReducer = combineReducers({
     company: companyReducer,
     snackbar: snackbarSlice,
     forms: formSlice.reducer,
+    formResponses: formSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -50,6 +51,7 @@ export const store = configureStore({
             .concat(s3Apis.middleware)
             .concat(companyApis.middleware),
 });
+
 type IRootState = ReturnType<typeof store.getState>;
 setGetTokenMethod(() => store.getState().auth.token);
 export const persistor = persistStore(store);

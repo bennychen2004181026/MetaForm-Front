@@ -7,6 +7,7 @@ const initQuestionState: IQuestion = {
     questionTitle: { content: 'Question title' },
     options: [],
     other: false,
+    acceptFileTypes: ['0', '1', '2', '3'],
 };
 const initFormState: IForm = {
     formId: '4',
