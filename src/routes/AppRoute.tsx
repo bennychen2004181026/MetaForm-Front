@@ -56,6 +56,7 @@ const AppRoute = () => (
                 <Route path="/create-form" element={<CreateFormPage />} />
                 <Route element={<ProtectedRoute />}>
                     <Route path="/user-profile" element={<UserProfilePage />} />
+                    <Route path="/user-profile" element={<UserProfilePage />} />
                     <Route path="/user-profile/change-password" element={<ChangePasswordPage />} />
                     <Route path="/user-profile" element={<UserProfilePage />} />
                     <Route
