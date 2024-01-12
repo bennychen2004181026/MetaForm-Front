@@ -23,6 +23,7 @@ const FileItemsBox = styled.div`
     flex-direction: row;
     jusity-content: space-around;
     gap: 20px;
+    flex-wrap: wrap;
 `;
 const UploadQuestionBody = styled.div`
     display: flex;
