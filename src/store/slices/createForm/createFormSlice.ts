@@ -57,7 +57,7 @@ const initialState: IFormState = {
     createFormStatus: FormStatus.IDLE,
 };
 
-export const formSlice = createSlice({
+export const createFormSlice = createSlice({
     name: 'forms',
     initialState,
     reducers: {
@@ -99,7 +99,7 @@ const getFormsError = (state: IRootState) => state.forms.error;
 const getCreateFormsStatus = (state: IRootState) => state.forms.createFormStatus;
 const getCreateFormsError = (state: IRootState) => state.forms.createFormError;
 
-export const { searchProductsByTitle } = formSlice.actions;
+export const { searchProductsByTitle } = createFormSlice.actions;
 export {
     getFilteredForms,
     getCreateFormsStatus,
@@ -110,4 +110,4 @@ export {
     fetchForms,
     FormStatus,
 };
-export default formSlice;
+export default createFormSlice;
