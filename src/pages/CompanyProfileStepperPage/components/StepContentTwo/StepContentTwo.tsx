@@ -13,24 +13,16 @@ import UploadBoxContentRenderer from '@/components/UploadBoxContentRenderer';
 
 const StyledStepperBoxContainer = styled(Box)`
     display: flex;
-    flex-direction: column;
-    @media (min-width: 768px) {
-        flex-direction: row;
+    flex-direction: row;
+    @media (max-width: 768px) {
+        flex-direction: column;
     }
-    width: 360px;
-    height: 260px;
-    @media (min-width: 600px) {
-        width: 500px;
-        height: 400px;
-    }
-    @media (min-width: 960px) {
-        width: 600px;
-        height: 500px;
-    }
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-top: 1px;
+    margin: 20px 0;
     gap: 1rem;
+    flex-wrap: wrap;
+    align-content: center;
 `;
 
 const IconButtonBox = styled(Box)`
@@ -38,22 +30,20 @@ const IconButtonBox = styled(Box)`
     flex-direction: column;
     align-content: center;
     justify-content: space-around;
-    flex-wrap: wrap;
-    height: 20vh;
+    flex-wrap: nowrap;
+    height: 60px;
+    margin: 30px 0;
 `;
 interface StepContentTwoProps {
     fieldsData: Record<string, string>;
     isDragging: boolean;
     isLoading: boolean;
-    uploadProgress: number;
     handleDragEnter: (event: React.DragEvent<HTMLDivElement>) => void;
     handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
     handleDragLeave: (event: React.DragEvent<HTMLDivElement>) => void;
     handleDrop: (event: React.DragEvent<HTMLDivElement>) => Promise<void>;
     handleUploadButton: (event: React.ChangeEvent<HTMLInputElement>) => void;
     selectedImage: string | null;
-    setSelectedImage: React.Dispatch<React.SetStateAction<string | null>>;
-    setCroppedImageBlob: React.Dispatch<React.SetStateAction<Blob | null>>;
     croppedImageBlob: Blob | null;
     handleCropConfirmation: (croppedBlob: Blob) => void;
     handleCroppedImage: () => Promise<void>;
@@ -69,15 +59,12 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
     fieldsData,
     isDragging,
     isLoading,
-    uploadProgress,
     handleDragEnter,
     handleDragOver,
     handleDragLeave,
     handleDrop,
     handleUploadButton,
     selectedImage,
-    setSelectedImage,
-    setCroppedImageBlob,
     croppedImageBlob,
     handleCropConfirmation,
     handleCroppedImage,
@@ -114,8 +101,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
             >
                 <UploadBoxContentRenderer
                     isLoading={isLoading}
-                    uploadProgress={uploadProgress}
-                    companyLogo={fieldsData.companyLogo || croppedPreviewUrl}
+                    companyLogo={croppedPreviewUrl || fieldsData.logo}
                     cropComponent={cropComponent}
                 />
             </DragDropBox>

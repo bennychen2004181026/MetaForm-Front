@@ -9,17 +9,19 @@ interface StartIconButtonProps {
     startIcon: React.ReactNode;
     variant?: 'text' | 'outlined' | 'contained';
     children?: React.ReactNode;
+    disabled?: boolean;
 }
 
 const StyledStartIconButton = styled(Button)`
     height: 4vh;
-    width: 16vw;
+    width: 160px;
     border: none;
     padding: 2px;
     border-radius: 10%;
     transition:
         background-color 0.2s,
         color 0.2s;
+    margin: 10px 0;
 `;
 
 const StartIconButton: React.FC<StartIconButtonProps> = ({
@@ -28,6 +30,7 @@ const StartIconButton: React.FC<StartIconButtonProps> = ({
     startIcon,
     variant = 'text',
     children,
+    disabled = false,
 }) => {
     return (
         <StyledStartIconButton
@@ -35,6 +38,7 @@ const StartIconButton: React.FC<StartIconButtonProps> = ({
             component="label"
             onClick={onClick}
             startIcon={startIcon}
+            disabled={disabled}
         >
             {text}
             {children}

@@ -1,4 +1,5 @@
 import Role from '@/constants/roles';
+import { ICompany } from '@/interfaces/ICompany';
 
 export interface IUser {
     username?: string;
@@ -19,7 +20,7 @@ export interface ILoginResponse {
     user: IUser;
     token: string;
     email?: string;
-    company?: string;
+    companyInfo?: ICompany;
     role?: string;
     userId?: string;
     isAccountComplete?: boolean;
@@ -57,4 +58,17 @@ export interface IGetS3PreSignedUrlResponse {
 
 export interface IGetCloudFrontPreSignedUrlResponse {
     cloudFrontSignedUrl: string;
+}
+
+export interface ICompleteAccountResponse {
+    message: string;
+    token: string;
+    companyInfo: ICompany;
+    user: IUser;
+    isAccountComplete: boolean;
+}
+
+export interface ICompleteAccountRequest {
+    userId: string;
+    formData: ICompany;
 }

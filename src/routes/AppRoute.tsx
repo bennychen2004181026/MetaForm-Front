@@ -3,6 +3,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import LoadingSpinner from '@/layouts/LoadingSpinner';
+import CompanyMembersPage from '@/pages/CompanyMembersPage';
 import CompanyRegisterPage from '@/pages/CompanyRegisterPage';
 import CreateFormPage from '@/pages/CreateFormPage/CreateFormPage';
 import FormListPage from '@/pages/FormListPage';
@@ -23,6 +24,9 @@ const ProtectedRoute = React.lazy(() => import('@/components/ProtectedRoute'));
 const CompanyDashboardRoute = React.lazy(() => import('@/components/CompanyDashboardRoute'));
 const SuperAdminRoute = React.lazy(() => import('@/components/SuperAdminRoute'));
 const EmailVerificationPage = React.lazy(() => import('@/pages/EmailVerificationPage'));
+const DashboardLandingPage = React.lazy(() => import('@/pages/DashboardLandingPage'));
+const InviteEmployeesPage = React.lazy(() => import('@/pages/InviteEmployeesPage'));
+const UpdateCompanyProfilePage = React.lazy(() => import('@/pages/UpdateCompanyProfilePage'));
 
 const AppRoute = () => (
     <Suspense fallback={<LoadingSpinner />}>
@@ -41,17 +45,21 @@ const AppRoute = () => (
                     <Route path="/create-user" element={<RegisterPage />} />
                     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                     <Route path="/users/resetPassword/:token" element={<ResetPasswordPage />} />
+                    <Route
+                        path="/companies/:companyId/invite-employees/:token"
+                        element={<CreateEmployeePage />}
+                    />
                 </Route>
                 <Route path="/newResponse" element={<NewResponsePage />} />
 
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/register-option" element={<RegisterOptionPage />} />
                 <Route path="/forms" element={<FormListPage />} />
-                <Route
-                    path="/companies/:companyId/invite-employees/:token"
-                    element={<CreateEmployeePage />}
-                />
                 <Route path="/create-form" element={<CreateFormPage />} />
+                <Route
+                    path="/companies/:companyId/users/:userId/company-employees"
+                    element={<CompanyMembersPage />}
+                />
                 <Route element={<ProtectedRoute />}>
                     <Route
                         path="/company-profile/:userId"
@@ -59,10 +67,19 @@ const AppRoute = () => (
                     />
                     <Route path="/user-dashboard" />
                     <Route element={<CompanyDashboardRoute />}>
-                        <Route path="/companies/:companyId/employees" />
-                        <Route path="/companies/:companyId/invite-employees" />
+                        <Route
+                            path="/companies/:companyId/dashboard"
+                            element={<DashboardLandingPage />}
+                        />
+                        <Route
+                            path="/companies/:companyId/invite-employees"
+                            element={<InviteEmployeesPage />}
+                        />
                         <Route element={<SuperAdminRoute />}>
-                            <Route path="/companies/:companyId/users/:userId/update-company-profile" />
+                            <Route
+                                path="/companies/:companyId/users/:userId/update-company-profile"
+                                element={<UpdateCompanyProfilePage />}
+                            />
                         </Route>
                     </Route>
                 </Route>

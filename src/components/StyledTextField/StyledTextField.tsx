@@ -9,6 +9,7 @@ interface CustomTextFieldProps {
 
 const StyledTextField = styled(TextField)<CustomTextFieldProps>`
     && {
+        margin: 20px 0 0 0;
         max-width: 100%;
         .MuiFormHelperText-root {
             max-width: 80%;
