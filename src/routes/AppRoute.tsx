@@ -3,6 +3,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import LoadingSpinner from '@/layouts/LoadingSpinner';
+import CompanyMembersPage from '@/pages/CompanyMembersPage';
 import CompanyRegisterPage from '@/pages/CompanyRegisterPage';
 import CreateFormPage from '@/pages/CreateFormPage/CreateFormPage';
 import FormListPage from '@/pages/FormListPage';
@@ -44,20 +45,20 @@ const AppRoute = () => (
                     <Route path="/create-user" element={<RegisterPage />} />
                     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                     <Route path="/users/resetPassword/:token" element={<ResetPasswordPage />} />
+                    <Route
+                        path="/companies/:companyId/invite-employees/:token"
+                        element={<CreateEmployeePage />}
+                    />
                 </Route>
                 <Route path="/newResponse" element={<NewResponsePage />} />
 
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/register-option" element={<RegisterOptionPage />} />
                 <Route path="/forms" element={<FormListPage />} />
-                <Route
-                    path="/companies/:companyId/invite-employees/:token"
-                    element={<CreateEmployeePage />}
-                />
                 <Route path="/create-form" element={<CreateFormPage />} />
                 <Route
-                    path="/companies/:companyId/users/:userId/update-company-profile"
-                    element={<UpdateCompanyProfilePage />}
+                    path="/companies/:companyId/users/:userId/company-employees"
+                    element={<CompanyMembersPage />}
                 />
                 <Route element={<ProtectedRoute />}>
                     <Route
@@ -75,7 +76,10 @@ const AppRoute = () => (
                             element={<InviteEmployeesPage />}
                         />
                         <Route element={<SuperAdminRoute />}>
-                            <Route path="/companies/:companyId/users/:userId/update-company-profile" />
+                            <Route
+                                path="/companies/:companyId/users/:userId/update-company-profile"
+                                element={<UpdateCompanyProfilePage />}
+                            />
                         </Route>
                     </Route>
                 </Route>

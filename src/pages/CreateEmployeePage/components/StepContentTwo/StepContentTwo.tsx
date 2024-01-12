@@ -54,7 +54,7 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
     return (
         <StyledStepperBoxContainer>
             <ReusableForm
-                excludeFields={['firstName', 'lastName', 'username']}
+                excludeFields={['firstName', 'lastName', 'username', 'token']}
                 formFields={formFields}
                 fieldsData={fieldsData}
                 onDataChange={onDataChange}

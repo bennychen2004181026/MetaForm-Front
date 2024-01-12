@@ -1,5 +1,6 @@
 import Membership from '@/constants/Membership';
 import Role from '@/constants/roles';
+import { IUser } from '@/interfaces/IUser';
 
 export interface ICompany {
     _id?: string;
@@ -14,6 +15,7 @@ export interface ICompany {
 }
 
 export interface IEmployeeInfo {
+    _id?: string;
     username: string;
     firstName: string;
     lastName: string | null;
@@ -41,4 +43,26 @@ export interface IInviteEmployeesResponse {
 export interface IInviteEmployeesRequest {
     companyId: string;
     emails: string[];
+}
+
+export interface IAddEmployeeResponse {
+    message: string;
+    companyJson: ICompany;
+    userJson: IEmployeeInfo;
+    loginToken: string;
+}
+
+export interface IAddEmployeeRequest {
+    companyId: string;
+    formData: IUser;
+}
+
+export interface IUpdateCompanyProfileResponse {
+    message: string;
+    companyJson: ICompany;
+}
+
+export interface IUpdateCompanyProfileRequest {
+    companyId: string;
+    formData: ICompany;
 }

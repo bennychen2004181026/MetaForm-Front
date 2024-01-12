@@ -34,6 +34,7 @@ const useGoogleOAuth = (currentApiUrl?: string) => {
 
             const { message, token, user, isAccountComplete, companyInfo } = event.data;
             const { email, role, company, _id, isActive } = user;
+
             dispatch(
                 setCredentials({
                     user: user as IUser,

@@ -8,11 +8,11 @@ import ReusableForm from '@/components/ReusableForm';
 import Role from '@/constants/roles';
 import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
-import { ApiError } from '@/interfaces/ApiError';
 import { ICreateUserResponse, IUser } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import userApis from '@/services/Auth/user';
 import { setCredentials } from '@/store/slices/auth/authSlice';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const RegisterForm = () => {
@@ -127,11 +127,7 @@ const RegisterForm = () => {
             showSnackbar(`${message}`, 'success');
             navigate(`/company-profile/${_id}`);
         } catch (error) {
-            const apiError = error as ApiError;
-            const errorMessage =
-                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
-
-            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+            ApiErrorHelper(error, showSnackbar);
         }
     };
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

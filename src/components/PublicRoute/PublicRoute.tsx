@@ -13,7 +13,7 @@ const PublicRoute = () => {
     const fetchAccountStatus: boolean = useAppSelector(accountStatus);
     const fetchUserId: string = useAppSelector(authUserId);
     const location = useLocation();
-    const noSnackbarPaths = ['/login', '/create-user'];
+    const noSnackbarPaths = ['/login', '/create-user', '/register-option'];
 
     useEffect(() => {
         // exclude the snackbar displaying when these login paths

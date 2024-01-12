@@ -23,6 +23,26 @@ const companyApis = createApi({
                 data: { emails },
             }),
         }),
+        addEmployee: builder.mutation<
+            ICompanyInterfaces.IAddEmployeeResponse,
+            ICompanyInterfaces.IAddEmployeeRequest
+        >({
+            query: ({ companyId, formData }) => ({
+                url: `/${companyId}/add-employees`,
+                method: 'POST',
+                data: formData,
+            }),
+        }),
+        updateCompanyProfile: builder.mutation<
+            ICompanyInterfaces.IUpdateCompanyProfileResponse,
+            ICompanyInterfaces.IUpdateCompanyProfileRequest
+        >({
+            query: ({ companyId, formData }) => ({
+                url: `/${companyId}/update-company-profile`,
+                method: 'PATCH',
+                data: formData,
+            }),
+        }),
     }),
 });
 

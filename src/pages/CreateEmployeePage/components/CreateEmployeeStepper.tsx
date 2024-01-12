@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 
 import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import SubmitButton from '@/components/SubmitButton';
+import Role from '@/constants/roles';
+import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
+import { IAddEmployeeRequest, IAddEmployeeResponse, ICompany } from '@/interfaces/ICompany';
+import { IUser } from '@/interfaces/IUser';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
 import StepContentOne from '@/pages/CreateEmployeePage/components/StepContentOne';
 import StepContentThree from '@/pages/CreateEmployeePage/components/StepContentThree';
 import StepContentTwo from '@/pages/CreateEmployeePage/components/StepContentTwo';
+import companyApis from '@/services/company';
+import { setCredentials } from '@/store/slices/auth/authSlice';
+import { setCompanyInfo } from '@/store/slices/company/companySlice';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const steps = ['Employee information', 'Create password', 'Review and submit'];
@@ -60,7 +70,13 @@ const NextButton = styled(Button)`
 
 const CreateEmployeeStepper: React.FC = () => {
     const showSnackbar = useSnackbarHelper();
+    const { companyId, token } = useParams<{ companyId?: string; token?: string }>();
+    const { useAddEmployeeMutation } = companyApis;
+    const [addEmployee, { isLoading }] = useAddEmployeeMutation();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
+
     const fields: IField[] = [
         {
             id: 1,
@@ -114,6 +130,14 @@ const CreateEmployeeStepper: React.FC = () => {
                 { key: 'validateConfirmPassword', additionalData: 'password' },
             ],
         },
+        {
+            id: 6,
+            label: 'Token',
+            key: 'token',
+            type: 'input',
+            value: token,
+            validationRules: [],
+        },
     ];
 
     const {
@@ -125,11 +149,24 @@ const CreateEmployeeStepper: React.FC = () => {
         isValid,
         validateAllFields,
         setFieldsData,
+        validateFieldsByStep,
     } = useForm(fields);
 
+    const stepFieldKeys = [
+        ['firstName', 'lastName', 'username'],
+        ['password', 'confirmPassword'],
+    ];
     const isLastStep = activeStep === steps.length - 1;
+    const currentStepKeys = stepFieldKeys[activeStep] || [];
     const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        if (!validateFieldsByStep(currentStepKeys)) {
+            showSnackbar(
+                'Please fill the required valid fields in the current step first',
+                'error',
+            );
+        } else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
     };
 
     const handleBack = () => {
@@ -139,18 +176,74 @@ const CreateEmployeeStepper: React.FC = () => {
     const handleReset = () => {
         setActiveStep(0);
         setFieldsData({
-            companyName: '',
-            industry: '',
-            abn: '',
-            logo: '',
+            firstName: '',
+            lastName: '',
+            password: '',
+            confirmPassword: '',
         });
+    };
+
+    const addEmployeeFunction = async () => {
+        try {
+            const response: IAddEmployeeResponse = await addEmployee({
+                companyId,
+                formData: fieldsData,
+            } as IAddEmployeeRequest).unwrap();
+
+            const { message, companyJson, userJson, loginToken } = response;
+            const { email, role, company, _id: userId, isActive, isAccountComplete } = userJson;
+            const {
+                _id,
+                companyName,
+                abn,
+                logo,
+                description,
+                industry,
+                isActive: isCompanyActive,
+                address,
+                employees,
+            } = companyJson as ICompany;
+
+            dispatch(
+                setCredentials({
+                    user: userJson as IUser,
+                    token: loginToken,
+                    email: email ?? null,
+                    role: (role as Role) ?? null,
+                    company: company ?? null,
+                    userId: userId ?? null,
+                    companyInfo: (companyJson as ICompany) ?? null,
+                    isAccountComplete: isAccountComplete ?? false,
+                    isActive: isActive ?? false,
+                }),
+            );
+
+            dispatch(
+                setCompanyInfo({
+                    companyId: _id ?? null,
+                    companyName: companyName ?? null,
+                    abn: abn ?? null,
+                    logo: logo ?? null,
+                    description: description ?? null,
+                    industry: industry ?? null,
+                    isActive: isCompanyActive ?? false,
+                    employeesIds: Array.isArray(employees) && employees.length > 0 ? employees : [],
+                    address: address ?? null,
+                }),
+            );
+
+            showSnackbar(`${message}`, 'success');
+            navigate('/user-dashboard');
+        } catch (error) {
+            ApiErrorHelper(error, showSnackbar);
+        }
     };
 
     const handleSubmit = async () => {
         if (!validateAllFields()) {
             showSnackbar('Please fill all the required valid fields first', 'error');
         } else {
-            showSnackbar('You had successfully created account', 'success');
+            await addEmployeeFunction();
         }
     };
 
@@ -188,6 +281,10 @@ const CreateEmployeeStepper: React.FC = () => {
                 throw new Error('Invalid step index');
         }
     };
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <Box sx={{ width: '100%' }}>
