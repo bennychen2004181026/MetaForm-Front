@@ -54,7 +54,9 @@ const UserProfileMain: React.FC = () => {
         <StyledCard>
             <StyledAvatarBox>
                 {fetchedUser && (fetchedUser.firstName || fetchedUser.lastName) ? (
-                    <CustomAvatar {...stringAvatar(`Ben`)} />
+                    <CustomAvatar
+                        {...stringAvatar(`${fetchedUser.firstName} ${fetchedUser.lastName}`)}
+                    />
                 ) : (
                     <CustomAvatar>
                         <CustomFaceIcon />
