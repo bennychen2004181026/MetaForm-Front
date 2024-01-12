@@ -1,33 +1,96 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import IForm from '@/interfaces/Form';
-import Header from '@/layouts/Header';
-import Table from '@/pages/FormListPage/components/Table';
-import { formTableColumns } from '@/pages/FormListPage/FormTableColumns';
+import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
+import { Box, Button, TextField } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 
-const rows: IForm[] = [
-    {
-        id: '1',
-        title: 'Metaform Test Questionnaire',
-        author: 'Dylan',
-        createTime: '2023',
-        numberOfResponse: '12',
-    },
-    {
-        id: '2',
-        title: 'Metaform Test Questionnaire 2',
-        author: 'Benny',
-        createTime: '2060',
-        numberOfResponse: '132030',
-    },
-];
+import FormCards from './components/FormsCards/components/FormCards';
+import Table from './components/Table';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
+import DisplayModeToggle from '@/pages/FormListPage/components/DisplayModeToggle';
+import {
+    FormStatus,
+    fetchForms,
+    getFilteredForms,
+    getFormsError,
+    getFormsStatus,
+    searchProductsByTitle,
+} from '@/store/slices/form/formSlice';
+import { AppDispatch } from '@/store/store';
+import GlobalStyle from '@/styles/GlobalStyle';
+import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
+const StyledPageContainer = styled(Box)`
+    max-width: 1680px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+`;
+const StyledDisplayModeToggle = styled(DisplayModeToggle)`
+    border: 1px solid;
+`;
+const StyledHeader = styled.div`
+    width: 1280px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`;
+const StyledAddQuestionButton = styled(Button)`
+    width: 200px;
+    margin-top: 20px;
+    margin: 0 auto;
+`;
 const FormList = () => {
+    const [displayMode, setDisplayMode] = React.useState<string>('cards');
+    const dispatch = useDispatch<AppDispatch>();
+    const formsStatus = useSelector(getFormsStatus);
+    const companyForms = useSelector(getFilteredForms);
+    const error = useSelector(getFormsError);
+
+    useEffect(() => {
+        dispatch(fetchForms());
+    }, []);
+    if (formsStatus === FormStatus.LOADING) {
+        return <LoadingSpinner />;
+    }
+    if (formsStatus === FormStatus.FAILED) {
+        const showSnackbar = useSnackbarHelper();
+        showSnackbar(`message: ${error}`, 'error');
+    }
+    const handleSearchBarChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        const searchInput = e.target.value;
+        dispatch(searchProductsByTitle(searchInput));
+    };
     return (
-        <div>
-            <Header />
-            <Table columns={formTableColumns} rows={rows} />
-        </div>
+        <StyledPageContainer>
+            <GlobalStyle />
+            <StyledHeader>
+                <TextField
+                    id="outlined-search"
+                    label="Search field"
+                    type="search"
+                    onChange={(e) => handleSearchBarChange(e)}
+                />
+                <StyledDisplayModeToggle
+                    displayMode={displayMode}
+                    setDisplayMode={setDisplayMode}
+                />
+            </StyledHeader>
+            <div>
+                {displayMode === 'cards' && <FormCards forms={companyForms} />}
+                {displayMode === 'list' && <Table forms={companyForms} />}
+            </div>
+            <StyledAddQuestionButton
+                aria-label="Add New Question"
+                variant="contained"
+                startIcon={<ControlPointOutlinedIcon />}
+            >
+                Create Form
+            </StyledAddQuestionButton>
+        </StyledPageContainer>
     );
 };
 
