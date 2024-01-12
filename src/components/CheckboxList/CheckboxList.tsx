@@ -1,35 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import { CheckBox } from '@mui/icons-material';
 import {
     Checkbox,
+    FormControlLabel,
     List,
     ListItem,
     ListItemButton,
     ListItemIcon,
     ListItemText,
 } from '@mui/material';
+import styled from 'styled-components';
 
 import { IOption } from '@/interfaces/CreateForm';
+import MultiLineTextField from '@/layouts/MultiLineTextField';
 
+const OtherOption = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
 const CheckboxList = ({
     options,
     setResult,
+    other,
 }: {
     options: IOption[];
     setResult: (selectedOptionIds: string[]) => void;
+    other?: boolean;
 }) => {
     const [checked, setChecked] = React.useState(['']);
+    const [openOtherTextField, setOpenOtherTextField] = useState(false);
 
-    const handleToggle = (toggledOptionId: string) => () => {
+    // const handleSelectionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setValue(event.target.value);
+    //     if (event.target.value === 'Other') {
+    //         setOpenOtherTextField(true);
+    //     } else {
+    //         setOpenOtherTextField(false);
+    //     }
+    // };
+    const handleToggle = (toggledOption: IOption) => () => {
+        const { id: toggledOptionId, otherOption } = toggledOption;
+
         const currentIndex = checked.indexOf(toggledOptionId);
         const newChecked = [...checked];
-        if (currentIndex === -1) {
+        if (otherOption) {
             newChecked.push(toggledOptionId);
+            setResult(newChecked);
+            setChecked(newChecked);
+            setOpenOtherTextField(true);
         } else {
-            newChecked.splice(currentIndex, 1);
+            if (currentIndex === -1) {
+                newChecked.push(toggledOptionId);
+            } else {
+                newChecked.splice(currentIndex, 1);
+            }
+
+            setResult(newChecked);
+            setChecked(newChecked);
         }
-        setResult(newChecked);
-        setChecked(newChecked);
     };
     return (
         <List>
@@ -37,7 +66,7 @@ const CheckboxList = ({
                 const labelId = `checkbox-list-label-${option.id}`;
                 return (
                     <ListItem key={option.id}>
-                        <ListItemButton role={undefined} onClick={handleToggle(option.id)}>
+                        <ListItemButton role={undefined} onClick={handleToggle(option)}>
                             <ListItemIcon>
                                 <Checkbox
                                     edge="start"
@@ -52,6 +81,22 @@ const CheckboxList = ({
                     </ListItem>
                 );
             })}
+            {other && (
+                <OtherOption>
+                    <FormControlLabel
+                        key="Other"
+                        value="Other"
+                        control={<CheckBox />}
+                        label="Other"
+                    />
+                    {openOtherTextField && (
+                        <MultiLineTextField
+                            multilines={false}
+                            requiredQuestion={question.required}
+                        />
+                    )}
+                </OtherOption>
+            )}
         </List>
     );
 };

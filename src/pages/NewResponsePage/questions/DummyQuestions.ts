@@ -39,7 +39,7 @@ const dummyQuestions: IQuestion[] = [
             { id: '1', value: 'option 2' },
             { id: '2', value: 'option 3' },
         ],
-        other: false,
+        other: true,
     },
 
     {
