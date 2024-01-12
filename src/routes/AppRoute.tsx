@@ -54,10 +54,6 @@ const AppRoute = () => (
                 <Route path="/forms" element={<FormListPage />} />
                 <Route path="/create-form" element={<CreateFormPage />} />
                 <Route
-                    path="/companies/:companyId/users/:userId/update-company-profile"
-                    element={<UpdateCompanyProfilePage />}
-                />
-                <Route
                     path="/companies/:companyId/users/:userId/company-employees"
                     element={<CompanyMembersPage />}
                 />
@@ -77,7 +73,10 @@ const AppRoute = () => (
                             element={<InviteEmployeesPage />}
                         />
                         <Route element={<SuperAdminRoute />}>
-                            <Route path="/companies/:companyId/users/:userId/update-company-profile" />
+                            <Route
+                                path="/companies/:companyId/users/:userId/update-company-profile"
+                                element={<UpdateCompanyProfilePage />}
+                            />
                         </Route>
                     </Route>
                 </Route>

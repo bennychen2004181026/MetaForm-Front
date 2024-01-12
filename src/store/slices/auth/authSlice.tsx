@@ -71,6 +71,15 @@ const authSlice = createSlice({
         clearCredentials: () => {
             return { ...initialState };
         },
+        setCompanyInfoInUser: (
+            state,
+            action: PayloadAction<{
+                companyInfo: ICompany;
+            }>,
+        ) => {
+            const { companyInfo } = action.payload;
+            state.companyInfo = companyInfo;
+        },
     },
 });
 
@@ -79,5 +88,5 @@ export const accountStatus = (state: RootState) => state.auth.isAccountComplete;
 export const authUserId = (state: RootState) => state.auth.userId;
 export const authUserRole = (state: RootState) => state.auth.role;
 export const authUserCompanyInfo = (state: RootState) => state.auth.companyInfo;
-export const { setCredentials, clearCredentials } = authSlice.actions;
+export const { setCredentials, clearCredentials, setCompanyInfoInUser } = authSlice.actions;
 export default authSlice.reducer;

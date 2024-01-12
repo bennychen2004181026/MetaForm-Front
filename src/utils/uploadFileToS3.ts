@@ -1,4 +1,3 @@
-import { ApiError } from '@/interfaces/ApiError';
 import { IGetCloudFrontPreSignedUrlResponse, IGetS3PreSignedUrlResponse } from '@/interfaces/IUser';
 import userApis from '@/services/Auth/user';
 import s3Apis from '@/services/S3';
@@ -19,6 +18,14 @@ interface UploadUtilsProps {
     getCloudFrontPreSignedUrlQuery: ReturnType<
         typeof userApis.useLazyGetCloudFrontPreSignedUrlQuery
     >[0];
+    ApiErrorHelper: (
+        error: unknown,
+        showSnackbar: (
+            message: string,
+            variant: 'default' | 'error' | 'success' | 'warning' | 'info',
+        ) => void,
+    ) => void;
+    handleInvalidToken: (error: unknown) => void;
 }
 const uploadFileToS3 = async ({
     file,
@@ -29,6 +36,8 @@ const uploadFileToS3 = async ({
     getS3PreSignedUrlQuery,
     uploadToS3,
     getCloudFrontPreSignedUrlQuery,
+    ApiErrorHelper,
+    handleInvalidToken,
 }: UploadUtilsProps): Promise<string | void> => {
     if (!userId) {
         const errorMessage = 'User ID is required for uploading.';
@@ -59,12 +68,9 @@ const uploadFileToS3 = async ({
         );
         setIsLoading(false);
     } catch (error) {
-        const apiError = error as ApiError;
-        const errorMessage =
-            apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
-
-        showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
         setIsLoading(false);
+        ApiErrorHelper(error, showSnackbar);
+        handleInvalidToken(error);
     }
 };
 

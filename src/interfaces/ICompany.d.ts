@@ -56,3 +56,13 @@ export interface IAddEmployeeRequest {
     companyId: string;
     formData: IUser;
 }
+
+export interface IUpdateCompanyProfileResponse {
+    message: string;
+    companyJson: ICompany;
+}
+
+export interface IUpdateCompanyProfileRequest {
+    companyId: string;
+    formData: ICompany;
+}

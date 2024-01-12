@@ -8,14 +8,15 @@ import styled from 'styled-components';
 
 import StartIconButton from '@/components/StartIconButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import useHandleInvalidToken from '@/hooks/useHandleInvalidToken';
 import userInviteEmployees from '@/hooks/userInviteEmployees';
-import { ApiError } from '@/interfaces/ApiError';
 import { IInviteEmployeesResponse } from '@/interfaces/ICompany';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import companyApis from '@/services/company';
 import * as authSliceExports from '@/store/slices/auth/authSlice';
 import { myCompanyId } from '@/store/slices/company/companySlice';
 import * as companySliceExports from '@/store/slices/company/companySlice';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const StyledStartIconButtonBox = styled(Box)`
@@ -75,6 +76,7 @@ const InviteUsers = () => {
     const companyId: string = useAppSelector(myCompanyId);
     const { useInviteEmployeesMutation } = companyApis;
     const [invite, { isLoading }] = useInviteEmployeesMutation();
+    const handleInvalidToken = useHandleInvalidToken();
 
     useEffect(() => {
         if (!companyId) {
@@ -110,11 +112,8 @@ const InviteUsers = () => {
                 showSnackbar(`${message}`, 'success');
             }
         } catch (submitError) {
-            const apiError = submitError as ApiError;
-            const errorMessage =
-                apiError.data?.errors?.[0].message ?? apiError.data ?? 'An unknown error occurred';
-
-            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+            ApiErrorHelper(error, showSnackbar);
+            handleInvalidToken(error);
         }
     };
 

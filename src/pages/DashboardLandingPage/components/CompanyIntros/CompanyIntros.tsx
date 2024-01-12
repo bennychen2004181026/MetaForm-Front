@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { Badge, Business, BusinessCenter, Groups2 } from '@mui/icons-material/';
 import { List, ListItem, ListItemAvatar } from '@mui/material/';
-import { SerializedError } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import DefaultCompanyLogo from '@/assets/images/DefaultCompanyLogo.jpg';
 import ListIconAndTextItem from '@/components/ListIconAndTextItem/';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import useHandleInvalidToken from '@/hooks/useHandleInvalidToken';
 import { IEmployeeInfo } from '@/interfaces/ICompany';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import companyApis from '@/services/company';
 import * as authSliceExports from '@/store/slices/auth/authSlice';
 import * as companySliceExports from '@/store/slices/company/companySlice';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const StyledListItem = styled(ListItem)`
@@ -33,7 +33,6 @@ const CompanyIntros: React.FC = () => {
     const showSnackbar = useSnackbarHelper();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
     const companyId: string | null = useAppSelector(companySliceExports.myCompanyId);
     const companyName: string | null = useAppSelector(companySliceExports.myCompanyName);
     const companyABN: string | null = useAppSelector(companySliceExports.myCompanyABN);
@@ -41,14 +40,11 @@ const CompanyIntros: React.FC = () => {
     const companyIndustry: string | null = useAppSelector(companySliceExports.myCompanyIndustry);
     const companyMembers: IEmployeeInfo[] | [] =
         useAppSelector(companySliceExports.myCompanyMembersInfo) || [];
+    const handleInvalidToken = useHandleInvalidToken();
 
     const { useGetEmployeesQuery } = companyApis;
     const shouldFetch = companyId && companyName && companyABN && companyIndustry;
-    const {
-        data,
-        error,
-        isLoading: isQueryLoading,
-    } = useGetEmployeesQuery(companyId as string, {
+    const { data, error, isLoading } = useGetEmployeesQuery(companyId as string, {
         skip: !shouldFetch,
     });
 
@@ -61,31 +57,16 @@ const CompanyIntros: React.FC = () => {
             return;
         }
 
-        setIsLoading(isQueryLoading);
         if (error) {
-            let message;
-            let statusCode;
-            if (error instanceof AxiosError) {
-                statusCode = error.response?.status;
-                message = error.response?.data?.message || error.message;
-            } else {
-                const serializedError = error as SerializedError;
-                message = serializedError.message;
-                statusCode = serializedError.code;
-            }
-            showSnackbar(
-                `statusCode: ${statusCode ?? 500}\nmessage: ${
-                    message ?? 'An unknown error occurred'
-                }`,
-                'error',
-            );
+            ApiErrorHelper(error, showSnackbar);
+            handleInvalidToken(error);
         }
-    }, [shouldFetch, error]);
 
-    if (data) {
-        const { employeesArray } = data;
-        dispatch(companySliceExports.setEmployeesInfos(employeesArray));
-    }
+        if (data) {
+            const { employeesArray } = data;
+            dispatch(companySliceExports.setEmployeesInfos(employeesArray));
+        }
+    }, [shouldFetch, error, data]);
 
     const activeMembers = companyMembers.filter((user) => user.isActive === true);
 

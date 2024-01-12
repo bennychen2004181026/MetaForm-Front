@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
-import { FormControl } from '@mui/material';
 import Highlight from '@tiptap/extension-highlight';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';

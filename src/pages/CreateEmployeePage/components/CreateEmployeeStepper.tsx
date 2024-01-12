@@ -8,7 +8,6 @@ import SubmitButton from '@/components/SubmitButton';
 import Role from '@/constants/roles';
 import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
-import { ApiError } from '@/interfaces/ApiError';
 import { IAddEmployeeRequest, IAddEmployeeResponse, ICompany } from '@/interfaces/ICompany';
 import { IUser } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
@@ -18,6 +17,7 @@ import StepContentTwo from '@/pages/CreateEmployeePage/components/StepContentTwo
 import companyApis from '@/services/company';
 import { setCredentials } from '@/store/slices/auth/authSlice';
 import { setCompanyInfo } from '@/store/slices/company/companySlice';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const steps = ['Employee information', 'Create password', 'Review and submit'];
@@ -235,11 +235,7 @@ const CreateEmployeeStepper: React.FC = () => {
             showSnackbar(`${message}`, 'success');
             navigate('/user-dashboard');
         } catch (error) {
-            const apiError = error as ApiError;
-            const errorMessage =
-                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
-
-            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+            ApiErrorHelper(error, showSnackbar);
         }
     };
 
