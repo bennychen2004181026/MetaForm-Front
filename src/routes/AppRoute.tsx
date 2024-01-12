@@ -52,7 +52,6 @@ const AppRoute = () => (
                     />
                 </Route>
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
-                <Route path="/register-option" element={<RegisterOptionPage />} />
                 <Route path="/forms" element={<FormListPage />} />
                 <Route path="/create-form" element={<CreateFormPage />} />
                 <Route element={<ProtectedRoute />}>
