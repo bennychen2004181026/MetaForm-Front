@@ -63,6 +63,7 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 
 interface TableProps {
     rows: IList[];
+    userId?: string;
 }
 
 interface ROption {
@@ -73,24 +74,24 @@ interface ROption {
 
 const roleOptions: ROption[] = [
     {
+        key: 'superAdmin',
+        value: 'Super Admin',
+        desc: 'Can manage the roles for admin and employee and promote/demote all other users.',
+    },
+    {
         key: 'admin',
         value: 'Admin',
-        desc: 'Can manage org. members, edit settings and billing. can create workspaces and brand kits.',
+        desc: 'Can promote/demote employees but not any users with other roles. Cannot change any roles.',
     },
     {
-        key: 'editor',
-        value: 'Editor',
-        desc: 'Cannot manage org. members create workspaces.Can use brand brand kits, but not create.',
-    },
-    {
-        key: 'viewer',
-        value: 'Viewer',
-        desc: 'Can view workspaces and brand kits, but not create. Role exclusive for Enterprise customers.',
+        key: 'employee',
+        value: 'Employee',
+        desc: 'Can use the application but cannot make any update on the access right of any other user.',
     },
 ];
 
 const Table = (props: TableProps) => {
-    const { rows } = props;
+    const { rows, userId } = props;
     const [list, setList] = useState(rows);
     const [order, setOrder] = useState<Order>('asc');
     const [orderBy, setOrderBy] = useState<keyof IList>('name');
@@ -137,9 +138,17 @@ const Table = (props: TableProps) => {
             sx: {
                 bgcolor: stringToColor(name),
             },
-            children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+            children: `${name.split(' ')[0][0]}${
+                name.split(' ').length > 1 ? name.split(' ')[1][0] : ''
+            }`,
         };
     };
+
+    const userIndex = rows.findIndex((obj) => {
+        return obj.id === userId;
+    });
+    const userRole = rows[userIndex].role;
+    const userStatus = rows[userIndex].status;
 
     const [open, setOpen] = useState(false);
     const [updateRow, setUpdateRow] = useState('-1');
@@ -181,13 +190,13 @@ const Table = (props: TableProps) => {
         return `The member is now ${action}.`;
     };
 
-    type RoleKey = 'admin' | 'editor' | 'viewer' | 'activate';
+    type RoleKey = 'superAdmin' | 'admin' | 'employee' | 'activate';
 
     const roles: { [key in RoleKey]: string } = {
+        superAdmin: 'Super Admin',
         admin: 'Admin',
-        editor: 'Editor',
-        viewer: 'Viewer',
-        activate: 'Viewer',
+        employee: 'Employee',
+        activate: 'Employee',
     };
 
     return (
@@ -232,35 +241,44 @@ const Table = (props: TableProps) => {
                                                         return roles[p as RoleKey] || 'N/A';
                                                     }}
                                                     sx={{
-                                                        width: '120px',
+                                                        width: '150px',
                                                     }}
                                                 >
-                                                    {roleOptions.map((option) => (
+                                                    {userRole === 'superAdmin' &&
+                                                    userId !== row.id &&
+                                                    userStatus === 'Active' &&
+                                                    row.status === 'Active'
+                                                        ? roleOptions.map((option) => (
+                                                              <MenuItem
+                                                                  key={option.key}
+                                                                  value={option.key}
+                                                              >
+                                                                  <ListItemText
+                                                                      primary={option.value}
+                                                                      secondary={option.desc}
+                                                                      sx={{
+                                                                          width: '350px',
+                                                                          whiteSpace: 'normal',
+                                                                      }}
+                                                                  />
+                                                              </MenuItem>
+                                                          ))
+                                                        : null}
+                                                    {userRole !== 'employee' &&
+                                                    userStatus === 'Active' &&
+                                                    userId !== row.id ? (
                                                         <MenuItem
-                                                            key={option.key}
-                                                            value={option.key}
+                                                            value={
+                                                                row.status === 'Active'
+                                                                    ? 'deactivate'
+                                                                    : 'activate'
+                                                            }
                                                         >
-                                                            <ListItemText
-                                                                primary={option.value}
-                                                                secondary={option.desc}
-                                                                sx={{
-                                                                    width: '350px',
-                                                                    whiteSpace: 'normal',
-                                                                }}
-                                                            />
+                                                            {row.status === 'Active'
+                                                                ? 'Deactivate'
+                                                                : 'Activate'}
                                                         </MenuItem>
-                                                    ))}
-                                                    <MenuItem
-                                                        value={
-                                                            row.status === 'Active'
-                                                                ? 'deactivate'
-                                                                : 'activate'
-                                                        }
-                                                    >
-                                                        {row.status === 'Active'
-                                                            ? 'Deactivate'
-                                                            : 'Activate'}
-                                                    </MenuItem>
+                                                    ) : null}
                                                 </Select>
                                             </FormControl>
                                         </TableCell>
