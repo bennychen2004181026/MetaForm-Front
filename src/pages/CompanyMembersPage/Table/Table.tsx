@@ -66,13 +66,13 @@ interface TableProps {
     userId?: string;
 }
 
-interface ROption {
+interface RoleOption {
     key: string;
     value: string;
     desc: string;
 }
 
-const roleOptions: ROption[] = [
+const roleOptions: RoleOption[] = [
     {
         key: 'superAdmin',
         value: 'Super Admin',
@@ -89,6 +89,15 @@ const roleOptions: ROption[] = [
         desc: 'Can use the application but cannot make any update on the access right of any other user.',
     },
 ];
+
+type RoleKey = 'superAdmin' | 'admin' | 'employee' | 'activate';
+
+const roles: { [key in RoleKey]: string } = {
+    superAdmin: 'Super Admin',
+    admin: 'Admin',
+    employee: 'Employee',
+    activate: 'Employee',
+};
 
 const Table = (props: TableProps) => {
     const { rows, userId } = props;
@@ -188,15 +197,6 @@ const Table = (props: TableProps) => {
     const popupMessage = () => {
         const action = updateStatus === 'activate' ? 'activated' : 'deactivated';
         return `The member is now ${action}.`;
-    };
-
-    type RoleKey = 'superAdmin' | 'admin' | 'employee' | 'activate';
-
-    const roles: { [key in RoleKey]: string } = {
-        superAdmin: 'Super Admin',
-        admin: 'Admin',
-        employee: 'Employee',
-        activate: 'Employee',
     };
 
     return (
