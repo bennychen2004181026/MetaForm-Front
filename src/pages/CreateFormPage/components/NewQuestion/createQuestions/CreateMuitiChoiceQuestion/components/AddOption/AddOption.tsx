@@ -32,16 +32,10 @@ const AddOption = () => {
             },
         });
     };
-
     return (
-        <ButtonGroup variant="outlined">
-            <Button onClick={handleAddOption} aria-label="Add a new Option">
-                Add option
-            </Button>
-
-            <Button onClick={handleAllowOtherOption} aria-label="Add Other Option" disabled={other}>
-                Add Other
-            </Button>
+        <ButtonGroup variant="outlined" aria-label="outlined primary button group">
+            <Button onClick={handleAddOption}>Add option</Button>
+            {!other && <Button onClick={handleAllowOtherOption}>Add Other </Button>}
         </ButtonGroup>
     );
 };

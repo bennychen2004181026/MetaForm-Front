@@ -96,7 +96,18 @@ export const formSlice = createSlice({
 const getFilteredForms = (state: IRootState) => state.forms.searchedForms;
 const getFormsStatus = (state: IRootState) => state.forms.fetchFormStatus;
 const getFormsError = (state: IRootState) => state.forms.error;
+const getCreateFormsStatus = (state: IRootState) => state.forms.createFormStatus;
+const getCreateFormsError = (state: IRootState) => state.forms.createFormError;
 
 export const { searchProductsByTitle } = formSlice.actions;
-export { getFilteredForms, getFormsStatus, getFormsError, addNewForm, fetchForms, FormStatus };
+export {
+    getFilteredForms,
+    getCreateFormsStatus,
+    getCreateFormsError,
+    getFormsStatus,
+    getFormsError,
+    addNewForm,
+    fetchForms,
+    FormStatus,
+};
 export default formSlice;

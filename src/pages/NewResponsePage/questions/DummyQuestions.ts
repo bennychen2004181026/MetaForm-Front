@@ -49,6 +49,7 @@ const dummyQuestions: IQuestion[] = [
         questionTitle: { content: 'File Upload Question' },
         options: [],
         other: false,
+        acceptFileTypes: ['0', '1'],
     },
     {
         questionType: '5',

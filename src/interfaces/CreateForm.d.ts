@@ -1,10 +1,11 @@
-import IOption from '@/interfaces/IOption';
-
-enum FileTypes {
-    IMAGE = 'Image',
-    PDF = 'PDF',
+interface IOption {
+    id: string;
+    value: string;
+    icon?: React.ReactNode;
+    otherOption?: boolean;
+    image?: IFileToUpload;
+    fileExtensions?: string[];
 }
-
 interface IQuestion {
     questionId: string;
     required: boolean;
@@ -12,16 +13,18 @@ interface IQuestion {
     questionTitle: IQuestionTitle;
     options: IOption[];
     other: boolean;
-    acceptFileTypes?: FileTypes;
-    numOfFiles?: 1 | 2 | 3;
+    acceptFileTypes?: string[] | undefined;
+    numOfFiles?: 1 | 3 | 5;
 }
 interface IQuestionTitle {
     content: string;
-    image?: IImage;
+    image?: IFileToUpload;
 }
-interface IImage {
+interface IFileToUpload {
     name: string;
     url: string;
+    originalName: string;
+    fileType: React.ReactNode;
 }
 interface IForm {
     formId: string;
@@ -39,11 +42,4 @@ interface INewForm {
     questions: string[];
 }
 
-interface IOption {
-    id: string | undefined;
-    value: string;
-    icon?: React.ReactNode;
-    otherOption?: boolean;
-    image?: IImage;
-}
-export type { IOption, INewForm, IQuestionTitle, IForm, IImage, IQuestion };
+export type { IOption, INewForm, IQuestionTitle, IForm, IFileToUpload, IQuestion };
