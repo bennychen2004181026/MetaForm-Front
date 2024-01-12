@@ -66,23 +66,19 @@ const UserProfileMain: React.FC = () => {
             <CardContent>
                 <StyledCardItem
                     icon={BadgeIcon}
-                    value={fetchedUser && fetchedUser.username ? `${fetchedUser.username}` : 'User'}
+                    value={fetchedUser?.username ? `${fetchedUser.username}` : 'User'}
                     info="User Name:"
                     color="#f8bbd0"
                 />
                 <StyledCardItem
                     icon={EmailIcon}
-                    value={fetchedUser && fetchedUser.email ? `${fetchedUser.email}` : 'Email'}
+                    value={fetchedUser?.email ? `${fetchedUser.email}` : 'Email'}
                     info="Email:"
                     color="#e1bee7"
                 />
                 <StyledCardItem
                     icon={SupervisorAccountIcon}
-                    value={
-                        fetchedUser && fetchedUser.role
-                            ? `${fetchedUser.role}`
-                            : 'EmployeeEmployeeEmployeeEmployeeEmployeeEmployee'
-                    }
+                    value={fetchedUser?.role ? `${fetchedUser.role}` : 'Employee'}
                     info="Role:"
                     color="#b2dfdb"
                 />
