@@ -1,6 +1,8 @@
-import React, { FormEvent, ReactNode } from 'react';
+import React, { FormEvent, ReactNode, useState } from 'react';
 
-import { MenuItem } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { IconButton, InputAdornment, MenuItem, TextField } from '@mui/material';
 import styled from 'styled-components';
 
 import RequiredLabel from '@/components/RequiredLabel/RequiredLabel';
@@ -58,6 +60,20 @@ const ReusableForm: React.FC<FormProps> = ({
     showSubmitButton = true,
     submitButtonText = 'Submit',
 }) => {
+    const [showPassword, setShowPassword] = useState<Record<string, boolean>>({
+        password: false,
+        confirmPassword: false,
+        newPassword: false,
+    });
+
+    const handleClickShowPassword = (field: string) => {
+        setShowPassword({ ...showPassword, [field]: !showPassword[field] });
+    };
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
     const renderField = (field: IField) => {
         switch (field.type) {
             case 'select':
@@ -90,6 +106,47 @@ const ReusableForm: React.FC<FormProps> = ({
                 );
             case 'file':
                 return <input key={field.id} type="file" onChange={onDataChange(field.key)} />;
+            case 'token':
+                return <TextField>Hidden</TextField>;
+            case 'password':
+                return (
+                    <StyledTextField
+                        key={field.id}
+                        label={
+                            <RequiredLabel
+                                label={field.label}
+                                isRequired={
+                                    field.validationRules?.some(
+                                        (rule) => rule.key === 'isRequired',
+                                    ) ?? false
+                                }
+                            />
+                        }
+                        type={showPassword[field.key] ? 'text' : 'password'}
+                        value={fieldsData[field.key]}
+                        onChange={onDataChange(field.key)}
+                        onBlur={onFieldsBlur(field.key)}
+                        error={fieldsFocus[field.key] && !!errors[field.key]}
+                        helperText={fieldsFocus[field.key] ? errors[field.key] : ''}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label={`toggle ${field.label} visibility`}
+                                        onClick={() => handleClickShowPassword(field.key)}
+                                        onMouseDown={handleMouseDownPassword}
+                                    >
+                                        {showPassword[field.key] ? (
+                                            <VisibilityOff />
+                                        ) : (
+                                            <Visibility />
+                                        )}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                );
             case 'input':
             default:
                 return (
