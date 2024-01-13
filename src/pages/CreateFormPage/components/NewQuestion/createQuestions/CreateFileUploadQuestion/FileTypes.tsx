@@ -30,7 +30,13 @@ const fileTypesObjs: IOption[] = [
     {
         id: '2',
         value: FileTypes.DOCUMENT,
-        fileExtensions: ['application/msword', '.doc', '.docx', 'text/plain'],
+        fileExtensions: [
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            '.doc',
+            '.docx',
+            'text/plain',
+        ],
         icon: <TextSnippetOutlinedIcon />,
     },
     {
