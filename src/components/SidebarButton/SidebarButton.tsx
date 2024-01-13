@@ -41,7 +41,7 @@ const Icon = styled.div`
     display: flex;
     align-items: center;
 `;
-const LinkText = styled.div``;
+
 const MainContent = styled.main`
     width: 100%;
     padding: 20px;
@@ -67,9 +67,9 @@ const SidebarButton = ({ children }: { children: React.ReactNode }) => {
                 {menuItem.map((item) => (
                     <CustomNavLink to={item.path} key={item.id} style={customNavLinkStyle}>
                         <Icon>{item.icon}</Icon>
-                        <LinkText style={{ display: isOpen ? 'block' : 'none' }}>
+                        <p style={{ display: isOpen ? 'block' : 'none' }}>
                             {item.name}
-                        </LinkText>
+                        </p>
                     </CustomNavLink>
                 ))}
             </Sidebar>
