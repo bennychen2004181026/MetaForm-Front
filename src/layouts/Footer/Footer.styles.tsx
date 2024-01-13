@@ -10,7 +10,13 @@ export const Div = styled.div`
     right: 0;
     bottom: 0;
     z-index: 1;
-    padding: 30px 30px;
+    padding: 20px 20px;
+    background-color: #e7f1f1;
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        align-content: center;
+        padding: 10px 20px;
+    }
 `;
 export const FooterLink = styled(Link)`
     align-items: center;

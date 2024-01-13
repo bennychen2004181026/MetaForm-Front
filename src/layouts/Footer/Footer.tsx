@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { Typography } from '@mui/material';
-
-import { Div, FooterLink } from './Footer.styles';
+import FooterItem from '@/components/FooterItem/FooterItem';
+import { useAppSelector } from '@/hooks/redux';
+import { Div } from '@/layouts/Footer/Footer.styles';
+import { accountStatus, authUser, authUserId } from '@/store/slices/auth/authSlice';
 
 const Footer = () => {
+    const fetchedUser = useAppSelector(authUser);
+    const fetchAccountStatus = useAppSelector(accountStatus);
+    const fetchUserId = useAppSelector(authUserId);
+
+    const footerLink = useMemo(() => {
+        if (!fetchedUser) {
+            return '/login';
+        }
+        if (!fetchAccountStatus) {
+            return `/company-profile/${fetchUserId}`;
+        }
+        return '/user-dashboard';
+    }, [fetchedUser, fetchAccountStatus, fetchUserId]);
+
     return (
         <Div>
-            <FooterLink to="/#">
-                <Typography variant="body2">company address</Typography>
-            </FooterLink>
-            <FooterLink to="/#">
-                <Typography variant="body2">Cookie Settings</Typography>
-            </FooterLink>
-            <FooterLink to="/#">
-                <Typography variant="body2">Check our Cookie Policy to delete cookies</Typography>
-            </FooterLink>
-            <FooterLink to="/home">
-                <Typography variant="body2">&copy; Metaform</Typography>
-            </FooterLink>
+            <FooterItem text="company address" footerLink={footerLink} />
+            <FooterItem text="Cookie Settings" footerLink={footerLink} />
+            <FooterItem text="Check our Cookie Policy to delete cookies" footerLink={footerLink} />
+            <FooterItem text="&copy; Metaform" footerLink={footerLink} />
         </Div>
     );
 };
