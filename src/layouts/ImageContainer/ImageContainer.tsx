@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ThemeProvider, styled } from 'styled-components';
 
-import { IFileToUpload } from '@/interfaces/CreateForm';
+import { IUploadedFile } from '@/interfaces/CreateForm';
 
 const StyledImageContainer = styled.div`
     img {
@@ -24,7 +24,7 @@ const theme = {
     },
 };
 
-const ImageContainer = ({ image, large }: { image: IFileToUpload; large: boolean }) => {
+const ImageContainer = ({ image, large }: { image: IUploadedFile; large: boolean }) => {
     const { name, url } = image;
     return (
         <ThemeProvider theme={large ? theme.large : theme.small}>

@@ -2,9 +2,12 @@ import React, { useCallback, useRef, useState } from 'react';
 
 import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-import { IFileToUpload, IQuestion } from '@/interfaces/CreateForm';
+import { IQuestion, IUploadedFile } from '@/interfaces/CreateForm';
 import { getSelectedFileTypes } from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion/FileTypes';
+import { authToken } from '@/store/slices/auth/authSlice';
+import { PRESIGNED_CLOUR_FRONT_URL, PRESIGNED_URL } from '@/utils/API';
 import validateFiles, { dragValidation } from '@/utils/uploadMultipleFilesValidators';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
@@ -15,9 +18,11 @@ const useUploadMultiFiles = ({
     question: IQuestion;
     availableSpace?: number;
 }) => {
+    const token = useSelector(authToken);
+
     const showSnackbar = useSnackbarHelper();
     const [isDragging, setIsDragging] = useState(false);
-    const [selectedFiles, setSelectedFiles] = useState<IFileToUpload[] | null>(null);
+    const [selectedFiles, setSelectedFiles] = useState<IUploadedFile[] | null>(null);
     const imgRef = useRef<HTMLInputElement | null>(null);
     const [isFileValid, setIsFileValid] = useState(true);
     const { acceptFileTypes, questionId } = question;
@@ -41,6 +46,24 @@ const useUploadMultiFiles = ({
         }
         return null;
     };
+    const uploadFile = async (file: File) => {
+        const uploadResponse = await axios.get(PRESIGNED_URL, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        const { url, key } = uploadResponse.data;
+
+        const a = {
+            headers: {
+                'Content-Type': file.type,
+            },
+        };
+        await axios.put(url, file, a);
+        const downloadResponse = await axios.get(PRESIGNED_CLOUR_FRONT_URL, {
+            params: { key },
+        });
+        const { cloudFrontSignedUrl: downloadUrl } = downloadResponse.data;
+        return downloadUrl;
+    };
     const handleFilesSelection = useCallback(
         async (files: File[]) => {
             const errMsg = validateFiles({
@@ -56,16 +79,29 @@ const useUploadMultiFiles = ({
                 });
                 return;
             }
-            const addedFiles = files.map((file) => {
-                return {
-                    name: getFileName(file.name),
-                    originalName: file.name,
-                    url: URL.createObjectURL(file),
-                    fileType: getFileType(file) || <FindInPageOutlinedIcon />,
-                };
-            });
-            setSelectedFiles(addedFiles);
             setIsFileValid(true);
+
+            files.map((file) => {
+                try {
+                    uploadFile(file).then((url) => {
+                        const uploadedFile: IUploadedFile = {
+                            name: getFileName(file.name),
+                            originalName: file.name,
+                            url: URL.createObjectURL(file),
+                            fileType: getFileType(file) || <FindInPageOutlinedIcon />,
+                            remoteUrl: url,
+                        };
+                        if (selectedFiles !== null) {
+                            setSelectedFiles([...selectedFiles, uploadedFile]);
+                        } else {
+                            setSelectedFiles([uploadedFile]);
+                        }
+                    });
+                } catch (err) {
+                    showSnackbar('Upload failed, try again later', 'error');
+                }
+                return null;
+            });
         },
         [showSnackbar],
     );
@@ -111,37 +147,19 @@ const useUploadMultiFiles = ({
         [handleDragEnter, handleDragOver, handleDragLeave, handleFilesSelection],
     );
 
-    const uploadFile = async (file: File) => {
-        const uploadResponse = await axios.get('http://localhost:3005/users/getPresignedUrl');
-        const { url, key } = uploadResponse.data;
-
-        const a = {
-            headers: {
-                'Content-Type': file.type,
-            },
-        };
-        await axios.put(url, file, a);
-        const downloadResponse = await axios.get(
-            'http://localhost:3005/users/getCloudFrontPresignedUrl',
-            {
-                params: { key },
-            },
-        );
-        const { cloudFrontSignedUrl: downloadUrl } = downloadResponse.data;
-        return downloadUrl;
-    };
-
     const onFilesSelect = useCallback(
         async (event: React.ChangeEvent<HTMLInputElement>) => {
             const filesList = event.target.files ? event.target.files : null;
             const files = Array.prototype.slice.call(filesList);
             if (files) {
-                await handleFilesSelection(files).then(async () => {
-                    const fileUrls = await Promise.all(files.map((file) => uploadFile(file)));
-                    // console.log(fileUrls);
-
-                    return fileUrls;
-                });
+                try {
+                    await handleFilesSelection(files).then(async () => {
+                        const fileUrls = await Promise.all(files.map((file) => uploadFile(file)));
+                        return fileUrls;
+                    });
+                } catch (err) {
+                    showSnackbar('Upload failed, try again later', 'error');
+                }
             }
         },
         [handleFilesSelection],

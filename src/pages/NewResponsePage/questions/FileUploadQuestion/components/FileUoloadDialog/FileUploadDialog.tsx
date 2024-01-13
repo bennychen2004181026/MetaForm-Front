@@ -5,13 +5,13 @@ import styled from 'styled-components';
 
 import DragDropBox from '@/components/DragDropBox';
 import useUploadMultiFiles from '@/hooks/useUploadMultiFiles';
-import { IFileToUpload, IQuestion } from '@/interfaces/CreateForm';
+import { IQuestion, IUploadedFile } from '@/interfaces/CreateForm';
 import { getValidFileExtensions } from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion/FileTypes';
 
 export interface FilesUploadDialogProps {
     open: boolean;
     onClose: () => void;
-    handleSelectedFiles: (value: IFileToUpload[]) => void;
+    handleSelectedFiles: (value: IUploadedFile[]) => void;
     question: IQuestion;
     availableFileSpace: number;
 }

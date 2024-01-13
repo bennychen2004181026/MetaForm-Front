@@ -90,3 +90,4 @@ export const authUserRole = (state: RootState) => state.auth.role;
 export const authUserCompanyInfo = (state: RootState) => state.auth.companyInfo;
 export const { setCredentials, clearCredentials, setCompanyInfoInUser } = authSlice.actions;
 export default authSlice.reducer;
+export const authToken = (state: RootState) => state.auth.token;

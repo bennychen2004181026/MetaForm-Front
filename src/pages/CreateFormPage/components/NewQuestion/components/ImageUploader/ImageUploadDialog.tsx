@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import DragDropBox from '@/components/DragDropBox';
 // import useUploadQuestionImage from '@/hooks/useUploadQuestionImage';
 import useUploadMultiFiles from '@/hooks/useUploadMultiFiles';
-import { IFileToUpload } from '@/interfaces/CreateForm';
+import { IUploadedFile } from '@/interfaces/CreateForm';
 import ImageContainer from '@/layouts/ImageContainer';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
@@ -14,7 +14,7 @@ export interface ImageInsertDialogProps {
     open: boolean;
     key: string;
     onClose: () => void;
-    handleSelectedFiles: (value: IFileToUpload) => void;
+    handleSelectedFiles: (value: IUploadedFile) => void;
 }
 const StyledDialogContent = styled.div`
     display: flex;
@@ -65,13 +65,11 @@ const ImageUploadDialog = (props: ImageInsertDialogProps) => {
                         onDrop={handleDrop}
                         isFileValid={isFileValid}
                     >
+                        {selectedFiles && <ImageContainer image={selectedFiles[0]} large={false} />}
                         <StyledDialogContent>
-                            {selectedFiles && (
-                                <ImageContainer image={selectedFiles[0]} large={false} />
-                            )}
                             {!isDragging && (
                                 <>
-                                    <Button variant="outlined" onClick={selectFiles}>
+                                    <Button variant="outlined" onClick={selectFiles} fullWidth>
                                         Browse
                                         <input
                                             type="file"

@@ -1,6 +1,6 @@
 import React, { Dispatch, createContext, useMemo, useReducer } from 'react';
 
-import { IFileToUpload, IOption, IQuestion } from '@/interfaces/CreateForm';
+import { IOption, IQuestion, IUploadedFile } from '@/interfaces/CreateForm';
 import { initQuestionState as initState } from '@/pages/CreateFormPage/components/CreateForm/InitformState';
 
 type Actions =
@@ -22,7 +22,7 @@ type Actions =
       }
     | {
           type: 'INSERT_TITLE_IMAGE';
-          payload: IFileToUpload;
+          payload: IUploadedFile;
       }
     | {
           type: 'CHANGE_QUESTION_TYPE';

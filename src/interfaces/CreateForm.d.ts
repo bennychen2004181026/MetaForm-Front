@@ -3,7 +3,7 @@ interface IOption {
     value: string;
     icon?: React.ReactNode;
     otherOption?: boolean;
-    image?: IFileToUpload;
+    image?: IUploadedFile;
     fileExtensions?: string[];
 }
 interface IQuestion {
@@ -18,13 +18,14 @@ interface IQuestion {
 }
 interface IQuestionTitle {
     content: string;
-    image?: IFileToUpload;
+    image?: IUploadedFile;
 }
-interface IFileToUpload {
+interface IUploadedFile {
     name: string;
     url: string;
     originalName: string;
     fileType: ReactNode;
+    remoteUrl: remotefileUrl;
 }
 interface IForm {
     formId: string;
@@ -51,4 +52,4 @@ interface IFectchedForm {
     questions: string[];
 }
 
-export type { IOption, INewForm, IFectchedForm, IQuestionTitle, IForm, IFileToUpload, IQuestion };
+export type { IOption, INewForm, IFectchedForm, IQuestionTitle, IForm, IUploadedFile, IQuestion };

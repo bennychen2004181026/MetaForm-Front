@@ -9,7 +9,7 @@ import { IconButton, ListItem, TextField } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import styled from 'styled-components';
 
-import { IFileToUpload, IOption } from '@/interfaces/CreateForm';
+import { IOption, IUploadedFile } from '@/interfaces/CreateForm';
 import ImageContainer from '@/layouts/ImageContainer';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
@@ -30,7 +30,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
     const handleClose = () => {
         setOpen(false);
     };
-    const insertImage = (image: IFileToUpload) => {
+    const insertImage = (image: IUploadedFile) => {
         const index = options.findIndex((obj) => obj.id === option.id);
         options[index] = {
             ...option,

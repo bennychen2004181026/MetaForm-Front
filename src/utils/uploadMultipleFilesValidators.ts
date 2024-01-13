@@ -29,7 +29,6 @@ const validateFileType = ({
     files: File[];
 }) => {
     let validFileTypes = true;
-
     for (let i = 0; i < files.length; i += 1) {
         if (!acceptFileTypes.includes(files[i].type)) {
             validFileTypes = false;

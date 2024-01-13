@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import CloseIcon from '@mui/icons-material/Close';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { Button, ButtonGroup, IconButton, Link, Paper } from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
 import styled from 'styled-components';
 
-import { IFileToUpload, IQuestion } from '@/interfaces/CreateForm';
+import { IQuestion, IUploadedFile } from '@/interfaces/CreateForm';
 import { DEFAULT_MAXIMUM_FILE_NUMBERS } from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion/FileTypes';
+import FileItem from '@/pages/NewResponsePage/questions/FileUploadQuestion/components/FileItem';
 import FileUploadDialog from '@/pages/NewResponsePage/questions/FileUploadQuestion/components/FileUoloadDialog';
 
-const CurrentFileItem = styled(Paper)`
-    background-color: #fff;
-    text-align: center;
-    padding: 0 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-`;
 const FileItemsBox = styled.div`
     display: flex;
     flex-direction: row;
@@ -33,7 +24,7 @@ const UploadQuestionBody = styled.div`
 const FileUploadQuestion = ({ question }: { question: IQuestion }) => {
     const [open, setOpen] = React.useState(false);
 
-    const [currentFiles, setCurrentFiles] = useState<IFileToUpload[]>([]);
+    const [currentFiles, setCurrentFiles] = useState<IUploadedFile[]>([]);
     const { numOfFiles } = question;
     const [availableSpace, setAvailableSpace] = useState<number>(
         numOfFiles || DEFAULT_MAXIMUM_FILE_NUMBERS,
@@ -49,11 +40,11 @@ const FileUploadQuestion = ({ question }: { question: IQuestion }) => {
             setAvailableSpace(5 - currentFiles.length);
         }
     }, [currentFiles]);
-    const handleSelectedFiles = (files: IFileToUpload[]) => {
-        const newFiles: IFileToUpload[] = [...currentFiles!, ...files];
+    const handleSelectedFiles = (files: IUploadedFile[]) => {
+        const newFiles: IUploadedFile[] = [...currentFiles!, ...files];
         setCurrentFiles(newFiles);
     };
-    const removeFile = (fileToRemove: IFileToUpload) => {
+    const removeFile = (fileToRemove: IUploadedFile) => {
         const newFiles = [...currentFiles.filter((file) => file.name !== fileToRemove.name)];
         setCurrentFiles(newFiles);
     };
@@ -66,16 +57,7 @@ const FileUploadQuestion = ({ question }: { question: IQuestion }) => {
                 <FileItemsBox>
                     {currentFiles.length > 0 &&
                         currentFiles.map((file) => (
-                            <CurrentFileItem key={file.originalName}>
-                                <div>{file.fileType}</div>
-                                <Link underline="hover" href="www.google.com">
-                                    {file.originalName.slice(0, 20)}
-                                </Link>
-
-                                <IconButton onClick={() => removeFile(file)}>
-                                    <CloseIcon />
-                                </IconButton>
-                            </CurrentFileItem>
+                            <FileItem key={file.name} file={file} removeFile={removeFile} />
                         ))}
                 </FileItemsBox>
                 <ButtonGroup variant="outlined" aria-label="outlined button group">
