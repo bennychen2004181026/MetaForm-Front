@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 
 import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
+import axios from 'axios';
 
 import { IFileToUpload, IQuestion } from '@/interfaces/CreateForm';
 import { getSelectedFileTypes } from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion/FileTypes';
@@ -110,12 +111,37 @@ const useUploadMultiFiles = ({
         [handleDragEnter, handleDragOver, handleDragLeave, handleFilesSelection],
     );
 
+    const uploadFile = async (file: File) => {
+        const uploadResponse = await axios.get('http://localhost:3005/users/getPresignedUrl');
+        const { url, key } = uploadResponse.data;
+
+        const a = {
+            headers: {
+                'Content-Type': file.type,
+            },
+        };
+        await axios.put(url, file, a);
+        const downloadResponse = await axios.get(
+            'http://localhost:3005/users/getCloudFrontPresignedUrl',
+            {
+                params: { key },
+            },
+        );
+        const { cloudFrontSignedUrl: downloadUrl } = downloadResponse.data;
+        return downloadUrl;
+    };
+
     const onFilesSelect = useCallback(
         async (event: React.ChangeEvent<HTMLInputElement>) => {
             const filesList = event.target.files ? event.target.files : null;
             const files = Array.prototype.slice.call(filesList);
             if (files) {
-                await handleFilesSelection(files);
+                await handleFilesSelection(files).then(async () => {
+                    const fileUrls = await Promise.all(files.map((file) => uploadFile(file)));
+                    // console.log(fileUrls);
+
+                    return fileUrls;
+                });
             }
         },
         [handleFilesSelection],
