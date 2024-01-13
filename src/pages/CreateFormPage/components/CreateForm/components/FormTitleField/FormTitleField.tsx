@@ -1,33 +1,56 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { TextField } from '@mui/material';
+import styled from 'styled-components';
 
-import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor';
+import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
+
+const FixedWidthTextField = styled.div`
+    width: 50em;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+`;
 
 const FormTitleField = () => {
+    const { dispatch } = useContext(NewFormGlobalContext);
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        dispatch({
+            type: 'CHANGE_FORM_TITLE',
+            payload: e.target.value,
+        });
+    };
+    const handleDescriptionChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        dispatch({
+            type: 'CHANGE_FORM_DESCRIPTION',
+            payload: e.target.value,
+        });
+    };
     return (
-        <>
-            <div>
-                <TextField
-                    required
-                    id="form-title"
-                    defaultValue="Untitled Form"
-                    variant="standard"
-                    margin="normal"
-                    fullWidth
-                    inputProps={{ style: { fontSize: 40 } }}
-                />
-            </div>
-            <div>
-                <TextField
-                    required
-                    id="form-description"
-                    defaultValue="Description"
-                    variant="standard"
-                    fullWidth
-                />
-            </div>
-        </>
+        <FixedWidthTextField>
+            <TextField
+                required
+                id="form-title"
+                defaultValue="Untitled Form"
+                variant="standard"
+                margin="normal"
+                fullWidth
+                inputProps={{ style: { fontSize: 40 } }}
+                onChange={(e) => handleTitleChange(e)}
+            />
+            <TextField
+                required
+                id="form-description"
+                defaultValue="Describe form purposes, rules or other explanations"
+                variant="outlined"
+                multiline
+                rows={2}
+                fullWidth
+                onChange={(e) => handleDescriptionChange(e)}
+            />
+        </FixedWidthTextField>
     );
 };
 export default FormTitleField;

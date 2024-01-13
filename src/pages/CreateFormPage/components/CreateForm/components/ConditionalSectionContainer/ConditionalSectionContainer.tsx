@@ -19,6 +19,7 @@ const ConditionalSectionContainer = ({
             square={square}
             sx={{
                 p: 4,
+                position: 'relative',
                 marginBottom: '20px',
                 bgcolor: backgroundColor || undefined,
             }}

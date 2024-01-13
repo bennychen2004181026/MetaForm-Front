@@ -1,7 +1,6 @@
-import IForm from '@/interfaces/Form';
+import { IForm } from '@/interfaces/CreateForm';
 
 interface IColumn {
-    disablePadding: boolean;
     id: keyof IForm;
     label: string;
     numeric: boolean;
@@ -11,25 +10,21 @@ const formTableColumns: IColumn[] = [
     {
         id: 'title',
         numeric: false,
-        disablePadding: true,
         label: 'Title',
     },
     {
-        id: 'author',
+        id: 'createdBy',
         numeric: false,
-        disablePadding: true,
         label: 'Author',
     },
     {
         id: 'createTime',
         numeric: false,
-        disablePadding: false,
         label: 'Time Created',
     },
     {
-        id: 'numberOfResponse',
+        id: 'responses',
         numeric: true,
-        disablePadding: true,
         label: 'Responses',
     },
 ];

@@ -1,7 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 
-import { IImage } from '@/interfaces/IQuestion';
-import uploadFileToS3 from '@/utils/uploadFileToS3';
+import { IImage } from '@/interfaces/CreateForm';
 import uploadFileValidators, {
     questionImageValidators,
     validateFile,

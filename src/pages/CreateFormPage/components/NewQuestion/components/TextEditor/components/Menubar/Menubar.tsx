@@ -5,7 +5,7 @@ import LinkOffIcon from '@mui/icons-material/LinkOff';
 import { Editor } from '@tiptap/react';
 import styled from 'styled-components';
 
-import AddLinkPopup from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/components/AddLinkPopup/AddLinkPopup';
+import AddLinkPopup from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/components/Menubar/components/AddLinkPopup';
 import {
     StyledButton,
     TextOperation,
@@ -15,7 +15,7 @@ const StyledMenubar = styled.div`
     display: flex;
     justify-content: left;
     align-items: center;
-    margin: 0.5em 0 0 1em;
+    margin: 0.8em 0 0 1em;
     gap: 5px;
 `;
 const MenuBar = ({ editor }: { editor: Editor | null }) => {

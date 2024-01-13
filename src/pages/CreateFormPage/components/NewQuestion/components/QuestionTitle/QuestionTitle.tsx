@@ -6,11 +6,11 @@ import styled from 'styled-components';
 
 import ImageContainer from '../ImageContainer';
 
-import { IImage } from '@/interfaces/IQuestion';
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/components/context/NewQuestionContext';
+import { IImage } from '@/interfaces/CreateForm';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
 import TextEditor from '@/pages/CreateFormPage/components/NewQuestion/components/TextEditor/TextEditor';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 const NewQuestionTitleBox = styled(Box)`
     text-align: center;
@@ -18,14 +18,21 @@ const NewQuestionTitleBox = styled(Box)`
     flex-direction: row;
     flex-basis: 200px;
     gap: 1em;
+    justify-content: space-between;
     align-items: flex-start;
 `;
-const StyledQuestionTitle = styled(Box)`
-    flex-grow: 1;
+
+const StyledTitleImageIconBox = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+`;
+const StyledQuestionTypeSelector = styled(QuestionTypeSelector)`
+    width: 150px;
 `;
 const QuestionTitle = () => {
     const { state, dispatch } = useContext(NewQuestionContext);
-    const { title, questionId } = state;
+    const { questionTitle: title, questionType } = state;
     const [open, setOpen] = React.useState(false);
     const onTitleChange = (newTitle: string) => {
         dispatch({
@@ -51,15 +58,15 @@ const QuestionTitle = () => {
     return (
         <>
             <NewQuestionTitleBox>
-                <StyledQuestionTitle>
-                    <TextEditor onTitleChange={onTitleChange} />
-                </StyledQuestionTitle>
-                <IconButton onClick={handleClickOpen}>
-                    <ImageOutlinedIcon fontSize="large" />
-                </IconButton>
-                <QuestionTypeSelector />
+                <StyledTitleImageIconBox>
+                    <TextEditor onTitleChange={onTitleChange} value={title.content} />
+                    <IconButton onClick={handleClickOpen}>
+                        <ImageOutlinedIcon fontSize="large" />
+                    </IconButton>
+                </StyledTitleImageIconBox>
+                <StyledQuestionTypeSelector />
                 <ImageUploadDialog
-                    key={questionId}
+                    key={questionType}
                     open={open}
                     insertImage={insertImage}
                     onClose={handleClose}
