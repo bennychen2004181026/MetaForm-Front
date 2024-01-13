@@ -1,7 +1,7 @@
 const stringToColor = (string: string) => {
-    const hash =
-        string.split('').reduce((acc, char) => char.charCodeAt(0) + ((acc << 5) - acc), 0) +
-        0x7f800000;
+    const hash = string.split('').reduce((acc, char) => {
+        return char.charCodeAt(0) + ((acc << 5) - acc);
+    }, 0x7f007f);
 
     const color = Array.from({ length: 3 }, (_, i) =>
         `00${((hash >> (i * 8)) & 0xff).toString(16)}`.slice(-2),

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
@@ -8,16 +8,52 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
-import { useAppSelector } from '@/hooks/redux';
+import LogoutDialog from '@/components/LogoutDialog';
+import Role from '@/constants/roles';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { IUser } from '@/interfaces/IUser';
 import * as authSliceExports from '@/store/slices/auth/authSlice';
+import * as companySliceExports from '@/store/slices/company/companySlice';
 import stringAvatar from '@/utils/stringAvatar';
 
 const NavBarUserMenu: React.FC = () => {
     const fetchedUser: IUser | null = useAppSelector(authSliceExports.authUser);
-    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const fetchAccountStatus: boolean = useAppSelector(authSliceExports.accountStatus);
+    const fetchUserRole: Role = useAppSelector(authSliceExports.authUserRole);
+    const fetchUserId: string | null = useAppSelector(authSliceExports.authUserId);
+    const companyId: string | null = useAppSelector(companySliceExports.myCompanyId);
+    const allowedRoles: Role[] = [Role.Admin, Role.SuperAdmin];
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    const displayedSettings = [
+        { label: 'Profile', path: '/user-profile' },
+        { label: 'Change Password', path: '/user-profile/change-password' },
+        { label: 'My workplace', path: '/user-dashboard' },
+        { label: 'Logout', path: '/logout' },
+    ];
+
+    if (companyId && allowedRoles.includes(fetchUserRole)) {
+        displayedSettings.splice(0, 0, {
+            label: 'Company Dashboard',
+            path: `/companies/${companyId}/dashboard`,
+        });
+    }
+
+    if (!fetchedUser?.isAccountComplete && fetchUserId) {
+        displayedSettings.splice(0, displayedSettings.length - 1, {
+            label: 'Complete Account',
+            path: `/company-profile/${fetchUserId}`,
+        });
+    }
+
+    if (!fetchAccountStatus) {
+        displayedSettings.splice(0, displayedSettings.length - 1);
+    }
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -26,6 +62,23 @@ const NavBarUserMenu: React.FC = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const handleMenuClick = (path: string) => {
+        if (path === '/logout') {
+            setLogoutDialogOpen(true);
+        } else {
+            handleCloseUserMenu();
+            navigate(path);
+        }
+    };
+
+    const handleLogout = () => {
+        setLogoutDialogOpen(false);
+        dispatch(companySliceExports.clearCompanyInfo());
+        dispatch(authSliceExports.clearCredentials());
+        navigate('/login');
+    };
+
     return (
         <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -57,12 +110,17 @@ const NavBarUserMenu: React.FC = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
             >
-                {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{setting}</Typography>
+                {displayedSettings.map((setting) => (
+                    <MenuItem key={setting.label} onClick={() => handleMenuClick(setting.path)}>
+                        <Typography textAlign="center">{setting.label}</Typography>
                     </MenuItem>
                 ))}
             </Menu>
+            <LogoutDialog
+                open={logoutDialogOpen}
+                onClose={() => setLogoutDialogOpen(false)}
+                onConfirm={handleLogout}
+            />
         </Box>
     );
 };
