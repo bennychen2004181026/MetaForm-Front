@@ -67,9 +67,7 @@ const SidebarButton = ({ children }: { children: React.ReactNode }) => {
                 {menuItem.map((item) => (
                     <CustomNavLink to={item.path} key={item.id} style={customNavLinkStyle}>
                         <Icon>{item.icon}</Icon>
-                        <p style={{ display: isOpen ? 'block' : 'none' }}>
-                            {item.name}
-                        </p>
+                        <p style={{ display: isOpen ? 'block' : 'none' }}>{item.name}</p>
                     </CustomNavLink>
                 ))}
             </Sidebar>
