@@ -93,6 +93,7 @@ const Login = () => {
         onFieldsBlur,
         isValid,
         validateAllFields,
+        resetForm,
     } = useForm(formFields);
 
     const loginFunction = async () => {
@@ -145,6 +146,7 @@ const Login = () => {
             }
 
             showSnackbar(`${message}`, 'success');
+            resetForm();
             if (isAccountComplete) {
                 navigate('/user-dashboard');
             } else {
