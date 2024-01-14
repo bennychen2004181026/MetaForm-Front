@@ -25,9 +25,13 @@ const StyledTypography = styled(Typography)`
         text-decoration-style: initial;
         text-decoration-color: #0d1846;
     }
-    @media (max-width: 768px) {
-        font-size: 0.8rem;
+    @media (max-width: 768px) and (min-width: 600px) {
+        font-size: 1rem;
         font-weight: 400;
+        text-decoration-thickness: 0.0525rem;
+    }
+    @media (max-width: 599px) {
+        font-size: 0.8rem;
         text-decoration-thickness: 0.0425rem;
     }
 `;

@@ -4,18 +4,21 @@ import styled from 'styled-components';
 export const Div = styled.div`
     align-items: center;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 1;
-    padding: 20px 20px;
+    padding: 10px 20px;
     background-color: #e7f1f1;
-    @media (max-width: 768px) {
+    @media (max-width: 768px) and (min-width: 600px) {
         flex-wrap: wrap;
         align-content: center;
-        padding: 10px 20px;
+        padding: 10px 16px;
+    }
+    @media (max-width: 599px) {
+        padding: 10px 10px;
     }
 `;
 export const FooterLink = styled(Link)`
