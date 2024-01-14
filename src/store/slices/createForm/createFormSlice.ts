@@ -2,6 +2,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
 
 import { IForm, INewForm } from '@/interfaces/CreateForm';
+import { IFectchedForm } from '@/interfaces/CreateResponse';
 import { IRootState } from '@/store/store';
 
 const CREATE_FORM_API = `http://localhost:3005/forms/`;
@@ -15,7 +16,7 @@ enum FormStatus {
     FAILED = 'failed',
 }
 interface IFormState {
-    searchedForms: IForm[];
+    searchedForms: IFectchedForm[];
     fetchFormStatus: FormStatus;
     error?: string;
     newForm?: IForm;

@@ -8,13 +8,13 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
 
-import { IForm } from '@/interfaces/CreateForm';
+import { IFectchedForm } from '@/interfaces/CreateResponse';
 import { formTableColumns } from '@/pages/FormListPage/FormTableColumns';
 
 type Order = 'asc' | 'desc';
 interface ITableHeadProps {
     numSelected: number;
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof IForm) => void;
+    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof IFectchedForm) => void;
     onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     order: Order;
     orderBy: string;
@@ -23,9 +23,10 @@ interface ITableHeadProps {
 
 const EnhancedTableHead = (props: ITableHeadProps) => {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-    const createSortHandler = (property: keyof IForm) => (event: React.MouseEvent<unknown>) => {
-        onRequestSort(event, property);
-    };
+    const createSortHandler =
+        (property: keyof IFectchedForm) => (event: React.MouseEvent<unknown>) => {
+            onRequestSort(event, property);
+        };
 
     return (
         <TableHead>

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import { Box, Button, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import FormCards from './components/FormsCards/components/FormCards';
@@ -50,6 +51,7 @@ const FormList = () => {
     const formsStatus = useSelector(getFormsStatus);
     const companyForms = useSelector(getFilteredForms);
     const error = useSelector(getFormsError);
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchForms());
@@ -77,6 +79,14 @@ const FormList = () => {
                     type="search"
                     onChange={(e) => handleSearchBarChange(e)}
                 />
+                <StyledAddQuestionButton
+                    aria-label="Add New Question"
+                    variant="contained"
+                    startIcon={<ControlPointOutlinedIcon />}
+                    onClick={() => navigate('/create-form')}
+                >
+                    Create Form
+                </StyledAddQuestionButton>
                 <StyledDisplayModeToggle
                     displayMode={displayMode}
                     setDisplayMode={setDisplayMode}
@@ -86,13 +96,6 @@ const FormList = () => {
                 {displayMode === 'cards' && <FormCards forms={companyForms} />}
                 {displayMode === 'list' && <Table forms={companyForms} />}
             </StyledFormsContainer>
-            <StyledAddQuestionButton
-                aria-label="Add New Question"
-                variant="contained"
-                startIcon={<ControlPointOutlinedIcon />}
-            >
-                Create Form
-            </StyledAddQuestionButton>
         </StyledPageContainer>
     );
 };

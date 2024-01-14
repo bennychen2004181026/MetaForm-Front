@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 
 import CheckboxList from '@/components/CheckboxList';
-import { IQuestion } from '@/interfaces/CreateForm';
+import {} from '@/interfaces/CreateForm';
+import { IQuestionResponse } from '@/interfaces/CreateResponse';
 
-const CheckBoxesQuestion = ({ question }: { question: IQuestion }) => {
+const CheckBoxesQuestion = ({ questionResponse }: { questionResponse: IQuestionResponse }) => {
+    const { question } = questionResponse;
+
     const { options } = question;
     const [_, setSelected] = useState(['']);
     const handleCheckedChange = (selectedOptionIds: string[]) => {

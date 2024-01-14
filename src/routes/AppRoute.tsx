@@ -51,7 +51,7 @@ const AppRoute = () => (
                         element={<CreateEmployeePage />}
                     />
                 </Route>
-                <Route path="/newResponse" element={<NewResponsePage />} />
+                <Route path="/newResponse/:formId" element={<NewResponsePage />} />
 
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/register-option" element={<RegisterOptionPage />} />

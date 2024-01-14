@@ -4,7 +4,8 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Button, ButtonGroup } from '@mui/material';
 import styled from 'styled-components';
 
-import { IQuestion, IUploadedFile } from '@/interfaces/CreateForm';
+import { IUploadedFile } from '@/interfaces/CreateForm';
+import { IQuestionResponse } from '@/interfaces/CreateResponse';
 import { DEFAULT_MAXIMUM_FILE_NUMBERS } from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion/FileTypes';
 import FileItem from '@/pages/NewResponsePage/questions/FileUploadQuestion/components/FileItem';
 import FileUploadDialog from '@/pages/NewResponsePage/questions/FileUploadQuestion/components/FileUoloadDialog';
@@ -21,9 +22,9 @@ const UploadQuestionBody = styled.div`
     flex-direction: column;
     gap: 20px;
 `;
-const FileUploadQuestion = ({ question }: { question: IQuestion }) => {
+const FileUploadQuestion = ({ questionResponse }: { questionResponse: IQuestionResponse }) => {
+    const { question } = questionResponse;
     const [open, setOpen] = React.useState(false);
-
     const [currentFiles, setCurrentFiles] = useState<IUploadedFile[]>([]);
     const { numOfFiles } = question;
     const [availableSpace, setAvailableSpace] = useState<number>(

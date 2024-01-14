@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 
-import { Alert, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import styled from 'styled-components';
+
+import { IFetchedQuestion } from '@/interfaces/CreateResponse';
+import { questionTypeCode } from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/questionTypes';
 
 const StyledLengthTextfield = styled(TextField)`
     width: 40rem;
@@ -9,32 +12,30 @@ const StyledLengthTextfield = styled(TextField)`
 `;
 const MultiLineTextField = ({
     multilines,
-    requiredQuestion,
+    question,
+    setValue,
 }: {
     multilines: boolean;
-    requiredQuestion: boolean;
+    question: IFetchedQuestion;
+    setValue: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-    const [blur, setBlur] = useState(false);
-    const [value, setValue] = useState('');
+    const [_, setBlur] = useState(false);
     const handleContentChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setValue(e.target.value);
     };
+    const { required, questionType } = question;
     return (
-        <>
-            <StyledLengthTextfield
-                id="short-answer-question-textfield"
-                variant="standard"
-                multiline={multilines}
-                rows={4}
-                margin="normal"
-                fullWidth
-                onChange={(e) => handleContentChange(e)}
-                onBlur={() => setBlur(true)}
-            />
-            {blur && requiredQuestion && value === '' && (
-                <Alert severity="error">This is a required question!</Alert>
-            )}
-        </>
+        <StyledLengthTextfield
+            id="short-answer-question-textfield"
+            variant="standard"
+            multiline={multilines}
+            required={required && questionType !== questionTypeCode.CHECKBOXES}
+            rows={4}
+            margin="normal"
+            fullWidth
+            onChange={(e) => handleContentChange(e)}
+            onBlur={() => setBlur(true)}
+        />
     );
 };
 
