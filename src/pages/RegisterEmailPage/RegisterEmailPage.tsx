@@ -7,7 +7,10 @@ import styled from 'styled-components';
 import ReusableForm from '@/components/ReusableForm';
 import useForm, { IField } from '@/hooks/useForm';
 import { IVerifyEmailResponse } from '@/interfaces/IUser';
+import Footer from '@/layouts/Footer/Footer';
+import Header from '@/layouts/Header/Header';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
+import MainLayout from '@/layouts/MainLayout';
 import Title from '@/layouts/MainLayout/Title';
 import userApis from '@/services/Auth/user';
 import GlobalStyle from '@/styles/GlobalStyle';
@@ -88,43 +91,52 @@ const RegisterEmail = () => {
 
     const submitButtonText = 'Create My Account';
     return (
-        <RegisterEmailContent>
-            <GlobalStyle />
-            <Title content="Create your account" />
-            <ReusableForm
-                formFields={formFields}
-                fieldsData={fieldsData}
-                fieldsFocus={fieldsFocus}
-                errors={errors}
-                onDataChange={onDataChange}
-                onFieldsBlur={onFieldsBlur}
-                isValid={isValid}
-                handleSubmit={handleSubmit}
-                submitButtonText={submitButtonText}
-            >
-                <Typography variant="subtitle1" sx={{ padding: '5px', alignSelf: 'flex-start' }}>
-                    Opt-in
-                </Typography>
-                <FormGroup>
-                    <FormControlLabel
-                        control={<Checkbox />}
-                        id="marketingEmail"
-                        label="Marketing Emails"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox />}
-                        id="newsEmail"
-                        label="News & Updates Emails"
-                    />
-                    <FormControlLabel
-                        id="termsAgreement"
-                        required
-                        control={<Checkbox />}
-                        label="I agree to MetaForm's Terms of Service, Privacy Policy and Data Processing Agreement"
-                    />
-                </FormGroup>
-            </ReusableForm>
-        </RegisterEmailContent>
+        <div>
+            <Header />
+            <MainLayout>
+                <RegisterEmailContent>
+                    <GlobalStyle />
+                    <Title content="Create your account" />
+                    <ReusableForm
+                        formFields={formFields}
+                        fieldsData={fieldsData}
+                        fieldsFocus={fieldsFocus}
+                        errors={errors}
+                        onDataChange={onDataChange}
+                        onFieldsBlur={onFieldsBlur}
+                        isValid={isValid}
+                        handleSubmit={handleSubmit}
+                        submitButtonText={submitButtonText}
+                    >
+                        <Typography
+                            variant="subtitle1"
+                            sx={{ padding: '5px', alignSelf: 'flex-start' }}
+                        >
+                            Opt-in
+                        </Typography>
+                        <FormGroup>
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                id="marketingEmail"
+                                label="Marketing Emails"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                id="newsEmail"
+                                label="News & Updates Emails"
+                            />
+                            <FormControlLabel
+                                id="termsAgreement"
+                                required
+                                control={<Checkbox />}
+                                label="I agree to MetaForm's Terms of Service, Privacy Policy and Data Processing Agreement"
+                            />
+                        </FormGroup>
+                    </ReusableForm>
+                </RegisterEmailContent>
+            </MainLayout>
+            <Footer />
+        </div>
     );
 };
 
