@@ -1,7 +1,7 @@
 import React, { Dispatch, createContext, useMemo, useReducer } from 'react';
 
-import { IImage, IOption, IQuestion } from '@/interfaces/CreateForm';
-import { initQuestionState as initState } from '@/pages/CreateFormPage/components/CreateForm/InitFormState';
+import { IOption, IQuestion, IUploadedFile } from '@/interfaces/CreateForm';
+import { initQuestionState as initState } from '@/pages/CreateFormPage/components/CreateForm/InitformState';
 
 type Actions =
     | {
@@ -22,7 +22,7 @@ type Actions =
       }
     | {
           type: 'INSERT_TITLE_IMAGE';
-          payload: IImage;
+          payload: IUploadedFile;
       }
     | {
           type: 'CHANGE_QUESTION_TYPE';
@@ -43,6 +43,14 @@ type Actions =
     | {
           type: 'CHANGE_QUESTION_ID';
           payload: string;
+      }
+    | {
+          type: 'SET_ALLOWED_FILE_TYPES';
+          payload: string[] | undefined;
+      }
+    | {
+          type: 'SET_MAX_NUM_OF_FILES';
+          payload: 1 | 3 | 5;
       };
 const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
     const { type, payload } = action;
@@ -94,10 +102,20 @@ const questionReducer = (state: IQuestion, action: Actions): IQuestion => {
                 ...state,
                 required: action.payload,
             };
+        case 'SET_ALLOWED_FILE_TYPES':
+            return {
+                ...state,
+                acceptFileTypes: action.payload,
+            };
         case 'CHANGE_QUESTION_ID':
             return {
                 ...state,
                 questionId: action.payload,
+            };
+        case 'SET_MAX_NUM_OF_FILES':
+            return {
+                ...state,
+                numOfFiles: action.payload,
             };
         default:
             throw new Error(

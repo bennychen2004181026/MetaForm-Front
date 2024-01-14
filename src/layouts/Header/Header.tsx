@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 import BusinessIcon from '@mui/icons-material/Business';
 import DynamicFormIcon from '@mui/icons-material/DynamicForm';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -35,7 +36,8 @@ const StyledAppBar = styled(AppBar)`
     z-index: 100;
     justify-content: center;
     align-items: center;
-    height: 6vh;
+    height: 8vh;
+    background-color: #162a47;
 `;
 
 const StyledToolbarAndLogoBox = styled(Box)`
@@ -60,7 +62,7 @@ const StyledToolbar = styled(Toolbar)`
 
 const StyledNavBarContentBox = styled(Box)`
     display: flex;
-    width: 800px;
+    width: 1800px;
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
@@ -122,6 +124,12 @@ const Header = () => {
             text: 'My workplace',
             path: '/forms',
             icon: <DynamicFormIcon />,
+            divider: false,
+        },
+        {
+            text: 'Create form',
+            path: '/create-form',
+            icon: <EditNoteIcon />,
             divider: true,
         },
         {
@@ -268,7 +276,7 @@ const Header = () => {
                     {!fetchedUser ? (
                         <SignUpLink>
                             Already have an account?
-                            <StyledLink to="/login">Log in</StyledLink>
+                            <StyledLink to="/login">Login</StyledLink>
                         </SignUpLink>
                     ) : (
                         <NavBarUserMenu />

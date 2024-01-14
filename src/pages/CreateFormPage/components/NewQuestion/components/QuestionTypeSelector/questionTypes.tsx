@@ -9,13 +9,13 @@ import ChoiceIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import TimeIcon from '@mui/icons-material/TimerOutlined';
 
 import { IOption } from '@/interfaces/CreateForm';
-import CheckboxesQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/CheckboxesQuestion';
-import DatePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/DatePickerQuestion';
-import FileUploadQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/FileUploadQuestion';
-import MuitiChoiceQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/MultiChoiceQuestion';
-import ParagraphQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/ParagraphQuestion';
-import ShortAnswerQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/ShortAnswerQuestion';
-import TimePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/questions/TimePickerQuestion';
+import CreateCheckboxesQuestion from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateCheckboxesQuestion';
+import CreateDatePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateDatePickerQuestion';
+import CreateFileUploadQuestion from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion';
+import CreateMuitiChoiceQuestion from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateMuitiChoiceQuestion';
+import CreateParagraphQuestion from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateParagraphQuestion';
+import CreateShortAnswerQuestion from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateShortAnswerQuestion';
+import CreateTimePickerQuestion from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateTimePickerQuestion';
 
 enum questionTypeStrings {
     MULTIPLE_CHOICE = 'Multiple Choice',
@@ -77,21 +77,21 @@ const questionIcons = [
 const getQuestion = (questionId: string) => {
     switch (questionId) {
         case '0':
-            return <MuitiChoiceQuestion isCheckbox={false} />;
+            return <CreateMuitiChoiceQuestion isCheckbox={false} />;
         case '1':
-            return <ShortAnswerQuestion />;
+            return <CreateShortAnswerQuestion disabled />;
         case '2':
-            return <ParagraphQuestion />;
+            return <CreateParagraphQuestion disabled />;
         case '3':
-            return <CheckboxesQuestion />;
+            return <CreateCheckboxesQuestion />;
         case '4':
-            return <FileUploadQuestion />;
+            return <CreateFileUploadQuestion />;
         case '5':
-            return <DatePickerQuestion />;
+            return <CreateDatePickerQuestion disabled />;
         case '6':
-            return <TimePickerQuestion />;
+            return <CreateTimePickerQuestion disabled />;
         default:
-            return <MuitiChoiceQuestion isCheckbox={false} />;
+            return <CreateMuitiChoiceQuestion isCheckbox={false} />;
     }
 };
 export { getQuestion, questionIcons as icons, questionTypes };

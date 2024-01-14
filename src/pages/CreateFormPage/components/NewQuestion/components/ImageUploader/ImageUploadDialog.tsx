@@ -4,16 +4,17 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/
 import styled from 'styled-components';
 
 import DragDropBox from '@/components/DragDropBox';
-import useUploadQuestionImage from '@/hooks/useUploadQuestionImage';
-import { IImage } from '@/interfaces/CreateForm';
-import ImageContainer from '@/pages/CreateFormPage/components/NewQuestion/components/ImageContainer';
+// import useUploadQuestionImage from '@/hooks/useUploadQuestionImage';
+import useUploadMultiFiles from '@/hooks/useUploadMultiFiles';
+import { IUploadedFile } from '@/interfaces/CreateForm';
+import ImageContainer from '@/layouts/ImageContainer';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
 export interface ImageInsertDialogProps {
     open: boolean;
     key: string;
     onClose: () => void;
-    insertImage: (value: IImage) => void;
+    handleSelectedFiles: (value: IUploadedFile) => void;
 }
 const StyledDialogContent = styled.div`
     display: flex;
@@ -24,32 +25,30 @@ const StyledDragBox = styled.div<{ isDragging: boolean; isFileValid: boolean }>`
         isDragging && isFileValid ? '#03a9f4' : 'white'};
 `;
 const ImageUploadDialog = (props: ImageInsertDialogProps) => {
-    const { onClose, open, insertImage } = props;
+    const { onClose, open, handleSelectedFiles } = props;
     const { state } = useContext(NewQuestionContext);
-    const { questionType: questionId } = state;
-    const results = useUploadQuestionImage({ questionId });
+    const results = useUploadMultiFiles({ question: state });
     const {
         isDragging,
         handleDragEnter,
-        handleDragOver,
         handleDrop,
         handleDragLeave,
-        onFileSelect,
+        onFilesSelect,
         isFileValid,
-        setSelectedImage,
+        setSelectedFiles,
         imgRef,
     } = results;
-    const { selectedImage } = results;
+    const { selectedFiles } = results;
 
     const selectFiles = () => imgRef.current && imgRef.current.click();
     const handleClose = () => {
-        setSelectedImage(null);
+        setSelectedFiles(null);
         onClose();
     };
     const handleInsert = () => {
-        if (selectedImage) {
-            insertImage(selectedImage);
-            setSelectedImage(null);
+        if (selectedFiles) {
+            handleSelectedFiles(selectedFiles[0]);
+            setSelectedFiles(null);
         }
         onClose();
     };
@@ -61,25 +60,23 @@ const ImageUploadDialog = (props: ImageInsertDialogProps) => {
                     <DragDropBox
                         isDragging={isDragging}
                         onDragEnter={handleDragEnter}
-                        onDragOver={handleDragOver}
+                        onDragOver={handleDragEnter}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}
                         isFileValid={isFileValid}
                     >
+                        {selectedFiles && <ImageContainer image={selectedFiles[0]} large={false} />}
                         <StyledDialogContent>
-                            {selectedImage && (
-                                <ImageContainer image={selectedImage} large={false} />
-                            )}
                             {!isDragging && (
                                 <>
-                                    <Button variant="outlined" onClick={selectFiles}>
+                                    <Button variant="outlined" onClick={selectFiles} fullWidth>
                                         Browse
                                         <input
                                             type="file"
                                             hidden
                                             ref={imgRef}
                                             accept="image/*"
-                                            onChange={onFileSelect}
+                                            onChange={onFilesSelect}
                                         />
                                     </Button>
                                     <p>Or Drag a file here</p>

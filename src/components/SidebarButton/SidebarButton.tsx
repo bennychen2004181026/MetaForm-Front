@@ -4,6 +4,7 @@ import { useState } from 'react';
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 import BusinessIcon from '@mui/icons-material/Business';
 import DynamicFormIcon from '@mui/icons-material/DynamicForm';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -115,6 +116,12 @@ const SidebarButton = ({ children }: { children?: React.ReactNode }) => {
             text: 'My workplace',
             path: '/forms',
             icon: <DynamicFormIcon />,
+            divider: false,
+        },
+        {
+            text: 'Create form',
+            path: '/create-form',
+            icon: <EditNoteIcon />,
             divider: true,
         },
         {

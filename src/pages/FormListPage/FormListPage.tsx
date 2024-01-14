@@ -20,7 +20,7 @@ import {
     getFormsError,
     getFormsStatus,
     searchProductsByTitle,
-} from '@/store/slices/form/formSlice';
+} from '@/store/slices/createForm/createFormSlice';
 import { AppDispatch } from '@/store/store';
 import GlobalStyle from '@/styles/GlobalStyle';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
@@ -39,6 +39,9 @@ const StyledHeader = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+`;
+const StyledFormsContainer = styled.div`
+    width: 1280px;
 `;
 const StyledAddQuestionButton = styled(Button)`
     width: 200px;
@@ -92,10 +95,10 @@ const FormList = () => {
                         setDisplayMode={setDisplayMode}
                     />
                 </StyledHeader>
-                <div>
+                <StyledFormsContainer>
                     {displayMode === 'cards' && <FormCards forms={companyForms} />}
                     {displayMode === 'list' && <Table forms={companyForms} />}
-                </div>
+                </StyledFormsContainer>
                 <StyledAddQuestionButton
                     aria-label="Add New Question"
                     variant="contained"

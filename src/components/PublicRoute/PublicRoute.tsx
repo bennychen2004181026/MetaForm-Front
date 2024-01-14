@@ -14,8 +14,7 @@ const PublicRoute = () => {
     const fetchUserId: string = useAppSelector(authUserId);
     const location = useLocation();
     const noSnackbarPaths = ['/login', '/create-user', '/register-option'];
-    const updateCompanyProfileRegex = /^\/companies\//;
-
+    const updateCompanyProfileRegex = /^\/companies\/([^/]+)\/invite-employees\/([^/]+)$/;
     useEffect(() => {
         // exclude the snackbar displaying when these login paths
         if (

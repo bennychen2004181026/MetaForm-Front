@@ -13,9 +13,9 @@ import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateFo
 import {
     FormStatus,
     addNewForm,
-    getFormsError,
-    getFormsStatus,
-} from '@/store/slices/form/formSlice';
+    getCreateFormsError,
+    getCreateFormsStatus,
+} from '@/store/slices/createForm/createFormSlice';
 import { AppDispatch } from '@/store/store';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
@@ -23,18 +23,19 @@ const StyledContainer = styled(Container)`
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 30px 0;
 `;
 
 const CreateForm = () => {
     const { state: currentForm } = useContext(NewFormGlobalContext);
     const dispatch = useDispatch<AppDispatch>();
-    const formsStatus = useSelector(getFormsStatus);
-    const formError = useSelector(getFormsError);
+    const createFormsStatus = useSelector(getCreateFormsStatus);
+    const createFormError = useSelector(getCreateFormsError);
     const showSnackbar = useSnackbarHelper();
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         try {
             const { formId, title, description, questions } = currentForm;
-            dispatch(
+            await dispatch(
                 addNewForm({
                     formId,
                     title,
@@ -43,10 +44,10 @@ const CreateForm = () => {
                     createdBy: '659a9d5c8452e4e167e11c47',
                 }),
             ).unwrap();
-            if (formsStatus === FormStatus.FAILED) {
-                showSnackbar(`Failed to create form: ${formError}`, 'error');
+            if (createFormsStatus === FormStatus.FAILED) {
+                showSnackbar(`Failed to create form: ${createFormError}`, 'error');
             }
-            if (formsStatus === FormStatus.SUCCESS) {
+            if (createFormsStatus === FormStatus.SUCCESS) {
                 showSnackbar(`Form created successfully`, 'success');
             }
         } catch (err) {
@@ -64,6 +65,7 @@ const CreateForm = () => {
                 <FormQuestions />
                 <AddQuestion />
             </ConditionalSectionContainer>
+            <SubmitButton isValid text="Save Form" handleSubmit={handleSubmit} />
         </StyledContainer>
     );
 };

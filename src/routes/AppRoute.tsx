@@ -9,6 +9,7 @@ import CreateFormPage from '@/pages/CreateFormPage/CreateFormPage';
 import FormListPage from '@/pages/FormListPage';
 import LoginPage from '@/pages/LoginPage';
 import MainPage from '@/pages/MainPage';
+import NewResponsePage from '@/pages/NewResponsePage';
 import RegisterEmailPage from '@/pages/RegisterEmailPage';
 import RegisterOptionPage from '@/pages/RegisterOptionPage';
 
@@ -50,11 +51,15 @@ const AppRoute = () => (
                         element={<CreateEmployeePage />}
                     />
                 </Route>
+                <Route path="/newResponse" element={<NewResponsePage />} />
+
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route
                     path="/companies/:companyId/users/:userId/company-employees"
                     element={<CompanyMembersPage />}
                 />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/users/resetPassword/:token" element={<ResetPasswordPage />} />
                 <Route element={<ProtectedRoute />}>
                     <Route path="/user-profile" element={<UserProfilePage />} />
                     <Route path="/user-profile/change-password" element={<ChangePasswordPage />} />
@@ -64,7 +69,6 @@ const AppRoute = () => (
                     />
                     <Route path="/forms" element={<FormListPage />} />
                     <Route path="/create-form" element={<CreateFormPage />} />
-                    <Route path="/user-dashboard" />
                     <Route element={<CompanyDashboardRoute />}>
                         <Route
                             path="/companies/:companyId/dashboard"
@@ -82,8 +86,6 @@ const AppRoute = () => (
                         </Route>
                     </Route>
                 </Route>
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                <Route path="/users/resetPassword/:token" element={<ResetPasswordPage />} />
                 <Route path="*" element={<ErrorPage />} />
             </Routes>
         </BrowserRouter>

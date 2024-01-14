@@ -91,3 +91,4 @@ export const authUserCompanyInfo = (state: RootState) => state.auth.companyInfo;
 export const accountActiveStatus = (state: RootState) => state.auth.isActive;
 export const { setCredentials, clearCredentials, setCompanyInfoInUser } = authSlice.actions;
 export default authSlice.reducer;
+export const authToken = (state: RootState) => state.auth.token;
