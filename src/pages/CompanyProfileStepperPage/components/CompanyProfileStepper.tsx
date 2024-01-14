@@ -109,7 +109,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
     useEffect(() => {
         if (fetchAccountStatus && !regex.test(location.pathname)) {
             showSnackbar('You already have company bonded', 'warning');
-            navigate('/user-dashboard');
+            navigate('/forms');
         }
     }, [fetchAccountStatus]);
 
@@ -240,7 +240,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
             );
 
             showSnackbar(`${message}`, 'success');
-            navigate('/user-dashboard');
+            navigate('/forms');
         } catch (error) {
             ApiErrorHelper(error, showSnackbar);
             handleInvalidToken(error);

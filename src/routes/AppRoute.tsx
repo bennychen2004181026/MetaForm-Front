@@ -45,16 +45,12 @@ const AppRoute = () => (
                         element={<EmailLinkVerificationPage />}
                     />
                     <Route path="/create-user" element={<RegisterPage />} />
-                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                    <Route path="/users/resetPassword/:token" element={<ResetPasswordPage />} />
                     <Route
                         path="/companies/:companyId/invite-employees/:token"
                         element={<CreateEmployeePage />}
                     />
                 </Route>
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
-                <Route path="/forms" element={<FormListPage />} />
-                <Route path="/create-form" element={<CreateFormPage />} />
                 <Route
                     path="/companies/:companyId/users/:userId/company-employees"
                     element={<CompanyMembersPage />}
@@ -66,6 +62,8 @@ const AppRoute = () => (
                         path="/company-profile/:userId"
                         element={<CompanyProfileStepperPage />}
                     />
+                    <Route path="/forms" element={<FormListPage />} />
+                    <Route path="/create-form" element={<CreateFormPage />} />
                     <Route path="/user-dashboard" />
                     <Route element={<CompanyDashboardRoute />}>
                         <Route
@@ -84,6 +82,8 @@ const AppRoute = () => (
                         </Route>
                     </Route>
                 </Route>
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/users/resetPassword/:token" element={<ResetPasswordPage />} />
                 <Route path="*" element={<ErrorPage />} />
             </Routes>
         </BrowserRouter>

@@ -67,12 +67,11 @@ const EmailLinkVerificationMain: React.FC<EmailLinkVerificationMainProps> = ({ t
         );
     }
 
-    const handleLinkClick = () => {
-        setStopCountdown(true);
-        navigate('/create-user');
-    };
-
     if (data) {
+        const handleLinkClick = () => {
+            setStopCountdown(true);
+            navigate('/create-user', { state: { email: data.email, username: data.username } });
+        };
         return (
             <Container maxWidth="sm" style={{ textAlign: 'center', marginTop: '100px' }}>
                 <Typography variant="h6">You can click below to redirect immediately.</Typography>

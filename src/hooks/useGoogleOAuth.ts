@@ -80,7 +80,7 @@ const useGoogleOAuth = (currentApiUrl?: string) => {
             showSnackbar(`${message}`, 'success');
             googleOAuthTimeout.current = setTimeout(() => {
                 if (isAccountComplete) {
-                    navigate('/user-dashboard');
+                    navigate('/forms');
                 } else {
                     navigate(`/company-profile/${_id}`);
                 }

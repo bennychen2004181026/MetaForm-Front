@@ -113,7 +113,7 @@ const SidebarButton = ({ children }: { children?: React.ReactNode }) => {
         },
         {
             text: 'My workplace',
-            path: '/user-dashboard',
+            path: '/forms',
             icon: <DynamicFormIcon />,
             divider: true,
         },

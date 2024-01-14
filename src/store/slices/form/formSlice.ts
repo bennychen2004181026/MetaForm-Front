@@ -4,10 +4,10 @@ import axios, { AxiosResponse } from 'axios';
 import { IForm, INewForm } from '@/interfaces/CreateForm';
 import { IRootState } from '@/store/store';
 
-const CREATE_FORM_API = `http://localhost:3005/forms/`;
-const CREATE_QUESTION_API = `http://localhost:3005/questions/`;
+const CREATE_FORM_API = `http://localhost:3001/forms/`;
+const CREATE_QUESTION_API = `http://localhost:3001/questions/`;
 
-const FETCH_FORM_API = (userId: string) => `http://localhost:3005/forms/user/${userId}`;
+const FETCH_FORM_API = (userId: string) => `http://localhost:3001/forms/user/${userId}`;
 
 enum FormStatus {
     IDLE = 'idle',

@@ -120,7 +120,7 @@ const Header = () => {
         },
         {
             text: 'My workplace',
-            path: '/user-dashboard',
+            path: '/forms',
             icon: <DynamicFormIcon />,
             divider: true,
         },
@@ -183,7 +183,7 @@ const Header = () => {
         } else if (!fetchAccountStatus) {
             navigate(`/company-profile/${fetchUserId}`);
         } else {
-            navigate('/user-dashboard');
+            navigate('/forms');
         }
     };
 

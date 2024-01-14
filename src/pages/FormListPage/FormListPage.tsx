@@ -3,10 +3,14 @@ import React, { useEffect } from 'react';
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import { Box, Button, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import FormCards from './components/FormsCards/components/FormCards';
 import Table from './components/Table';
+import SidebarButton from '@/components/SidebarButton/SidebarButton';
+import Footer from '@/layouts/Footer/Footer';
+import Header from '@/layouts/Header/Header';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import DisplayModeToggle from '@/pages/FormListPage/components/DisplayModeToggle';
 import {
@@ -47,6 +51,7 @@ const FormList = () => {
     const formsStatus = useSelector(getFormsStatus);
     const companyForms = useSelector(getFilteredForms);
     const error = useSelector(getFormsError);
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchForms());
@@ -64,33 +69,44 @@ const FormList = () => {
         const searchInput = e.target.value;
         dispatch(searchProductsByTitle(searchInput));
     };
+
+    const handleRedirectToRegister = () => {
+        const path = `/create-form`;
+        navigate(path);
+    };
     return (
-        <StyledPageContainer>
-            <GlobalStyle />
-            <StyledHeader>
-                <TextField
-                    id="outlined-search"
-                    label="Search field"
-                    type="search"
-                    onChange={(e) => handleSearchBarChange(e)}
-                />
-                <StyledDisplayModeToggle
-                    displayMode={displayMode}
-                    setDisplayMode={setDisplayMode}
-                />
-            </StyledHeader>
-            <div>
-                {displayMode === 'cards' && <FormCards forms={companyForms} />}
-                {displayMode === 'list' && <Table forms={companyForms} />}
-            </div>
-            <StyledAddQuestionButton
-                aria-label="Add New Question"
-                variant="contained"
-                startIcon={<ControlPointOutlinedIcon />}
-            >
-                Create Form
-            </StyledAddQuestionButton>
-        </StyledPageContainer>
+        <div>
+            <Header />
+            <StyledPageContainer>
+                <GlobalStyle />
+                <StyledHeader>
+                    <SidebarButton />
+                    <TextField
+                        id="outlined-search"
+                        label="Search field"
+                        type="search"
+                        onChange={(e) => handleSearchBarChange(e)}
+                    />
+                    <StyledDisplayModeToggle
+                        displayMode={displayMode}
+                        setDisplayMode={setDisplayMode}
+                    />
+                </StyledHeader>
+                <div>
+                    {displayMode === 'cards' && <FormCards forms={companyForms} />}
+                    {displayMode === 'list' && <Table forms={companyForms} />}
+                </div>
+                <StyledAddQuestionButton
+                    aria-label="Add New Question"
+                    variant="contained"
+                    onClick={handleRedirectToRegister}
+                    startIcon={<ControlPointOutlinedIcon />}
+                >
+                    Create Form
+                </StyledAddQuestionButton>
+            </StyledPageContainer>
+            <Footer />
+        </div>
     );
 };
 
