@@ -9,7 +9,7 @@ export const Div = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 100;
     padding: 10px 20px;
     background-color: #e7f1f1;
     @media (max-width: 768px) and (min-width: 600px) {
@@ -26,7 +26,7 @@ export const FooterLink = styled(Link)`
     display: flex;
     gap: 10px;
     position: relative;
-    z-index: 999;
+    z-index: 100;
     color: gray;
     &:hover {
         color: blue;
