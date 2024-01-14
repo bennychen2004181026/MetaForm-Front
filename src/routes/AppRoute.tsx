@@ -61,9 +61,7 @@ const AppRoute = () => (
                 />
                 <Route element={<ProtectedRoute />}>
                     <Route path="/user-profile" element={<UserProfilePage />} />
-                    <Route path="/user-profile" element={<UserProfilePage />} />
                     <Route path="/user-profile/change-password" element={<ChangePasswordPage />} />
-                    <Route path="/user-profile" element={<UserProfilePage />} />
                     <Route
                         path="/company-profile/:userId"
                         element={<CompanyProfileStepperPage />}
