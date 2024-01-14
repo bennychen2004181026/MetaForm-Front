@@ -10,12 +10,7 @@ interface CustomTypographyProps extends TypographyProps {
 const StyledTypography = styled(Typography)`
     &.MuiTypography-h5 {
         font-weight: bold;
-    }
-
-    &.MuiTypography-subtitle1 {
-    }
-
-    &.MuiTypography-body1 {
+        text-align: center;
     }
 `;
 
