@@ -18,7 +18,7 @@ export const Nav = styled.nav`
     left: 0;
     right: 0;
     top: 0;
-    z-index: 1;
+    z-index: 100;
     padding: 10px 20px;
 `;
 export const Image = styled.img`

@@ -14,9 +14,11 @@ const StyledListItem = styled(ListItem)`
     justify-content: space-around;
     min-width: 220px;
     margin: 0 0 20px 0;
+    max-width: 500px;
 `;
 
 const StyledListItemText = styled(ListItemText)`
+    max-width: 250px;
     & .MuiListItemText-primary {
         color: #1045cc;
     }
@@ -24,6 +26,17 @@ const StyledListItemText = styled(ListItemText)`
     & .MuiListItemText-secondary {
         color: #a69355;
     }
+`;
+const StyledListItemAvatar = styled(ListItemAvatar)`
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
+    flex-shrink: 0;
+    width: 110px;
 `;
 
 const ListIconAndTextItem: React.FC<ListIconAndTextItemProps> = ({
@@ -33,9 +46,9 @@ const ListIconAndTextItem: React.FC<ListIconAndTextItemProps> = ({
 }) => {
     return (
         <StyledListItem>
-            <ListItemAvatar>
+            <StyledListItemAvatar>
                 <Avatar>{icon}</Avatar>
-            </ListItemAvatar>
+            </StyledListItemAvatar>
             <StyledListItemText primary={primaryText} secondary={secondaryText} />
         </StyledListItem>
     );

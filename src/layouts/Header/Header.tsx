@@ -32,7 +32,7 @@ const StyledAppBar = styled(AppBar)`
     flex-direction: row;
     width: 100vw;
     top: 0;
-    z-index: 20;
+    z-index: 100;
     justify-content: center;
     align-items: center;
     height: 6vh;
