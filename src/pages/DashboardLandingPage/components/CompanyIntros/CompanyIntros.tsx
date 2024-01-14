@@ -22,6 +22,24 @@ const StyledListItem = styled(ListItem)`
     justify-content: space-around;
     min-width: 220px;
     margin: 0 0 20px 0;
+    max-width: 500px;
+`;
+
+const StyledList = styled(List)`
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 `;
 
 const Logo = styled.img`
@@ -75,7 +93,7 @@ const CompanyIntros: React.FC = () => {
     }
 
     return (
-        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+        <StyledList>
             <StyledListItem>
                 <ListItemAvatar>
                     <Logo src={companyLogo || DefaultCompanyLogo} alt="Default Company Logo" />
@@ -101,7 +119,7 @@ const CompanyIntros: React.FC = () => {
                 primaryText="Active members"
                 secondaryText={`${activeMembers.length ?? 'Fail to fetch company member info'}`}
             />
-        </List>
+        </StyledList>
     );
 };
 

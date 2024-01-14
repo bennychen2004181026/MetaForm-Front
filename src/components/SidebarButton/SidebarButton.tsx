@@ -34,10 +34,11 @@ type SidebarProps = {
 };
 const Sidebar = styled.div<SidebarProps>`
     text-transform: capitalize;
-    background-color: white;
+    background-color: #cad9ed;
     height: 100%;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     justify-content: space-evenly;
     transition: width 0.3s;
     width: ${(props) => (props.isOpen ? '200px' : '50px')};

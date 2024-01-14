@@ -31,6 +31,8 @@ const StyledInviteEmployeesBox = styled(Box)`
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
+    width: 85vw;
+    max-width: 600px;
 `;
 
 const StyledEmailsInputsBox = styled(Box)`
