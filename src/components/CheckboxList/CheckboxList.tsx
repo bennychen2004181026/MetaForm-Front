@@ -13,7 +13,6 @@ import {
 import styled from 'styled-components';
 
 import { IOption } from '@/interfaces/CreateForm';
-import MultiLineTextField from '@/layouts/MultiLineTextField';
 
 const OtherOption = styled.div`
     display: flex;
@@ -29,7 +28,7 @@ const CheckboxList = ({
     other?: boolean;
 }) => {
     const [checked, setChecked] = React.useState(['']);
-    const [openOtherTextField, setOpenOtherTextField] = useState(false);
+    const [_, setOpenOtherTextField] = useState(false);
 
     const handleToggle = (toggledOption: IOption) => () => {
         const { id: toggledOptionId, otherOption } = toggledOption;
@@ -81,12 +80,12 @@ const CheckboxList = ({
                         control={<CheckBox />}
                         label="Other"
                     />
-                    {openOtherTextField && (
+                    {/* {openOtherTextField && (
                         <MultiLineTextField
                             multilines={false}
                             requiredQuestion={question.required}
                         />
-                    )}
+                    )} */}
                 </OtherOption>
             )}
         </List>

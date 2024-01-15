@@ -14,7 +14,7 @@ import {
     addNewForm,
     getCreateFormsError,
     getCreateFormsStatus,
-} from '@/store/slices/form/formSlice';
+} from '@/store/slices/createForm/createFormSlice';
 import { AppDispatch } from '@/store/store';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
