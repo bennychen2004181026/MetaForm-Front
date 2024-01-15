@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 
 import { Container } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import SubmitButton from '@/components/SubmitButton';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import FormQuestions from '@/pages/CreateFormPage/components/CreateForm/components/FormQuestions';
 import FormTitleField from '@/pages/CreateFormPage/components/CreateForm/components/FormTitleField';
+import CreateFormContext from '@/pages/CreateFormPage/components/CreateForm/context/CreateFormContext';
 import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
 import {
     FormStatus,
@@ -23,7 +24,7 @@ const StyledContainer = styled(Container)`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 30px 0;
+    padding: 30px 0 80px 0;
 `;
 
 const CreateForm = () => {
@@ -32,6 +33,7 @@ const CreateForm = () => {
     const createFormsStatus = useSelector(getCreateFormsStatus);
     const createFormError = useSelector(getCreateFormsError);
     const showSnackbar = useSnackbarHelper();
+
     const handleSubmit = async () => {
         try {
             const { formId, title, description, questions } = currentForm;
@@ -55,18 +57,23 @@ const CreateForm = () => {
         }
     };
 
+    const value = useMemo(() => {
+        return { handleSubmit };
+    }, [handleSubmit]);
+
     return (
-        <StyledContainer>
-            <SubmitButton isValid text="Save Form" handleSubmit={handleSubmit} />
-            <ConditionalSectionContainer backgroundColor="#03787c">
-                <FormTitleField />
-            </ConditionalSectionContainer>
-            <ConditionalSectionContainer backgroundColor="#03787c">
-                <FormQuestions />
-                <AddQuestion />
-            </ConditionalSectionContainer>
-            <SubmitButton isValid text="Save Form" handleSubmit={handleSubmit} />
-        </StyledContainer>
+        <CreateFormContext.Provider value={value}>
+            <StyledContainer>
+                <ConditionalSectionContainer backgroundColor="#03787c">
+                    <FormTitleField />
+                </ConditionalSectionContainer>
+                <ConditionalSectionContainer backgroundColor="#03787c">
+                    <FormQuestions />
+                    <AddQuestion />
+                </ConditionalSectionContainer>
+                <SubmitButton isValid text="Save Form" handleSubmit={handleSubmit} />
+            </StyledContainer>
+        </CreateFormContext.Provider>
     );
 };
 export default CreateForm;

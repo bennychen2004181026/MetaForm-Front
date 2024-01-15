@@ -46,7 +46,7 @@ type Actions =
       }
     | {
           type: 'SET_ALLOWED_FILE_TYPES';
-          payload: string[] | undefined;
+          payload: string[];
       }
     | {
           type: 'SET_MAX_NUM_OF_FILES';

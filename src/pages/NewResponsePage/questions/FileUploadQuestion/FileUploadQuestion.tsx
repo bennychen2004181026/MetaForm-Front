@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { Button, ButtonGroup } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import styled from 'styled-components';
 
-import { IQuestion, IUploadedFile } from '@/interfaces/CreateForm';
+import { IUploadedFile } from '@/interfaces/CreateForm';
+import { IAnswer, IQuestionProps } from '@/interfaces/CreateResponse';
 import { DEFAULT_MAXIMUM_FILE_NUMBERS } from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion/FileTypes';
 import FileItem from '@/pages/NewResponsePage/questions/FileUploadQuestion/components/FileItem';
 import FileUploadDialog from '@/pages/NewResponsePage/questions/FileUploadQuestion/components/FileUoloadDialog';
@@ -21,15 +22,25 @@ const UploadQuestionBody = styled.div`
     flex-direction: column;
     gap: 20px;
 `;
-const FileUploadQuestion = ({ question }: { question: IQuestion }) => {
+const StyledButton = styled(Button)`
+    text-transform: none;
+`;
+const FileUploadQuestion = ({ questionResponse, onAnswerChange }: IQuestionProps) => {
+    const { question } = questionResponse;
     const [open, setOpen] = React.useState(false);
-
     const [currentFiles, setCurrentFiles] = useState<IUploadedFile[]>([]);
     const { numOfFiles } = question;
+    const {
+        question: { _id },
+    } = questionResponse;
+
     const [availableSpace, setAvailableSpace] = useState<number>(
         numOfFiles || DEFAULT_MAXIMUM_FILE_NUMBERS,
     );
-
+    useEffect(() => {
+        const answer: IAnswer = { questionId: _id, answerBody: currentFiles };
+        onAnswerChange(answer);
+    }, [currentFiles]);
     const handleClose = () => {
         setOpen(false);
     };
@@ -60,14 +71,20 @@ const FileUploadQuestion = ({ question }: { question: IQuestion }) => {
                             <FileItem key={file.name} file={file} removeFile={removeFile} />
                         ))}
                 </FileItemsBox>
-                <ButtonGroup variant="outlined" aria-label="outlined button group">
-                    <Button onClick={() => setOpen(true)} startIcon={<UploadFileIcon />}>
+                <Stack direction="row" spacing={2}>
+                    <StyledButton
+                        variant="contained"
+                        onClick={() => setOpen(true)}
+                        startIcon={<UploadFileIcon />}
+                    >
                         Add File
-                    </Button>
+                    </StyledButton>
                     {currentFiles.length > 0 && (
-                        <Button onClick={() => removeAllFiles()}>Remove All</Button>
+                        <StyledButton variant="contained" onClick={() => removeAllFiles()}>
+                            Remove All
+                        </StyledButton>
                     )}
-                </ButtonGroup>
+                </Stack>
             </UploadQuestionBody>
             <FileUploadDialog
                 open={open}

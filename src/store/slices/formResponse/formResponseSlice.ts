@@ -1,8 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { IFectchedForm, IQuestion } from '@/interfaces/CreateForm';
-import { IAnswer } from '@/interfaces/CreateResponse';
+import { IAnswer, IFectchedForm, IQuestionResponse } from '@/interfaces/CreateResponse';
 import { IRootState } from '@/store/store';
 
 const FETCH_FORM_API = (formId: string) => `http://localhost:3001/forms/${formId}`;
@@ -15,30 +14,25 @@ enum FormStatus {
     SUCCESS = 'success',
     FAILED = 'failed',
 }
-interface IResponseStatus {
-    allQuestionAnswered: boolean;
-    questionsNotAnswered: string[];
-}
+
 interface IFormResponseState {
     currentForm: IFectchedForm | null;
     fetchFormStatus: FormStatus;
     fetchFormError?: string;
-    responseStatus: IResponseStatus;
-    response: IAnswer[];
-    formQuestions: IQuestion[];
+    formQuestions: IQuestionResponse[];
     fetchQuestionsStatus: FormStatus;
     fetchQuestionsError?: string;
+    submitClicked: boolean;
 }
 
 const initialState: IFormResponseState = {
-    currentForm: null,
     fetchFormStatus: FormStatus.IDLE,
     fetchFormError: '',
     fetchQuestionsStatus: FormStatus.IDLE,
     fetchQuestionsError: '',
     formQuestions: [],
-    response: [],
-    responseStatus: { allQuestionAnswered: false, questionsNotAnswered: [] },
+    submitClicked: false,
+    currentForm: null,
 };
 const fetchFormById = createAsyncThunk('formResponse/fetchForm', async (formId: string) => {
     const response = await axios.get(FETCH_FORM_API(formId));
@@ -62,15 +56,33 @@ export const formResponseSlice = createSlice({
     name: 'formResponse',
     initialState,
     reducers: {
-        answerQuestion: (state, action: PayloadAction<IAnswer>) => {
-            const currentAnswerIndex = state.response.findIndex(
-                (answer) => answer.questionId === action.payload.questionId,
+        saveQuestionAnswer: (state, action: PayloadAction<IAnswer>) => {
+            const { questionId, answerBody } = action.payload;
+            const currentQuestionResponse = state.formQuestions.find(
+                (questionResponse) => questionResponse.question._id === questionId,
             );
-            if (currentAnswerIndex === -1) {
-                state.response.push(action.payload);
-            } else {
-                state.response[currentAnswerIndex] = action.payload;
+            if (currentQuestionResponse) {
+                if (answerBody.length === 0 || (answerBody.length === 1 && answerBody[0] === '')) {
+                    currentQuestionResponse.questionAnswered = false;
+                } else {
+                    currentQuestionResponse.questionAnswer = action.payload;
+                    currentQuestionResponse.questionAnswered = true;
+                }
             }
+        },
+        changeQuestionAnswerStatus: (
+            state,
+            action: PayloadAction<{ questionId: string; answered: boolean }>,
+        ) => {
+            const currentQuestionResponse = state.formQuestions.find(
+                (questionResponse) => questionResponse.question._id === action.payload.questionId,
+            );
+            if (currentQuestionResponse) {
+                currentQuestionResponse.questionAnswered = action.payload.answered;
+            }
+        },
+        submitForm: (state) => {
+            state.submitClicked = true;
         },
     },
     extraReducers(builder) {
@@ -91,7 +103,15 @@ export const formResponseSlice = createSlice({
             })
             .addCase(fetchQuestions.fulfilled, (state, action) => {
                 state.fetchFormStatus = FormStatus.SUCCESS;
-                state.formQuestions = action.payload;
+                const formQuestions = action.payload;
+                const initializedQuestionResponses = formQuestions.map((question) => {
+                    const initializedAnswer: IAnswer = {
+                        questionId: question.questionId,
+                        answerBody: [],
+                    };
+                    return { question, questionAnswered: false, questionAnswer: initializedAnswer };
+                });
+                state.formQuestions = initializedQuestionResponses;
             })
             .addCase(fetchQuestions.rejected, (state, action) => {
                 state.fetchQuestionsStatus = FormStatus.FAILED;
@@ -103,6 +123,16 @@ const getFetchFormStatus = (state: IRootState) => state.formResponse.fetchFormSt
 const getFetchFormError = (state: IRootState) => state.formResponse.fetchFormError;
 const getFormQuestionIds = (state: IRootState) => state.formResponse.currentForm!.questions;
 const getFormQuestions = (state: IRootState) => state.formResponse.formQuestions;
+const getSubmitClicked = (state: IRootState) => state.formResponse.submitClicked;
+const getForm = (state: IRootState) => state.formResponse.currentForm;
+
+const getQuestionResponse = (state: IRootState, questionId: string) => {
+    const { formQuestions } = state.formResponse;
+    const responseIndex = formQuestions.findIndex(
+        (response) => response.question._id === questionId,
+    );
+    return state.formResponse.formQuestions[responseIndex];
+};
 
 export {
     getFetchFormStatus,
@@ -111,6 +141,11 @@ export {
     getFormQuestionIds,
     fetchFormById,
     fetchQuestions,
+    getForm,
     getFormQuestions,
+    getQuestionResponse,
+    getSubmitClicked,
 };
+export const { saveQuestionAnswer, submitForm, changeQuestionAnswerStatus } =
+    formResponseSlice.actions;
 export default formResponseSlice;

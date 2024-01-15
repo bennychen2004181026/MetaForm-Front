@@ -39,8 +39,8 @@ const Sidebar = styled.div<SidebarProps>`
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-evenly;
+    align-items: center;
+    justify-content: center;
     transition: width 0.3s;
     width: ${(props) => (props.isOpen ? '200px' : '50px')};
     position: relative;
@@ -83,6 +83,14 @@ const CustomNavLink = styled(NavLink)`
 const IconContainer = styled.div`
     display: flex;
     align-items: center;
+`;
+
+const LinksBox = styled.div`
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
 `;
 
 const SidebarButton = ({ children }: { children?: React.ReactNode }) => {
@@ -199,25 +207,27 @@ const SidebarButton = ({ children }: { children?: React.ReactNode }) => {
             <Overlay show={isOpen} onClick={() => setIsOpen(false)} />
             <SidebarContainer>
                 <Sidebar isOpen={isOpen} onClick={toggle}>
-                    {displaySettings.map((item) => (
-                        <CustomNavLink
-                            to={item.path}
-                            key={item.text}
-                            onClick={(event) => {
-                                event.stopPropagation();
-                                handleItemClick(event, item.path);
-                            }}
-                            style={{ pointerEvents: isOpen ? 'auto' : 'none' }}
-                        >
-                            <IconContainer>{item.icon}</IconContainer>
-                            {isOpen && <p>{item.text}</p>}
-                        </CustomNavLink>
-                    ))}
-                    <LogoutDialog
-                        open={logoutDialogOpen}
-                        onClose={() => setLogoutDialogOpen(false)}
-                        onConfirm={handleLogout}
-                    />
+                    <LinksBox>
+                        {displaySettings.map((item) => (
+                            <CustomNavLink
+                                to={item.path}
+                                key={item.text}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleItemClick(event, item.path);
+                                }}
+                                style={{ pointerEvents: isOpen ? 'auto' : 'none' }}
+                            >
+                                <IconContainer>{item.icon}</IconContainer>
+                                {isOpen && <p>{item.text}</p>}
+                            </CustomNavLink>
+                        ))}
+                        <LogoutDialog
+                            open={logoutDialogOpen}
+                            onClose={() => setLogoutDialogOpen(false)}
+                            onConfirm={handleLogout}
+                        />
+                    </LinksBox>
                 </Sidebar>
                 <main
                     style={{

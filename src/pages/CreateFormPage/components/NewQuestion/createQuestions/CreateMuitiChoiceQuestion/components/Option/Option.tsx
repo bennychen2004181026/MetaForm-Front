@@ -13,6 +13,7 @@ import { IOption, IUploadedFile } from '@/interfaces/CreateForm';
 import ImageContainer from '@/layouts/ImageContainer';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
+import OTHER_OPTION from '@/utils/OtherConstant';
 
 const StyledButtonContainer = styled.div<{ isuploadbutton?: boolean }>`
     opacity: 0;
@@ -26,7 +27,6 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
     const { dispatch, state } = useContext(NewQuestionContext);
     const [open, setOpen] = React.useState(false);
     const { options, questionId } = state;
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -89,11 +89,11 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                     variant="standard"
                     onChange={(e) => handleOptionChange(e)}
                     type="text"
-                    disabled={!!option.otherOption}
+                    disabled={option.value === 'Other'}
                     fullWidth
                     maxRows={1}
                 />
-                {!option.otherOption && (
+                {option.id !== OTHER_OPTION.id && (
                     <StyledButtonContainer isuploadbutton>
                         <IconButton onClick={handleClickImageIcon}>
                             <ImageOutlinedIcon fontSize="medium" />

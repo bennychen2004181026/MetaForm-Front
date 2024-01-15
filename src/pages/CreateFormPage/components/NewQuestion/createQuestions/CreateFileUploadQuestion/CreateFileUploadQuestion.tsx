@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import styled from 'styled-components';
 
-import CheckboxList from '@/components/CheckboxList';
+import FileTypeSelector from './components/FileTypeSelector';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 import { fileTypesObjs } from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion/FileTypes';
 
@@ -30,17 +30,16 @@ const CreateFileUploadQuestion = () => {
     const [specifyFileTypes, setSpecficyFileTypes] = useState<boolean>(false);
     const { state, dispatch } = useContext(NewQuestionContext);
     const { numOfFiles } = state;
-
     const handleNumOfFilesChange = (event: SelectChangeEvent<number>) => {
         dispatch({
             type: 'SET_MAX_NUM_OF_FILES',
             payload: event.target.value as 1 | 3 | 5,
         });
     };
-    const handleFileTypesChange = (selectedOptionIds: string[]) => {
+    const handleFileTypesChange = (selected: string[]) => {
         dispatch({
             type: 'SET_ALLOWED_FILE_TYPES',
-            payload: selectedOptionIds,
+            payload: selected,
         });
     };
     return (
@@ -61,7 +60,10 @@ const CreateFileUploadQuestion = () => {
                         labelPlacement="end"
                     />
                     {specifyFileTypes && (
-                        <CheckboxList setResult={handleFileTypesChange} options={fileTypesObjs} />
+                        <FileTypeSelector
+                            handleFileTypesChange={handleFileTypesChange}
+                            options={fileTypesObjs}
+                        />
                     )}
                 </StyledFormControl>
             </div>

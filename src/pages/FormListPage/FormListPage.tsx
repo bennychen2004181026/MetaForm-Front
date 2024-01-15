@@ -30,6 +30,9 @@ const StyledPageContainer = styled(Box)`
     display: flex;
     flex-direction: column;
     gap: 40px;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 40px 90px 40px;
 `;
 const StyledDisplayModeToggle = styled(DisplayModeToggle)`
     border: 1px solid;
@@ -73,23 +76,27 @@ const FormList = () => {
         dispatch(searchProductsByTitle(searchInput));
     };
 
-    const handleRedirectToRegister = () => {
-        const path = `/create-form`;
-        navigate(path);
-    };
     return (
         <div>
             <Header />
             <StyledPageContainer>
                 <GlobalStyle />
+                <SidebarButton />
                 <StyledHeader>
-                    <SidebarButton />
                     <TextField
                         id="outlined-search"
                         label="Search field"
                         type="search"
                         onChange={(e) => handleSearchBarChange(e)}
                     />
+                    <StyledAddQuestionButton
+                        aria-label="Add New Question"
+                        variant="contained"
+                        startIcon={<ControlPointOutlinedIcon />}
+                        onClick={() => navigate('/create-form')}
+                    >
+                        Create Form
+                    </StyledAddQuestionButton>
                     <StyledDisplayModeToggle
                         displayMode={displayMode}
                         setDisplayMode={setDisplayMode}
@@ -99,14 +106,6 @@ const FormList = () => {
                     {displayMode === 'cards' && <FormCards forms={companyForms} />}
                     {displayMode === 'list' && <Table forms={companyForms} />}
                 </StyledFormsContainer>
-                <StyledAddQuestionButton
-                    aria-label="Add New Question"
-                    variant="contained"
-                    onClick={handleRedirectToRegister}
-                    startIcon={<ControlPointOutlinedIcon />}
-                >
-                    Create Form
-                </StyledAddQuestionButton>
             </StyledPageContainer>
             <Footer />
         </div>

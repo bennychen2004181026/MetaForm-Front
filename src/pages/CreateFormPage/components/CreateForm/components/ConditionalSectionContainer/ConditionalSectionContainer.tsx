@@ -21,6 +21,7 @@ const ConditionalSectionContainer = ({
                 p: 4,
                 position: 'relative',
                 marginBottom: '20px',
+                marginTop: '30px',
                 minWidth: '800px',
                 bgcolor: backgroundColor || undefined,
             }}

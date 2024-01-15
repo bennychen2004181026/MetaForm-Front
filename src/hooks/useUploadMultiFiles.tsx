@@ -4,7 +4,8 @@ import FindInPageOutlinedIcon from '@mui/icons-material/FindInPageOutlined';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-import { IQuestion, IUploadedFile } from '@/interfaces/CreateForm';
+import { IUploadedFile } from '@/interfaces/CreateForm';
+import { IFetchedQuestion } from '@/interfaces/CreateResponse';
 import { getSelectedFileTypes } from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion/FileTypes';
 import { authToken } from '@/store/slices/auth/authSlice';
 import { PRESIGNED_CLOUR_FRONT_URL, PRESIGNED_URL } from '@/utils/API';
@@ -15,7 +16,7 @@ const useUploadMultiFiles = ({
     question,
     availableSpace = 1,
 }: {
-    question: IQuestion;
+    question: IFetchedQuestion;
     availableSpace?: number;
 }) => {
     const token = useSelector(authToken);
@@ -25,24 +26,23 @@ const useUploadMultiFiles = ({
     const [selectedFiles, setSelectedFiles] = useState<IUploadedFile[] | null>(null);
     const imgRef = useRef<HTMLInputElement | null>(null);
     const [isFileValid, setIsFileValid] = useState(true);
-    const { acceptFileTypes, questionId } = question;
+    const { acceptFileTypes, _id } = question;
 
     const selectedFileTypes = getSelectedFileTypes(acceptFileTypes!);
-    let validFileExtensions: string[] = [];
 
-    for (let i = 0; i < selectedFileTypes.length; i += 1) {
-        validFileExtensions = [...validFileExtensions, ...selectedFileTypes[i].fileExtensions!];
-    }
+    const validFileExtensions: string[] = selectedFileTypes.reduce(
+        (accu, curr) => [...accu, ...curr.fileExtensions!],
+        [''],
+    );
     const getFileName = (fileOrigialName: string) => {
         const timestamp = new Date().getTime();
-        const fileName = `question-${questionId}-${timestamp}-${fileOrigialName}`;
+        const fileName = `question-${_id}-${timestamp}-${fileOrigialName}`;
         return fileName;
     };
     const getFileType = (file: File) => {
-        for (let i = 0; i < selectedFileTypes.length; i += 1) {
-            if (selectedFileTypes[i].fileExtensions!.includes(file.type)) {
-                return selectedFileTypes[i].icon;
-            }
+        const fileType = selectedFileTypes.find((type) => type.fileExtensions!.includes(file.type));
+        if (fileType) {
+            return fileType.icon;
         }
         return null;
     };
