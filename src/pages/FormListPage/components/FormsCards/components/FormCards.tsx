@@ -3,14 +3,14 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 
 import FormCard from './FormCard/FormCard';
-import { IForm } from '@/interfaces/CreateForm';
+import { IFectchedForm } from '@/interfaces/CreateResponse';
 
-const FormCards = ({ forms }: { forms: IForm[] }) => {
+const FormCards = ({ forms }: { forms: IFectchedForm[] }) => {
     return (
         <Grid container spacing={4} justifyContent="center">
-            {forms.map(({ formId, title, responses }) => (
-                <Grid item xs={12} md={6} lg={4} key={formId}>
-                    <FormCard formTitle={title} responses={responses!} />
+            {forms.map((form) => (
+                <Grid item xs={12} md={6} lg={4} key={form._id}>
+                    <FormCard form={form} />
                 </Grid>
             ))}
         </Grid>
