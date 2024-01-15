@@ -54,7 +54,7 @@ const RegisterForm = () => {
             id: 3,
             label: 'Password',
             key: 'password',
-            type: 'input',
+            type: 'password',
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'Password' },
@@ -65,7 +65,7 @@ const RegisterForm = () => {
             id: 4,
             label: 'Confirm Password',
             key: 'confirmPassword',
-            type: 'input',
+            type: 'password',
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'Confirm Password' },

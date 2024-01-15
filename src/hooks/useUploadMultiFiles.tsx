@@ -28,21 +28,20 @@ const useUploadMultiFiles = ({
     const { acceptFileTypes, questionId } = question;
 
     const selectedFileTypes = getSelectedFileTypes(acceptFileTypes!);
-    let validFileExtensions: string[] = [];
 
-    for (let i = 0; i < selectedFileTypes.length; i += 1) {
-        validFileExtensions = [...validFileExtensions, ...selectedFileTypes[i].fileExtensions!];
-    }
+    const validFileExtensions: string[] = selectedFileTypes.reduce(
+        (accu, curr) => [...accu, ...curr.fileExtensions!],
+        [''],
+    );
     const getFileName = (fileOrigialName: string) => {
         const timestamp = new Date().getTime();
         const fileName = `question-${questionId}-${timestamp}-${fileOrigialName}`;
         return fileName;
     };
     const getFileType = (file: File) => {
-        for (let i = 0; i < selectedFileTypes.length; i += 1) {
-            if (selectedFileTypes[i].fileExtensions!.includes(file.type)) {
-                return selectedFileTypes[i].icon;
-            }
+        const fileType = selectedFileTypes.find((type) => type.fileExtensions!.includes(file.type));
+        if (fileType) {
+            return fileType.icon;
         }
         return null;
     };

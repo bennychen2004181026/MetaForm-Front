@@ -29,7 +29,13 @@ const StyledButtonsBox = styled(Box)`
     display: flex;
     flex-direction: row;
     padding-top: 16px;
-    justify-content: space-around;
+    justify-content: space-between;
+    max-width: 400px;
+    width: 50vw;
+    align-items: center;
+    @media (max-width: 600px) {
+        width: 80vw;
+    }
 `;
 
 const BackButton = styled(Button)`
@@ -71,6 +77,17 @@ const NextButton = styled(Button)`
     padding: 6px 12px;
 `;
 
+const StepContentBox = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`;
+
+const StyledSubmitButtonBox = styled(Box)`
+    padding: 6px 12px;
+    margin-left: 8px;
+`;
 interface CompanyProfileStepperProps {
     userId?: string;
 }
@@ -320,7 +337,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
                 ))}
             </Stepper>
             <div>
-                <div>
+                <StepContentBox>
                     {getStepContent(activeStep)}
                     <StyledButtonsBox>
                         <BackButton onClick={handleBack} disabled={activeStep === 0}>
@@ -329,16 +346,18 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
 
                         {isLastStep && <ResetButton onClick={handleReset}>Reset</ResetButton>}
                         {isLastStep ? (
-                            <SubmitButton
-                                isValid={isValid()}
-                                text="Create"
-                                handleSubmit={handleSubmit}
-                            />
+                            <StyledSubmitButtonBox>
+                                <SubmitButton
+                                    isValid={isValid()}
+                                    text="Create"
+                                    handleSubmit={handleSubmit}
+                                />
+                            </StyledSubmitButtonBox>
                         ) : (
                             <NextButton onClick={handleNext}>Next</NextButton>
                         )}
                     </StyledButtonsBox>
-                </div>
+                </StepContentBox>
             </div>
         </Box>
     );

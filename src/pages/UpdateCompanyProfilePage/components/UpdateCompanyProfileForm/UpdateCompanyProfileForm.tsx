@@ -65,6 +65,10 @@ const LogoBox = styled(Box)`
     margin-top: 20px;
 `;
 
+const StyledTypography = styled(Typography)`
+    text-align: center;
+`;
+
 const UpdateCompanyProfileForm = () => {
     const showSnackbar = useSnackbarHelper();
     const [isLoading, setIsLoading] = useState(false);
@@ -235,9 +239,9 @@ const UpdateCompanyProfileForm = () => {
     const submitButtonText = 'Update Profile';
     return (
         <CompanyInfosBox>
-            <Typography variant="h4" gutterBottom>
+            <StyledTypography variant="h4" gutterBottom>
                 Update Company Profile
-            </Typography>
+            </StyledTypography>
             <LogoBox>
                 <Typography variant="h5">Company Logo:</Typography>
                 <StyledStepperBoxContainer>

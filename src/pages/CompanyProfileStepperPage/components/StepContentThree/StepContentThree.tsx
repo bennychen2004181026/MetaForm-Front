@@ -7,25 +7,22 @@ import LabelValuePair from '@/components/LabelValuePair';
 
 const StyledStepperBoxContainer = styled.div`
     display: flex;
-    flex-direction: column;
-    @media (min-width: 768px) {
-        flex-direction: row;
-    }
-    width: 360px;
-    height: 260px;
-    @media (min-width: 600px) {
-        width: 500px;
-        height: 400px;
-    }
-    @media (min-width: 960px) {
-        width: 600px;
-        height: 500px;
-        flex-direction: column;
-    }
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    margin-top: 1px;
-    gap: 1rem;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    align-content: center;
+    margin-top: 40px;
+    width: 80vw;
+    max-width: 700px;
+    height: 70vh;
+    max-height: 500px;
+    @media (max-width: 768px) {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        margin-top: 6vh;
+    }
 `;
 
 const TitleContainer = styled.div`
@@ -41,12 +38,14 @@ const TitleContainer = styled.div`
 
 const InfoAndLogoContainer = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
     height: 100%;
 
-    @media (min-width: 768px) {
-        flex-direction: row;
+    @media (max-width: 768px) {
+        flex-direction: column-reverse;
+        align-items: center;
+        padding: 20px 0;
     }
 `;
 
@@ -56,10 +55,38 @@ const StyledCompanyInfoBox = styled.div`
     padding: 8px;
     border: 1px solid #ddd;
     width: 100%;
-    height: 95%;
+    height: 40vh;
     display: flex;
+    justify-content: space-evenly;
     flex-direction: column;
-    justify-content: center;
+    align-items: flex-start;
+    @media (max-width: 768px) and (min-width: 600px) {
+        flex-direction: row;
+        justify-content: space-around;
+        width: 90%;
+        display: flex;
+        flex-wrap: wrap;
+        height: fit-content;
+        align-content: center;
+        align-items: flex-start;
+    }
+    @media (max-width: 599px) {
+        flex-direction: row;
+        justify-content: space-around;
+        width: 80vw;
+        display: flex;
+        flex-wrap: nowrap;
+        height: fit-content;
+        align-content: center;
+        align-items: flex-start;
+    }
+`;
+
+const StyledLabelValuePair = styled(LabelValuePair)`
+    width: 120px;
+    @media (max-width: 768px) {
+        width: 100px;
+    }
 `;
 
 const StyledLogoBox = styled.div.attrs<{ hasCompanyLogo: boolean }>((props) => ({
@@ -73,16 +100,22 @@ const StyledLogoBox = styled.div.attrs<{ hasCompanyLogo: boolean }>((props) => (
     background-color: ${(props) => (props.hasCompanyLogo ? 'transparent' : '#f0f0f0')};
     max-width: 100%;
     max-height: 99%;
-    @media (min-width: 600px) {
-        width: 400px;
-        height: 300px;
-    }
-    @media (min-width: 960px) {
-        width: 60%;
-        height: 400px;
-    }
+    height: 40vh;
+    padding: 8px;
     flex-direction: row;
     flex-wrap: wrap;
+    @media (max-width: 768px) and (min-width: 600px) {
+        height: 60vh;
+        width: 72vw;
+        min-width: 230px;
+        min-height: 280px;
+    }
+    @media (max-width: 599px) {
+        height: 60vh;
+        width: 80vw;
+        min-width: 230px;
+        min-height: 280px;
+    }
 `;
 interface StepContentThreeProps {
     fieldsData: Record<string, string>;
@@ -96,9 +129,9 @@ const StepContentThree: React.FC<StepContentThreeProps> = ({ fieldsData }) => {
             </TitleContainer>
             <InfoAndLogoContainer>
                 <StyledCompanyInfoBox>
-                    <LabelValuePair label="Company Name" value={fieldsData.companyName} />
-                    <LabelValuePair label="Industry" value={fieldsData.industry} />
-                    <LabelValuePair label="ABN" value={fieldsData.abn} />
+                    <StyledLabelValuePair label="Company Name" value={fieldsData.companyName} />
+                    <StyledLabelValuePair label="Industry" value={fieldsData.industry} />
+                    <StyledLabelValuePair label="ABN" value={fieldsData.abn} />
                 </StyledCompanyInfoBox>
                 <StyledLogoBox hasCompanyLogo={Boolean(fieldsData.logo)}>
                     {fieldsData.logo ? (

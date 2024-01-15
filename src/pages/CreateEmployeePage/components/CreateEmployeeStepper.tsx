@@ -26,7 +26,13 @@ const StyledButtonsBox = styled(Box)`
     display: flex;
     flex-direction: row;
     padding-top: 16px;
-    justify-content: space-around;
+    justify-content: space-between;
+    max-width: 400px;
+    width: 50vw;
+    align-items: center;
+    @media (max-width: 600px) {
+        width: 80vw;
+    }
 `;
 
 const BackButton = styled(Button)`
@@ -66,6 +72,22 @@ const NextButton = styled(Button)`
     }
     text-transform: none;
     padding: 6px 12px;
+`;
+
+const StepContentBox = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0 0;
+    @media (max-width: 768px) {
+        padding: 50px 0 0;
+    }
+`;
+
+const StyledSubmitButtonBox = styled(Box)`
+    padding: 6px 12px;
+    margin-left: 8px;
 `;
 
 const CreateEmployeeStepper: React.FC = () => {
@@ -112,7 +134,7 @@ const CreateEmployeeStepper: React.FC = () => {
             id: 4,
             label: 'Password',
             key: 'password',
-            type: 'input',
+            type: 'password',
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'Password' },
@@ -123,7 +145,7 @@ const CreateEmployeeStepper: React.FC = () => {
             id: 5,
             label: 'Confirm Password',
             key: 'confirmPassword',
-            type: 'input',
+            type: 'password',
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'Confirm Password' },
@@ -134,7 +156,7 @@ const CreateEmployeeStepper: React.FC = () => {
             id: 6,
             label: 'Token',
             key: 'token',
-            type: 'input',
+            type: 'token',
             value: token,
             validationRules: [],
         },
@@ -296,7 +318,7 @@ const CreateEmployeeStepper: React.FC = () => {
                 ))}
             </Stepper>
             <div>
-                <div>
+                <StepContentBox>
                     {getStepContent(activeStep)}
                     <StyledButtonsBox>
                         <BackButton onClick={handleBack} disabled={activeStep === 0}>
@@ -305,16 +327,18 @@ const CreateEmployeeStepper: React.FC = () => {
 
                         {isLastStep && <ResetButton onClick={handleReset}>Reset</ResetButton>}
                         {isLastStep ? (
-                            <SubmitButton
-                                isValid={isValid()}
-                                text="Create"
-                                handleSubmit={handleSubmit}
-                            />
+                            <StyledSubmitButtonBox>
+                                <SubmitButton
+                                    isValid={isValid()}
+                                    text="Create"
+                                    handleSubmit={handleSubmit}
+                                />
+                            </StyledSubmitButtonBox>
                         ) : (
                             <NextButton onClick={handleNext}>Next</NextButton>
                         )}
                     </StyledButtonsBox>
-                </div>
+                </StepContentBox>
             </div>
         </Box>
     );
