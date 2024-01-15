@@ -30,14 +30,6 @@ const CheckboxList = ({
     const [checked, setChecked] = React.useState(['']);
     const [_, setOpenOtherTextField] = useState(false);
 
-    // const handleSelectionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setValue(event.target.value);
-    //     if (event.target.value === 'Other') {
-    //         setOpenOtherTextField(true);
-    //     } else {
-    //         setOpenOtherTextField(false);
-    //     }
-    // };
     const handleToggle = (toggledOption: IOption) => () => {
         const { id: toggledOptionId, otherOption } = toggledOption;
 
