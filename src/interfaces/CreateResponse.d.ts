@@ -21,6 +21,10 @@ interface IQuestionResponse {
     questionAnswered: boolean;
     questionAnswer: IAnswer;
 }
+interface IQuestionProps {
+    questionResponse: IQuestionResponse;
+    onAnswerChange: (answer: IAnswer) => void;
+}
 interface IFetchedQuestion {
     _id: string;
     required: boolean;
@@ -31,5 +35,17 @@ interface IFetchedQuestion {
     acceptFileTypes?: string[] | undefined;
     numOfFiles?: 1 | 3 | 5;
 }
-
-export { IAnswer, IFile, IQuestionResponse, IFetchedQuestion, IFectchedForm };
+interface IFetchedOption {
+    _id: string;
+    value: string;
+    image?: IFile;
+}
+export {
+    IAnswer,
+    IQuestionProps,
+    IFile,
+    IFetchedOption,
+    IQuestionResponse,
+    IFetchedQuestion,
+    IFectchedForm,
+};

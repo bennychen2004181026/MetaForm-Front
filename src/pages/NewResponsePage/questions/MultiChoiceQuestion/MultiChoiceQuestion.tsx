@@ -1,73 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Button, FormControlLabel, Radio } from '@mui/material';
+import { FormControlLabel, Radio, TextField } from '@mui/material';
 import RadioGroup from '@mui/material/RadioGroup';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { IOption } from '@/interfaces/CreateForm';
-import { IAnswer, IQuestionResponse } from '@/interfaces/CreateResponse';
-import MultiLineTextField from '@/layouts/MultiLineTextField';
-import { saveQuestionAnswer } from '@/store/slices/formResponse/formResponseSlice';
-import { AppDispatch } from '@/store/store';
+import { IAnswer, IQuestionProps } from '@/interfaces/CreateResponse';
+import ImageContainer from '@/layouts/ImageContainer';
 
-const OtherOption = styled.div`
-    display: flex;
-    flex-direction: column;
+const StyledRadioGroup = styled(RadioGroup)`
+    margin-left: 40px;
 `;
-
-const MultiChoiceQuestion = ({ questionResponse }: { questionResponse: IQuestionResponse }) => {
-    const dispatch = useDispatch<AppDispatch>();
+const MultiChoiceQuestion = ({ questionResponse, onAnswerChange }: IQuestionProps) => {
     const { question } = questionResponse;
-    const [value, setValue] = useState('');
-    const { options, _id } = question;
-    const [openOtherTextField, setOpenOtherTextField] = useState(false);
+    const [selected, setSelected] = useState<string>('');
+    const { options, _id, other } = question;
     const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
-        if (event.target.value === 'Other') {
-            setOpenOtherTextField(true);
-        } else {
-            setOpenOtherTextField(false);
-        }
+        setSelected(event.target.value);
     };
-    const handleSaveAnswer = () => {
-        const answer: IAnswer = { questionId: _id, answerBody: [value] };
-        dispatch(saveQuestionAnswer(answer));
-    };
+    useEffect(() => {
+        const answerBody = [selected];
+        const answer: IAnswer = { questionId: _id, answerBody };
+        onAnswerChange(answer);
+    }, [selected]);
     return (
-        <div>
-            <RadioGroup name="multichoice question" value={value} onChange={handleRadioChange}>
-                {options.map((option: IOption) => (
+        <StyledRadioGroup name="multichoice question" value={selected} onChange={handleRadioChange}>
+            {options.map((option) => (
+                <>
                     <FormControlLabel
                         key={option.value}
                         value={option.value}
                         control={<Radio />}
                         label={option.value}
                     />
-                ))}
-                {question.other && (
-                    <OtherOption>
-                        <FormControlLabel
-                            key="Other"
-                            value="Other"
-                            control={<Radio />}
-                            label="Other"
-                        />
-                        {openOtherTextField && (
-                            <MultiLineTextField
-                                multilines={false}
-                                question={question}
-                                value={value}
-                                setValue={setValue}
-                            />
-                        )}
-                    </OtherOption>
-                )}
-            </RadioGroup>
-            <Button variant="outlined" onClick={handleSaveAnswer}>
-                save
-            </Button>
-        </div>
+                    {option.image && <ImageContainer large={false} image={option.image} />}
+                </>
+            ))}
+
+            {other && (
+                <TextField
+                    id="multi-choice-other-option"
+                    label="Other"
+                    variant="standard"
+                    onChange={(e) => setSelected(e.target.value)}
+                />
+            )}
+        </StyledRadioGroup>
     );
 };
 

@@ -7,13 +7,11 @@ const ConditionalSectionContainer = ({
     elevation = 4,
     backgroundColor,
     square = true,
-    wariningBorderStyle,
 }: {
     children: ReactNode;
     elevation?: number;
     backgroundColor?: string;
     square?: boolean;
-    wariningBorderStyle?: string;
 }) => {
     return (
         <Paper
@@ -24,7 +22,6 @@ const ConditionalSectionContainer = ({
                 position: 'relative',
                 marginBottom: '20px',
                 minWidth: '800px',
-                border: wariningBorderStyle,
                 bgcolor: backgroundColor || undefined,
             }}
         >

@@ -57,15 +57,28 @@ export const formResponseSlice = createSlice({
     initialState,
     reducers: {
         saveQuestionAnswer: (state, action: PayloadAction<IAnswer>) => {
+            const { questionId, answerBody } = action.payload;
+            const currentQuestionResponse = state.formQuestions.find(
+                (questionResponse) => questionResponse.question._id === questionId,
+            );
+            if (currentQuestionResponse) {
+                if (answerBody.length === 0 || (answerBody.length === 1 && answerBody[0] === '')) {
+                    currentQuestionResponse.questionAnswered = false;
+                } else {
+                    currentQuestionResponse.questionAnswer = action.payload;
+                    currentQuestionResponse.questionAnswered = true;
+                }
+            }
+        },
+        changeQuestionAnswerStatus: (
+            state,
+            action: PayloadAction<{ questionId: string; answered: boolean }>,
+        ) => {
             const currentQuestionResponse = state.formQuestions.find(
                 (questionResponse) => questionResponse.question._id === action.payload.questionId,
             );
             if (currentQuestionResponse) {
-                if (action.payload.answerBody.length === 0) {
-                    currentQuestionResponse.questionAnswered = false;
-                }
-                currentQuestionResponse.questionAnswer = action.payload;
-                currentQuestionResponse.questionAnswered = true;
+                currentQuestionResponse.questionAnswered = action.payload.answered;
             }
         },
         submitForm: (state) => {
@@ -133,5 +146,6 @@ export {
     getQuestionResponse,
     getSubmitClicked,
 };
-export const { saveQuestionAnswer, submitForm } = formResponseSlice.actions;
+export const { saveQuestionAnswer, submitForm, changeQuestionAnswerStatus } =
+    formResponseSlice.actions;
 export default formResponseSlice;

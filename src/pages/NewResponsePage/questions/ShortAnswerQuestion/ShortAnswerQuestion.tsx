@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { IQuestionResponse } from '@/interfaces/CreateResponse';
-import MultiLineTextField from '@/layouts/MultiLineTextField';
+import { TextField } from '@mui/material';
+
+import { IAnswer, IQuestionProps } from '@/interfaces/CreateResponse';
 import { questionTypeCode } from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector/questionTypes';
 
-const ShortAnswerQuestion = ({ questionResponse }: { questionResponse: IQuestionResponse }) => {
+const ShortAnswerQuestion = ({ questionResponse, onAnswerChange }: IQuestionProps) => {
     const { question } = questionResponse;
-    const { questionType } = question;
+    const { questionType, _id } = question;
     const [value, setValue] = useState('');
+
+    useEffect(() => {
+        const answerBody = [value];
+        const answer: IAnswer = { questionId: _id, answerBody };
+        onAnswerChange(answer);
+    }, [value]);
+
     return (
-        <MultiLineTextField
-            multilines={questionType === questionTypeCode.PARAGRAPH}
-            question={question}
-            value={value}
-            setValue={setValue}
+        <TextField
+            id="short-answer-and-paragraph-question-input"
+            variant="standard"
+            label="Your Answer"
+            multiline={questionType !== questionTypeCode.PARAGRAPH}
+            onChange={(e) => setValue(e.target.value)}
+            fullWidth
         />
     );
 };

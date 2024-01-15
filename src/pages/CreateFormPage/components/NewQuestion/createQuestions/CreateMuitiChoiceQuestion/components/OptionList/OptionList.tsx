@@ -6,10 +6,11 @@ import Option from '../Option';
 
 import { IOption } from '@/interfaces/CreateForm';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
+import OTHER_OPTION from '@/utils/OtherConstant';
 
 const OptionList = ({ isCheckbox }: { isCheckbox: boolean }) => {
     const { dispatch, state } = useContext(NewQuestionContext);
-    const options = state.options!;
+    const { options, other } = state;
     const [draggingOption, setDraggingOption] = useState<null | IOption>(null);
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>, option: IOption) => {
         setDraggingOption(option);
@@ -53,6 +54,7 @@ const OptionList = ({ isCheckbox }: { isCheckbox: boolean }) => {
                     <Option option={option} checkbox={isCheckbox} />
                 </div>
             ))}
+            <div> {other && <Option option={OTHER_OPTION} checkbox={isCheckbox} />}</div>
         </List>
     );
 };
