@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
     Checkbox,
@@ -9,35 +9,34 @@ import {
     ListItemText,
 } from '@mui/material';
 
-import { IFetchedOption, IFetchedQuestion } from '@/interfaces/CreateResponse';
+import { IOption } from '@/interfaces/CreateForm';
 import ImageContainer from '@/layouts/ImageContainer';
 
-const CheckboxList = ({
-    question,
-    setSelected,
-    selected,
+const FileTypeSelector = ({
+    options,
+    handleFileTypesChange,
 }: {
-    question: IFetchedQuestion;
-    selected: string[];
-    setSelected: React.Dispatch<React.SetStateAction<string[]>> | ((selected: string[]) => void);
+    options: IOption[];
+    handleFileTypesChange: (selected: string[]) => void;
 }) => {
-    const { options } = question;
+    const [selected, setSelected] = useState(['']);
 
-    const handleToggle = (toggledOption: IFetchedOption) => () => {
-        const { _id: optionId } = toggledOption;
-        const currentIndex = selected.indexOf(optionId);
+    const handleToggle = (toggledOption: IOption) => () => {
+        const { id } = toggledOption;
+        const currentIndex = selected.indexOf(id);
         const newChecked = [...selected];
         if (currentIndex === -1) {
-            newChecked.push(optionId);
+            newChecked.push(id);
         } else {
             newChecked.splice(currentIndex, 1);
         }
         setSelected(newChecked);
+        handleFileTypesChange(selected);
     };
     return (
         <List dense>
             {options.map((option) => {
-                const labelId = `checkbox-list-label-${option._id}`;
+                const labelId = `checkbox-list-label-${option.id}`;
                 return (
                     <>
                         <ListItem key={option.id}>
@@ -45,7 +44,7 @@ const CheckboxList = ({
                                 <ListItemIcon>
                                     <Checkbox
                                         edge="start"
-                                        checked={selected.indexOf(option._id) !== -1}
+                                        checked={selected.indexOf(option.id) !== -1}
                                         tabIndex={-1}
                                         disableRipple
                                         inputProps={{ 'aria-labelledby': labelId }}
@@ -62,4 +61,4 @@ const CheckboxList = ({
     );
 };
 
-export default CheckboxList;
+export default FileTypeSelector;

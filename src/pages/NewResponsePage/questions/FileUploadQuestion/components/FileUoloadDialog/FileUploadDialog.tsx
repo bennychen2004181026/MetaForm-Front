@@ -5,14 +5,15 @@ import styled from 'styled-components';
 
 import DragDropBox from '@/components/DragDropBox';
 import useUploadMultiFiles from '@/hooks/useUploadMultiFiles';
-import { IFileToUpload, IQuestion } from '@/interfaces/CreateForm';
+import { IUploadedFile } from '@/interfaces/CreateForm';
+import { IFetchedQuestion } from '@/interfaces/CreateResponse';
 import { getValidFileExtensions } from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion/FileTypes';
 
 export interface FilesUploadDialogProps {
     open: boolean;
     onClose: () => void;
-    handleSelectedFiles: (value: IFileToUpload[]) => void;
-    question: IQuestion;
+    handleSelectedFiles: (value: IUploadedFile[]) => void;
+    question: IFetchedQuestion;
     availableFileSpace: number;
 }
 const StyledDialogContent = styled.div`

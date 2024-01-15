@@ -1,7 +1,7 @@
-import { IForm } from '@/interfaces/CreateForm';
+import { IFectchedForm } from '@/interfaces/CreateResponse';
 
 interface IColumn {
-    id: keyof IForm;
+    id: keyof IFectchedForm;
     label: string;
     numeric: boolean;
 }

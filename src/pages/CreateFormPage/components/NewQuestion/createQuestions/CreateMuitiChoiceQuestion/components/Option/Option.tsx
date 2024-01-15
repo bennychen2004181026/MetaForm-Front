@@ -9,10 +9,11 @@ import { IconButton, ListItem, TextField } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import styled from 'styled-components';
 
-import { IFileToUpload, IOption } from '@/interfaces/CreateForm';
+import { IOption, IUploadedFile } from '@/interfaces/CreateForm';
 import ImageContainer from '@/layouts/ImageContainer';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
+import OTHER_OPTION from '@/utils/OtherConstant';
 
 const StyledButtonContainer = styled.div<{ isuploadbutton?: boolean }>`
     opacity: 0;
@@ -26,11 +27,10 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
     const { dispatch, state } = useContext(NewQuestionContext);
     const [open, setOpen] = React.useState(false);
     const { options, questionId } = state;
-
     const handleClose = () => {
         setOpen(false);
     };
-    const insertImage = (image: IFileToUpload) => {
+    const insertImage = (image: IUploadedFile) => {
         const index = options.findIndex((obj) => obj.id === option.id);
         options[index] = {
             ...option,
@@ -89,11 +89,11 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
                     variant="standard"
                     onChange={(e) => handleOptionChange(e)}
                     type="text"
-                    disabled={!!option.otherOption}
+                    disabled={option.value === 'Other'}
                     fullWidth
                     maxRows={1}
                 />
-                {!option.otherOption && (
+                {option.id !== OTHER_OPTION.id && (
                     <StyledButtonContainer isuploadbutton>
                         <IconButton onClick={handleClickImageIcon}>
                             <ImageOutlinedIcon fontSize="medium" />
