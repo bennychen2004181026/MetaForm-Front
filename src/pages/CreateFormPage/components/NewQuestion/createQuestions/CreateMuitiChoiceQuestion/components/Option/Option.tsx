@@ -9,7 +9,7 @@ import { IconButton, ListItem, TextField } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import styled from 'styled-components';
 
-import { IImage, IOption } from '@/interfaces/CreateForm';
+import { IFileToUpload, IOption } from '@/interfaces/CreateForm';
 import ImageContainer from '@/layouts/ImageContainer';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
@@ -30,7 +30,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
     const handleClose = () => {
         setOpen(false);
     };
-    const insertImage = (image: IImage) => {
+    const insertImage = (image: IFileToUpload) => {
         const index = options.findIndex((obj) => obj.id === option.id);
         options[index] = {
             ...option,
@@ -54,6 +54,12 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
     };
     const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
+        if (option.value === 'Other') {
+            dispatch({
+                type: 'ALLOW_OTHER_OPTION',
+                payload: false,
+            });
+        }
         dispatch({
             type: 'DELETE_OPTION',
             payload: {
@@ -100,7 +106,7 @@ const Option = ({ option, checkbox = false }: { option: IOption; checkbox?: bool
             <ImageUploadDialog
                 key={questionId}
                 open={open}
-                insertImage={insertImage}
+                handleSelectedFiles={insertImage}
                 onClose={handleClose}
             />
         </>

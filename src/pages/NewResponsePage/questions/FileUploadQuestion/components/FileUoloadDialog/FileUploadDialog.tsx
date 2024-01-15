@@ -1,20 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import styled from 'styled-components';
 
 import DragDropBox from '@/components/DragDropBox';
-// import useUploadQuestionImage from '@/hooks/useUploadQuestionImage';
 import useUploadMultiFiles from '@/hooks/useUploadMultiFiles';
-import { IFileToUpload } from '@/interfaces/CreateForm';
-import ImageContainer from '@/layouts/ImageContainer';
-import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
+import { IFileToUpload, IQuestion } from '@/interfaces/CreateForm';
+import { getValidFileExtensions } from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion/FileTypes';
 
-export interface ImageInsertDialogProps {
+export interface FilesUploadDialogProps {
     open: boolean;
-    key: string;
     onClose: () => void;
-    handleSelectedFiles: (value: IFileToUpload) => void;
+    handleSelectedFiles: (value: IFileToUpload[]) => void;
+    question: IQuestion;
+    availableFileSpace: number;
 }
 const StyledDialogContent = styled.div`
     display: flex;
@@ -24,10 +23,11 @@ const StyledDragBox = styled.div<{ isDragging: boolean; isFileValid: boolean }>`
     background-color: ${({ isDragging, isFileValid }) =>
         isDragging && isFileValid ? '#03a9f4' : 'white'};
 `;
-const ImageUploadDialog = (props: ImageInsertDialogProps) => {
-    const { onClose, open, handleSelectedFiles } = props;
-    const { state } = useContext(NewQuestionContext);
-    const results = useUploadMultiFiles({ question: state });
+const FileUploadDialog = (props: FilesUploadDialogProps) => {
+    const { onClose, open, handleSelectedFiles, question, availableFileSpace } = props;
+    const { acceptFileTypes } = question;
+    const validFileExtensions = getValidFileExtensions(acceptFileTypes || ['0', '1', '2', '3']);
+    const results = useUploadMultiFiles({ question, availableSpace: availableFileSpace });
     const {
         isDragging,
         handleDragEnter,
@@ -35,26 +35,27 @@ const ImageUploadDialog = (props: ImageInsertDialogProps) => {
         handleDragLeave,
         onFilesSelect,
         isFileValid,
+        selectedFiles,
         setSelectedFiles,
-        imgRef,
+        imgRef: filesRef,
     } = results;
-    const { selectedFiles } = results;
 
-    const selectFiles = () => imgRef.current && imgRef.current.click();
+    const selectFiles = () => filesRef.current && filesRef.current.click();
     const handleClose = () => {
         setSelectedFiles(null);
         onClose();
     };
-    const handleInsert = () => {
+    useEffect(() => {
         if (selectedFiles) {
-            handleSelectedFiles(selectedFiles[0]);
+            handleSelectedFiles(selectedFiles);
             setSelectedFiles(null);
         }
         onClose();
-    };
+    }, [selectedFiles]);
+
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Insert Image</DialogTitle>
+            <DialogTitle>Uoload File</DialogTitle>
             <DialogContent>
                 <StyledDragBox isDragging={isDragging} isFileValid={isFileValid}>
                     <DragDropBox
@@ -66,9 +67,6 @@ const ImageUploadDialog = (props: ImageInsertDialogProps) => {
                         isFileValid={isFileValid}
                     >
                         <StyledDialogContent>
-                            {selectedFiles && (
-                                <ImageContainer image={selectedFiles[0]} large={false} />
-                            )}
                             {!isDragging && (
                                 <>
                                     <Button variant="outlined" onClick={selectFiles}>
@@ -76,9 +74,10 @@ const ImageUploadDialog = (props: ImageInsertDialogProps) => {
                                         <input
                                             type="file"
                                             hidden
-                                            ref={imgRef}
-                                            accept="image/*"
+                                            ref={filesRef}
+                                            accept={validFileExtensions.join()}
                                             onChange={onFilesSelect}
+                                            multiple
                                         />
                                     </Button>
                                     <p>Or Drag a file here</p>
@@ -88,13 +87,8 @@ const ImageUploadDialog = (props: ImageInsertDialogProps) => {
                     </DragDropBox>
                 </StyledDragBox>
             </DialogContent>
-            <DialogActions>
-                <Button variant="contained" onClick={handleInsert}>
-                    Insert
-                </Button>
-            </DialogActions>
         </Dialog>
     );
 };
 
-export default ImageUploadDialog;
+export default FileUploadDialog;

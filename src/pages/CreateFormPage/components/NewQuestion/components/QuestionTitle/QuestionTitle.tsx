@@ -4,7 +4,7 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { Box, IconButton } from '@mui/material';
 import styled from 'styled-components';
 
-import { IImage } from '@/interfaces/CreateForm';
+import { IFileToUpload } from '@/interfaces/CreateForm';
 import ImageContainer from '@/layouts/ImageContainer';
 import ImageUploadDialog from '@/pages/CreateFormPage/components/NewQuestion/components/ImageUploader/ImageUploadDialog';
 import QuestionTypeSelector from '@/pages/CreateFormPage/components/NewQuestion/components/QuestionTypeSelector';
@@ -43,7 +43,7 @@ const QuestionTitle = () => {
     const handleClose = () => {
         setOpen(false);
     };
-    const insertImage = (image: IImage) => {
+    const insertImage = (image: IFileToUpload) => {
         dispatch({
             type: 'INSERT_TITLE_IMAGE',
             payload: image,
@@ -67,7 +67,7 @@ const QuestionTitle = () => {
                 <ImageUploadDialog
                     key={questionType}
                     open={open}
-                    insertImage={insertImage}
+                    handleSelectedFiles={insertImage}
                     onClose={handleClose}
                 />
             </NewQuestionTitleBox>

@@ -1,11 +1,20 @@
-import * as React from 'react';
+import React, { useContext, useState } from 'react';
 
-import { FormControl, ListItemText, MenuItem, OutlinedInput } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import {
+    FormControl,
+    FormControlLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Switch,
+} from '@mui/material';
 import styled from 'styled-components';
 
-const fileTypes = ['Image', 'PDF'];
+import CheckboxList from '@/components/CheckboxList';
+import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
+import { fileTypesObjs } from '@/pages/CreateFormPage/components/NewQuestion/createQuestions/CreateFileUploadQuestion/FileTypes';
+
+const maxNumberOfFiles = [1, 3, 5];
 const StyledFormControl = styled(FormControl)`
     margin: 1rem;
     width: 300px;
@@ -14,57 +23,46 @@ const StyledFormControl = styled(FormControl)`
 `;
 const StyledFormGroup = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
 `;
 const CreateFileUploadQuestion = () => {
-    const [numOfFiles, setNumOfFiles] = React.useState(1);
-    const [allowedFiletypes, setAllowedFileTypes] = React.useState<string[]>([]);
+    const [specifyFileTypes, setSpecficyFileTypes] = useState<boolean>(false);
+    const { state, dispatch } = useContext(NewQuestionContext);
+    const { numOfFiles } = state;
 
-    const ITEM_HEIGHT = 48;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 250,
-            },
-        },
-    };
-    const handleFileTypesChange = (event: SelectChangeEvent<typeof allowedFiletypes>) => {
-        const {
-            target: { value },
-        } = event;
-        setAllowedFileTypes(typeof value === 'string' ? value.split(',') : value);
-    };
     const handleNumOfFilesChange = (event: SelectChangeEvent<number>) => {
-        setNumOfFiles(event.target.value as number);
+        dispatch({
+            type: 'SET_MAX_NUM_OF_FILES',
+            payload: event.target.value as 1 | 3 | 5,
+        });
+    };
+    const handleFileTypesChange = (selectedOptionIds: string[]) => {
+        dispatch({
+            type: 'SET_ALLOWED_FILE_TYPES',
+            payload: selectedOptionIds,
+        });
     };
     return (
         <StyledFormGroup>
             <div>
                 <StyledFormControl>
-                    <div>
-                        <p>Allowed File Types</p>
-                    </div>
-                    <Select
-                        labelId="demo-multiple-checkbox-label"
-                        id="demo-multiple-checkbox"
-                        multiple
-                        required
-                        value={allowedFiletypes}
-                        onChange={handleFileTypesChange}
-                        input={<OutlinedInput />}
-                        renderValue={(selected) => selected.join(', ')}
-                        MenuProps={MenuProps}
-                    >
-                        {fileTypes.map((type) => (
-                            <MenuItem key={type} value={type}>
-                                <Checkbox checked={allowedFiletypes.indexOf(type) > -1} />
-                                <ListItemText primary={type} />
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    <FormControlLabel
+                        value="Allow only specific file types"
+                        control={
+                            <Switch
+                                color="primary"
+                                checked={specifyFileTypes}
+                                onChange={() => setSpecficyFileTypes(!specifyFileTypes)}
+                                inputProps={{ 'aria-label': 'controlled' }}
+                            />
+                        }
+                        label="Allow only specific file types"
+                        labelPlacement="end"
+                    />
+                    {specifyFileTypes && (
+                        <CheckboxList setResult={handleFileTypesChange} options={fileTypesObjs} />
+                    )}
                 </StyledFormControl>
             </div>
             <div>
@@ -76,9 +74,11 @@ const CreateFileUploadQuestion = () => {
                         value={numOfFiles}
                         onChange={(e) => handleNumOfFilesChange(e)}
                     >
-                        <MenuItem value={1}>1</MenuItem>
-                        <MenuItem value={2}>2</MenuItem>
-                        <MenuItem value={3}>3</MenuItem>
+                        {maxNumberOfFiles.map((num) => (
+                            <MenuItem key={num} value={num}>
+                                {num}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </StyledFormControl>
             </div>

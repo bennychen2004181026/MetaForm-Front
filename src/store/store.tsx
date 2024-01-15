@@ -13,7 +13,8 @@ import {
 
 import authReducer from './slices/auth/authSlice';
 import companyReducer from './slices/company/companySlice';
-import formSlice from './slices/form/formSlice';
+import createFormSlice from './slices/createForm/createFormSlice';
+import formResponseSlice from './slices/formResponse/formResponseSlice';
 import userApis from '@/services/Auth/user';
 import companyApis from '@/services/company';
 import s3Apis from '@/services/S3';
@@ -33,8 +34,8 @@ const rootReducer = combineReducers({
     auth: authReducer,
     company: companyReducer,
     snackbar: snackbarSlice,
-    forms: formSlice.reducer,
-    formResponses: formSlice.reducer,
+    forms: createFormSlice.reducer,
+    formResponse: formResponseSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
