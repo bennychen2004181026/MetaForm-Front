@@ -2,30 +2,31 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import CustomTypography from '@/components/CustomTypography';
 import ReusableForm from '@/components/ReusableForm';
 import { IField } from '@/hooks/useForm';
 
 const StyledStepperBoxContainer = styled.div`
     display: flex;
-    flex-direction: column;
-    @media (min-width: 768px) {
-        flex-direction: row;
-    }
-    width: 360px;
-    height: 260px;
-    @media (min-width: 600px) {
-        width: 500px;
-        height: 400px;
-    }
-    @media (min-width: 960px) {
-        width: 600px;
-        height: 500px;
-    }
     justify-content: space-between;
-    flex-wrap: wrap;
     align-items: center;
-    margin-top: 1px;
-    gap: 1rem;
+    margin-top: 20px;
+    width: 80vw;
+    max-width: 1000px;
+    height: 70vh;
+    max-height: 500px;
+    flex-direction: column;
+`;
+
+const TitleContainer = styled.div`
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
 `;
 
 interface StepContentTwoProps {
@@ -53,8 +54,11 @@ const StepContentTwo: React.FC<StepContentTwoProps> = ({
 }) => {
     return (
         <StyledStepperBoxContainer>
+            <TitleContainer>
+                <CustomTypography variant="h5" text="Create Your Password" />
+            </TitleContainer>
             <ReusableForm
-                excludeFields={['firstName', 'lastName', 'username']}
+                excludeFields={['firstName', 'lastName', 'username', 'token']}
                 formFields={formFields}
                 fieldsData={fieldsData}
                 onDataChange={onDataChange}

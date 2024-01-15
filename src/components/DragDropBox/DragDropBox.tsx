@@ -11,22 +11,17 @@ const getBorderColor = (isDragging: boolean, isFileValid: boolean) => {
 
 const StyledBox = styled(Box)`
     position: relative;
-    width: 300px;
-    height: 200px;
+    width: 40vw;
+    height: 40vh;
+    max-width: 400px;
+    max-height: 500px;
     display: flex;
     flex-direction: row;
     align-content: center;
     justify-content: center;
     flex-wrap: wrap;
-
-    @media (min-width: 600px) {
-        width: 400px;
-        height: 300px;
-    }
-
-    @media (min-width: 960px) {
-        width: 400px;
-        height: 380px;
+    @media (max-width: 768px) {
+        width: 80vw;
     }
 `;
 

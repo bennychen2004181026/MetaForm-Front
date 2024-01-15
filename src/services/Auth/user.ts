@@ -64,6 +64,26 @@ const userApis = createApi({
                 params: { key },
             }),
         }),
+        completeAccount: builder.mutation<
+            IUerInterfaces.ICompleteAccountResponse,
+            IUerInterfaces.ICompleteAccountRequest
+        >({
+            query: ({ userId, formData }) => ({
+                url: `/${userId}/completeAccount`,
+                method: 'POST',
+                data: formData,
+            }),
+        }),
+        changePassword: builder.mutation<
+            IUerInterfaces.IChangePasswordResponse,
+            IUerInterfaces.IChangePasswordRequest
+        >({
+            query: ({ userId, formData }) => ({
+                url: `/${userId}/change-password`,
+                method: 'POST',
+                data: formData,
+            }),
+        }),
     }),
 });
 

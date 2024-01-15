@@ -6,7 +6,7 @@ export interface IField {
     id: number;
     label: string;
     key: string;
-    type?: 'input' | 'select' | 'file';
+    type?: 'input' | 'select' | 'file' | 'password' | 'token';
     options?: string[];
     value?: string;
     validationRules?: { key: keyof typeof validators; additionalData?: string }[];
@@ -144,6 +144,30 @@ const useForm = (fields: IField[]) => {
         return areAllFieldsValid;
     }, [fields, fieldsData]);
 
+    const validateFieldsByStep = useCallback(
+        (stepFieldKeys: string[]): boolean => {
+            let areFieldsValid = true;
+
+            stepFieldKeys.forEach((key) => {
+                const field = fields.find((f) => f.key === key);
+                if (field) {
+                    const errorMessage = getErrorMessage({
+                        value: fieldsData[key],
+                        validationRules: field.validationRules,
+                        formData: fieldsData,
+                    });
+
+                    if (errorMessage) {
+                        areFieldsValid = false;
+                    }
+                }
+            });
+
+            return areFieldsValid;
+        },
+        [fields, fieldsData],
+    );
+
     return {
         data,
         focus,
@@ -159,6 +183,7 @@ const useForm = (fields: IField[]) => {
         resetForm,
         isValid,
         validateAllFields,
+        validateFieldsByStep,
     };
 };
 

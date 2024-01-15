@@ -4,10 +4,10 @@ import { Box, Link, Typography } from '@mui/material';
 
 import ReusableForm from '@/components/ReusableForm';
 import useForm, { IField } from '@/hooks/useForm';
-import { ApiError } from '@/interfaces/ApiError';
 import { IPasswordResponse } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import userApis from '@/services/Auth/user';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const formFields: IField[] = [
@@ -31,6 +31,7 @@ const ForgotPasswordForm: React.FC = () => {
         onFieldsBlur,
         isValid,
         validateAllFields,
+        resetForm,
     } = useForm(formFields);
 
     const { useForgotPasswordMutation } = userApis;
@@ -41,12 +42,9 @@ const ForgotPasswordForm: React.FC = () => {
             const response: IPasswordResponse = await forgotPassword(fieldsData).unwrap();
             const { message } = response;
             showSnackbar(`${message}`, 'success');
+            resetForm();
         } catch (error) {
-            const apiError = error as ApiError;
-            const errorMessage =
-                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
-
-            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+            ApiErrorHelper(error, showSnackbar);
         }
     };
 

@@ -7,26 +7,22 @@ import LabelValuePair from '@/components/LabelValuePair';
 
 const StyledStepperBoxContainer = styled.div`
     display: flex;
-    flex-direction: column;
-    @media (min-width: 768px) {
-        flex-direction: row;
-    }
-    width: 360px;
-    height: 260px;
-    @media (min-width: 600px) {
-        width: 500px;
-        height: 400px;
-    }
-    @media (min-width: 960px) {
-        width: 600px;
-        height: 500px;
-        flex-direction: column;
-    }
-    justify-content: space-between;
-    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    margin-top: 1px;
-    gap: 1rem;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    align-content: center;
+    margin-top: 40px;
+    width: 80vw;
+    max-width: 700px;
+    height: 70vh;
+    max-height: 500px;
+    @media (max-width: 768px) {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        margin-top: 6vh;
+    }
 `;
 
 const TitleContainer = styled.div`
@@ -45,7 +41,7 @@ const StyledEmployeeInfoBox = styled.div`
     padding: 8px;
     border: 1px solid #ddd;
     width: 100%;
-    height: 95%;
+    height: 70%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -74,7 +70,7 @@ const labelMapping = {
 const StepContentThree: React.FC<StepContentThreeProps> = ({ fieldsData }) => {
     const fieldDataArray = Object.entries(fieldsData);
     const filteredFieldsData = fieldDataArray.filter(
-        ([key]) => !['password', 'confirmPassword'].includes(key),
+        ([key]) => !['password', 'confirmPassword', 'token'].includes(key),
     );
     return (
         <StyledStepperBoxContainer>

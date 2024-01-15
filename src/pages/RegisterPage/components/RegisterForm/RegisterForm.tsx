@@ -8,11 +8,11 @@ import ReusableForm from '@/components/ReusableForm';
 import Role from '@/constants/roles';
 import { useAppDispatch } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
-import { ApiError } from '@/interfaces/ApiError';
 import { ICreateUserResponse, IUser } from '@/interfaces/IUser';
 import LoadingSpinner from '@/layouts/LoadingSpinner';
 import userApis from '@/services/Auth/user';
 import { setCredentials } from '@/store/slices/auth/authSlice';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const RegisterForm = () => {
@@ -54,7 +54,7 @@ const RegisterForm = () => {
             id: 3,
             label: 'Password',
             key: 'password',
-            type: 'input',
+            type: 'password',
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'Password' },
@@ -65,7 +65,7 @@ const RegisterForm = () => {
             id: 4,
             label: 'Confirm Password',
             key: 'confirmPassword',
-            type: 'input',
+            type: 'password',
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'Confirm Password' },
@@ -109,6 +109,7 @@ const RegisterForm = () => {
             const response: ICreateUserResponse = await createUser(fieldsData).unwrap();
             const { message, user, token, isAccountComplete } = response;
             const { email: responseEmail, role, company, _id, isActive } = user as IUser;
+
             dispatch(
                 setCredentials({
                     user: user as IUser,
@@ -117,18 +118,16 @@ const RegisterForm = () => {
                     role: (role as Role) ?? null,
                     company: company ?? null,
                     userId: _id ?? null,
+                    companyInfo: null,
                     isAccountComplete: isAccountComplete ?? false,
                     isActive: isActive ?? false,
                 }),
             );
+
             showSnackbar(`${message}`, 'success');
             navigate(`/company-profile/${_id}`);
         } catch (error) {
-            const apiError = error as ApiError;
-            const errorMessage =
-                apiError.data?.errors?.[0].message || apiError.data || 'An unknown error occurred';
-
-            showSnackbar(`statusCode: ${apiError.status}\nmessage: ${errorMessage}`, 'error');
+            ApiErrorHelper(error, showSnackbar);
         }
     };
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import SubmitButton from '@/components/SubmitButton';
+import industries from '@/constants/industryOptions';
+import Role from '@/constants/roles';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import useForm, { IField } from '@/hooks/useForm';
+import useHandleInvalidToken from '@/hooks/useHandleInvalidToken';
 import useUploadImage from '@/hooks/useUploadImage';
+import { ICompany } from '@/interfaces/ICompany';
+import { ICompleteAccountRequest, ICompleteAccountResponse, IUser } from '@/interfaces/IUser';
+import LoadingSpinner from '@/layouts/LoadingSpinner';
 import StepContentOne from '@/pages/CompanyProfileStepperPage/components/StepContentOne';
 import StepContentThree from '@/pages/CompanyProfileStepperPage/components/StepContentThree';
 import StepContentTwo from '@/pages/CompanyProfileStepperPage/components/StepContentTwo';
-import industries from '@/pages/CompanyRegisterPage/industryOptions';
+import userApis from '@/services/Auth/user';
+import { accountStatus, setCredentials } from '@/store/slices/auth/authSlice';
+import { setCompanyInfo } from '@/store/slices/company/companySlice';
+import ApiErrorHelper from '@/utils/ApiErrorHelper';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const steps = ['Enter company profile', 'Upload the company logo', 'Review and submit'];
@@ -18,7 +29,13 @@ const StyledButtonsBox = styled(Box)`
     display: flex;
     flex-direction: row;
     padding-top: 16px;
-    justify-content: space-around;
+    justify-content: space-between;
+    max-width: 400px;
+    width: 50vw;
+    align-items: center;
+    @media (max-width: 600px) {
+        width: 80vw;
+    }
 `;
 
 const BackButton = styled(Button)`
@@ -60,15 +77,42 @@ const NextButton = styled(Button)`
     padding: 6px 12px;
 `;
 
+const StepContentBox = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`;
+
+const StyledSubmitButtonBox = styled(Box)`
+    padding: 6px 12px;
+    margin-left: 8px;
+`;
 interface CompanyProfileStepperProps {
-    userId: string | undefined;
+    userId?: string;
 }
 
 const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId }) => {
     const showSnackbar = useSnackbarHelper();
     const [activeStep, setActiveStep] = useState(0);
+    const { useCompleteAccountMutation } = userApis;
     const [isLoading, setIsLoading] = useState(false);
-    const [uploadProgress, setUploadProgress] = useState(0);
+    const [completeAccount, { isLoading: isSubmitLoading }] = useCompleteAccountMutation();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const handleInvalidToken = useHandleInvalidToken();
+    const fetchAccountStatus: boolean = useAppSelector(accountStatus);
+    const location = useLocation();
+    const urlPath = '/company-profile/';
+    const regex = new RegExp(`^${urlPath}`);
+
+    useEffect(() => {
+        if (fetchAccountStatus && !regex.test(location.pathname)) {
+            showSnackbar('You already have company bonded', 'warning');
+            navigate('/user-dashboard');
+        }
+    }, [fetchAccountStatus]);
+
     const industryArray = industries.map((industry) => industry.name);
     const fields: IField[] = [
         {
@@ -99,7 +143,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         {
             id: 4,
             label: 'Company Logo URL',
-            key: 'companyLogo',
+            key: 'logo',
             type: 'file',
             value: '',
             validationRules: [],
@@ -115,11 +159,21 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         isValid,
         validateAllFields,
         setFieldsData,
+        validateFieldsByStep,
     } = useForm(fields);
 
+    const stepFieldKeys = [['companyName', 'industry', 'abn']];
     const isLastStep = activeStep === steps.length - 1;
+    const currentStepKeys = stepFieldKeys[activeStep] || [];
     const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        if (!validateFieldsByStep(currentStepKeys)) {
+            showSnackbar(
+                'Please fill the required valid fields in the current step first',
+                'error',
+            );
+        } else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
     };
 
     const handleBack = () => {
@@ -132,15 +186,72 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
             companyName: '',
             industry: '',
             abn: '',
-            companyLogo: '',
+            logo: '',
         });
+    };
+
+    const completeAccountFunction = async () => {
+        try {
+            const response: ICompleteAccountResponse = await completeAccount({
+                userId,
+                formData: fieldsData,
+            } as ICompleteAccountRequest).unwrap();
+
+            const { message, user, token, isAccountComplete, companyInfo } = response;
+            const { email, role, company, _id, isActive } = user;
+            const {
+                _id: companyId,
+                companyName,
+                abn,
+                logo,
+                description,
+                industry,
+                isActive: isCompanyActive,
+                address,
+                employees,
+            } = companyInfo as ICompany;
+
+            dispatch(
+                setCredentials({
+                    user: user as IUser,
+                    token,
+                    email: email ?? null,
+                    role: (role as Role) ?? null,
+                    company: company ?? null,
+                    userId: _id ?? null,
+                    companyInfo: (companyInfo as ICompany) ?? null,
+                    isAccountComplete: isAccountComplete ?? false,
+                    isActive: isActive ?? false,
+                }),
+            );
+
+            dispatch(
+                setCompanyInfo({
+                    companyId: companyId ?? null,
+                    companyName: companyName ?? null,
+                    abn: abn ?? null,
+                    logo: logo ?? null,
+                    description: description ?? null,
+                    industry: industry ?? null,
+                    isActive: isCompanyActive ?? false,
+                    employeesIds: Array.isArray(employees) && employees.length > 0 ? employees : [],
+                    address: address ?? null,
+                }),
+            );
+
+            showSnackbar(`${message}`, 'success');
+            navigate('/user-dashboard');
+        } catch (error) {
+            ApiErrorHelper(error, showSnackbar);
+            handleInvalidToken(error);
+        }
     };
 
     const handleSubmit = async () => {
         if (!validateAllFields()) {
             showSnackbar('Please fill all the required valid fields first', 'error');
         } else {
-            showSnackbar('You had successfully created account', 'success');
+            await completeAccountFunction();
         }
     };
 
@@ -152,9 +263,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         handleDragLeave,
         handleUploadButton,
         selectedImage,
-        setSelectedImage,
         croppedImageBlob,
-        setCroppedImageBlob,
         handleCropConfirmation,
         handleCroppedImage,
         isCropping,
@@ -165,7 +274,6 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         isFileValid,
     } = useUploadImage({
         setIsLoading,
-        setUploadProgress,
         onDataChange,
         userId,
     });
@@ -196,10 +304,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
                         handleDrop={handleDrop}
                         handleUploadButton={handleUploadButton}
                         isLoading={isLoading}
-                        uploadProgress={uploadProgress}
                         selectedImage={selectedImage}
-                        setSelectedImage={setSelectedImage}
-                        setCroppedImageBlob={setCroppedImageBlob}
                         croppedImageBlob={croppedImageBlob}
                         handleCropConfirmation={handleCropConfirmation}
                         handleCroppedImage={handleCroppedImage}
@@ -218,6 +323,10 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
         }
     };
 
+    if (isSubmitLoading) {
+        return <LoadingSpinner />;
+    }
+
     return (
         <Box sx={{ width: '100%' }}>
             <Stepper activeStep={activeStep} alternativeLabel>
@@ -228,7 +337,7 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
                 ))}
             </Stepper>
             <div>
-                <div>
+                <StepContentBox>
                     {getStepContent(activeStep)}
                     <StyledButtonsBox>
                         <BackButton onClick={handleBack} disabled={activeStep === 0}>
@@ -237,16 +346,18 @@ const CompanyProfileStepper: React.FC<CompanyProfileStepperProps> = ({ userId })
 
                         {isLastStep && <ResetButton onClick={handleReset}>Reset</ResetButton>}
                         {isLastStep ? (
-                            <SubmitButton
-                                isValid={isValid()}
-                                text="Create"
-                                handleSubmit={handleSubmit}
-                            />
+                            <StyledSubmitButtonBox>
+                                <SubmitButton
+                                    isValid={isValid()}
+                                    text="Create"
+                                    handleSubmit={handleSubmit}
+                                />
+                            </StyledSubmitButtonBox>
                         ) : (
                             <NextButton onClick={handleNext}>Next</NextButton>
                         )}
                     </StyledButtonsBox>
-                </div>
+                </StepContentBox>
             </div>
         </Box>
     );

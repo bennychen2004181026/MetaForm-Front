@@ -8,7 +8,7 @@ import userApis from '@/services/Auth/user';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 interface EmailLinkVerificationMainProps {
-    token: string | undefined;
+    token?: string;
 }
 
 const EmailLinkVerificationMain: React.FC<EmailLinkVerificationMainProps> = ({ token }) => {

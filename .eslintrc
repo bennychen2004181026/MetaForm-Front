@@ -35,6 +35,7 @@
         "react/jsx-props-no-spreading": "off",
         "no-console": "warn",
         "no-use-before-define": "off",
+        "no-bitwise": "off",
 
         "@typescript-eslint/no-use-before-define": ["error", "nofunc"],
         "react/jsx-no-useless-fragment": [

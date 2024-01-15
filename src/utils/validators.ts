@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash/';
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^_&*]).{8,32}$/;
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const ABN_REGEX = /^\d{11}$/;
-const NAME_REGEX = /^[a-zA-ZÀ-ÖØ-öø-ÿ' -]{3,26}$/;
+const NAME_REGEX = /^[a-zA-ZÀ-ÖØ-öø-ÿ' -]{1,26}$/;
 const USERNAME_REGEX = /^[a-zA-Z0-9_.-]{5,20}$/;
 
 interface Validators {
@@ -49,11 +49,11 @@ export const validators: Validators = {
     validateName: ({ value, additionalData }: ValidatorArgs) =>
         isEmpty(value) || (NAME_REGEX.test(value) && !isEmpty(value))
             ? ''
-            : `Please enter a valid ${additionalData} consisting of 3 to 26 characters, including letters, accented letters, apostrophes, spaces, or hyphens.`,
+            : `Invalid ${additionalData}. Need 1 to 26 characters, including uppercase and lowercase letters, accented letters, apostrophes, spaces, or hyphens.`,
     validateUsername: ({ value, additionalData }: ValidatorArgs) =>
         isEmpty(value) || (USERNAME_REGEX.test(value) && !isEmpty(value))
             ? ''
-            : `Please enter a valid ${additionalData} consisting of 5 to 20 characters, including letters (both uppercase and lowercase), numbers, underscores, periods, or hyphens.`,
+            : `Invalid ${additionalData}. Need 5 to 20 characters, including uppercase and lowercase letters, numbers, underscores, periods, or hyphens.`,
 };
 
 export const getErrorMessage = ({
@@ -64,7 +64,7 @@ export const getErrorMessage = ({
     let error:
         | {
               key: keyof typeof validators;
-              additionalData?: string | undefined;
+              additionalData?: string;
           }
         | undefined;
     if (validationRules) {
