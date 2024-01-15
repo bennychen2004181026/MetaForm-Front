@@ -9,6 +9,7 @@ import CreateFormPage from '@/pages/CreateFormPage/CreateFormPage';
 import FormListPage from '@/pages/FormListPage';
 import LoginPage from '@/pages/LoginPage';
 import MainPage from '@/pages/MainPage';
+import NewResponsePage from '@/pages/NewResponsePage';
 import RegisterEmailPage from '@/pages/RegisterEmailPage';
 import RegisterOptionPage from '@/pages/RegisterOptionPage';
 
@@ -52,6 +53,8 @@ const AppRoute = () => (
                         element={<CreateEmployeePage />}
                     />
                 </Route>
+                <Route path="/newResponse" element={<NewResponsePage />} />
+
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route path="/forms" element={<FormListPage />} />
                 <Route path="/create-form" element={<CreateFormPage />} />
