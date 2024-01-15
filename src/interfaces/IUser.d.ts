@@ -9,6 +9,7 @@ export interface IUser {
     email?: string;
     password?: string;
     confirmedPassword?: string;
+    newPassword?: string;
     company?: string;
     role?: Role;
     token?: string | null;
@@ -71,4 +72,13 @@ export interface ICompleteAccountResponse {
 export interface ICompleteAccountRequest {
     userId: string;
     formData: ICompany;
+}
+
+export interface IChangePasswordRequest {
+    userId: string;
+    formData: IUser;
+}
+
+export interface IChangePasswordResponse {
+    message: string;
 }

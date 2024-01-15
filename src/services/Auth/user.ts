@@ -74,6 +74,16 @@ const userApis = createApi({
                 data: formData,
             }),
         }),
+        changePassword: builder.mutation<
+            IUerInterfaces.IChangePasswordResponse,
+            IUerInterfaces.IChangePasswordRequest
+        >({
+            query: ({ userId, formData }) => ({
+                url: `/${userId}/change-password`,
+                method: 'POST',
+                data: formData,
+            }),
+        }),
     }),
 });
 

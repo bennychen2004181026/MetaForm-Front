@@ -31,6 +31,7 @@ const ForgotPasswordForm: React.FC = () => {
         onFieldsBlur,
         isValid,
         validateAllFields,
+        resetForm,
     } = useForm(formFields);
 
     const { useForgotPasswordMutation } = userApis;
@@ -41,6 +42,7 @@ const ForgotPasswordForm: React.FC = () => {
             const response: IPasswordResponse = await forgotPassword(fieldsData).unwrap();
             const { message } = response;
             showSnackbar(`${message}`, 'success');
+            resetForm();
         } catch (error) {
             ApiErrorHelper(error, showSnackbar);
         }

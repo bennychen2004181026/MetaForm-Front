@@ -31,7 +31,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token }) => {
             id: 1,
             label: 'Password',
             key: 'password',
-            type: 'input',
+            type: 'password',
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'Password' },
@@ -42,7 +42,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token }) => {
             id: 2,
             label: 'Confirm Password',
             key: 'confirmPassword',
-            type: 'input',
+            type: 'password',
             value: '',
             validationRules: [
                 { key: 'isRequired', additionalData: 'Confirm Password' },
@@ -53,7 +53,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token }) => {
             id: 3,
             label: 'Token',
             key: 'token',
-            type: 'input',
+            type: 'token',
             value: token,
             validationRules: [],
         },

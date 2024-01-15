@@ -11,13 +11,18 @@ const getBorderColor = (isDragging: boolean, isFileValid: boolean) => {
 
 const StyledBox = styled(Box)`
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 40vw;
+    height: 40vh;
+    max-width: 400px;
+    max-height: 500px;
     display: flex;
     flex-direction: row;
     align-content: center;
     justify-content: center;
     flex-wrap: wrap;
+    @media (max-width: 768px) {
+        width: 80vw;
+    }
 `;
 
 interface DragDropBoxProps {

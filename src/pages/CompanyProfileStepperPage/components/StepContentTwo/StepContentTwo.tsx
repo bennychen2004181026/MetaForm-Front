@@ -14,15 +14,22 @@ import UploadBoxContentRenderer from '@/components/UploadBoxContentRenderer';
 const StyledStepperBoxContainer = styled(Box)`
     display: flex;
     flex-direction: row;
-    @media (max-width: 768px) {
-        flex-direction: column;
-    }
     justify-content: center;
     align-items: center;
     margin: 20px 0;
     gap: 1rem;
     flex-wrap: wrap;
     align-content: center;
+    margin-top: 1px;
+    width: 80vw;
+    max-width: 1000px;
+    height: 70vh;
+    max-height: 500px;
+    @media (max-width: 768px) {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        margin-top: 6vh;
+    }
 `;
 
 const IconButtonBox = styled(Box)`
