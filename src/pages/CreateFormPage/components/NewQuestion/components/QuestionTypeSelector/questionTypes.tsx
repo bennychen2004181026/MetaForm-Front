@@ -27,6 +27,15 @@ enum questionTypeStrings {
     DATEPICKER = 'Date',
     TIMEPICKER = 'Time',
 }
+enum questionTypeCode {
+    MULTIPLE_CHOICE = '0',
+    SHORT_ANSWER = '1',
+    PARAGRAPH = '2',
+    CHECKBOXES = '3',
+    FILE_UPLOAD = '4',
+    DATEPICKER = '5',
+    TIMEPICKER = '6',
+}
 const questionTypes: IOption[] = [
     {
         id: '0',
@@ -94,4 +103,4 @@ const getQuestion = (questionId: string) => {
             return <CreateMuitiChoiceQuestion isCheckbox={false} />;
     }
 };
-export { getQuestion, questionIcons as icons, questionTypes };
+export { getQuestion, questionIcons as icons, questionTypes, questionTypeCode };

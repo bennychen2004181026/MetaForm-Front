@@ -1,50 +1,110 @@
 import React from 'react';
 
+import { Alert } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { IQuestion } from '@/interfaces/CreateForm';
+import { IAnswer, IQuestionProps, IQuestionResponse } from '@/interfaces/CreateResponse';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import QuestionTitle from '@/pages/NewResponsePage/components/QuestionTitle';
 import CheckBoxesQuestion from '@/pages/NewResponsePage/questions/CheckBoxesQuestion';
 import DatePickerQuestion from '@/pages/NewResponsePage/questions/DatePickerQuestion';
 import FileUploadQuestion from '@/pages/NewResponsePage/questions/FileUploadQuestion';
 import MultiChoiceQuestion from '@/pages/NewResponsePage/questions/MultiChoiceQuestion';
-import ParagraphQuestion from '@/pages/NewResponsePage/questions/ParagraphQuestion';
 import ShortAnswerQuestion from '@/pages/NewResponsePage/questions/ShortAnswerQuestion';
 import TimePickerQuestion from '@/pages/NewResponsePage/questions/TimePickerQuestion';
+import {
+    getSubmitClicked,
+    saveQuestionAnswer,
+} from '@/store/slices/formResponse/formResponseSlice';
+import { AppDispatch } from '@/store/store';
 
-const getQuestionBodyByType = ({ question }: { question: IQuestion }) => {
-    switch (question.questionType) {
+const getQuestionBodyByType = ({ questionResponse, onAnswerChange }: IQuestionProps) => {
+    switch (questionResponse.question.questionType) {
         case '0':
-            return <MultiChoiceQuestion question={question} />;
+            return (
+                <MultiChoiceQuestion
+                    questionResponse={questionResponse}
+                    onAnswerChange={onAnswerChange}
+                />
+            );
         case '1':
-            return <ShortAnswerQuestion required={question.required} />;
+            return (
+                <ShortAnswerQuestion
+                    questionResponse={questionResponse}
+                    onAnswerChange={onAnswerChange}
+                />
+            );
         case '2':
-            return <ParagraphQuestion required={question.required} />;
+            return (
+                <ShortAnswerQuestion
+                    questionResponse={questionResponse}
+                    onAnswerChange={onAnswerChange}
+                />
+            );
         case '3':
-            return <CheckBoxesQuestion question={question} />;
+            return (
+                <CheckBoxesQuestion
+                    questionResponse={questionResponse}
+                    onAnswerChange={onAnswerChange}
+                />
+            );
         case '4':
-            return <FileUploadQuestion question={question} />;
+            return (
+                <FileUploadQuestion
+                    questionResponse={questionResponse}
+                    onAnswerChange={onAnswerChange}
+                />
+            );
         case '5':
-            return <DatePickerQuestion />;
+            return (
+                <DatePickerQuestion
+                    questionResponse={questionResponse}
+                    onAnswerChange={onAnswerChange}
+                />
+            );
         case '6':
-            return <TimePickerQuestion />;
+            return (
+                <TimePickerQuestion
+                    questionResponse={questionResponse}
+                    onAnswerChange={onAnswerChange}
+                />
+            );
         default:
-            return <ShortAnswerQuestion required={question.required} />;
+            return (
+                <ShortAnswerQuestion
+                    questionResponse={questionResponse}
+                    onAnswerChange={onAnswerChange}
+                />
+            );
     }
 };
 const QuestionBodyContainer = styled.div`
-    padding: 0 10px;
     margin-bottom: 40px;
-    margin-top: 10px;
+    margin-top: 30px;
 `;
-const Question = ({ question }: { question: IQuestion }) => {
+const Question = ({ questionResponse }: { questionResponse: IQuestionResponse }) => {
+    const {
+        question: { questionTitle, required },
+        questionAnswered,
+    } = questionResponse;
+    const submitClicked = useSelector(getSubmitClicked);
+    const dispatch = useDispatch<AppDispatch>();
+
+    const onAnswerChange = (answer: IAnswer) => {
+        dispatch(saveQuestionAnswer(answer));
+    };
+    const questionProps: IQuestionProps = { questionResponse, onAnswerChange };
     return (
         <ConditionalSectionContainer elevation={1} square={false}>
-            <QuestionTitle questionTitle={question.questionTitle} />
-            <QuestionBodyContainer>{getQuestionBodyByType({ question })} </QuestionBodyContainer>
+            <QuestionTitle questionTitle={questionTitle} />
+            <QuestionBodyContainer>{getQuestionBodyByType(questionProps)}</QuestionBodyContainer>
+            {submitClicked && required && !questionAnswered && (
+                <Alert severity="error">This is a required question!</Alert>
+            )}
         </ConditionalSectionContainer>
     );
 };
 
 export default Question;
+export type { IQuestionProps };

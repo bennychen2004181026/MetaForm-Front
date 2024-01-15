@@ -14,7 +14,10 @@ import {
     Popover,
     Typography,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { IFectchedForm } from '@/interfaces/CreateResponse';
 
 const StyledFooter = styled.div`
     height: 80px;
@@ -23,10 +26,6 @@ const StyledFooter = styled.div`
     justify-content: space-around;
     aligh-items: center;
 `;
-interface FormCardProps {
-    formTitle: string;
-    responses: string[];
-}
 const StyledHeader = styled(CardHeader)`
     justify-content: center;
     min-height: 200px;
@@ -37,8 +36,14 @@ const StyledTypographyForResponse = styled(Typography)`
     font-size: 20px;
     margin: auto 0;
 `;
-const cardActions = ['Share', 'Rename', 'Duplicate', 'Delete'];
-const FormCard = ({ formTitle, responses }: FormCardProps) => {
+// const cardActions = ['Share', 'Rename', 'Duplicate', 'Delete'];
+const cardActions = [
+    { name: 'Preview', link: '/newResponse' },
+    { name: 'Rename', link: 'www.google.com' },
+];
+
+const FormCard = ({ form }: { form: IFectchedForm }) => {
+    const { _id, title, responses } = form;
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -46,15 +51,16 @@ const FormCard = ({ formTitle, responses }: FormCardProps) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     const open = Boolean(anchorEl);
     return (
         <Box>
             <Card variant="outlined">
-                <StyledHeader title={formTitle} />
+                <StyledHeader title={title} />
                 <Divider light />
                 <StyledFooter>
                     <StyledTypographyForResponse variant="body1" color="text.secondary">
-                        {`${responses.length} Responses`}
+                        {`${responses!.length} Responses`}
                     </StyledTypographyForResponse>
                     <IconButton aria-label="settings" onClick={handleClick}>
                         <MoreVertIcon />
@@ -71,10 +77,12 @@ const FormCard = ({ formTitle, responses }: FormCardProps) => {
                 >
                     <nav aria-label="secondary mailbox folders">
                         <List>
-                            {cardActions.map((action) => (
-                                <ListItem disablePadding key={action}>
+                            {cardActions.map(({ name, link }) => (
+                                <ListItem disablePadding key={name}>
                                     <ListItemButton>
-                                        <ListItemText primary={action} />
+                                        <Link to={`${link}/${_id}`}>
+                                            <ListItemText primary={name} />
+                                        </Link>
                                     </ListItemButton>
                                 </ListItem>
                             ))}

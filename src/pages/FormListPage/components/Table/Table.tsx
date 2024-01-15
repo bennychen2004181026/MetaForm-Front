@@ -8,7 +8,8 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import styled from 'styled-components';
 
-import { IForm } from '@/interfaces/CreateForm';
+// import { IForm } from '@/interfaces/CreateForm';
+import { IFectchedForm } from '@/interfaces/CreateResponse';
 import TableHead from '@/pages/FormListPage/components/Table/components/TableHead';
 import TableToolbar from '@/pages/FormListPage/components/Table/components/TableToolbar';
 import { formTableColumns as columns } from '@/pages/FormListPage/FormTableColumns';
@@ -34,7 +35,7 @@ function getComparator<Key extends keyof never>(
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function stableSort<T>(array: IForm[], comparator: (a: T, b: T) => number) {
+function stableSort<T>(array: IFectchedForm[], comparator: (a: T, b: T) => number) {
     const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
     stabilizedThis.sort((a, b) => {
         const order = comparator(a[0], b[0]);
@@ -51,14 +52,14 @@ const StyledTableRow = styled(TableRow)`
     height: 80px;
 `;
 
-const Table = ({ forms }: { forms: IForm[] }) => {
+const Table = ({ forms }: { forms: IFectchedForm[] }) => {
     const [order, setOrder] = useState<Order>('asc');
-    const [orderBy, setOrderBy] = useState<keyof IForm>('title');
+    const [orderBy, setOrderBy] = useState<keyof IFectchedForm>('title');
     const [selected, setSelected] = useState<readonly (string | number)[]>([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
-    const handleRequestSort = (event: MouseEvent<unknown>, property: keyof IForm) => {
+    const handleRequestSort = (event: MouseEvent<unknown>, property: keyof IFectchedForm) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
@@ -66,7 +67,7 @@ const Table = ({ forms }: { forms: IForm[] }) => {
 
     const handleSelectAllClick = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            const newSelected = forms.map((row) => row.formId);
+            const newSelected = forms.map((row) => row._id);
             setSelected(newSelected);
             return;
         }
@@ -122,16 +123,16 @@ const Table = ({ forms }: { forms: IForm[] }) => {
                 />
                 <TableBody>
                     {visibleRows.map((row, index) => {
-                        const isItemSelected = isSelected(row.formId);
+                        const isItemSelected = isSelected(row._id);
                         const labelId = `enhanced-table-checkbox-${index}`;
                         return (
                             <StyledTableRow
                                 hover
-                                onClick={(event) => handleRowClick(event, row.formId)}
+                                onClick={(event) => handleRowClick(event, row._id)}
                                 role="checkbox"
                                 aria-checked={isItemSelected}
                                 tabIndex={-1}
-                                key={row.formId}
+                                key={row._id}
                                 selected={isItemSelected}
                             >
                                 <TableCell padding="checkbox">

@@ -25,11 +25,11 @@ const theme = {
 };
 
 const ImageContainer = ({ image, large }: { image: IUploadedFile; large: boolean }) => {
-    const { name, url } = image;
+    const { originalName, remoteUrl } = image;
     return (
         <ThemeProvider theme={large ? theme.large : theme.small}>
             <StyledImageContainer>
-                <img src={url} alt={name} />
+                <img src={remoteUrl} alt={originalName} />
             </StyledImageContainer>
         </ThemeProvider>
     );

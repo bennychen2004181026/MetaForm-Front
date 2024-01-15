@@ -1,10 +1,13 @@
 import React, { useContext } from 'react';
 
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import { Button, Stack } from '@mui/material';
+import styled from 'styled-components';
 
 import { NewQuestionContext } from '@/pages/CreateFormPage/components/NewQuestion/context/NewQuestionContext';
 
+const StyledButton = styled(Button)`
+    text-transform: none;
+`;
 const AddOption = () => {
     const { dispatch, state } = useContext(NewQuestionContext);
     const { options, other } = state;
@@ -23,20 +26,16 @@ const AddOption = () => {
             type: 'ALLOW_OTHER_OPTION',
             payload: true,
         });
-        dispatch({
-            type: 'ADD_OPTION',
-            payload: {
-                id: Math.floor(Math.random() * 10000).toString(),
-                value: 'Other',
-                otherOption: true,
-            },
-        });
     };
     return (
-        <ButtonGroup variant="outlined" aria-label="outlined primary button group">
-            <Button onClick={handleAddOption}>Add option</Button>
-            {!other && <Button onClick={handleAllowOtherOption}>Add Other </Button>}
-        </ButtonGroup>
+        <Stack direction="row" spacing={2}>
+            <StyledButton variant="contained" onClick={handleAddOption}>
+                Add option
+            </StyledButton>
+            <StyledButton variant="contained" onClick={handleAllowOtherOption} disabled={other}>
+                Add Other
+            </StyledButton>
+        </Stack>
     );
 };
 

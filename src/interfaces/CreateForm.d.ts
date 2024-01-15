@@ -2,7 +2,6 @@ interface IOption {
     id: string;
     value: string;
     icon?: React.ReactNode;
-    otherOption?: boolean;
     image?: IUploadedFile;
     fileExtensions?: string[];
 }
@@ -42,14 +41,5 @@ interface INewForm {
     createdBy: string;
     questions: string[];
 }
-interface IFectchedForm {
-    _id: string;
-    title: string;
-    description: string;
-    createdBy: string;
-    createTime?: string;
-    responses?: string[];
-    questions: string[];
-}
 
-export type { IOption, INewForm, IFectchedForm, IQuestionTitle, IForm, IUploadedFile, IQuestion };
+export type { IOption, INewForm, IQuestionTitle, IForm, IUploadedFile, IQuestion };

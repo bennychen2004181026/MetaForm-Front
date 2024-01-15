@@ -1,51 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { FormControlLabel } from '@mui/material';
-import Radio from '@mui/material/Radio';
+import { FormControlLabel, Radio, TextField } from '@mui/material';
 import RadioGroup from '@mui/material/RadioGroup';
 import styled from 'styled-components';
 
-import { IQuestion } from '@/interfaces/CreateForm';
-import MultiLineTextField from '@/layouts/MultiLineTextField';
+import { IAnswer, IQuestionProps } from '@/interfaces/CreateResponse';
+import ImageContainer from '@/layouts/ImageContainer';
 
-const OtherOption = styled.div`
-    display: flex;
-    flex-direction: column;
+const StyledRadioGroup = styled(RadioGroup)`
+    margin-left: 40px;
 `;
-const MultiChoiceQuestion = ({ question }: { question: IQuestion }) => {
-    const [value, setValue] = useState('');
-    const { options } = question;
-    const [openOtherTextField, setOpenOtherTextField] = useState(false);
+const MultiChoiceQuestion = ({ questionResponse, onAnswerChange }: IQuestionProps) => {
+    const { question } = questionResponse;
+    const [selected, setSelected] = useState<string>('');
+    const { options, _id, other } = question;
     const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
-        if (event.target.value === 'Other') {
-            setOpenOtherTextField(true);
-        } else {
-            setOpenOtherTextField(false);
-        }
+        setSelected(event.target.value);
     };
+    useEffect(() => {
+        const answerBody = [selected];
+        const answer: IAnswer = { questionId: _id, answerBody };
+        onAnswerChange(answer);
+    }, [selected]);
     return (
-        <RadioGroup name="multichoice question" value={value} onChange={handleRadioChange}>
+        <StyledRadioGroup name="multichoice question" value={selected} onChange={handleRadioChange}>
             {options.map((option) => (
-                <FormControlLabel
-                    key={option.value}
-                    value={option.value}
-                    control={<Radio />}
-                    label={option.value}
-                />
+                <>
+                    <FormControlLabel
+                        key={option.value}
+                        value={option.value}
+                        control={<Radio />}
+                        label={option.value}
+                    />
+                    {option.image && <ImageContainer large={false} image={option.image} />}
+                </>
             ))}
-            {question.other && (
-                <OtherOption>
-                    <FormControlLabel key="Other" value="Other" control={<Radio />} label="Other" />
-                    {openOtherTextField && (
-                        <MultiLineTextField
-                            multilines={false}
-                            requiredQuestion={question.required}
-                        />
-                    )}
-                </OtherOption>
+
+            {other && (
+                <TextField
+                    id="multi-choice-other-option"
+                    label="Other"
+                    variant="standard"
+                    onChange={(e) => setSelected(e.target.value)}
+                />
             )}
-        </RadioGroup>
+        </StyledRadioGroup>
     );
 };
 
