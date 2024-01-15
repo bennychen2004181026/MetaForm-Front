@@ -21,6 +21,8 @@ const Label = styled(Typography).attrs({
 })`
     font-weight: 500;
     color: #6b7280;
+    word-break: break-word;
+    white-space: normal;
 `;
 
 const Value = styled(Typography).attrs({
@@ -29,6 +31,8 @@ const Value = styled(Typography).attrs({
 })`
     font-size: 1rem;
     color: #111827;
+    word-break: break-word;
+    white-space: normal;
 `;
 
 const LabelValuePair: React.FC<LabelValueProps> = ({ label, value, className }) => {

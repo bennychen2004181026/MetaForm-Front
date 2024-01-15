@@ -16,6 +16,14 @@ const Container = styled.div`
     align-content: center;
     justify-content: center;
     align-items: center;
+    @media (max-width: 600px) {
+        padding: 10px;
+        margin: 80px 0;
+    }
+    @media (max-width: 768px) {
+        padding: 10px;
+        margin: 80px 0;
+    }
 `;
 
 interface MainLayoutProps {
