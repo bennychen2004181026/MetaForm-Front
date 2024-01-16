@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 import BusinessIcon from '@mui/icons-material/Business';
@@ -9,17 +9,7 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
-import {
-    AppBar,
-    Avatar,
-    Box,
-    Button,
-    Divider,
-    Drawer,
-    IconButton,
-    List,
-    Toolbar,
-} from '@mui/material';
+import { AppBar, Avatar, Box, Divider, Drawer, IconButton, List, Toolbar } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -32,7 +22,6 @@ import NavBarUserMenu from '@/components/NavBarUserMenu';
 import Role from '@/constants/roles';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { IUser } from '@/interfaces/IUser';
-import CreateFormContext from '@/pages/CreateFormPage/components/CreateForm/context/CreateFormContext';
 import * as authSliceExports from '@/store/slices/auth/authSlice';
 import { accountStatus, authUser, authUserId } from '@/store/slices/auth/authSlice';
 import * as companySliceExports from '@/store/slices/company/companySlice';
@@ -104,20 +93,6 @@ const StyledLogoAvatar = styled(Avatar)`
     }
 `;
 
-const StyledSubmitButton = styled(Button)`
-    margin: 0 200px 0 0;
-    background-color: #e0f3a0;
-    color: #5437eb;
-    &:hover {
-        background-color: #d36fed;
-        transform: scale(1.05);
-        transition:
-            background-color 0.3s ease,
-            transform 0.3s ease;
-    }
-    padding: 10px 20px;
-    font-size: 16px;
-`;
 const Header = () => {
     const showSnackbar = useSnackbarHelper();
     const location = useLocation();
@@ -132,8 +107,6 @@ const Header = () => {
     const navigate = useNavigate();
     const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const isCreateFormPath = location.pathname === '/create-form';
-    const { handleSubmit } = useContext(CreateFormContext);
 
     const displaySettings = [
         {
@@ -300,9 +273,6 @@ const Header = () => {
                         <StyledLogoAvatar src={smLogo} alt="Logo" />
                     </StyledLogoBox>
                 </StyledToolbarAndLogoBox>
-                {isCreateFormPath && (
-                    <StyledSubmitButton onClick={handleSubmit}>Save Form</StyledSubmitButton>
-                )}
                 <StyledSignUpLinkBox>
                     {!fetchedUser ? (
                         <SignUpLink>

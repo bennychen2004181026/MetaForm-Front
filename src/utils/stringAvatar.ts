@@ -12,9 +12,9 @@ const stringToColor = (string: string) => {
 
 function stringAvatar(name: string) {
     const nameParts = name.split(' ').filter(Boolean);
-    const firstInitial = nameParts[0] ? nameParts[0][0].toUpperCase() : ''; // 转换为大写
+    const firstInitial = nameParts[0] ? nameParts[0][0].toUpperCase() : '';
     const lastInitial =
-        nameParts.length > 1 ? nameParts[nameParts.length - 1][0].toUpperCase() : ''; // 转换为大写
+        nameParts.length > 1 ? nameParts[nameParts.length - 1][0].toUpperCase() : '';
 
     return {
         sx: {

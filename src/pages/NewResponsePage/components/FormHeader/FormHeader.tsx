@@ -14,7 +14,7 @@ const FormHeader = () => {
         description = form.description;
     }
     return (
-        <ConditionalSectionContainer elevation={1} square={false}>
+        <ConditionalSectionContainer style={{ width: '1130px' }} elevation={1} square={false}>
             <h2>{title}</h2>
             <p>{description}</p>
         </ConditionalSectionContainer>

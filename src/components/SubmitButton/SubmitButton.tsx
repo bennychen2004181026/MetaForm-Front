@@ -23,10 +23,12 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ isValid, text, handleSubmit
             color="primary"
             sx={{
                 textTransform: 'none',
+                fontSize: '16px',
                 bgcolor: 'primary.main',
                 '&:hover': {
-                    bgcolor: 'primary.dark',
-                    color: 'white',
+                    backgroundColor: '#d36fed',
+                    transform: 'scale(1.05)',
+                    transition: 'background-color 0.3s ease, transform 0.3s ease',
                 },
                 '&:disabled': {
                     bgcolor: 'lightgray',

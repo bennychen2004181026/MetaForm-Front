@@ -51,8 +51,6 @@ const AppRoute = () => (
                         element={<CreateEmployeePage />}
                     />
                 </Route>
-                <Route path="/newResponse/:formId" element={<NewResponsePage />} />
-
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
                 <Route
                     path="/companies/:companyId/users/:userId/company-employees"
@@ -69,6 +67,7 @@ const AppRoute = () => (
                     />
                     <Route path="/forms" element={<FormListPage />} />
                     <Route path="/create-form" element={<CreateFormPage />} />
+                    <Route path="/newResponse/:formId" element={<NewResponsePage />} />
                     <Route element={<CompanyDashboardRoute />}>
                         <Route
                             path="/companies/:companyId/dashboard"

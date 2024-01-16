@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 
 import { Container } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +9,6 @@ import SubmitButton from '@/components/SubmitButton';
 import ConditionalSectionContainer from '@/pages/CreateFormPage/components/CreateForm/components/ConditionalSectionContainer';
 import FormQuestions from '@/pages/CreateFormPage/components/CreateForm/components/FormQuestions';
 import FormTitleField from '@/pages/CreateFormPage/components/CreateForm/components/FormTitleField';
-import CreateFormContext from '@/pages/CreateFormPage/components/CreateForm/context/CreateFormContext';
 import { NewFormGlobalContext } from '@/pages/CreateFormPage/components/CreateForm/context/NewFormGlobalContext';
 import {
     FormStatus,
@@ -57,23 +56,18 @@ const CreateForm = () => {
         }
     };
 
-    const value = useMemo(() => {
-        return { handleSubmit };
-    }, [handleSubmit]);
-
     return (
-        <CreateFormContext.Provider value={value}>
-            <StyledContainer>
-                <ConditionalSectionContainer backgroundColor="#03787c">
-                    <FormTitleField />
-                </ConditionalSectionContainer>
-                <ConditionalSectionContainer backgroundColor="#03787c">
-                    <FormQuestions />
-                    <AddQuestion />
-                </ConditionalSectionContainer>
-                <SubmitButton isValid text="Save Form" handleSubmit={handleSubmit} />
-            </StyledContainer>
-        </CreateFormContext.Provider>
+        <StyledContainer>
+            <SubmitButton isValid text="Save Form" handleSubmit={handleSubmit} />
+            <ConditionalSectionContainer backgroundColor="#03787c">
+                <FormTitleField />
+            </ConditionalSectionContainer>
+            <ConditionalSectionContainer backgroundColor="#03787c">
+                <FormQuestions />
+                <AddQuestion />
+            </ConditionalSectionContainer>
+            <SubmitButton isValid text="Save Form" handleSubmit={handleSubmit} />
+        </StyledContainer>
     );
 };
 export default CreateForm;
