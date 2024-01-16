@@ -148,7 +148,7 @@ const Login = () => {
             showSnackbar(`${message}`, 'success');
             resetForm();
             if (isAccountComplete) {
-                navigate('/user-dashboard');
+                navigate('/forms');
             } else {
                 navigate(`/company-profile/${userId}`);
             }

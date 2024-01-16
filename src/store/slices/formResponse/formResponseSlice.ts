@@ -3,10 +3,7 @@ import axios from 'axios';
 
 import { IAnswer, IFectchedForm, IQuestionResponse } from '@/interfaces/CreateResponse';
 import { IRootState } from '@/store/store';
-
-const FETCH_FORM_API = (formId: string) => `http://localhost:3005/forms/${formId}`;
-const FETCH_FORM_QUESTION_API = (questionId: string) =>
-    `http://localhost:3005/questions/${questionId}`;
+import { FETCH_FORM_API_WITH_FORM_ID, FETCH_FORM_QUESTION_API } from '@/utils/API';
 
 enum FormStatus {
     IDLE = 'idle',
@@ -35,7 +32,7 @@ const initialState: IFormResponseState = {
     currentForm: null,
 };
 const fetchFormById = createAsyncThunk('formResponse/fetchForm', async (formId: string) => {
-    const response = await axios.get(FETCH_FORM_API(formId));
+    const response = await axios.get(FETCH_FORM_API_WITH_FORM_ID(formId));
     return response.data;
 });
 

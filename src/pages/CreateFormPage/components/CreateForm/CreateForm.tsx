@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import { Container } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 import AddQuestion from './components/AddQuestion';
 import SubmitButton from '@/components/SubmitButton';
@@ -18,12 +19,20 @@ import {
 import { AppDispatch } from '@/store/store';
 import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
+const StyledContainer = styled(Container)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0 80px 0;
+`;
+
 const CreateForm = () => {
     const { state: currentForm } = useContext(NewFormGlobalContext);
     const dispatch = useDispatch<AppDispatch>();
     const createFormsStatus = useSelector(getCreateFormsStatus);
     const createFormError = useSelector(getCreateFormsError);
     const showSnackbar = useSnackbarHelper();
+
     const handleSubmit = async () => {
         try {
             const { formId, title, description, questions } = currentForm;
@@ -48,7 +57,8 @@ const CreateForm = () => {
     };
 
     return (
-        <Container>
+        <StyledContainer>
+            <SubmitButton isValid text="Save Form" handleSubmit={handleSubmit} />
             <ConditionalSectionContainer backgroundColor="#03787c">
                 <FormTitleField />
             </ConditionalSectionContainer>
@@ -57,7 +67,7 @@ const CreateForm = () => {
                 <AddQuestion />
             </ConditionalSectionContainer>
             <SubmitButton isValid text="Save Form" handleSubmit={handleSubmit} />
-        </Container>
+        </StyledContainer>
     );
 };
 export default CreateForm;

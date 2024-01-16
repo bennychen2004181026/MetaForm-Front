@@ -17,6 +17,7 @@ import { IUser } from '@/interfaces/IUser';
 import * as authSliceExports from '@/store/slices/auth/authSlice';
 import * as companySliceExports from '@/store/slices/company/companySlice';
 import stringAvatar from '@/utils/stringAvatar';
+import useSnackbarHelper from '@/utils/useSnackbarHelper';
 
 const NavBarUserMenu: React.FC = () => {
     const fetchedUser: IUser | null = useAppSelector(authSliceExports.authUser);
@@ -29,11 +30,12 @@ const NavBarUserMenu: React.FC = () => {
     const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const showSnackbar = useSnackbarHelper();
 
     const displayedSettings = [
         { label: 'Profile', path: '/user-profile' },
         { label: 'Change Password', path: '/user-profile/change-password' },
-        { label: 'My workplace', path: '/user-dashboard' },
+        { label: 'My workplace', path: '/forms' },
         { label: 'Logout', path: '/logout' },
     ];
 
@@ -76,6 +78,7 @@ const NavBarUserMenu: React.FC = () => {
         setLogoutDialogOpen(false);
         dispatch(companySliceExports.clearCompanyInfo());
         dispatch(authSliceExports.clearCredentials());
+        showSnackbar('You are logged out', 'success');
         navigate('/login');
     };
 

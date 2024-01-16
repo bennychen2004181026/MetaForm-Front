@@ -14,10 +14,14 @@ const PublicRoute = () => {
     const fetchUserId: string = useAppSelector(authUserId);
     const location = useLocation();
     const noSnackbarPaths = ['/login', '/create-user', '/register-option'];
-
+    const updateCompanyProfileRegex = /^\/companies\/([^/]+)\/invite-employees\/([^/]+)$/;
     useEffect(() => {
         // exclude the snackbar displaying when these login paths
-        if (fetchedUser !== null && !noSnackbarPaths.includes(location.pathname)) {
+        if (
+            fetchedUser !== null &&
+            !noSnackbarPaths.includes(location.pathname) &&
+            !updateCompanyProfileRegex.test(location.pathname)
+        ) {
             const message = !fetchAccountStatus
                 ? 'You are already logged in, but need to complete your account first'
                 : 'You are already logged in.';
@@ -26,7 +30,7 @@ const PublicRoute = () => {
     }, [fetchedUser, fetchAccountStatus]);
 
     if (fetchedUser) {
-        const path = fetchAccountStatus ? '/user-dashboard' : `/company-profile/${fetchUserId}`;
+        const path = fetchAccountStatus ? '/forms' : `/company-profile/${fetchUserId}`;
         return <Navigate to={path} state={{ from: location }} replace />;
     }
 

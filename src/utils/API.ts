@@ -13,16 +13,20 @@ const appURLs: Record<EnvType, string | undefined> = {
     production: REACT_APP_API_URL_PRODUCTION,
 };
 const env: EnvType = (NODE_ENV as EnvType) in appURLs ? (NODE_ENV as EnvType) : 'development';
-const BASE_URL = `${appURLs[env]}`;
+export const BASE_URL = `${appURLs[env]}`;
 const CREATE_FORM_API = `${BASE_URL}/forms/`;
 const CREATE_QUESTION_API = `${BASE_URL}/questions/`;
 const FETCH_FORM_API = (userId: string) => `${BASE_URL}/forms/user/${userId}`;
 const PRESIGNED_URL = `${BASE_URL}/users/getPresignedUrl`;
-const PRESIGNED_CLOUR_FRONT_URL = `${BASE_URL}/users/getPresignedUrl/users/getCloudFrontPresignedUrl`;
+const PRESIGNED_CLOUR_FRONT_URL = `${BASE_URL}/users/getCloudFrontPresignedUrl`;
+const FETCH_FORM_QUESTION_API = (questionId: string) => `${BASE_URL}/questions/${questionId}`;
+const FETCH_FORM_API_WITH_FORM_ID = (formId: string) => `${BASE_URL}/forms/${formId}`;
 export {
     CREATE_FORM_API,
     CREATE_QUESTION_API,
     FETCH_FORM_API,
     PRESIGNED_URL,
     PRESIGNED_CLOUR_FRONT_URL,
+    FETCH_FORM_QUESTION_API,
+    FETCH_FORM_API_WITH_FORM_ID,
 };

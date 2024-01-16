@@ -17,7 +17,7 @@ const Footer = () => {
         if (!fetchAccountStatus) {
             return `/company-profile/${fetchUserId}`;
         }
-        return '/user-dashboard';
+        return '/forms';
     }, [fetchedUser, fetchAccountStatus, fetchUserId]);
 
     return (

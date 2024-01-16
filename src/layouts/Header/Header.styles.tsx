@@ -43,8 +43,9 @@ export const SignUpLink = styled.p`
     text-align: end;
 `;
 export const StyledLink = styled(Link)`
-    color: black;
+    color: rgb(214 198 235);
     font-weight: bold;
     margin-left: 10px;
-    text-decoration: none;
+    text-decoration: underline;
+    font-size: large;
 `;

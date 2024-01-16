@@ -15,6 +15,10 @@ const StyledDragIcon = styled.div`
     left: 50%;
     transform: translate(-50%, 0);
 `;
+
+const StyledConditionalSectionContainer = styled(ConditionalSectionContainer)`
+    width: 1100px;
+`;
 const FormQuestions = () => {
     const { dispatch, state } = useContext(NewFormGlobalContext);
     const { questions } = state;
@@ -59,7 +63,11 @@ const FormQuestions = () => {
                             onDragOver={handleDragOver}
                             onDrop={() => handleDrop(question)}
                         >
-                            <ConditionalSectionContainer elevation={1} square={false}>
+                            <StyledConditionalSectionContainer
+                                style={{ width: '1130px' }}
+                                elevation={1}
+                                square={false}
+                            >
                                 <StyledDragIcon>
                                     <DragHandleIcon
                                         onMouseDown={() => setDraggable(true)}
@@ -67,7 +75,7 @@ const FormQuestions = () => {
                                     />
                                 </StyledDragIcon>
                                 <NewQuestion />
-                            </ConditionalSectionContainer>
+                            </StyledConditionalSectionContainer>
                         </div>
                     </GlobalQuestionState>
                 );

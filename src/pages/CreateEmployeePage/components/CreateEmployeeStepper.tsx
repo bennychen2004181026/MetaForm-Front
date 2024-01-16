@@ -255,7 +255,7 @@ const CreateEmployeeStepper: React.FC = () => {
             );
 
             showSnackbar(`${message}`, 'success');
-            navigate('/user-dashboard');
+            navigate('/forms');
         } catch (error) {
             ApiErrorHelper(error, showSnackbar);
         }

@@ -46,22 +46,18 @@ const AppRoute = () => (
                         element={<EmailLinkVerificationPage />}
                     />
                     <Route path="/create-user" element={<RegisterPage />} />
-                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                    <Route path="/users/resetPassword/:token" element={<ResetPasswordPage />} />
                     <Route
                         path="/companies/:companyId/invite-employees/:token"
                         element={<CreateEmployeePage />}
                     />
                 </Route>
-                <Route path="/newResponse/:formId" element={<NewResponsePage />} />
-
                 <Route path="/companyRegister" element={<CompanyRegisterPage />} />
-                <Route path="/forms" element={<FormListPage />} />
-                <Route path="/create-form" element={<CreateFormPage />} />
                 <Route
                     path="/companies/:companyId/users/:userId/company-employees"
                     element={<CompanyMembersPage />}
                 />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/users/resetPassword/:token" element={<ResetPasswordPage />} />
                 <Route element={<ProtectedRoute />}>
                     <Route path="/user-profile" element={<UserProfilePage />} />
                     <Route path="/user-profile/change-password" element={<ChangePasswordPage />} />
@@ -69,7 +65,9 @@ const AppRoute = () => (
                         path="/company-profile/:userId"
                         element={<CompanyProfileStepperPage />}
                     />
-                    <Route path="/user-dashboard" />
+                    <Route path="/forms" element={<FormListPage />} />
+                    <Route path="/create-form" element={<CreateFormPage />} />
+                    <Route path="/newResponse/:formId" element={<NewResponsePage />} />
                     <Route element={<CompanyDashboardRoute />}>
                         <Route
                             path="/companies/:companyId/dashboard"

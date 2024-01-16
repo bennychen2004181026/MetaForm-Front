@@ -6,6 +6,9 @@ import styled from 'styled-components';
 
 import googleIcon from '@/assets/images/google-icon-logo.png';
 import useGoogleOAuth from '@/hooks/useGoogleOAuth';
+import Footer from '@/layouts/Footer/Footer';
+import Header from '@/layouts/Header/Header';
+import MainLayout from '@/layouts/MainLayout';
 import Title from '@/layouts/MainLayout/Title';
 import GlobalStyle from '@/styles/GlobalStyle';
 import { currentApiUrl } from '@/utils/axiosBaseQuery';
@@ -30,6 +33,9 @@ const RegisterButton = styled(Button)`
     font-size: 15px;
     text-transform: none;
     text-decoration: none;
+    @media (max-width: 600px) {
+        width: 300px;
+    }
 `;
 
 const GoogleIcon = styled.img`
@@ -43,28 +49,32 @@ const RegisterOptionPage = () => {
     return (
         <Content>
             <GlobalStyle />
-            <Title content="Create your account" />
-            <RegisterButton
-                startIcon={<GoogleIcon src={googleIcon} />}
-                sx={{ color: 'black', backgroundColor: 'white' }}
-                onClick={handleGoogleLoginClick}
-            >
-                Sign up with Google
-            </RegisterButton>
-            <Typography variant="subtitle1" padding="15px">
-                or
-            </Typography>
-            <Link to="/register-email">
+            <Header />
+            <MainLayout>
+                <Title content="Create your account" />
                 <RegisterButton
-                    sx={{
-                        color: 'white',
-                        backgroundColor: 'black',
-                        '&:hover': { bgcolor: 'grey' },
-                    }}
+                    startIcon={<GoogleIcon src={googleIcon} />}
+                    sx={{ color: 'black', backgroundColor: 'white' }}
+                    onClick={handleGoogleLoginClick}
                 >
-                    Sign up with email
+                    Sign up with Google
                 </RegisterButton>
-            </Link>
+                <Typography variant="subtitle1" padding="15px">
+                    or
+                </Typography>
+                <Link to="/register-email">
+                    <RegisterButton
+                        sx={{
+                            color: 'white',
+                            backgroundColor: 'black',
+                            '&:hover': { bgcolor: 'grey' },
+                        }}
+                    >
+                        Sign up with email
+                    </RegisterButton>
+                </Link>
+            </MainLayout>
+            <Footer />
         </Content>
     );
 };

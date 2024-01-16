@@ -96,7 +96,7 @@ const Question = ({ questionResponse }: { questionResponse: IQuestionResponse })
     };
     const questionProps: IQuestionProps = { questionResponse, onAnswerChange };
     return (
-        <ConditionalSectionContainer elevation={1} square={false}>
+        <ConditionalSectionContainer style={{ width: '1130px' }} elevation={1} square={false}>
             <QuestionTitle questionTitle={questionTitle} />
             <QuestionBodyContainer>{getQuestionBodyByType(questionProps)}</QuestionBodyContainer>
             {submitClicked && required && !questionAnswered && (
